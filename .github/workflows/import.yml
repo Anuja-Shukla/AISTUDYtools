@@ -1,0 +1,36 @@
+name: Import site from Vercel (run once)
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download site files
+        run: |
+          set -e
+          B=https://facultylive.vercel.app
+          mkdir -p assets images
+          curl -fsSL "$B/" -o index.html
+          curl -fsSL "$B/favicon.svg" -o favicon.svg
+          for f in index-BmgYHHGe.js index-DqvvyvfG.css \
+            inter-cyrillic-ext-wght-normal-BOeWTOD4.woff2 inter-cyrillic-wght-normal-DqGufNeO.woff2 \
+            inter-greek-ext-wght-normal-DlzME5K_.woff2 inter-greek-wght-normal-CkhJZR-_.woff2 \
+            inter-vietnamese-wght-normal-CBcvBZtf.woff2 inter-latin-ext-wght-normal-DO1Apj_S.woff2 \
+            inter-latin-wght-normal-Dx4kXJAl.woff2; do
+            curl -fsSL "$B/assets/$f" -o "assets/$f"
+          done
+          for i in 1 2 3 4 5; do
+            curl -fsSL "$B/images/webinar-fallback-$i.jpg" -o "images/webinar-fallback-$i.jpg"
+          done
+          cp index.html 404.html
+          echo "www.aistudytools.com" > CNAME
+          touch .nojekyll
+      - name: Commit files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Import AIStudyTools site from Vercel"
+          git push
