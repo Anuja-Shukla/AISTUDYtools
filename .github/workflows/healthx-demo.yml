@@ -1,0 +1,19 @@
+name: HealthX button to Book a Demo
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          set -e
+          perl -0pi -e 's/href:`#solutions`(,className:`[^`]*text-healthx-2[^`]*`,children:)`Get Started with HealthX`/href:`\/contact?demo=HealthX`$1`Book a Demo`/' assets/index-*.js
+          grep -q 'demo=HealthX' assets/index-*.js
+          ! grep -q 'Get Started with HealthX' assets/index-*.js
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "HealthX: Get Started button -> Book a Demo (contact page)"
+          git push
