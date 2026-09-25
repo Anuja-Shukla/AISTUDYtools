@@ -28,7 +28,8 @@
     form.dataset.lxPrefilled = "1";
     var sel = form.querySelector('[name="product"]');
     if (sel) {
-      var opt = [].find.call(sel.options, function (o) { return /LearnX/.test(o.text); });
+      var key = /HealthX/i.test(demo) ? "HealthX" : /SkillX/i.test(demo) ? "SkillX" : "LearnX";
+      var opt = [].find.call(sel.options, function (o) { return o.text.indexOf(key) === 0; });
       if (opt) setVal(sel, opt.value);
     }
     var msg = form.querySelector('[name="message"]');
