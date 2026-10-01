@@ -30,8 +30,13 @@ main{max-width:1100px;margin:-56px auto 0;padding:0 20px 60px}
 .filters{display:flex;flex-wrap:wrap;gap:18px;margin-top:14px;align-items:center}
 .group{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .group>span{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--mut);margin-right:4px}
-.chip{font:inherit;font-size:13px;font-weight:600;border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;cursor:pointer;color:var(--ink)}
-.chip.on{background:var(--lx);border-color:var(--lx);color:#fff}
+.chk{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600;border:1px solid var(--line);background:#fff;border-radius:10px;padding:7px 11px;cursor:pointer;color:var(--ink);user-select:none;transition:border-color .15s,background .15s}
+.chk input{width:16px;height:16px;margin:0;accent-color:var(--lx);cursor:pointer}
+.chk small{font-size:11.5px;font-weight:600;color:var(--mut)}
+.chk.on{border-color:var(--lx);background:oklch(0.55 0.22 264 / .08)}
+.fhint{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:12px;font-size:12.5px;color:var(--mut)}
+.clear{font:inherit;font-size:12.5px;font-weight:600;color:var(--lx);background:none;border:0;cursor:pointer;padding:0}
+.clear[hidden]{display:none}
 .meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin:22px 4px 10px;font-size:14px;color:var(--mut)}
 .list{display:grid;gap:10px}
 .row{display:flex;align-items:center;gap:14px;border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:#fff}
@@ -72,6 +77,7 @@ footer{text-align:center;font-size:13px;color:var(--mut);padding:24px}
       <div class="group" id="fa"><span>ABDC</span></div>
       <div class="group" id="fs"><span>Scopus</span></div>
     </div>
+    <div class="fhint"><span>Tick one or more boxes. Ticking in both ABDC and Scopus shows journals that match <b>both</b> (e.g. Q1 + A).</span><button type="button" class="clear" id="clear" hidden>Clear filters</button></div>
   </div>
 
   <div class="meta"><span id="count"></span><span id="stats"></span></div>
@@ -3059,16 +3065,22 @@ var J = RAW.trim().split("\n").map(function (l) {
 function norm(s) { return s.toLowerCase().replace(/&/g, " and ").replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim(); }
 function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
 
-var F = { a: "all", s: "all" }, LIMIT = 50, shown = LIMIT;
-var AB = [["all", "All"], ["A*", "A*"], ["A", "A"], ["B", "B"], ["C", "C"], ["-", "Not listed"]];
-var SC = [["all", "All"], ["Q1", "Q1"], ["Q2", "Q2"], ["-", "Not listed"]];
+var F = { a: [], s: [] }, LIMIT = 50, shown = LIMIT;
+var AB = [["A*", "A*"], ["A", "A"], ["B", "B"], ["C", "C"], ["-", "Not in ABDC"]];
+var SC = [["Q1", "Q1"], ["Q2", "Q2"], ["-", "Not in Scopus list"]];
 function chips(id, opts, key) {
   var g = document.getElementById(id);
   opts.forEach(function (o) {
-    var b = document.createElement("button");
-    b.className = "chip" + (o[0] === "all" ? " on" : ""); b.textContent = o[1]; b.type = "button";
-    b.onclick = function () { F[key] = o[0]; [].forEach.call(g.querySelectorAll(".chip"), function (c) { c.classList.toggle("on", c === b); }); shown = LIMIT; render(); };
-    g.appendChild(b);
+    var n = J.filter(function (j) { return (j[key] || "-") === o[0]; }).length;
+    var lab = document.createElement("label");
+    lab.className = "chk";
+    lab.innerHTML = '<input type="checkbox" value="' + o[0] + '"> ' + o[1] + " <small>" + n.toLocaleString() + "</small>";
+    lab.querySelector("input").onchange = function () {
+      var v = this.value, i = F[key].indexOf(v);
+      if (this.checked && i < 0) F[key].push(v); else if (!this.checked && i >= 0) F[key].splice(i, 1);
+      lab.classList.toggle("on", this.checked); shown = LIMIT; render();
+    };
+    g.appendChild(lab);
   });
 }
 chips("fa", AB, "a"); chips("fs", SC, "s");
@@ -3086,8 +3098,8 @@ function hl(name, words) {
 function render() {
   var q = norm(document.getElementById("q").value), words = q ? q.split(" ") : [];
   var res = J.filter(function (j) {
-    if (F.a !== "all" && (F.a === "-" ? j.a : j.a !== F.a)) return false;
-    if (F.s !== "all" && (F.s === "-" ? j.s : j.s !== F.s)) return false;
+    if (F.a.length && F.a.indexOf(j.a || "-") < 0) return false;
+    if (F.s.length && F.s.indexOf(j.s || "-") < 0) return false;
     for (var i = 0; i < words.length; i++) if ((" " + j.k + " ").indexOf(words[i]) < 0) return false;
     return true;
   });
@@ -3101,9 +3113,15 @@ function render() {
   list.innerHTML = res.length ? res.slice(0, shown).map(function (j) {
     return '<div class="row"><div class="name">' + hl(j.n, words) + '</div><div class="badges">' + badge("a", j.a) + badge("s", j.s) + "</div></div>";
   }).join("") : '<div class="empty">No journals found. Try fewer words or check the spelling.</div>';
-  document.getElementById("count").textContent = res.length.toLocaleString() + " journal" + (res.length === 1 ? "" : "s") + (q || F.a !== "all" || F.s !== "all" ? " found" : "");
+  document.getElementById("count").textContent = res.length.toLocaleString() + " journal" + (res.length === 1 ? "" : "s") + (q || F.a.length || F.s.length ? " found" : "");
+  document.getElementById("clear").hidden = !(F.a.length || F.s.length);
   document.getElementById("more").hidden = res.length <= shown;
 }
+document.getElementById("clear").onclick = function () {
+  F.a = []; F.s = [];
+  [].forEach.call(document.querySelectorAll(".chk"), function (l) { l.classList.remove("on"); l.querySelector("input").checked = false; });
+  shown = LIMIT; render();
+};
 document.getElementById("more").onclick = function () { shown += LIMIT; render(); };
 var t; document.getElementById("q").addEventListener("input", function () { clearTimeout(t); t = setTimeout(function () { shown = LIMIT; render(); }, 120); });
 var urlQ = new URLSearchParams(location.search).get("q"); if (urlQ) document.getElementById("q").value = urlQ;
