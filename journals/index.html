@@ -21,6 +21,3142 @@ nav a{text-decoration:none;color:var(--mut)}nav a:hover,nav a.on{color:var(--ink
 .hero{background:linear-gradient(135deg,var(--lx),var(--lx2));color:#fff;padding:56px 20px 88px;text-align:center}
 .hero h1{margin:0 0 10px;font-size:clamp(28px,4.5vw,44px);line-height:1.1}
 .hero p{margin:0 auto;max-width:640px;opacity:.92;font-size:17px;line-height:1.5}
+.hero p.scope{margin-top:14px;display:inline-block;max-width:760px;font-size:14px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);border-radius:12px;padding:8px 14px;opacity:1}
+main{max-width:1100px;margin:-56px auto 0;padding:0 20px 60px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 50px -25px oklch(0.3 0.08 264 / .4);padding:22px}
+.search{position:relative}
+.search input{width:100%;font:inherit;font-size:18px;padding:16px 18px 16px 50px;border:1.5px solid var(--line);border-radius:14px;outline:none;transition:border-color .15s}
+.search input:focus{border-color:var(--lx)}
+.search svg{position:absolute;left:17px;top:50%;transform:translateY(-50%);color:var(--mut)}
+.filters{display:flex;flex-wrap:wrap;gap:18px;margin-top:14px;align-items:center}
+.group{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.group>span{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--mut);margin-right:4px}
+.chk{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600;border:1px solid var(--line);background:#fff;border-radius:10px;padding:7px 11px;cursor:pointer;color:var(--ink);user-select:none;transition:border-color .15s,background .15s}
+.chk input{width:16px;height:16px;margin:0;accent-color:var(--lx);cursor:pointer}
+.chk small{font-size:11.5px;font-weight:600;color:var(--mut)}
+.chk.on{border-color:var(--lx);background:oklch(0.55 0.22 264 / .08)}
+.fhint{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:12px;font-size:12.5px;color:var(--mut)}
+.clear{font:inherit;font-size:12.5px;font-weight:600;color:var(--lx);background:none;border:0;cursor:pointer;padding:0}
+.clear[hidden]{display:none}
+.meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin:22px 4px 10px;font-size:14px;color:var(--mut)}
+.list{display:grid;gap:10px}
+.row{display:flex;align-items:center;gap:14px;border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:#fff}
+.row .name{flex:1;font-weight:600;font-size:15.5px;line-height:1.35;min-width:0}
+.badges{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.b{display:inline-flex;flex-direction:column;align-items:center;min-width:86px;border-radius:10px;padding:6px 10px;font-size:11px;font-weight:600;line-height:1.2;text-align:center}
+.b strong{font-size:17px;font-weight:800}
+.ab-As{background:#4c1d95;color:#fff}.ab-A{background:#6d28d9;color:#fff}.ab-B{background:#ede9fe;color:#4c1d95}.ab-C{background:#f3f4f6;color:#374151}
+.sc-Q1{background:#065f46;color:#fff}.sc-Q2{background:#d1fae5;color:#065f46}
+.none{background:#fff;color:#9ca3af;border:1px dashed #d1d5db}
+mark{background:#fef08a;color:inherit;border-radius:3px;padding:0 1px}
+.empty{text-align:center;padding:40px 10px;color:var(--mut)}
+.more{display:block;margin:18px auto 0;font:inherit;font-weight:600;background:#fff;color:var(--lx);border:1px solid var(--lx);border-radius:999px;padding:10px 22px;cursor:pointer}
+.note{margin-top:28px;font-size:13px;line-height:1.6;color:var(--mut);background:var(--soft);border-radius:14px;padding:16px 18px}
+.legend{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;font-size:13px;color:var(--mut);padding:24px}
+@media (max-width:640px){.row{flex-direction:column;align-items:flex-start}.badges{justify-content:flex-start}nav{margin-left:0}}
+</style>
+</head>
+<body>
+<header><div class="bar">
+  <a class="brand" href="/"><b>AIStudyTools</b><span>Accelerating Human Potential with AI</span></a>
+  <nav><a href="/">Home</a><a href="/learnx">LearnX</a><a href="/healthx">HealthX</a><a href="/skillx">SkillX</a><a href="/webinars">Webinars</a><a class="on" href="/journals/">Journal Finder</a><a href="/contact">Contact</a></nav>
+</div></header>
+
+<section class="hero">
+  <h1>Journal Finder</h1>
+  <p>Search any journal to see its <b>ABDC 2025</b> rating and <b>Scopus</b> quartile in one place.</p>
+  <p class="scope"><b>Note:</b> This list includes only journals in the ABDC 2025 list and Scopus Q1 &amp; Q2 journals in Business, Management &amp; Accounting (BMA).</p>
+</section>
+
+<main>
+  <div class="panel">
+    <div class="search">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Type a journal name, e.g. Journal of Finance" autocomplete="off" autofocus aria-label="Search journals" />
+    </div>
+    <div class="filters">
+      <div class="group" id="fa"><span>ABDC</span></div>
+      <div class="group" id="fs"><span>Scopus</span></div>
+    </div>
+    <div class="fhint"><span>Tick one or more boxes. Ticking in both ABDC and Scopus shows journals that match <b>both</b> (e.g. Q1 + A).</span><button type="button" class="clear" id="clear" hidden>Clear filters</button></div>
+  </div>
+
+  <div class="meta"><span id="count"></span><span id="stats"></span></div>
+  <div class="list" id="list"></div>
+  <button class="more" id="more" hidden>Show more</button>
+
+  <div class="note">
+    <b>How to read this</b>
+    <div class="legend"><span class="b ab-As"><strong>A*</strong>ABDC</span><span class="b ab-A"><strong>A</strong>ABDC</span><span class="b ab-B"><strong>B</strong>ABDC</span><span class="b ab-C"><strong>C</strong>ABDC</span><span class="b sc-Q1"><strong>Q1</strong>Scopus</span><span class="b sc-Q2"><strong>Q2</strong>Scopus</span></div>
+    <p style="margin:10px 0 0">ABDC ratings are from the 2025 ABDC Journal Quality List (current to March 2026). Scopus quartiles cover Q1 and Q2 journals in Business, Management &amp; Accounting; "Not listed" means the journal is not in that list, not that it is outside Scopus. Always confirm on the official ABDC and Scopus websites before submitting.</p>
+  </div>
+</main>
+<footer>© <span id="yr"></span> AIStudyTools · <a href="/contact">Contact us</a></footer>
+
+<script>
+var RAW = `4OR|B|Q1
+AACE International Transactions|B|
+ABAC Journal||Q1
+Abacus|A|Q2
+Academia Economic Papers|C|
+Academia Revista Latinoamericana de Administracion||Q2
+Academy of Management Annals|A*|Q1
+Academy of Management Discoveries|A*|Q1
+Academy of Management Journal|A*|Q1
+Academy of Management Learning and Education|A*|Q1
+Academy of Management Perspectives|A|Q1
+Academy of Management Review|A*|Q1
+Academy of Marketing Studies Journal|B|
+Accident Analysis and Prevention|A*|
+Accountancy Business and the Public Interest|B|
+Accounting & Finance Journal / Revista Contabilidade & Finanças|C|
+Accounting Accountability and Performance|C|
+Accounting and Business Research|A|Q1
+Accounting and Finance|A|Q1
+Accounting and Taxation|C|
+Accounting and the Public Interest|B|
+Accounting Auditing and Accountability Journal|A*|Q1
+Accounting Education|A|Q1
+Accounting Educators Journal|B|
+Accounting Forum|A|Q1
+Accounting Historians Journal|B|Q1
+Accounting History|A|Q1
+Accounting History Review|B|Q2
+Accounting Horizons|A|Q1
+Accounting in Europe|A|Q1
+Accounting Perspectives|B|Q2
+Accounting Research Journal|B|Q2
+The Accounting Review|A*|Q1
+Accounting Theory and Practice|C|
+Accounting, Economics and Law – A Convivium|B|Q1
+Accounting, Finance and Governance Review|C|
+Accounting, Organizations and Society|A*|Q1
+ACM Transactions on Information Systems|C|Q1
+ACM Transactions on Management Information Systems||Q1
+ACM Transactions on Modeling and Computer Simulation|B|
+Acta Informatica Pragensia||Q2
+Acta Innovations||Q2
+Acta Oeconomica|C|
+Acta Psychologica|A|
+Acta Turistica|C|
+Acta Universitatis Bohemiae Meridionalis|C|
+Action Learning and Action Research Journal|C|
+Action Learning Research and Practice|C|
+Action Research||Q2
+Active Learning in Higher Education|B|
+Actuarial Research Clearinghouse|C|
+The Adam Smith Review|B|
+Adelaide Law Review|A|
+Administration and Society|B|Q1
+Administrative Science Quarterly|A*|
+Administrative Sciences|C|Q2
+Administrative Theory and Praxis|B|Q2
+Advanced Manufacturing: Polymer and Composites Science||Q2
+Advances and Applications in Statistics|C|
+Advances in Accounting|A|Q2
+Advances in Accounting Behavioral Research|A|
+Advances in Accounting Education: teaching and curriculum innovations|C|
+Advances in Applied Probability|A|
+Advances in Consumer Research|B|
+Advances in Developing Human Resources|C|Q2
+Advances in Environmental Accounting and Management|B|Q2
+Advances in Experimental Social Psychology|A*|
+Advances in Hospitality and Leisure|C|
+Advances in International Management|C|
+Advances in International Marketing|C|
+Advances in Management Accounting|A|
+Advances in Production Engineering and Management||Q2
+Advances in Public Interest Accounting|C|
+Advances in Strategic Management|C|
+Advances in Taxation|B|
+Advertising & Society Review|C|
+Afaq Iqtisadiyyah|C|
+Africa Development/Afrique et Developpement|C|
+Africa Journal of Management||Q2
+African Development Review|C|
+African Economic History|C|
+African Journal of Accounting, Auditing and Finance|C|
+African Journal of Agricultural and Resource Economics|B|
+African Journal of Business and Economic Research|C|
+African Journal of Economic and Management Studies|C|Q2
+African Journal of Economic and Sustainable Development|C|
+African Review of Economics and Finance|C|
+Afrika Spectrum|C|
+Afro-Asian Journal of Finance and Accounting|C|
+AgBioForum|C|
+Agenda: a journal of policy analysis and reform|B|
+Agribusiness: An international journal|C|
+Agricultural and Resource Economics Review|B|
+Agricultural Economics|A|
+Agricultural Economics and Rural Development|C|
+Agricultural Economics Research Review|C|
+Agricultural Economics Review|C|
+Agricultural Finance Review|C|Q2
+Agriculture and Human Values|B|
+AIMS International Journal of Management|C|
+Air and Space Law|B|
+AIS Educator Journal|C|
+AIS Transactions on Human-Computer Interaction|A|
+Akron Tax Journal|B|
+Alberta Law Review|B|
+Algorithmic Finance|B|
+ALI - ABA Business Law Course Materials Journal|C|
+Aligarh Journal of Statistics|C|
+Alternative Law Journal|B|
+Alternatives: global, local, political|A|
+American Bankruptcy Institute Law Review|B|
+American Bankruptcy Law Journal|B|
+American Behavioral Scientist|B|
+American Business Law Journal|A|Q2
+American Business Review|B|
+American Economic Journal: Applied Economics|A*|
+American Economic Journal: Economic Policy|A*|
+American Economic Journal: Macroeconomics|A*|
+American Economic Journal: Microeconomics|A*|
+The American Economic Review|A*|
+American Economic Review: Insights|A*|
+American Economist|C|
+American International Journal of Business and Management Studies|C|
+American Journal of Agricultural Economics|A*|
+American Journal of Business (AJB)|C|
+American Journal of Comparative Law|A|
+American Journal of Economics and Sociology|B|
+American Journal of Evaluation|C|Q1
+American Journal of Finance and Accounting|C|
+American Journal of Health Economics|A*|
+American Journal of Political Science|A*|
+American Journal of Public Health|A*|
+American Journal of Recreation Therapy|C|
+American Journal of Sociology|A*|
+American Law and Economics Review|B|
+American Political Science Review|A*|
+American Psychologist|A*|
+American Review of Political Economy|C|
+American Review of Public Administration|B|Q1
+American Sociological Review|A*|
+The American Sociologist|B|
+The American Statistician (AMSTAT)|B|
+AMS Review|B|Q1
+Analisis: cuadernos de investigacion|C|
+Analytic Methods in Accident Research|B|
+Anatolia|B|
+Annals Economy Series|C|
+Annals of Actuarial Science|A|
+Annals of Applied Probability|A|
+Annals of Applied Statistics|A|
+Annals of Corporate Governance||Q2
+Annals of Data Science||Q1
+Annals of Economics and Finance|C|
+Annals of Finance|B|
+Annals of Leisure Research|B|Q1
+Annals of Operations Research|A|
+Annals of Probability|A*|
+Annals of Public and Cooperative Economics|B|
+The Annals of Regional Science: international journal of urban, regional and environmental research and policy|B|
+Annals of Statistics|A*|
+Annals of the American Academy of Political and Social Science|B|
+Annals of the Institute of Statistical Mathematics|A|
+Annals of Tourism Research|A*|Q1
+Annals of Tourism Research Empirical Insights|B|Q1
+Annual Editions: Economics|C|
+Annual Review of Banking and Financial Law|C|
+Annual Review of Economics|A*|
+Annual Review of Financial Economics|B|
+Annual Review of Organizational Psychology and Organizational Behavior|A*|Q1
+Annual Review of Psychology|A*|
+Annual Review of Resource Economics|B|
+Annual Review of Sociology|A*|
+Anti Trust Law Journal|A|
+Antitrust Bulletin|B|
+Appetite|A|
+Applied Cognitive Psychology|B|
+Applied Econometrics|C|
+Applied Econometrics and International Development|C|
+Applied Economic Analysis|B|
+Applied Economic Perspectives and Policy|B|
+Applied Economics|A|
+Applied Economics Letters|B|
+Applied Economics Quarterly|B|
+Applied Energy|A|
+Applied Finance Letters|B|
+Applied Financial Economics|B|
+Applied Geography||Q1
+Applied Health Economics and Health Policy|C|
+Applied Mathematical Finance|B|
+Applied Psychological Measurement|B|
+Applied Psychology: An International Review|A|
+Applied Research in Quality of Life|B|
+Applied Stochastic Models in Business and Industry|B|Q2
+Appraisal Journal|B|
+Aquaculture Economics and Management|C|
+Arbitration International||Q1
+Architectural Engineering and Design Management||Q1
+Archives for Technical Sciences||Q2
+Arizona Law Review|B|
+Arkansas Business and Economic Review|C|
+Artha-Vikas: a journal of economic development|C|
+Artivate||Q2
+Arts and the Market (formerly Arts Marketing)|C|Q2
+ASEAN Journal on Hospitality and Tourism|C|
+Asia and the Pacific Policy Studies||Q2
+Asia Europe Journal|B|Q2
+Asia Pacific Business Review|B|Q2
+Asia Pacific Journal of Economics and Business|B|
+Asia Pacific Journal of Finance|B|
+Asia Pacific Journal of Health Management|C|
+Asia Pacific Journal of Information Systems|B|
+Asia Pacific Journal of Management|A|Q1
+Asia Pacific Journal of Marketing and Logistics|A|Q1
+Asia Pacific Journal of Taxation|C|
+Asia Pacific Journal of Tourism Research|A|Q1
+Asia Pacific Law Review|C|
+Asia Pacific Public Relations Journal|B|
+Asia Pacific Sustainable Development Journal|B|
+Asia-Pacific Financial Markets|C|
+Asia-Pacific Journal of Accounting and Economics|B|Q2
+Asia-Pacific Journal of Business Administration|B|Q1
+Asia-Pacific Journal of Financial Studies|B|
+Asia-Pacific Journal of Human Resources|A|Q1
+Asia-Pacific Journal of Innovation in Hospitality and Tourism|C|
+Asia-Pacific Journal of Risk and Insurance|B|
+Asia-Pacific Management Accounting Journal|C|
+Asia-Pacific Management Review|C|Q1
+Asia-Pacific Tax Bulletin|C|
+Asian Academy of Management Journal|C|
+Asian Academy of Management Journal of Accounting and Finance|C|
+Asian and Pacific Economic Review|C|
+Asian and Pacific Migration Journal|C|
+Asian Business and Management|C|Q1
+Asian Development Review|C|
+Asian Economic Journal|B|
+Asian Economic Papers|B|
+Asian Economic Policy Review|C|
+Asian Economics Letters|C|
+Asian Economies|C|
+Asian International Studies Review||Q2
+Asian Journal of Accounting and Governance|C|
+Asian Journal of Accounting Research|B|Q2
+Asian Journal of Agriculture and Development|C|
+Asian Journal of Business and Accounting|C|
+Asian Journal of Business Ethics|C|Q1
+Asian Journal of Business Research|C|Q2
+Asian Journal of Interdisciplinary Research||Q2
+Asian Journal of International Law|C|
+Asian Journal of Management Cases|C|
+Asian Journal of Marketing (SING)|C|
+Asian Journal of Political Science|B|
+Asian Journal of Shipping and Logistics||Q2
+Asian Journal of Social Science|C|
+Asian Journal of Technology Innovation||Q2
+Asian Population Studies|B|
+Asian Review of Accounting|B|Q2
+Asian Review of Political Economy||Q2
+Asian Survey|C|
+Asian-Pacific Economic Literature|C|
+Asia‐Pacific Economic History Review|B|
+ASOR Bulletin|C|
+Asper Review of International Business and Trade Law|C|
+AStA Advances in Statistical Analysis|C|
+ASTIN Bulletin|A*|Q1
+ATA Journal of Legal Tax Research|C|
+Atlantic Economic Journal|C|
+Auckland University Law Review|C|
+Audit Financiar|C|
+Auditing||Q1
+Auditing: A Journal of Practice and Theory|A*|
+Australasian Accounting Business and Finance Journal|B|Q2
+Australasian Agribusiness Review|C|
+Australasian Dispute Resolution Journal|C|
+Australasian Journal of Economics Education|C|
+Australasian Journal of Information Systems|A|Q2
+Australasian Journal of Natural Resources Law and Policy|B|
+Australasian Journal of Regional Studies|B|
+Australasian Journal on Ageing|B|
+Australasian Marketing Journal|A|Q1
+Australian Accounting Review|B|Q2
+Australian and New Zealand Journal of Criminology|A|
+Australian and New Zealand Journal of Statistics|A|
+Australian Bar Review|A|
+Australian Business Law Review|A|
+Australian Commodities|C|
+Australian Economic Papers|B|
+The Australian Economic Review|B|
+Australian GST Journal|C|
+Australian Intellectual Property Journal|B|
+Australian Journal of Actuarial Practice (formerly Australian Actuarial Journal)|C|
+The Australian Journal of Agricultural and Resource Economics|A|
+Australian Journal of Asian Law|C|
+Australian Journal of Career Development|B|Q2
+Australian Journal of Competition and Consumer Law (formerly Trade Practices Law Journal)|B|
+Australian Journal of Corporate Law|A|
+Australian Journal of Environmental Education|B|
+Australian Journal of Human Rights|B|
+Australian Journal of International Affairs|A|
+Australian Journal of Labour Economics: a journal of labour economics and labour relations|B|
+Australian Journal of Labour Law|A|
+Australian Journal of Management|A|Q1
+Australian Journal of Political Science|A|
+Australian Journal of Public Administration|A|
+Australian Law Journal|A|
+Australian Property Law Journal|B|
+Australian Psychologist|B|
+Australian Tax Forum|A*|
+Australian Tax Law Bulletin|C|
+Australian Tax Review|A|
+Austrian Economic Quarterly|C|
+Autex Research Journal||Q2
+Baltic Journal of Economics|C|
+Baltic Journal of Management|B|Q1
+The Baltic Journal of Road and Bridge Engineering|C|
+Bank Parikrama: A Journal of Banking and Finance|C|
+Banking and Finance Law Review|B|
+Banking Law Journal|C|
+Banks and Bank Systems||Q2
+Basic and Applied Social Psychology|B|
+Basic Income Studies|C|
+Bayesian Analysis|A|
+The BE Journal of Economic Analysis and Policy|A|
+The BE Journal of Macroeconomics|A|
+The BE Journal of Theoretical Economics|A|
+Behavioral Research in Accounting|A|Q2
+Behaviour and Information Technology|A|
+BenchCouncil Transactions on Benchmarks, Standards and Evaluations||Q1
+Benchmarking||Q1
+Benchmarking: an international journal|B|
+Berkeley Business Law Journal|B|
+Berkeley Technology Law Journal|A|
+Bernoulli|A|
+BFuP - Betriebswirtschaftliche Forschung und Praxis|C|
+Big Data and Cognitive Computing||Q1
+Big Data and Computing Visions||Q2
+Big Data Research||Q1
+Bio-based and Applied Economics Journal|C|
+Bioinformatics|A|
+Biomedical Materials (Bristol)||Q2
+Biometrical Journal|B|
+Biometrika|A*|
+BioProducts Business||Q2
+Biostatistics|A|
+BMJ Leader||Q2
+Bond Law Review|B|
+Borsa Istanbul Review|B|
+Boston University Law Review|A*|
+The Bottom Line|C|Q1
+Brazilian Electronic Journal of Economics|C|
+Brazilian Journal of Business Economics|C|
+Brazilian Journal of Rural Economy and Sociology|C|
+Briefing Notes in Economics|C|
+British Accounting Review|A*|Q1
+British Actuarial Journal|B|
+British Food Journal|B|Q1
+British Journal of Educational Technology|A|
+British Journal of Health Care Management|C|
+British Journal of Industrial Relations|A*|Q1
+British Journal of Management|A*|Q1
+British Journal of Mathematical and Statistical Psychology|B|
+British Journal of Political Science|A*|
+British Journal of Social Psychology|A|
+British Journal of Sociology|A|
+British Tax Review|A*|
+Brookings Papers on Economic Activity|A|Q1
+The Brooklyn Journal of Corporate, Financial and Commercial Law|C|
+BRQ Business Research Quarterly||Q1
+Brussels Economic Review|C|
+Building Research and Information|A|
+Built Environment Project and Asset Management|B|
+Bulletin for International Taxation|B|Q2
+Bulletin of Applied Economics|C|
+Bulletin of Comparative Labour Relations|C|
+Bulletin of Economic Research|B|
+Bulletin of Indonesian Economic Studies|B|
+Bulletin of Monetary Economics and Banking|C|
+Bulletin of Science, Technology and Society||Q1
+Bulletin of the Czech Econometric Society|C|
+Business & Information Systems Engineering|A|
+Business Analyst Journal|C|
+Business and Economics Research Journal|C|
+Business and Human Rights Journal|B|Q1
+Business and Politics|C|Q1
+Business and Professional Communication Quarterly|C|Q1
+Business and Professional Ethics Journal|C|Q2
+Business and Society|A|Q1
+Business and Society Review|C|Q2
+Business Case Journal|C|
+Business Economics|B|
+Business Ethics and Leadership|C|Q2
+Business Ethics Quarterly|A|Q1
+Business Ethics, the Environment & Responsibility|B|Q1
+Business History|A*|Q1
+Business History Review|A|Q1
+Business Horizons|B|Q1
+Business Information Review||Q2
+Business Law Review|C|
+Business Law Today|C|
+The Business Lawyer|A|Q2
+Business Perspectives and Research|C|Q2
+Business Process Management Journal|B|Q1
+Business Research Quarterly|B|
+Business Strategy and Development||Q1
+Business Strategy and the Environment|A|Q1
+Business Strategy Review|B|
+Business Systems Research||Q2
+Business, Management and Economics Engineering||Q2
+Cadernos de Pos-Graduacao em Direito Politico e Economico|C|
+California Management Review|A|Q1
+Cambridge Journal of Economics|A|
+Cambridge Journal of Regions, Economy and Society|B|
+Cambridge Law Journal|A*|
+Canadian Bar Review|B|
+Canadian Business Law Journal|A|
+Canadian Journal of Administrative Sciences||Q2
+Canadian Journal of Administrative Sciences / Revue Canadienne des Sciences de l Administration|B|
+Canadian Journal of Agricultural Economics / Revue Canadienne d Agroeconomie|A|
+Canadian Journal of Development Studies / Revue canadienne d'etudes du developpement|B|
+Canadian Journal of Economics / Revue Canadienne D'Economique|A|
+Canadian Journal of Marketing Research|C|
+Canadian Journal of Statistics|A|
+Canadian Public Policy / Analyse de Politiques|B|
+Canadian Tax Journal|A*|
+Canberra Law Review|C|
+Canterbury Law Review|B|
+Capital and Class|B|
+Capital Markets Law Journal|A|
+Capital Markets Review|C|
+Capitalism and Society|C|
+Career Development and Transition for Exceptional Individuals|C|Q2
+Career Development International|A|Q1
+Career Development Quarterly||Q2
+Cartography and Geographic Information Science||Q2
+The CASE Journal|C|
+Case Studies on Transport Policy|C|
+Cayapa: revista venezolana de economia social|C|
+Central Bank Review|C|
+Central European Journal of Economic Modelling and Econometrics|C|
+Central European Journal of Operations Research|C|
+Central European Management Journal||Q2
+CESifo Economic Studies|C|
+Charity Law and Practice Review|B|
+Chilean Journal of Statistics|C|
+China Accounting and Finance Review|A|
+China Agricultural Economic Review|B|
+China and World Economy|B|
+China Economic Journal|B|
+China Economic Quarterly International|C|
+China Economic Review|A|
+China Finance Review International|A|
+China Information|B|
+China Journal of Accounting Research|A|Q1
+China Journal of Accounting Studies|B|Q2
+The China Quarterly|A|
+The China Review: an interdisciplinary journal on greater China|C|
+China: An International Journal||Q2
+The Chinese Economy: translation and studies|B|
+Chinese Management Studies|C|Q2
+Chinese Rural Economy|C|
+Choices: The Magazine of Food, Farm, and Resource Issues|C|
+Ciclos: en la historia, la economia y la sociedad|C|
+Cities||Q1
+Citizenship Studies|C|
+Civil Justice Quarterly|A|
+Clean Technologies and Environmental Policy||Q1
+Cleaner Logistics and Supply Chain|B|Q1
+Cleaner Production Letters||Q1
+Climate and Development|B|
+Climate Change Economics|B|
+Climate Policy|C|
+Cliometrica: journal of historical economics and econometric history|C|
+Clothing and Textiles Research Journal||Q2
+Coaching||Q2
+Cogent Business & Management|C|Q2
+Cogent Economics and Finance|B|
+Collection Management||Q2
+Columbia Business Law Review|A|
+Columbia Journal of Asian Law|A|
+Columbia Journal of Law and the Arts|A|
+Columbia Journal of Transnational Law|A|
+Columbia Law Review|A*|
+Commercial Law Quarterly|C|
+Common Law World Review|B|
+Common Market Law Review|B|
+Commonwealth and Comparative Politics|C|
+Communication & Sport|B|
+Communication Research|A|
+Communication Research and Practice|C|Q2
+Communication Theory|A|
+Communications in Statistics: Theory and Methods|B|
+Communications in Transportation Research|C|
+Communications Law Bulletin|C|
+Communications of the Association for Information Systems|A|
+Community Development Journal|B|
+Community, Work and Family|C|
+Company and Securities Law Journal|A|
+Company Lawyer|B|
+Comparative Economic Studies|B|
+Comparative Labor Law and Policy Journal|A|
+Comparative Political Studies|A|
+Comparative Politics|A|
+Compensation & Benefits Review|C|Q2
+Competition and Change|B|Q1
+Competition and Consumer Law Journal|A|
+Competition and Regulation in Network Industries|B|
+Competition Law Journal|C|
+Competitiveness Review|C|Q1
+Comptabilité - Contrôle - Audit|B|
+Computational Economics|B|
+Computational Management Science|B|Q2
+Computational Statistics and Data Analysis|A|
+Computer and Telecommunications Law Review|C|
+Computer Law & Security Review|B|Q1
+Computer Supported Cooperative Work|B|
+Computers & Industrial Engineering|A|
+Computers and Operations Research|A|
+Computers in Human Behavior|A|
+Conflict Management and Peace Science|B|
+Conflict Resolution Quarterly|B|
+Constitutional Political Economy|B|
+Construction Economics and Building|C|
+Construction Innovation|B|
+Construction Law Journal|B|
+Construction Management and Economics|A|Q1
+Consumer Behavior in Tourism and Hospitality|B|Q2
+Consumer Finance Law Quarterly Report|C|
+Consumption, Markets and Culture|B|Q1
+Contemporary Accounting Research|A*|Q1
+Contemporary Economic Policy|B|Q1
+Contemporary Economics|C|Q2
+Contemporary Educational Technology||Q1
+Contemporary Sociology|C|
+Contract and Commercial Law Review|C|
+Contributions to Political Economy|B|
+Cooperation and Conflict||Q1
+Copernican Journal of Finance & Accounting|C|
+Copyright Society of the USA Journal|B|
+Cornell Hospitality Quarterly|A|Q1
+Cornell International Law Journal|B|
+Cornell Law Review|A*|
+Corporate Board|C|
+Corporate Communications|B|Q2
+Corporate Finance Review|C|
+Corporate Governance|B|Q1
+Corporate Governance International|B|
+The Corporate Governance Law Review|C|
+Corporate Governance: an international review|A|Q1
+Corporate Law and Governance Review||Q2
+Corporate Reputation Review|C|Q2
+Corporate Social Responsibility and Environmental Management|C|Q1
+Corporate Taxation|C|
+Cost Effectiveness and Resource Allocation|C|
+Cost Management|C|
+Costume||Q2
+Creative Industries Journal||Q1
+Creativity and Innovation Management|B|Q1
+Credit and Capital Markets|C|
+Crime, Law and Social Change|B|
+Critical Asian Studies|B|
+Critical Discourse Studies|B|
+Critical Finance Review|A*|
+Critical Perspectives on Accounting|A|Q1
+Critical Perspectives on International Business|B|Q2
+Critical Studies in Media Communication|C|
+Cross Cultural & Strategic Management|B|Q1
+Cuadernos de Gestion||Q2
+Cultural Diversity and Ethnic Minority Psychology|B|
+Cultural Trends|B|
+Culture and Organization|B|Q1
+Current Issues in Auditing|B|
+Current Issues in Tourism|A|Q1
+Current Legal Problems|A|
+Current Politics and Economics of Europe|C|
+Curtin Law and Taxation Review|B|
+Customer Needs and Solutions|B|
+Cyprus Economic Policy Review|C|
+Czech Economic Review|C|
+Czech Journal of Economics and Finance / Finance a uver|C|
+Dalhousie Law Journal|A|
+Data Base for Advances in Information Systems|A|Q2
+Data Science and Management||Q1
+De Economist|C|
+Deakin Law Review|A|
+Decision|B|
+Decision Analysis|A|
+Decision Sciences|A*|Q1
+Decision Sciences Journal of Innovative Education|C|Q2
+Decision Support Systems|A*|Q1
+DECISION: Official journal of indian institute of management calcutta|C|
+Decisions in Economics and Finance|B|
+Defence and Peace Economics|B|
+Defense Transportation Journal|C|
+Delaware Journal of Corporate Law|A|
+Demographic Research|A|
+Demography|A|
+DePaul Business and Commercial Law Journal|C|
+Derivatives & Financial Instruments|C|
+Design Studies|A|
+DETUROPE||Q2
+Developing Economies|B|
+Development and Change|B|
+Development and Learning in Organizations|C|Q2
+Development Policy Review|B|
+Development Southern Africa|C|
+Digital Business|C|Q1
+Digital Policy, Regulation and Governance|B|Q2
+Digital Transformation and Society||Q1
+Disaster Prevention and Management||Q2
+Disasters|A|
+Discourse & Communication|A|
+Discourse & Society|A|
+Discourse Studies|A|
+Distributed Ledger Technologies||Q2
+Duke Journal of Comparative and International Law|A|
+Duke Law Journal|B|
+Duquesne Business Law Journal|C|
+Dynamic Econometric Models|C|
+Dynamic Games and Applications|B|
+E a M: Ekonomie a Management||Q2
+E-Balonmano.com: Revista de Ciencias del Deporte||Q1
+E-Service Journal|B|
+Eastern Economic Journal|B|
+Eastern European Economics|B|
+EC Tax Review|B|Q1
+Ecological Economics|A|
+Ecology|A|
+Econ Journal Watch|B|
+Econometric Reviews|A|
+Econometric Theory|A*|
+Econometrica|A*|
+Econometrics|B|
+Econometrics and Statistics|B|
+Econometrics Journal|A*|
+Economia|C|
+Economia Agro-Alimentare||Q2
+Economia Internazionale|C|
+Economia, the Journal of Latin American and Caribbean Economic Association (LACEA)|B|
+Economic Affairs|C|
+Economic Analysis and Policy|A|
+Economic and Business Review|C|
+Economic and Industrial Democracy||Q1
+Economic and Industrial Democracy: an international journal|A|
+Economic and Labour Market Review|C|
+The Economic and Labour Relations Review|B|Q2
+Economic and Political Weekly|B|
+Economic and Social Review|B|
+Economic Change and Restructuring|B|
+Economic Computation and Economic Cybernetics Studies and Research|C|
+Economic Development and Cultural Change|A|
+Economic Development Quarterly|B|
+Economic Geography|A|
+Economic History of Developing Regions|C|
+The Economic History Review: a journal of economic and social history|A*|
+Economic Inquiry|A|Q1
+Economic Issues|B|
+The Economic Journal|A*|
+Economic Modelling|A|
+Economic Notes|B|
+Economic Papers: a journal of applied economics and policy|B|
+Economic Policy / Ekonomicheskaya Politika|C|
+Economic Policy: a European forum|A|
+Economic Quarter / Trimestre Economico|B|
+The Economic Record|A|
+Economic Review / Revue Economique|B|
+Economic Sciences|C|
+Economic Studies / Estudios de Economia|C|
+Economic Studies Journal|C|
+Economic Systems|B|
+Economic Systems Research|B|
+Economic Theory|A*|
+Economic Theory Bulletin|B|
+Economic Thought Journal|C|
+Economica|A|
+Economics & Politics|A|
+ECONOMICS - Innovative and Economics Research Journal||Q2
+Economics and Applied Informatics|C|
+Economics and Business Review|C|Q2
+Economics and Culture||Q2
+Economics and Finance in Indonesia|C|
+Economics and Human Biology|A|
+Economics and Philosophy|A|
+Economics and Policy of Energy and the Environment|C|
+Economics and Sociology||Q2
+Economics Bulletin|C|
+Economics Letters|A|
+Economics of Disasters and Climate Change|C|
+Economics of Education Review|A|
+Economics of Energy & Environmental Policy|B|
+Economics of Governance|B|Q2
+Economics of Innovation and New Technology|B|Q1
+Economics of Transition and Institutional Change|A|
+Economics of Transportation|B|
+Economics, Management, and Financial Markets|C|
+Economics: The Open Access, Open Assessment E-journal|B|
+Economies|C|
+Economists' Voice|B|Q2
+Economy and Society|A|Q1
+EDPACS: The EDP Audit, Control, and Security Newsletter|C|
+Education and Training||Q1
+Education Economics|B|
+Education Finance and Policy|A|
+Educational and Psychological Measurement|A|
+Educational Assessment, Evaluation and Accountability||Q1
+Educational Management Administration & Leadership|B|Q1
+eJournal of Tax Research|A|
+Ekonomia|C|
+Electricity Journal||Q1
+Electronic Commerce Research|A|
+Electronic Commerce Research and Applications|B|Q1
+Electronic Communication Law Review|C|
+Electronic Journal of Evolutionary Modeling and Economic Dynamics|C|
+Electronic Journal of Information Systems in Developing Countries|B|
+Electronic Journal of Knowledge Management|C|
+Electronic Journal of Probability|A|
+The Electronic Journal of Statistics|A|
+Electronic Markets|A|Q1
+Emerging Markets Finance and Trade|B|
+Emerging Markets Review|A|Q1
+EMJ - Engineering Management Journal||Q2
+Empirica|B|
+Empirical Economics|A|
+Empirical Economics Letters|C|
+Employee Relations|A|Q1
+Employee Relations Law Journal|B|
+Employee Responsibilities and Rights Journal|C|Q2
+Energy and Environment|C|
+Energy Economics|A*|
+Energy Journal|A|
+Energy Policy|A|
+Energy Research Letters|C|
+Energy Sources, Part B: Economics, Planning, and Policy|C|
+Energy Studies Review|C|
+Engineering Economics|B|Q2
+Engineering Economist|C|
+Engineering Management in Production and Services||Q2
+Engineering Management Journal|B|
+Engineering, Construction and Architectural Management|A|Q1
+Enometrica|C|
+Enterprise and Society|A|Q1
+Enterprise Development & Microfinance|C|
+Enterprise Governance eJournal|C|
+Enterprise Information Systems|A|
+Entertainment Law Review|B|
+Entrepreneurial Business and Economics Review||Q1
+Entrepreneurial Business Law Journal|C|
+Entrepreneurship and Regional Development|A|Q1
+Entrepreneurship Education||Q2
+Entrepreneurship Education and Pedagogy||Q2
+Entrepreneurship Research Journal|B|Q2
+Entrepreneurship Theory and Practice|A*|Q1
+Environment and Development Economics|B|
+Environment and Planning A: Economy and Space|A*|
+Environment and Planning B: Urban Analytics and City Science|A*|
+Environment and Planning C: politics and space|B|
+Environment and Planning D: society and space|A|
+Environment and Urbanization Asia|C|
+Environmental and Ecological Statistics|A|
+Environmental and Planning Law Journal|B|
+Environmental and Resource Economics|A|
+Environmental Economics and Policy Studies|B|
+Environmental Education Research|A|
+Environmental Innovation and Societal Transitions|A|
+Environmental Management|C|
+Environmetrics|B|
+EPH-International Journal of Business & Management Science|C|
+Equality, Diversity and Inclusion|B|Q1
+Erasmus Journal for Philosophy and Economics|C|
+Erasmus Law and Economics Review|C|
+ESAIM: Probability and Statistics|C|
+Essays in Economic & Business History|B|
+Estudos Economicos|C|
+Ethics and Economics|C|
+Ethics and Information Technology|B|
+Ethics: an international journal of social, political, and legal philosophy|A|
+Eurasian Business Review|B|Q1
+Eurasian Economic Review|C|
+Eurasian Geography and Economics|B|
+Eurasian Journal of Business and Economics|C|
+EURO Journal on Decision Processes||Q2
+EURO Journal on Transportation and Logistics|B|
+EuroChoices|C|
+EuroMed Journal of Business|B|Q1
+Europe-Asia Studies|B|
+The European Accounting Review|A*|Q1
+European Actuarial Journal|B|
+European Business Law Review|C|
+European Business Organization Law Review|B|Q1
+European Business Review|B|Q1
+European Company Law|C|
+European Competition Journal|C|
+European Competition Law Review|A|
+European Economic Review|A*|
+European Financial Management|A|Q1
+European Intellectual Property Review|A|
+European Journal of Communication|B|
+European Journal of Comparative Economics|B|
+European Journal of Development Research|B|
+European Journal of Economics and Economic Policies: Intervention|C|
+The European Journal of Finance|A|
+European Journal of Futures Research||Q1
+European Journal of Government and Economics|C|
+European Journal of Health Economics|A|
+European Journal of Industrial Relations|A|Q1
+European Journal of Information Systems|A*|Q1
+European Journal of Innovation Management|C|Q1
+European Journal of International Law|A|
+European Journal of International Management|C|
+European Journal of International Relations|A|
+European Journal of Law and Economics|C|Q1
+European Journal of Management and Business Economics|B|Q1
+European Journal of Management Studies|C|Q2
+European Journal of Marketing|A*|Q1
+European Journal of Operational Research|A*|
+European Journal of Personality|A|
+European Journal of Political Economy|A|
+European Journal of Political Research|A|
+European Journal of Population|B|
+European Journal of Psychological Assessment|B|
+European Journal of Public Health|B|
+European Journal of Social Psychology|A|
+European Journal of the History of Economic Thought|B|
+European Journal of Tourism Research|C|Q1
+European Journal of Training and Development|C|Q1
+European Journal of Transport and Infrastructure Research|B|
+European Journal of Work and Organizational Psychology|A|Q1
+European Law Journal|B|
+European Law Review|A|
+European Management Journal|A|Q1
+European Management Review|B|Q1
+European Research on Management and Business Economics|A|Q1
+European Review of Agricultural Economics|A|
+European Review of Economic History|A|
+European Sport Management Quarterly|A|Q1
+European Taxation|B|
+European Transport / Trasporti Europei|C|
+European Transport Law|C|
+European Urban and Regional Studies|A|
+Evaluation|B|
+Evaluation and Program Planning||Q2
+Evaluation Review|A|
+Event Management|A|Q2
+Evidence-based HRM||Q2
+Evidence-based HRM (EBHRM): A Global Forum for Empirical Scholarship|B|
+Experimental Economics|A*|
+Expert Review of Pharmacoeconomics & Outcomes Research|C|
+Explorations in Economic History|A|
+Facilities|B|
+Facta Universitatas: Economics and Organization|C|
+Faith and Economics|B|
+Family Business Review|A|Q1
+Farm and Business - The Journal of the Caribbean Agro-Economic Society|C|
+Fashion and Textiles||Q1
+Fashion, Style and Popular Culture||Q1
+Federal Law Review|A*|
+Federal Reserve Bank of St. Louis Review||Q2
+Feminist Economics|A|Q1
+FIIB Business Review|B|Q2
+Finance|C|
+Finance and Stochastics|A|
+Finance India|C|
+Finance Research Letters|A|
+Financial Accountability and Management|A|Q1
+Financial Analysts Journal|A|Q1
+Financial History Review|B|
+Financial Innovation|B|Q1
+Financial Management|A*|Q1
+Financial Markets and Portfolio Management|B|
+Financial Markets, Institutions and Instruments|A|
+Financial Planning Research Journal|C|
+Financial Planning Review|B|
+Financial Reporting|C|
+Financial Review (US)|A|
+Financial Services Newsletter|C|
+Financial Services Review|B|
+Financijska Teorija i Praksa|C|
+Finnish Economic Papers|B|
+First Monday|C|
+Fiscal Studies|B|Q2
+Flexible Services and Manufacturing Journal|C|
+The Florida Tax Review|A|
+Food Policy|B|
+Food Quality and Preference|A|
+Fordham Journal of Corporate & Financial Law|B|
+Foreign Affairs|C|
+Foreign Policy (Washington)|C|
+Foreign Trade Review|B|Q2
+Foresight|C|Q1
+Foresight and STI Governance||Q2
+Forest Policy and Economics|B|
+Forum for Health Economics and Policy|C|
+Forum for Social Economics|C|
+Forum of International Development Studies|B|
+Forum Scientiae Oeconomia||Q1
+Foundations and Trends in Accounting|A|Q1
+Foundations and Trends in Econometrics|C|
+Foundations and Trends in Entrepreneurship||Q1
+Foundations and Trends in Finance|B|
+Foundations and Trends in Marketing||Q1
+Foundations and Trends in Microeconomics|C|
+Frontiers in Finance and Economics|C|
+Frontiers in Sports and Active Living||Q1
+Frontiers in Sustainable Tourism||Q2
+Frontiers of Economics in China|C|
+Futures|B|Q1
+Futures and Foresight Science||Q1
+Fuzzy Economic Review|C|
+Gadjah Mada International Journal of Business|C|Q2
+Games|B|
+Games and Economic Behavior|A*|
+Gender and Society|A*|
+Gender in Management||Q1
+Gender in Management: an international journal|B|
+Gender, Work and Organization|A|Q1
+The Geneva Papers on Risk and Insurance - Issues and Practice|B|Q2
+The Geneva Risk and Insurance Review|B|
+Geojournal of Tourism and Geosites||Q1
+German Economic Review|B|
+German Journal of Agricultural Economics|C|
+German Journal of Human Resource Management|B|Q1
+Global Business and Economics Review|C|
+Global Business and Organizational Excellence|C|Q1
+Global Business Review|B|Q2
+Global Economic Review|C|
+Global Economy Journal|B|
+Global Environmental Change|A*|
+Global Environmental Politics|B|
+Global Finance Journal|A|
+Global Journal of Accounting and Finance|C|
+Global Journal of Emerging Market Economies||Q2
+Global Journal of Flexible Systems Management|A|Q1
+Global Knowledge, Memory and Communication|B|
+Global Networks: A Journal of Transnational Affairs|A|
+Global Social Policy|C|
+Global Strategy Journal|A|Q1
+Gospodarka Narodowa|C|
+Governance||Q1
+Government Information Quarterly|A|
+Griffith Law Review|C|
+Group & Organization Management|A|Q1
+Group Decision and Negotiation|A|Q1
+Group Dynamics: theory, research and practice|B|
+Group Processes and Intergroup Relations|B|
+Growth and Change|B|
+Habitat International|A|
+Harvard Business Review|A|
+Harvard Environmental Law Review|A|
+Harvard International Law Journal|A|
+Harvard Journal of Law and Public Policy|A|
+Harvard Journal of Law and Technology|A|
+Harvard Law Review|A*|
+Hastings Business Law Journal|B|
+Health Care Management Review|A|Q1
+Health Care Management Science|B|
+Health Communication|B|
+Health Economics|A*|
+Health Economics Review|C|
+Health Economics, Policy and Law|B|
+Health Informatics Journal|C|
+Health Marketing Quarterly|B|Q2
+Health Policy|A|
+Health Promotion International|A|
+Health Services Management Research|C|
+Health Services Research|A|
+Health Systems|C|
+Heritage and Sustainable Development||Q2
+Higher Education Quarterly|C|
+Higher Education, Skills and Work-based Learning|C|
+Historical Materialism|C|
+Historical Studies in Industrial Relations|C|
+History of Economic Ideas|B|
+History of Economic Thought and Policy|C|
+History of Economics Review|B|
+History of Political Economy|A|
+History of Retailing and Consumption||Q2
+Hitotsubashi Journal of Economics|B|
+Homo Oeconomicus|C|
+Hong Kong Law Journal|A|
+Hospitality & Society|C|
+Housing Policy Debate|B|
+Housing Studies|A|
+Houston Business and Tax Law Journal|C|
+Howard Journal of Communications||Q2
+Human Performance|A|Q2
+Human Relations|A*|Q1
+Human Resource Development International|B|Q1
+Human Resource Development Quarterly|A|Q1
+Human Resource Development Review|B|Q1
+Human Resource Management (US)|A*|Q1
+Human Resource Management International Digest|C|
+Human Resource Management Journal (UK)|A*|Q1
+Human Resource Management Review|A|Q1
+Human Service Organizations Management, Leadership and Governance||Q2
+Human Systems Management|C|
+Human-Computer Interaction|A|
+Humanities and Social Sciences Communications||Q1
+i-com||Q2
+IATSS Research|C|
+ICSID Review: foreign investment law journal|C|
+IEEE Communications Standards Magazine||Q1
+IEEE Engineering Management Review||Q2
+IEEE Transactions on Engineering Management|A|Q1
+IEEE Transactions on Intelligent Transportation Systems|A|
+IEEE Transactions on Professional Communication|B|Q1
+IIC International Review of Intellectual Property and Competition Law|A|
+IIM Kozhikode Society and Management Review|C|
+IIMB Management Review|C|Q2
+IISE Transactions|A|
+ILR Review (Industrial and Labor Relations Review)|A*|Q1
+IMA Educational Case Journal|C|
+IMA Journal of Management Mathematics||Q1
+IMF Economic Review|A|Q1
+Impact Assessment and Project Appraisal|C|
+The Independent Review: a journal of political economy|C|
+Indian Economic Journal|B|
+Indian Economic Review|C|
+Indian Growth and Development Review|B|
+Indian Journal of Corporate Governance|C|
+Indian Journal of Economics|C|
+Indian Journal of Gender Studies|C|
+Indian Journal of Industrial Relations|C|
+Indian Journal of Labour Economics|C|
+Indian Journal of Marketing|C|
+The Indonesian Journal of Accounting Research|C|
+Indonesian Journal of Sustainability Accounting and Management|C|
+Indonesian Management and Accounting Research|C|
+Industrial and Commercial Training||Q2
+Industrial and Corporate Change|A|Q1
+Industrial and Organizational Psychology: perspectives on science & practice|B|
+Industrial Law Journal|A|
+Industrial Management & Data Systems|A|Q1
+Industrial Marketing Management|A*|Q1
+Industrial Relations||Q1
+Industrial Relations Journal|A|Q2
+Industrial Relations: a journal of economy and society|A*|
+Industry and Higher Education|C|Q1
+Industry and Innovation|A|Q1
+INFOR (INFOR: Information Systems and Operational Research)|B|
+Informatics for Health and Social Care|C|
+Information & Management|A*|Q1
+Information and Communications Technology Law|B|
+Information and Computation|B|
+Information and Computer Security|B|Q2
+Information and Organization|A*|Q1
+Information Discovery and Delivery|C|
+Information Economics and Policy|A|
+Information Polity|B|
+Information Resources Management Journal|C|
+The Information Society|A|Q1
+Information Systems and e-Business Management|B|
+Information Systems Frontiers|A|
+Information Systems Journal|A*|
+Information Systems Management|A|
+Information Systems Research|A*|Q1
+Information Technology & People|A|
+Information Technology & Tourism|A|Q1
+Information Technology and Management|B|Q1
+Information Technology for Development|A|
+Information, Communication & Society|A|
+INFORMS Journal on Applied Analytics|B|Q2
+INFORMS Journal on Computing|A|
+INFORMS Transactions on Education|C|Q2
+Innovation and Green Development|B|Q1
+Innovation and Management Review||Q1
+Innovation Policy and the Economy|B|
+Innovation: Organization & Management|B|Q1
+Innovation: The European Journal of Social Science Research||Q1
+Innovation: The European Journal of Social Sciences Research|B|
+Innovative Marketing||Q2
+Insolvency Law Bulletin|C|
+Insolvency Law Journal|A|
+Institutions and Economies||Q2
+Insurance and Reinsurance Law Briefing|C|
+Insurance Law Journal|A|
+Insurance: Mathematics & Economics|A*|
+Intellectual Economics||Q1
+Intellectual Property and Technology Law Journal|C|
+Intellectual Property Journal|A|
+Intellectual Property Quarterly|C|
+Intelligent Systems in Accounting, Finance and Management||Q2
+Intelligent Systems in Accounting, Finance and Management: An International Journal|B|
+Interacting with Computers|B|
+Interdisciplinary Environmental Review|C|
+Interdisciplinary Journal of Management Studies|C|
+Intereconomics||Q1
+Intereconomics: review of European economic policy|C|
+International & Comparative Law Quarterly|A*|
+International Advances in Economic Research|C|
+International Affairs|A|
+International Business Lawyer|C|
+International Business Review|A|Q1
+International Company and Commercial Law Review|B|
+International Data Privacy Law|C|
+International Development Planning Review|B|
+International Economic Journal|C|
+International Economic Review|A*|
+International Economics||Q1
+International Economics and Economic Policy|B|
+International Entrepreneurship and Management Journal|B|Q1
+International Environmental Agreements: Politics, Law and Economics|A|
+International Finance|B|
+International Food and Agribusiness Management Review||Q2
+International Gambling Studies|B|
+International Game Theory Review|B|
+International Hospitality Review|C|
+International Insolvency Review|B|
+The International Journal of Accounting|A|Q2
+International Journal of Accounting & Finance Review|C|
+International Journal of Accounting and Business Finance|C|
+International Journal of Accounting and Finance|C|
+International Journal of Accounting and Information Management|B|Q1
+International Journal of Accounting Information Systems|A|Q1
+International Journal of Accounting, Auditing and Performance Evaluation|C|
+International Journal of Accounting, Business and Finance|C|
+International Journal of Advertising|A|Q1
+International Journal of Agile Systems and Management||Q2
+International Journal of Agricultural Resources, Governance and Ecology|C|
+International Journal of Applied Ceramic Technology||Q2
+International Journal of Applied Economic Sciences & Applied Research|C|
+International Journal of Applied Economics|C|
+International Journal of Applied Economics and Econometrics|C|
+International Journal of Applied Management and Technology|C|
+International Journal of Arts Management|B|Q1
+International Journal of Asian Business and Information Management||Q2
+International Journal of Asian Studies|B|
+International Journal of Auditing|A|Q1
+International Journal of Automation Technology|C|
+International Journal of Automotive Technology|B|
+International Journal of Automotive Technology and Management||Q2
+International Journal of Bank Marketing|A|Q1
+International Journal of Banking, Accounting and Finance|C|
+International Journal of Behavioural Accounting and Finance|C|
+International Journal of Bonds and Derivatives|C|
+International Journal of Business|C|
+International Journal of Business and Economics|B|
+International Journal of Business and Management (IJBM)|C|
+International Journal of Business and Society|C|
+International Journal of Business Communication|C|Q1
+International Journal of Business Information Systems|C|
+International Journal of Business Intelligence Research (IJBIR)|C|
+International Journal of Business Law|C|
+International Journal of Cases on Electronic Commerce|C|
+International Journal of Central Banking|A|
+The International Journal of Comparative Labour Law and Industrial Relations|B|Q2
+International Journal of Computational Economics and Econometrics|C|
+International Journal of Conflict Management|A|Q1
+International Journal of Construction Management|B|Q1
+International Journal of Consumer Studies|A|Q1
+International Journal of Contemporary Hospitality Management|A|Q1
+International Journal of Corporate Governance|B|
+International Journal of Critical Accounting|C|
+International Journal of Cross Cultural Management|B|Q1
+International Journal of Crowd Science||Q2
+International Journal of Cultural Policy|A|
+International Journal of Customer Relationship Marketing and Management||Q2
+International Journal of Data Warehousing and Mining|C|
+International Journal of Design||Q1
+International Journal of Development and Conflict|B|
+International Journal of Development Issues|C|
+The International Journal of Digital Accounting Research|B|Q2
+International Journal of Disaster Risk Reduction|A|
+International Journal of Disclosure and Governance|B|Q2
+International Journal of E-Entrepreneurship and Innovation||Q2
+International Journal of Economic Perspectives|C|
+International Journal of Economic Policy and Emerging Economies|C|
+International Journal of Economic Practices and Theories|C|
+International Journal of Economic Theory|B|
+International Journal of Economics and Accounting|C|
+International Journal of Economics and Business Research|C|
+International Journal of Economics and Financial Issues|C|
+International Journal of Education and Development using Information and Communication Technology|C|
+International Journal of Educational Management|B|Q1
+International Journal of Electronic Banking|C|
+International Journal of Electronic Commerce|A|Q1
+International Journal of Electronic Customer Relationship Management|C|
+International Journal of Electronic Finance|C|
+International Journal of Electronic Government Research|C|
+International Journal of Electronic Marketing and Retailing|C|
+International Journal of Emergency Services|C|
+International Journal of Emerging Markets|B|Q1
+International Journal of Employment Studies|C|
+International Journal of Energy Economics and Policy|C|
+International Journal of Energy Sector Management|C|Q2
+International Journal of Engineering Business Management||Q1
+International Journal of Enterprise Information Systems|C|
+International Journal of Enterprise Network Management|B|
+International Journal of Entrepreneurial Behaviour and Research|A|Q1
+International Journal of Entrepreneurship and Innovation|C|Q2
+International Journal of Environment and Health||Q2
+International Journal of Environment and Pollution|C|
+The International Journal of Environmental, Cultural, Economic and Social Sustainability: Annual Review|C|
+International Journal of Ethics and Systems|C|
+International Journal of Event and Festival Management|B|Q2
+International Journal of Finance & Economics|B|Q2
+International Journal of Financial Engineering|C|
+International Journal of Financial Markets and Derivatives|C|
+International Journal of Financial Services Management|C|
+International Journal of Forecasting|A|Q1
+International Journal of Game Theory|A|
+International Journal of Gender and Entrepreneurship|B|Q1
+International Journal of General Systems|A|
+International Journal of Global Business and Competitiveness|C|
+International Journal of Global Energy Issues|C|
+International Journal of Government Auditing|C|
+International Journal of Green Economics|C|
+International Journal of Health Care Quality Assurance|C|Q2
+International Journal of Health Finance and Economics|B|
+International Journal of Health Geographics||Q1
+International Journal of Healthcare Information Systems and Informatics|C|
+International Journal of Healthcare Management|C|
+International Journal of Heritage Studies|B|Q1
+International Journal of Home Economics|C|
+International Journal of Hospitality and Tourism Administration|B|Q2
+International Journal of Hospitality Management|A*|Q1
+International Journal of Housing Markets and Analysis|B|
+International Journal of Housing Policy|B|
+International Journal of Human Resource Management|A|Q1
+International Journal of Human-Computer Interaction|C|
+International Journal of Human-Computer Studies|B|
+International Journal of Industrial Engineering and Management||Q2
+International Journal of Industrial Organization|A*|Q1
+International Journal of Information and Communication Technology Education|C|
+International Journal of Information and Learning Technology|C|
+International Journal of Information Management|A|Q1
+International Journal of Information Management Data Insights||Q1
+International Journal of Information Security and Privacy|C|
+International Journal of Information Systems and Change Management|C|
+International Journal of Information Systems and Project Management||Q2
+International Journal of Information Systems and Supply Chain Management|C|
+International Journal of Information Technology and Decision Making|C|
+International Journal of Information Technology and Web Engineering|C|
+International Journal of Innovation Science|B|Q1
+International Journal of Innovation Studies|B|Q1
+International Journal of Intellectual Property Management|C|
+International Journal of Intelligent Information Technologies|C|
+International Journal of Intercultural Relations|B|Q1
+International Journal of Internet and Enterprise Management|C|
+International Journal of Internet Marketing and Advertising|C|
+International Journal of Islamic and Middle Eastern Finance and Management|B|Q2
+International Journal of Knowledge and Learning|C|
+International Journal of Knowledge Management|B|Q2
+International Journal of Knowledge Management Studies|C|
+International Journal of Knowledge, Culture and Change Management|C|
+International Journal of Law and Information Technology|A|
+International Journal of Law and Management|C|Q1
+International Journal of Leadership in Education||Q1
+International Journal of Lean Six Sigma|B|Q1
+International Journal of Logistics Economics and Globalisation|C|
+The International Journal of Logistics Management|A|Q1
+International Journal of Logistics: research and applications|B|Q1
+International Journal of Management|C|
+International Journal of Management and Network Economics|C|
+The International Journal of Management Education|B|Q1
+International Journal of Management Reviews|A*|Q1
+International Journal of Management Science and Engineering Management|C|Q2
+International Journal of Managerial and Financial Accounting|B|
+International Journal of Managerial Finance|A|Q2
+International Journal of Managing Projects in Business|C|Q2
+International Journal of Manpower|A|Q1
+International Journal of Market Research|A|Q1
+International Journal of Mathematical, Engineering and Management Sciences||Q2
+International Journal of Mining, Reclamation and Environment||Q1
+International Journal of Monetary Economics and Finance|C|
+International Journal of Operations & Production Management|A|Q1
+International Journal of Operations and Quantitative Management|C|
+International Journal of Operations Research and Information Systems||Q2
+International Journal of Organization Theory & Behavior|C|Q2
+International Journal of Organizational Analysis|B|Q1
+International Journal of Organizational Diversity||Q1
+International Journal of Pharmaceutical and Healthcare Marketing|C|
+International Journal of Physical Distribution & Logistics Management|A|Q1
+International Journal of Political Economy|C|
+International Journal of Portfolio Analysis and Management|B|
+International Journal of Precision Engineering and Manufacturing - Green Technology||Q1
+International Journal of Production Economics|A|Q1
+International Journal of Production Management and Engineering||Q2
+International Journal of Production Research|A|Q1
+International Journal of Productivity and Performance Management|B|Q1
+International Journal of Project Management|A*|Q1
+International Journal of Public Administration|B|Q2
+International Journal of Public Opinion Research|A|
+International Journal of Public Sector Management|B|
+International Journal of Quality & Reliability Management|B|Q2
+International Journal of Quality and Service Sciences|B|Q2
+International Journal of Religious Tourism and Pilgrimage||Q1
+International Journal of Research in Marketing|A*|Q1
+International Journal of Retail & Distribution Management|A|Q1
+International Journal of Revenue Management|C|
+International Journal of Risk Assessment and Management|C|
+International Journal of Selection and Assessment|A|Q1
+International Journal of Service Science, Management, Engineering, and Technology||Q2
+International Journal of Small and Medium Enterprises|C|
+International Journal of Social and Humanistic Computing|C|
+International Journal of Social Economics|B|
+International Journal of Social Research Methodology|B|
+International Journal of Sociology and Social Policy|B|
+International Journal of Spa and Wellness|C|
+International Journal of Sport Communication|B|Q1
+International Journal of Sport Finance|C|Q2
+International Journal of Sport Management|B|
+International Journal of Sport Policy and Politics|C|Q1
+International Journal of Sport Psychology|B|
+International Journal of Sports Management and Marketing|B|
+International Journal of Sports Marketing and Sponsorship|B|Q2
+International Journal of Stochastic Analysis|B|
+International Journal of Strategic Communication|B|
+International Journal of Strategic Property Management|B|
+International Journal of Stress Management|A|Q1
+International Journal of Supply and Operations Management||Q2
+International Journal of Sustainable Agricultural Management and Informatics||Q2
+International Journal of Sustainable Design|C|
+International Journal of Sustainable Economy|C|
+International Journal of Sustainable Transportation|B|
+International Journal of System Assurance Engineering and Management||Q2
+International Journal of Systems Science: Operations and Logistics|C|Q1
+International Journal of Technology||Q2
+International Journal of Technology and Human Interaction|C|
+International Journal of Technology Management|B|Q2
+International Journal of Technology Management and Sustainable Development|C|
+International Journal of Technology Marketing|C|
+International Journal of Technology, Knowledge and Society|C|
+International Journal of the Economics of Business|B|Q2
+International Journal of the Legal Profession||Q2
+International Journal of Theoretical and Applied Finance|B|
+International Journal of Tourism Anthropology||Q1
+International Journal of Tourism Cities|B|Q2
+International Journal of Tourism Policy|C|
+International Journal of Tourism Research|A|Q1
+International Journal of Trade and Global Markets|C|
+International Journal of Training and Development|C|Q2
+International Journal of Transport Economics|C|
+International Journal of Urban and Regional Research|B|
+International Journal of Vehicle Design: journal of vehicle engineering, automotive technology and components|B|
+International Journal of Volunteer Administration|C|
+International Journal of Web Based Communities|C|
+International Journal of Wine Business Research|B|Q2
+International Journal of Work Innovation||Q2
+International Journal of Work Organisation and Emotion|B|
+International Journal of Workplace Health Management||Q1
+International Labor and Working-Class History|B|Q2
+International Labour Review|B|Q2
+International Marketing Review|A|Q1
+International Migration|A|
+International Migration Review|A|
+International Negotiation: a journal of theory and practice|A|
+International Organization|B|Q1
+International Papers in Political Economy|C|
+International Public Management Journal|B|Q1
+International Real Estate Review|C|
+International Regional Science Review|B|
+International Review for the Sociology of Sport|B|
+International Review of Administrative Sciences|B|
+International Review of Applied Economics|B|
+International Review of Economics|C|
+International Review of Economics & Finance|A|
+International Review of Economics Education|C|
+International Review of Environmental and Resource Economics|B|Q2
+International Review of Finance|A|
+International Review of Financial Analysis|A|
+International Review of Information Ethics|C|
+International Review of Law and Economics|B|
+International Review of Law, Computers and Technology|A|
+International Review of Public Administration|B|
+International Review of Retail, Distribution and Consumer Research|B|Q2
+International Review on Public and Nonprofit Marketing|B|Q2
+International Small Business Journal|A|
+International Small Business Journal: Researching Entrepreneurship||Q1
+International Social Science Journal|B|
+International Statistical Review|A|
+International Studies of Management & Organization|B|Q2
+International Studies Quarterly|A|
+International Tax and Public Finance|A|Q2
+International Tax Journal|C|
+International Tax Review|C|
+International Trade Journal|B|
+International Transactions in Operational Research|B|Q1
+International Transfer Pricing Journal|C|
+International VAT Monitor|B|
+Internet of Things (The Netherlands)||Q1
+Internet Research|A|
+Intertax||Q1
+Intertax: International Tax Review|C|
+Investment Analysts Journal|B|
+Investment Management and Financial Innovations||Q2
+IPPR Progressive Review|B|
+Irish Journal of Management|C|
+Irish Marketing Review|C|
+ISEAS Current Economic Affairs Series|C|
+Islamic Economic Studies|C|
+ISRA International Journal of Islamic Finance|C|
+Issues in Accounting Education|A|Q2
+Issues in Social and Environmental Accounting: An International Journal|C|
+Italian Economic Journal|B|
+Italian Journal of Marketing|C|Q2
+IUP Journal of Accounting Research & Audit Practices|C|
+The IUP Journal of Agricultural Economics|C|
+The IUP Journal of Applied Economics (previously ICFAI)|C|
+The IUP Journal of Applied Finance|C|
+IUP Journal of Corporate Governance|C|
+The IUP Journal of Managerial Economics|C|
+The IUP Journal of Monetary Economics (previously ICFAI)|C|
+The IUP Journal of Public Finance|C|
+IZA Journal of Development and Migration||Q2
+IZA Journal of Labor Economics|A|
+Jahrbucher fur Nationalokonomie und Statistik||Q1
+Japan and the World Economy|B|
+Japan Labor Issues|C|
+Japanese Economic Review|B|
+The Japanese Political Economy|B|
+JASSA: The Finsia Journal of Applied Finance|B|
+Jindal Global Law Review|C|
+JMM International Journal on Media Management||Q2
+Journal Ensayos Sobre Politica Economica (ESPE) / Essays on Economic Policy|C|
+Journal for Advancement of Marketing Education (JAME)|C|
+Journal for International Business and Entrepreneurship Development||Q2
+Journal for Labour Market Research||Q2
+Journal for Quality and Participation|C|
+Journal for Studies in Economics & Econometrics|B|
+Journal of Aboriginal Economic Development|C|
+Journal of Academy of Business and Economics|C|
+Journal of Accountancy|C|
+Journal of Accounting & Organizational Change|B|Q1
+Journal of Accounting and Economics|A*|Q1
+Journal of Accounting and Finance in Emerging Economies|C|
+Journal of Accounting and Management Information Systems (JAMIS)|C|
+Journal of Accounting and Public Policy|A*|Q1
+Journal of Accounting Auditing and Finance|A|Q1
+Journal of Accounting Education|B|Q2
+Journal of Accounting in Emerging Economies|B|Q1
+Journal of Accounting Literature|A|Q2
+Journal of Accounting Research|A*|Q1
+Journal of Accounting Review|C|
+Journal of Accounting, Auditing and Business|C|
+Journal of Accounting, Business and Management|C|
+Journal of Accounting, Ethics and Public Policy|C|
+Journal of Advanced Transportation|B|Q2
+Journal of Advances in Management Research||Q2
+Journal of Advertising|A|Q1
+Journal of Advertising Education|C|Q2
+Journal of Advertising Research|A|Q1
+Journal of African Business|C|
+Journal of African Development|C|
+Journal of African Economies|A|
+Journal of Agribusiness in Developing and Emerging Economies|C|
+Journal of Agricultural & Food Industrial Organization|C|
+Journal of Agricultural and Applied Economics|C|
+Journal of Agricultural and Resource Economics|A|
+Journal of Agricultural Economics|A|
+Journal of Agricultural, Biological and Environmental Statistics|B|
+Journal of Air Law and Commerce|A|
+Journal of Air Transport Management|B|Q1
+Journal of Air Transportation||Q2
+The Journal of Alternative Investments|B|
+Journal of Applied Accounting Research|B|Q1
+The Journal of Applied Behavioral Science|B|
+Journal of Applied Business and Economics|C|
+Journal of Applied Corporate Finance|A|
+Journal of Applied Econometrics|A*|
+Journal of Applied Economic Sciences|C|
+Journal of Applied Economics|B|
+Journal of Applied Finance: theory, practice, education|C|
+Journal of Applied Law and Policy|C|
+Journal of Applied Management and Entrepreneurship|C|
+Journal of Applied Probability|A|
+Journal of Applied Psychology|A*|
+Journal of Applied Social Psychology|B|
+Journal of Applied Sport Management|C|
+Journal of Applied Sport Psychology|A|
+Journal of Applied Statistical Science|C|
+Journal of Applied Statistics|B|
+Journal of Arts Management Law and Society|C|Q1
+Journal of Asia Business Studies|C|Q1
+Journal of Asia Entrepreneurship and Sustainability|C|
+Journal of Asia Pacific Business|C|
+Journal of Asian Business and Economic Studies|B|Q1
+Journal of Asian Economics|B|
+The Journal of Asset Management|B|Q2
+Journal of Australian Political Economy|B|
+Journal of Australian Taxation|A|
+Journal of Banking & Finance|A*|
+Journal of Banking and Finance - Law and Practice|A|
+Journal of Banking Regulation|C|
+Journal of Behavioral and Experimental Economics|A|
+Journal of Behavioral and Experimental Finance|A|
+Journal of Behavioral Decision Making|A|Q1
+Journal of Behavioral Finance|A|
+Journal of Benefit-Cost Analysis|C|
+Journal of Bioeconomics|C|
+Journal of Biopharmaceutical Statistics|C|
+Journal of Brand Management|A|Q1
+Journal of Business & Economic Statistics|A*|
+Journal of Business & Economic Studies|C|
+Journal of Business & Industrial Marketing|A|Q1
+Journal of Business Analytics|C|Q2
+Journal of Business and Economic Perspectives|C|
+Journal of Business and Economics Research|C|
+Journal of Business and Finance Librarianship||Q1
+Journal of Business and Management|C|
+Journal of Business and Psychology|A|Q1
+Journal of Business and Socio-economic Development||Q1
+Journal of Business and Technical Communication|C|Q2
+Journal of Business Chemistry|C|
+Journal of Business Cycle Research|B|
+Journal of Business Economics|B|Q2
+Journal of Business Economics and Management|B|Q2
+Journal of Business Ethics|A|Q1
+Journal of Business Finance & Accounting|A*|Q1
+Journal of Business Law|A|
+Journal of Business Logistics|A|Q1
+Journal of Business Market Management|B|
+Journal of Business Models|C|
+Journal of Business Research|A|Q1
+Journal of Business Strategy|B|Q1
+Journal of Business Studies|C|
+Journal of Business Thought|C|
+Journal of Business Venturing|A*|Q1
+Journal of Business Venturing Insights|A|Q1
+Journal of Business-to-Business Marketing|B|Q2
+Journal of Career Assessment|A|Q1
+Journal of Career Development|B|Q1
+Journal of Case Studies|C|
+Journal of Cases on Information Technology|C|
+Journal of Change Management|C|Q2
+Journal of China Tourism Research|B|Q1
+Journal of Chinese Economic and Foreign Trade Studies|C|Q2
+Journal of Chinese Economics and Business Studies|C|
+Journal of Chinese Tax and Policy|C|
+Journal of Choice Modelling|A|
+Journal of Civil Engineering and Management||Q2
+Journal of Civil Engineering Education||Q2
+Journal of Cleaner Production|C|Q1
+Journal of Co-operative Organization and Management||Q2
+Journal of Co-operative Studies|C|
+Journal of Commerce and Accounting Research|C|
+Journal of Commodity Markets|A|
+Journal of Common Market Studies|B|Q1
+Journal of Communication|A|
+Journal of Communication Management|B|Q1
+Journal of Community Informatics|C|
+Journal of Comparative Economics|A|
+Journal of Comparative International Management|C|
+Journal of Comparative Policy Analysis: research and practice|B|
+Journal of Competition Law and Economics|B|
+Journal of Competitiveness||Q2
+Journal of Computational and Graphical Statistics|A*|
+Journal of Computational Finance|C|
+Journal of Computer Information Systems|A|
+Journal of Conflict Resolution|A*|Q1
+Journal of Construction Accounting and Taxation|C|
+Journal of Construction Engineering and Management|A*|Q1
+Journal of Construction in Developing Countries||Q2
+Journal of Constructivist Psychology|B|
+Journal of Consumer Affairs|A|
+Journal of Consumer Behaviour|A|
+Journal of Consumer Culture||Q1
+Journal of Consumer Marketing|A|Q1
+Journal of Consumer Policy|C|Q2
+Journal of Consumer Psychology|A*|Q1
+Journal of Consumer Research|A*|Q1
+Journal of Consumer Satisfaction, Dissatisfaction and Complaining Behavior|C|
+Journal of Contemporary Accounting and Economics|A|Q2
+Journal of Contemporary Business Issues|C|
+Journal of Contextual Behavioral Science||Q1
+Journal of Contingencies and Crisis Management||Q2
+Journal of Contract Law|A|
+Journal of Convention & Event Tourism|B|
+Journal of Corporate Accounting and Finance|B|Q2
+Journal of Corporate Finance|A*|Q1
+Journal of Corporate Law Studies|A|
+Journal of Corporate Real Estate|C|Q2
+Journal of Corporation Law|A|
+Journal of Cost & Management|C|
+Journal of Creating Value|C|
+Journal of Creative Communications|C|
+Journal of Credit Risk|C|
+Journal of Cross-Cultural Psychology|A|
+Journal of Culinary Science and Technology|C|
+Journal of Cultural Economics|A|
+Journal of Cultural Heritage Management and Sustainable Development|C|Q1
+Journal of Current Issues and Research in Advertising|B|Q2
+Journal of Customer Behavior|C|
+Journal of Data, Information and Management||Q2
+Journal of Database Management|A|
+Journal of Database Marketing & Customer Strategy Management|C|
+Journal of Decision Systems|B|Q1
+Journal of Demographic Economics|B|
+The Journal of Derivatives|A|
+Journal of Derivatives and Hedge Funds|C|
+Journal of Design, Business and Society||Q1
+Journal of Destination Marketing & Management|A|Q1
+Journal of Development Economics|A*|
+The Journal of Development Effectiveness|C|
+Journal of Development Studies|A|
+Journal of Digital & Social Media Marketing|C|
+Journal of Digital Economy|B|Q1
+Journal of Documentation|B|
+Journal of East European Management Studies|C|
+Journal of East-West Business|C|
+Journal of Eastern Asia Society for Transportation Studies|C|
+Journal of Econometric Methods|B|
+The Journal of Econometric Study of Northeast Asia (JESNA)|C|
+Journal of Econometrics|A*|
+Journal of Economic and Administrative Sciences|C|Q2
+Journal of Economic and Social Measurement|C|
+Journal of Economic and Social Policy|C|
+The Journal of Economic Asymmetries|B|
+Journal of Economic Behavior and Organization|A*|Q1
+Journal of Economic Development|C|
+Journal of Economic Dynamics and Control|A*|
+The Journal of Economic Education|B|
+Journal of Economic Geography|A|
+Journal of Economic Growth|A*|
+The Journal of Economic History|A*|
+The Journal of Economic Inequality|A|Q1
+Journal of Economic Insight|C|
+Journal of Economic Integration|C|
+Journal of Economic Interaction and Coordination|B|
+Journal of Economic Issues|B|
+Journal of Economic Literature|A*|
+Journal of Economic Methodology|B|
+Journal of Economic Perspectives|A*|
+Journal of Economic Policy Reform|B|Q1
+Journal of Economic Psychology|A|
+Journal of Economic Research|B|
+Journal of Economic Science Association|A|
+Journal of Economic Studies|B|
+Journal of Economic Surveys|A|
+Journal of Economic Theory|A*|
+Journal of Economics|B|
+Journal of Economics & Management Strategy|A|Q1
+Journal of Economics / Ekonomicky casopis|B|
+Journal of Economics and Business|B|Q1
+Journal of Economics and Development|C|Q1
+Journal of Economics and Finance|B|
+Journal of Economics and Finance Education|C|
+Journal of Economics and Management (Poland)||Q2
+Journal of Economics and Statistics|B|
+Journal of Economics, Theology and Religion|B|
+Journal of Ecotourism|B|Q1
+Journal of Education and Work|B|Q2
+Journal of Education Finance|C|
+Journal of Education for Business|C|
+Journal of Educational Administration|B|
+Journal of Electronic Business & Digital Economics|C|
+Journal of Electronic Commerce in Organizations|B|
+Journal of Electronic Commerce Research|B|
+Journal of Emerging Market Finance|B|
+Journal of Emerging Technologies in Accounting|B|Q2
+Journal of Empirical Finance|A|
+Journal of Empirical Generalisations in Marketing Science|C|
+Journal of Empirical Legal Studies|A*|
+Journal of Employment Counseling|A|
+Journal of Energy and Development|C|
+Journal of Engineering and Technology Management|B|
+Journal of Engineering and Technology Management - JET-M||Q1
+Journal of Engineering, Design and Technology|C|
+Journal of Enterprise Information Management|A|Q1
+Journal of Enterprising Communities||Q2
+Journal of Enterprising Communities: People and Places in the Global Community|C|
+Journal of Entrepreneurship|C|Q2
+Journal of Entrepreneurship and Innovation in Emerging Economies||Q2
+Journal of Entrepreneurship and Public Policy||Q2
+Journal of Entrepreneurship in Emerging Economies|B|Q1
+Journal of Entrepreneurship, Management and Innovation||Q2
+Journal of Environment and Development|B|
+Journal of Environmental Economics and Management|A*|
+Journal of Environmental Law|B|
+Journal of Environmental Planning and Management|B|
+Journal of Environmental Psychology|A|
+Journal of Euromarketing|C|
+Journal of European Economic History|B|
+Journal of European Public Policy|A|
+Journal of European Real Estate Research|C|
+Journal of Evolutionary Economics|A|Q2
+Journal of Experimental Psychology: Applied|A|
+Journal of Experimental Psychology: general|A*|
+Journal of Experimental Psychology: learning, memory, and cognition|A|
+Journal of Experimental Social Psychology|A|
+Journal of Facilities Management|C|Q2
+Journal of Family and Economic Issues|B|
+Journal of Family Business Management||Q1
+Journal of Family Business Strategy|B|Q1
+Journal of Fashion Marketing and Management|B|Q1
+The Journal of Finance|A*|Q1
+The Journal of Finance and Data Science|B|Q2
+Journal of Finance Case Research|C|
+Journal of Financial and Quantitative Analysis|A*|Q1
+Journal of Financial Counseling and Planning|B|
+Journal of Financial Crime|B|
+Journal of Financial Data Science||Q2
+Journal of Financial Econometrics|A*|
+Journal of Financial Economic Policy|B|
+Journal of Financial Economics|A*|Q1
+Journal of Financial Education|B|
+Journal of Financial Intermediation|A*|
+Journal of Financial Management and Analysis|C|
+Journal of Financial Management of Property and Construction|C|Q2
+Journal of Financial Management, Markets and Institutions|C|
+Journal of Financial Markets|A*|
+Journal of Financial Regulation|B|
+Journal of Financial Regulation and Compliance|B|Q2
+Journal of Financial Reporting|A|
+Journal of Financial Reporting and Accounting|C|Q1
+Journal of Financial Research|A|Q2
+Journal of Financial Services Marketing|B|Q2
+Journal of Financial Services Research|A|Q1
+Journal of Financial Stability|A*|
+The Journal of Fixed Income|A|
+Journal of Food Distribution Research|C|
+Journal of Food Products Marketing|B|Q2
+Journal of Foodservice Business Research|C|
+Journal of Forecasting|A|Q2
+Journal of Forensic & Investigative Accounting|B|
+Journal of Forensic Accounting Research|B|
+Journal of Forensic Economics|C|
+Journal of Forest Economics|B|
+The Journal of Futures Markets|A|Q2
+The Journal of Gambling Business and Economics|B|
+Journal of Gambling Studies|A|
+Journal of General Management|C|Q2
+Journal of Geophysical Research: Machine Learning and Computation||Q1
+Journal of Global Business and Economics|C|
+Journal of Global Economic Analysis|B|
+Journal of Global Fashion Marketing|B|Q1
+Journal of Global Information Management|A|Q1
+Journal of Global Information Technology Management|B|
+Journal of Global Marketing|B|Q1
+Journal of Global Mobility|B|Q2
+Journal of Global Operations and Strategic Sourcing|C|Q2
+Journal of Global Optimization||Q1
+Journal of Global Responsibility|C|Q1
+Journal of Global Scholars of Marketing Science|B|
+Journal of Global Scholars of Marketing Science: Bridging Asia and the World||Q1
+Journal of Global Sport Management|C|Q2
+Journal of Globalization and Development|B|
+Journal of Governmental & Nonprofit Accounting|B|
+Journal of Health Economics|A*|
+Journal of Health Politics, Policy and Law|A|
+Journal of Health Services Research and Policy|B|
+Journal of Health, Organization and Management|B|Q2
+Journal of Health, Safety and Environment|B|
+Journal of Healthcare Leadership||Q1
+Journal of Healthcare Management|C|Q2
+Journal of Heritage Tourism|B|Q1
+Journal of High Technology Management Research||Q1
+Journal of Higher Education Policy and Leadership Studies||Q2
+Journal of Higher Education Policy and Management|B|
+Journal of Historical Research in Marketing|B|
+Journal of Hospitality & Tourism Cases|C|
+Journal of Hospitality and Tourism Education|B|Q2
+Journal of Hospitality and Tourism Insights|B|Q1
+Journal of Hospitality and Tourism Management|A*|Q1
+Journal of Hospitality and Tourism Research|A|Q1
+Journal of Hospitality and Tourism Technology|B|Q1
+Journal of Hospitality Marketing and Management|A|Q1
+Journal of Hospitality, Leisure, Sport & Tourism Education|B|Q1
+Journal of Housing Economics|A|
+Journal of Housing Research|B|
+Journal of Human Capital|A|
+Journal of Human Development and Capabilities|B|
+Journal of Human Resources|A*|Q1
+Journal of Human Resources in Hospitality and Tourism|B|
+Journal of Human Values||Q1
+Journal of Humanitarian Logistics and Supply Chain Management|B|Q2
+Journal of ICT Standardization||Q2
+Journal of Income Distribution|B|
+Journal of Index Investing|C|
+Journal of Indian Business Research|C|Q2
+Journal of Indonesian Economy and Business|C|
+Journal of Industrial and Business Economics|B|Q1
+Journal of Industrial and Management Optimization|B|
+The Journal of Industrial Economics|A*|Q1
+Journal of Industrial Engineering and Engineering Management||Q2
+Journal of Industrial Engineering and Management||Q2
+Journal of Industrial Information Integration|C|
+Journal of Industrial Integration and Management||Q2
+Journal of Industrial Relations|A|Q1
+Journal of Industry, Competition and Trade|C|Q2
+Journal of Information and Knowledge Management|C|
+Journal of Information Communication and Ethics in Society|B|
+Journal of Information Systems|A|Q1
+Journal of Information Systems and Technology Management|C|
+Journal of Information Systems Education|B|
+Journal of Information Systems Engineering and Business Intelligence||Q2
+Journal of Information Technology|A*|Q1
+Journal of Information Technology Case and Application Research|C|
+Journal of Information Technology Education: Research|C|
+Journal of Innovation & Knowledge|C|Q1
+Journal of Innovation and Entrepreneurship||Q1
+Journal of Innovation Economics|C|
+Journal of Innovation Economics and Management||Q2
+Journal of Innovation Management|C|Q2
+Journal of Institutional and Theoretical Economics|B|
+Journal of Institutional Economics|B|
+Journal of Insurance Issues|B|
+Journal of Integrated Disaster Risk Management||Q2
+Journal of Intellectual Capital|B|Q1
+Journal of Intellectual Property Law & Practice|B|
+Journal of Intelligent Information Systems|B|
+Journal of Intelligent Manufacturing|B|
+Journal of Intelligent Transportation Systems|B|
+Journal of Inter-Organizational Relationships||Q2
+Journal of Interactive Advertising|B|Q1
+Journal of Interactive Marketing|A|Q1
+Journal of Intercultural Communication|C|Q1
+Journal of Interdisciplinary Economics|C|
+Journal of International Accounting Research|A|Q2
+Journal of International Accounting, Auditing and Taxation|B|Q2
+Journal of International Agricultural Trade and Development|C|
+Journal of International Banking Law and Regulation|C|
+Journal of International Business and Economy|C|
+Journal of International Business Education|C|
+Journal of International Business Policy|B|Q1
+Journal of International Business Studies|A*|Q1
+Journal of International Commercial Law|C|
+Journal of International Consumer Marketing|B|Q2
+Journal of International Development|B|
+Journal of International Economic Law|A|
+Journal of International Economic Studies|C|
+Journal of International Economics|A*|
+Journal of International Education in Business|C|Q2
+Journal of International Entrepreneurship||Q2
+Journal of International Finance and Economics|C|
+Journal of International Financial Management and Accounting|A|Q1
+Journal of International Financial Markets, Institutions and Money|A|
+Journal of International Food and Agribusiness Marketing|B|Q2
+Journal of International Logistics and Trade||Q2
+Journal of International Management|A|Q1
+The Journal of International Maritime Law|C|
+Journal of International Marketing|A|Q1
+Journal of International Marketing and Exporting|C|
+Journal of International Marketing and Marketing Research|C|
+Journal of International Migration and Integration|C|
+Journal of International Money and Finance|A|
+Journal of International Relations and Development|C|
+Journal of International Studies||Q2
+Journal of International Taxation|C|
+Journal of International Technology and Information Management|C|
+The Journal of International Trade and Economic Development: an international and comparative review|B|
+Journal of International Trade Law and Policy||Q2
+Journal of Internet Commerce|B|Q2
+Journal of Investing|B|
+Journal of Investment Compliance|C|
+Journal of Investment Consulting|C|
+Journal of Investment Management|C|
+Journal of Islamic Accounting and Business Research|C|Q2
+Journal of Islamic Economic Laws||Q2
+Journal of Islamic Economics, Banking and Finance|C|
+Journal of Islamic Marketing|B|Q2
+Journal of Knowledge Management|A|Q1
+Journal of Knowledge Management Practice|C|
+Journal of Korea Trade|C|
+Journal of Labor and Society|C|
+Journal of Labor Economics|A*|Q1
+Journal of Labor Research|B|
+The Journal of Law and Economics|A*|
+Journal of Law and Financial Management|C|
+Journal of Law and Society|B|
+Journal of Law, Economics & Policy|B|
+Journal of Law, Economics and Organization|A|Q1
+Journal of Law, Information and Science|B|
+Journal of Leadership and Organizational Studies|A|Q1
+Journal of Legal Aspects of Sport|C|
+Journal of Legal Economics|B|
+Journal of Legal Studies in Business|C|
+Journal of Legal Technology Risk Management|C|
+Journal of Leisure Research|A|Q1
+Journal of Macroeconomics|A|
+Journal of Macromarketing|A|Q2
+Journal of Malaysian and Comparative Law|C|
+Journal of Management|A*|Q1
+Journal of Management & Organization|A|Q2
+Journal of Management Accounting Research|A*|Q1
+Journal of Management Analytics|B|Q2
+Journal of Management and Governance|C|Q1
+Journal of Management Control|A|Q1
+Journal of Management Development|C|Q1
+Journal of Management Education|B|Q1
+Journal of Management History|B|Q1
+Journal of Management in Engineering|A|Q1
+Journal of Management Information Systems|A*|Q1
+Journal of Management Inquiry|A|Q1
+Journal of Management Science and Engineering||Q1
+Journal of Management Spirituality and Religion|C|Q1
+Journal of Management Studies|A*|Q1
+Journal of Managerial Issues|C|
+Journal of Managerial Psychology|B|Q1
+Journal of Manufacturing Processes||Q1
+Journal of Manufacturing Systems|B|
+Journal of Manufacturing Technology Management|B|Q1
+Journal of Maritime Law and Commerce|A|
+Journal of Marketing|A*|Q1
+Journal of Marketing Analytics|C|Q1
+Journal of Marketing Communications|B|Q1
+Journal of Marketing Education|B|Q1
+Journal of Marketing for Higher Education|B|Q1
+Journal of Marketing Management|A|Q1
+Journal of Marketing Research|A*|Q1
+Journal of Marketing Theory and Practice|B|Q1
+Journal of Markets & Morality|B|
+Journal of Mathematical Economics|A|
+Journal of Media Business Studies||Q2
+Journal of Media Economics|B|
+Journal of Medical Economics|C|
+Journal of Medical Marketing|C|
+Journal of Modelling in Management|C|Q2
+Journal of Modern Applied Statistical Methods|B|
+Journal of Monetary Economics|A*|
+Journal of Money Laundering Control|C|
+Journal of Money, Credit and Banking|A*|Q1
+Journal of Multi-Criteria Decision Analysis|B|Q2
+Journal of Multinational Financial Management|B|
+Journal of Multivariate Analysis|A|
+Journal of Network and Systems Management||Q1
+Journal of Neuroscience, Psychology, and Economics||Q2
+Journal of New Business Ideas and Trends|C|
+Journal of Nonparametric Statistics|B|
+Journal of Nonprofit & Public Sector Marketing|B|Q2
+Journal of Nursing Management|C|
+Journal of Occupational and Organizational Psychology|A*|Q1
+Journal of Occupational Health Psychology|A|
+Journal of Operational Risk|C|
+Journal of Operations Management|A*|Q1
+Journal of Optimization Theory and Applications|A|
+Journal of Organization Design||Q2
+Journal of Organizational and End User Computing|B|Q2
+Journal of Organizational Behavior|A*|Q1
+Journal of Organizational Behavior Education|C|
+Journal of Organizational Behavior Management|B|Q2
+Journal Of Organizational Behavior Research||Q2
+Journal of Organizational Change Management|B|Q1
+Journal of Organizational Computing and Electronic Commerce|A|
+Journal of Organizational Effectiveness|B|Q2
+Journal of Organizational Ethnography|C|Q1
+Journal of Outdoor Recreation and Tourism|B|Q1
+The Journal of Pacific Studies|C|
+Journal of Park and Recreation Administration|B|Q2
+Journal of Participation and Employee Ownership||Q2
+Journal of Pension Economics and Finance|B|Q2
+Journal of Performance Management|C|
+Journal of Performance of Constructed Facilities|C|
+Journal of Personal Selling & Sales Management|A|Q1
+Journal of Personality|A|
+Journal of Personality and Social Psychology|A*|
+Journal of Personnel Psychology|B|Q2
+Journal of Pharmaceutical Finance, Economics and Policy|C|
+Journal of Place Management and Development|C|Q1
+Journal of Policy Analysis and Management|A|Q1
+Journal of Policy Modeling|A|
+Journal of Policy Research in Tourism, Leisure and Events|B|Q2
+Journal of Political Economy|A*|
+Journal of Political Economy: Macroeconomics|A|
+Journal of Political Economy: Microeconomics|A|
+Journal of Political Marketing|B|Q1
+Journal of Political Power|C|
+Journal of Population Economics|A*|
+Journal of Population Research|A|
+The Journal of Portfolio Management|A|Q2
+Journal of Post Keynesian Economics|B|
+The Journal of Prediction Markets|B|
+The Journal of Private Equity|C|
+Journal of Product & Brand Management|A|Q1
+Journal of Product Innovation Management|A*|Q1
+Journal of Productivity Analysis|A|Q1
+Journal of Professional Issues in Engineering Education and Practice|B|
+Journal of Professions and Organization|A|Q2
+Journal of Promotion Management|B|Q2
+Journal of Property Investment & Finance|B|Q2
+Journal of Property Management|C|
+Journal of Property Research|B|
+Journal of Psychology||Q1
+Journal of Public Administration Research and Theory|A|Q1
+Journal of Public Affairs|B|
+Journal of Public and Nonprofit Affairs||Q2
+Journal of Public Budgeting, Accounting and Financial Management|B|Q1
+Journal of Public Economic Theory|A|
+Journal of Public Economics|A*|
+Journal of Public Finance and Public Choice|C|
+Journal of Public Policy|B|
+Journal of Public Policy and Marketing|A|Q1
+Journal of Public Relations Education|C|
+Journal of Public Relations Research|B|
+Journal of Public Transportation|B|
+Journal of Purchasing and Supply Management|A|Q1
+Journal of Quality Assurance in Hospitality & Tourism|B|Q2
+Journal of Quality in Maintenance Engineering|B|Q2
+Journal of Quality Technology|A|Q2
+Journal of Quantitative Economics|B|
+Journal of Real Estate Finance and Economics|A|Q1
+Journal of Real Estate Literature|C|Q2
+Journal of Real Estate Portfolio Management|B|Q2
+Journal of Real Estate Practice and Education|C|
+Journal of Real Estate Research|B|Q2
+Journal of Regional Science|A|
+Journal of Regulatory Economics|A|
+Journal of Relationship Marketing|B|Q2
+Journal of Research for Consumers|C|
+Journal of Research in Interactive Marketing|B|Q1
+Journal of Research in Marketing and Entrepreneurship|B|Q2
+Journal of Research in Personality|B|
+Journal of Responsible Innovation||Q1
+Journal of Retailing|A*|Q1
+Journal of Retailing and Consumer Services|A|Q1
+Journal of Retirement|B|
+Journal of Revenue & Pricing Management|B|
+Journal of Risk|B|
+Journal of Risk and Financial Management||Q2
+Journal of Risk and Insurance|A|Q1
+Journal of Risk and Uncertainty|A*|Q1
+The Journal of Risk Finance|B|Q2
+Journal of Risk Management in Financial Institutions|C|
+The Journal of Risk Model Validation|C|
+Journal of Risk Research|C|Q1
+Journal of Safety Research|A|
+Journal of Scheduling|B|
+Journal of Science and Technology Policy Management|C|Q2
+Journal of Selling|C|
+Journal of Service Management|A|Q1
+Journal of Service Research|A*|Q1
+Journal of Service Theory and Practice|A|Q1
+Journal of Services Marketing|A|Q1
+Journal of Services Research|C|
+Journal of Shipping and Trade||Q1
+Journal of Simulation|B|
+Journal of Small Business and Enterprise Development|C|Q1
+Journal of Small Business and Entrepreneurship|B|Q2
+Journal of Small Business Management|A|Q1
+Journal of Small Business Strategy|C|Q2
+Journal of Social and Economic Development|C|
+Journal of Social Entrepreneurship|B|Q1
+Journal of Social Issues|A|
+Journal of Social Marketing|B|Q2
+Journal of Social Policy|A|
+Journal of Social Psychology|B|
+Journal of Social, Political and Economic Studies|C|
+Journal of Sociology|B|
+Journal of South Asian Development|C|Q1
+Journal of Southeast Asian Economies|C|
+Journal of Southeast Asian Studies|C|
+Journal of Sport and Social Issues|B|
+Journal of Sport and Tourism|B|Q2
+Journal of Sport Behavior|B|
+Journal of Sport for Development|B|Q2
+Journal of Sport History|C|
+Journal of Sport Management|A|Q1
+Journal of Sports Economics|B|
+Journal of State Taxation|C|
+Journal of Statistical Computation and Simulation|C|
+Journal of Statistical Planning and Inference|A|
+Journal of Statistical Research|C|
+Journal of Statistical Software|A|
+Journal of Statistical Theory and Applications|C|
+Journal of Statistics and Data Science Education|B|
+Journal of Statistics and Management Systems|C|
+Journal of Strategic Information Systems|A*|Q1
+Journal of Strategic Marketing|A|Q1
+Journal of Strategy & Innovation|C|
+Journal of Strategy and Management|B|Q1
+The Journal of Structured Finance|C|
+Journal of Supply Chain Management|A*|Q1
+Journal of Sustainable Finance & Investment|B|Q1
+Journal of Sustainable Real Estate|C|
+Journal of Sustainable Tourism|A*|Q1
+Journal of Systems and Information Technology|B|Q2
+Journal of Tax Administration|B|
+Journal of Taxation|B|
+Journal of Taxation of Investments|C|
+Journal of Teaching and Learning for Graduate Employability||Q2
+Journal of Teaching in International Business|C|
+Journal of Teaching in Travel & Tourism|B|Q2
+Journal of Technology Management & Innovation|C|
+Journal of Technology Management in China|C|
+Journal of Technology Transfer|A|Q1
+Journal of Telecommunications and the Digital Economy||Q2
+Journal of the Academy of Marketing Science|A*|Q1
+Journal of the American Statistical Association|A*|
+Journal of the American Taxation Association|A|Q1
+Journal of the Asia Pacific Economy|B|
+Journal of the Association for Consumer Research|B|Q1
+Journal of the Association for Information Systems|A*|
+Journal of the Association of Environmental and Resource Economists|A*|
+Journal of the Australasian Law Academics Association|B|
+Journal of the Australasian Tax Teachers Association|B|
+Journal of the Economic and Social History of the Orient|B|
+Journal of the Economics of Ageing|B|
+Journal of the European Economic Association|A*|
+Journal of the Geographical Institute Jovan Cvijic SASA||Q2
+Journal of the History of Economic Thought|B|
+Journal of the International Council for Small Business|C|
+Journal of the Japan Statistical Society|C|
+Journal of the Japanese and International Economies|A|
+Journal of the Knowledge Economy|C|
+Journal of the New Economic Association|C|
+Journal of the Operational Research Society|A|Q1
+Journal of the Operations Research Society of Japan|B|
+Journal of the Royal Statistical Society, Series A (Statistics in Society)|A|
+Journal of the Royal Statistical Society, Series B (Statistical Methodology)|A*|
+Journal of the Royal Statistical Society, Series C (Applied Statistics)|A|
+Journal of the Royal Statistical Society, Series D (The Statistician)|A|
+Journal of the Statistical and Social Inquiry Society of Ireland|C|
+Journal of the UK Association of Christian Economists|C|
+The Journal of Theoretical Accounting Research|B|
+Journal of Theoretical and Applied Electronic Commerce Research||Q1
+Journal of Theoretical Probability|A|
+Journal of Time Series Analysis|A|
+Journal of Time Series Econometrics|B|
+Journal of Tourism Analysis||Q2
+Journal of Tourism and Cultural Change|B|Q1
+Journal of Tourism and Development (REVISTA TURISMO & DESENVOLVIMENTO - RT&D)|C|
+Journal of Tourism and Services|C|Q2
+Journal of Tourism Futures|B|Q1
+Journal of Tourism History|C|Q1
+Journal of Tourism, Heritage & Services Marketing|C|Q2
+Journal of Tourism, Sustainability and Well-being|C|
+The Journal of Trading|C|
+Journal of Transnational Management|C|
+Journal of Transport and Health|B|
+Journal of Transport and Land Use|B|
+Journal of Transport and Supply Chain Management||Q2
+Journal of Transport Geography|A|
+Journal of Transport History|C|
+Journal of Transport, Economics and Policy|B|
+Journal of Transportation Law, Logistics and Policy|C|
+Journal of Transportation Security|B|
+Journal of Travel & Tourism Marketing|A|Q1
+Journal of Travel and Tourism Research|C|
+Journal of Travel Research|A*|Q1
+Journal of Trust Research|B|Q1
+Journal of University Teaching and Learning Practice|C|
+Journal of Urban Affairs|A|
+Journal of Urban Economics|A*|
+Journal of Urban Planning and Development|B|
+Journal of Vacation Marketing|A|Q1
+Journal of Vinyl and Additive Technology||Q2
+Journal of Vocational Behavior|A*|Q1
+Journal of Vocational Education and Training|B|
+The Journal of Wealth Management|B|
+Journal of White Collar and Corporate Crime||Q2
+Journal of Wine Economics|C|Q1
+Journal of Women's Entrepreneurship and Education||Q2
+Journal of Work-Applied Management||Q1
+Journal of Workplace Learning|C|Q2
+Journal of World Business|A*|Q1
+The Journal of World Intellectual Property|C|
+Journal of World Investment and Trade|A|Q1
+Journal of World Trade|B|
+Journal Transition Studies Review|C|
+Judgment and Decision Making|A|
+Juridical Review: law journal of Scottish universities|B|
+Jurnal Akuntansi dan Keuangan Indonesia|C|
+Jurnal Akuntansi Multiparadigma|C|
+Jurnal Kajian Bali||Q1
+Keio Economic Studies|C|
+Keizai Kagaku|C|
+Kerala: an economic review|C|
+King's Law Journal|B|
+Knowledge and Information Systems|C|
+Knowledge and Performance Management||Q2
+Knowledge and Process Management|B|
+Knowledge Management and E-Learning||Q1
+Knowledge Management Research and Practice|A|Q1
+Knowledge-Based Systems||Q1
+Kobe Economic and Business Review|C|
+Kobe University Economic Review|C|
+Korea and the World Economy|C|
+Korea Review of International Studies|C|
+Korean Accounting Review|C|
+Kybernetes||Q1
+Kyklos|A|
+Kyoto Economic Review|C|
+Labor History|A|Q1
+Labor Studies Journal|B|Q1
+Labor: Studies in working class history|B|
+Labour|B|Q1
+Labour & Industry|B|Q2
+Labour / Le Travail|B|Q2
+Labour Economics|A*|Q1
+Labour History Review|B|
+Labour History: a journal of labour and social history|A|
+Labour Law Journal|C|
+Lahore Journal of Economics|C|
+Land Economics|A|
+Land Use Policy|A|
+Language & Communication|B|
+Latin American Journal of Economics|C|
+Law and Financial Markets Review|B|
+Law and Policy|A|
+Law Quarterly Review|A*|
+Leadership|B|Q1
+Leadership & Organization Development Journal|B|Q1
+Leadership and Policy in Schools||Q2
+Leadership in Health Services|C|Q2
+The Leadership Quarterly|A*|Q1
+The Learning Organization|C|Q1
+Lecture Notes in Business Information Processing||Q2
+Legal Education Review|C|
+Legal Issues in Business|C|
+Legal Issues of Economic Integration|A|
+Leisure|B|
+Leisure Sciences||Q1
+Leisure Sciences: an interdisciplinary journal|A|
+Leisure Studies|A|Q1
+Les Cahiers Scientifiques du Transport / Scientific Papers in Transportation|C|
+Letters in Spatial and Resource Science|C|
+Library Management|C|
+Lifetime Data Analysis: an international journal devoted to the methods and applications of reliability and survival analysis|B|
+Lloyd's Maritime and Commercial Law Quarterly|A|
+Lloyd's Shipping and Trade Law|B|
+Local Economy|C|
+Local Government Studies|A|
+Logforum||Q2
+Logistics||Q1
+Loisir et Societe (Society and Leisure)|B|
+Long Range Planning|A*|Q1
+Macquarie Journal of Business Law|C|
+Macquarie Law Journal|C|
+Macroeconomic Dynamics|A|
+Macroeconomics and Finance in Emerging Market Economies|C|
+Malayan Law Journal|C|
+Malaysian Journal of Economic Studies|C|
+Management|B|Q2
+Management & Organizational History|C|Q1
+Management & Sustainability: An Arab Review|C|
+Management Accounting Frontiers|C|
+Management Accounting Quarterly|C|
+Management Accounting Research|A*|Q1
+Management and Accounting Review|C|
+Management and Labour Studies|C|Q2
+Management and Organization Review|A|Q1
+Management and Sustainability||Q1
+Management Communication Quarterly|B|Q1
+Management Control|C|
+Management Decision|B|Q1
+Management in Education||Q2
+Management International Review|A|Q1
+Management Learning|A|Q1
+Management of Environmental Quality|C|
+Management Research|C|
+Management Research Review|C|Q1
+Management Review Quarterly|B|Q1
+Management Science|A*|Q1
+Management Teaching Review|C|
+Management: Journal of Contemporary Management Issues|C|
+Managerial and Decision Economics|B|Q2
+Managerial Auditing Journal|A|Q1
+Managerial Finance|B|Q2
+Managing Sport and Leisure|B|Q2
+Manchester Journal of International Economic Law|C|
+Manchester School|B|
+Manufacturing and Service Operations Management|A*|Q1
+Margin: The journal of applied economic research|C|
+Marine Policy|A|
+Marine Resource Economics|A|
+Maritime Business Review|C|Q2
+Maritime Economics & Logistics|B|
+Maritime Policy and Management|B|
+Market Microstructure and Liquidity|B|
+Marketing Bulletin|C|
+Marketing Education Review|C|
+Marketing Health Services|C|
+Marketing Intelligence & Planning|A|Q1
+Marketing Letters|A|Q1
+Marketing Science|A*|Q1
+Marketing Theory|A|Q1
+Mathematical Finance|A|Q1
+Mathematical Methods in Economics and Finance|C|
+Mathematical Methods of Statistics|B|
+Mathematical Social Sciences|A|
+Mathematics and Financial Economics|C|
+Mathematics of Operations Research|A|
+Measuring Business Excellence|B|Q2
+Media and Arts Law Review|C|
+Media Culture and Society|B|
+Medical Law International|C|
+Meditari Accountancy Research|A|Q1
+Melbourne Journal of International Law|A|
+Melbourne University Law Review|A*|
+Metrika: international journal for theoretical and applied statistics|B|
+Metroeconomica: international review of economics|B|
+Metron|C|
+Middle East Business and Economic Review|C|
+Middle East Development Journal|C|
+The Milbank Quarterly|B|
+Millenium: journal of international studies|B|
+Millennial Asia: An International Journal of Asian Studies|C|
+Mineral Economics|C|
+Minnesota Journal of Business Law and Entrepreneurship|B|
+MIS Quarterly|A*|
+MIS Quarterly Executive|A|
+MIS Quarterly: Management Information Systems||Q1
+MIT Sloan Management Review|A|Q2
+Model Assisted Statistics and Applications|C|
+The Modern Law Review|A*|
+Modern Supply Chain Research and Applications||Q1
+Monash University Law Review|A|
+Monetary and Economic Studies|C|
+Money Affairs|C|
+Monte Carlo Methods and Applications|C|
+Motivation and Emotion|A|
+Multinational Business Review|B|Q1
+Multinational Finance Journal|B|
+Mundo Agrario||Q1
+Museum Management and Curatorship||Q1
+Nankai Business Review International||Q2
+NanoEthics||Q1
+Narrative Inquiry|B|
+National Economic Review|C|
+National Institute Economic Review|B|
+National Tax Journal|A|Q1
+Naval Research Logistics|B|
+NBER Macroeconomics Annual|A|
+Negotiation and Conflict Management Research|C|
+Negotiation Journal|B|Q2
+Netnomics|C|
+Networks and Spatial Economics|B|
+New Directions for Evaluation|B|Q2
+New England Journal of Entrepreneurship|C|Q2
+New Law Journal|C|
+New Perspectives on Political Economy|C|
+New Political Economy|A|
+New Technology, Work & Employment|A|Q1
+New York Economic Review|C|
+New Zealand Business Law Quarterly|B|
+New Zealand Economic Papers|B|
+New Zealand Intellectual Property Journal|B|
+New Zealand Journal of Applied Business Research|C|
+New Zealand Journal of Employment Relations|B|
+New Zealand Journal of Human Resources Management|C|
+New Zealand Journal of Taxation Law and Policy|A|
+New Zealand Law Journal|B|
+New Zealand Law Review|B|
+New Zealand Population Review|C|
+New Zealand Universities Law Review|A|
+New Zealand Yearbook of International Law|C|
+NJAS: Impact in Agricultural and Life Sciences||Q2
+NMIMS Management Review|C|
+Nonprofit and Voluntary Sector Quarterly|A|
+Nonprofit Management and Leadership|B|Q2
+Nordic Journal of Commercial Law|C|
+Nordic Journal of Political Economy|C|
+North American Actuarial Journal|A|
+The North American Journal of Economics and Finance|B|
+North Carolina Banking Institute Journal (fomerly the University of North Carolina School of Law Banking Institute)|C|
+Northeastern Journal of Agricultural and Resource Economics|C|
+Northern Economic Review|C|
+Northwestern Journal of International Law & Business|B|
+Norton Journal of Bankruptcy Law and Practice|C|
+Nova Economia: the journal of the economics department at UFMG|C|
+NYU Journal of Law and Business|C|
+Oeconomia Copernicana||Q1
+Oil, Gas and Energy Quarterly|C|
+Omega|A|Q1
+Online Information Review|B|
+OPEC Energy Review|C|
+Open Economies Review|B|
+Operational Research|C|Q1
+Operations and Supply Chain Management|C|Q2
+Operations Management Research|C|Q1
+Operations Research|A*|
+Operations Research Letters|B|
+Operations Research Perspectives||Q1
+Opsearch|C|Q2
+Optimal Control Applications and Methods|B|
+Optimization|C|
+Optimization Letters||Q2
+OR Spectrum|B|Q2
+Oregon Law Review|A|
+Organization|A|Q1
+Organization & Environment|A|Q1
+Organization Development Journal|C|
+Organization Management Journal|B|Q2
+Organization Science|A*|Q1
+Organization Studies|A*|Q1
+Organization Theory|A|Q1
+Organizational Behavior and Human Decision Processes|A*|Q1
+Organizational Dynamics|A|Q1
+Organizational Psychology Review|A|Q1
+Organizational Research Methods|A*|Q1
+Osgoode Hall Law Journal|A|
+Otago Law Review|C|
+Oxford Bulletin of Economics and Statistics|A|
+Oxford Development Studies|B|
+Oxford Economic Papers|A|
+Oxford Journal of Legal Studies|A|
+Oxford Review of Economic Policy|A|
+Oxford University Commonwealth Law Journal|A*|
+Oxonomics: Oxford university economic studies|B|
+Pacific Accounting Review|B|Q2
+Pacific Affairs: an international review of Asia and the Pacific|B|
+Pacific Asia Journal of the Association for Information Systems|B|Q1
+Pacific Economic Bulletin|C|
+Pacific Economic Review|B|
+The Pacific Review|A|
+Pacific Rim Property Research Journal|C|
+Pacific-Basin Finance Journal|A|
+Pakistan Development Review|C|
+Pakistan Economic and Social Review|C|
+Pakistan Journal of Applied Economics|C|
+Pakistan Journal of Statistics|C|
+Papers in Regional Science|A|
+Parliamentary Affairs|B|
+PASOS Revista de Turismo y Patrimonio Cultural||Q2
+Pasos. Journal of Tourism and Cultural Heritage|C|
+Peace Economics, Peace Science and Public Policy|C|
+Pennsylvania Economic Review|C|
+Pepperdine Law Review|C|
+Performance Improvement Quarterly||Q2
+Performance Measurement and Metrics|C|
+Periodica Polytechnica Social and Management Sciences||Q2
+Personality and Individual Differences|A|
+Personality and Social Psychology Bulletin|A*|
+Personnel Psychology|A*|Q1
+Personnel Review|A|Q1
+Perspectives of Innovations, Economics & Business|C|
+Perspectives on Work|C|
+Pertanika Journal of Social Sciences and Humanities||Q2
+PharmacoEconomics|A|
+Philippine Journal of Labor and Industrial Relations|C|
+Philippine Review of Economics|C|
+Philosophy & Public Affairs|A|
+Philosophy of Management|B|Q1
+Philosophy of the Social Sciences|B|
+Physical Culture and Sport, Studies and Research||Q1
+Pittsburgh Tax Review|C|
+Place Branding and Public Diplomacy|B|Q2
+Policy and Politics: an international journal|A|
+Policy and Society|B|
+Policy Science|B|
+Policy Studies|B|
+Policy Studies Journal|B|
+Political Communication|A|
+Political Quarterly|B|
+Political Science Quarterly|A|
+Political Studies|B|
+Politicka Ekonomie: teorie, modelovani, aplikace|B|
+Politics and Gender|A|
+Politics and Society|B|
+Politics, Philosophy & Economics|B|
+Population|B|
+Population and Development Review|A|
+Population and Environment|A|
+Population Bulletin|C|
+Population Research and Policy Review|A|
+Population Studies: a journal of demography|A|
+Population, Space and Place|A|
+Portuguese Economic Journal|C|
+Post-Communist Economies|B|
+Post-Soviet Affairs|B|
+Prace i Studia Geograficzne||Q2
+Prague Economic Papers|C|
+PRism|B|
+Probability Theory and Related Fields|A*|
+Problems and Perspectives in Management||Q2
+Problems of Development / Problemas del Desarrollo|C|
+Problems of Economic Transition|B|
+Production and Operations Management|A*|Q1
+Production Engineering Archives||Q2
+Production Planning and Control|A|Q1
+Progress in Development Studies|C|
+Project Leadership & Society|C|
+Project Management Journal|B|Q1
+Prometheus: Critical Studies in Innovation|B|
+Property Management|B|
+PSL Quarterly Review||Q2
+PSU Research Review||Q2
+Psychological Bulletin|A*|
+Psychological Methods|B|
+Psychological Research|A|
+Psychological Review|A*|
+Psychological Science|A*|
+Psychology & Marketing|A|Q1
+Psychology of Leaders and Leadership||Q2
+Psychology of Women Quarterly|A|
+Public Administration and Development|A|
+Public Administration Quarterly|A|
+Public Administration Review|A|Q1
+Public Administration: an international journal|A|
+Public Budgeting & Finance|C|
+Public Choice|A|
+Public Finance Analysis / FinanzArchiv|B|
+Public Finance and Management|B|
+Public Finance Review|B|
+Public Integrity||Q1
+Public Law: the constitutional and administrative law of the Commonwealth|A|
+Public Management Review|A|
+Public Money & Management|A|Q1
+Public Opinion Quarterly|A|
+Public Organization Review||Q1
+Public Performance & Management Review|B|Q1
+Public Personnel Management|B|Q1
+Public Policy and Administration|B|
+Public Policy Research|C|
+Public Relations Inquiry|B|Q1
+Public Relations Review|A|Q1
+Public Services Quarterly||Q2
+Public Works Management and Policy||Q2
+Publications||Q1
+Publishing Research Quarterly|C|Q2
+PuntOorg International Journal||Q2
+Purushartha||Q1
+Q Open: A Journal of Agricultural, Climate, Environmental, Food, Resource, and Rural Development Economics|C|
+Qualitative Market Research||Q2
+Qualitative Market Research: an international journal|B|
+Qualitative Research in Accounting and Management|A|Q1
+Qualitative Research in Financial Markets|B|Q2
+Qualitative Research in Organizations and Management|B|Q2
+Quality & Quantity|B|
+Quality Management Journal|B|Q2
+Quality of Life Research|A|
+Quality Technology and Quantitative Management|C|Q1
+Quantitative Economics|A*|
+Quantitative Finance|A|
+Quantitative Finance and Economics||Q2
+Quantitative Marketing and Economics|A|Q1
+The Quarterly Journal of Austrian Economics|C|
+The Quarterly Journal of Economics|A*|
+Quarterly Journal of Experimental Psychology|A|
+Quarterly Journal of Finance|A|Q2
+Quarterly Journal of Finance and Accounting|B|
+Quarterly Journal of Political Science|B|
+Quarterly Review of Economics and Finance|B|
+Queen Mary Journal of Intellectual Property|B|
+Quest|C|
+QUT Law Review|C|
+R&D Management|A|Q1
+RAE-Revista de Administracao de Empresas|C|
+RAND Journal of Economics|A*|
+Rationality and Society|B|
+RAUSP Management Journal||Q2
+Reading in Political Economy|C|
+Real Estate Economics|A|Q1
+Real Estate Law Journal|C|
+Real Estate Taxation|C|
+Real Property, Trust and Estate Law Journal|C|
+Recherches Economiques de Louvain|B|
+Records Management Journal|C|Q2
+Recreational Sports Journal||Q2
+Reflets et Perspectives de la Vie Economique|C|
+Regional Science and Urban Economics|A|
+Regional Studies|A*|
+Regional Studies, Regional Science|A|
+Regulation and Governance|A|
+Relations Industrielles/Industrial Relations|B|
+Reliability Engineering & System Safety|A|
+Renewable and Sustainable Energy Reviews|A|
+Research and Practice in Technology Enhanced Learning||Q1
+Research Evaluation|C|
+Research in Consumer Behavior: a research annual|C|
+Research in Economics|B|
+Research in Experimental Economics|B|
+Research in Finance|C|
+Research in Financial Services|C|
+Research in Hospitality Management|C|
+Research in International Business and Finance|A|Q1
+Research in Organizational Behavior|A|Q1
+Research in the History of Economic Thought and Methodology|C|
+Research in the Sociology of Organizations|B|
+Research in Transportation Business & Management|B|Q1
+Research in Transportation Economics|B|
+Research Journal of Textile and Apparel||Q2
+Research on Professional Responsibility and Ethics in Accounting|B|
+Research Policy|A*|Q1
+Research-Technology Management|B|Q2
+Resource and Energy Economics|A|
+Resources Policy|B|
+Restitution Law Review|A|
+Rethinking Marxism|C|
+Revenue Law Journal|B|
+Review of Accounting and Finance|B|Q1
+Review of Accounting Studies|A*|Q1
+Review of African Political Economy|C|
+Review of Asset Pricing Studies|A*|
+The Review of Austrian Economics|C|
+Review of Behavioral Economics|B|
+Review of Behavioral Finance|B|Q2
+The Review of Black Political Economy|C|
+Review of Corporate Finance|A|Q1
+Review of Corporate Finance Studies|A*|Q1
+Review of Derivatives Research|B|
+Review of Development Economics|A|
+Review of Economic Analysis|B|
+Review of Economic and Business Studies|C|
+Review of Economic Design|B|
+Review of Economic Dynamics|A*|
+The Review of Economic Studies|A*|
+Review of Economics (Jahrbuch fur Wirtschaftswissenschaften)|C|
+Review of Economics and Political Science|C|
+The Review of Economics and Statistics|A*|
+Review of Economics of the Household|A|
+Review of Environmental Economics and Policy|A|
+Review of Finance|A*|Q1
+Review of Financial Economics|B|
+The Review of Financial Studies|A*|Q1
+Review of Futures Markets|B|
+Review of Income and Wealth|A|
+Review of Industrial Organization|A|Q2
+Review of International Business and Strategy|B|Q2
+Review of International Economics|A|
+Review of International Organizations|C|Q1
+Review of International Political Economy|A|
+Review of International Studies|B|
+Review of Islamic Economics|C|
+Review of Keynesian Economics|C|
+Review of Law & Economics|B|
+Review of Management Literature||Q1
+Review of Managerial Science|A|Q1
+Review of Marketing and Agricultural Economics|C|
+Review of Marketing Science|C|
+Review of Middle East Economics and Finance|C|
+The Review of Network Economics|B|
+Review of Pacific Basin Financial Markets and Policies|B|
+Review of Political Economy|B|
+Review of Public Personnel Administration|B|Q1
+Review of Quantitative Finance and Accounting|B|Q2
+Review of Radical Political Economics|B|
+Review of Regional Studies|C|
+Review of Social Economy|B|
+Review of the Economic Research on Copyright Issues|B|
+Review of Urban & Regional Development Studies|B|
+Review of World Economics|B|
+Review on Economic Cycles|C|
+Revista de Artes Marciales Asiaticas||Q2
+Revista de Economia|C|
+Revista de Gestao||Q2
+Revista de Psicologia del Trabajo y de las Organizaciones||Q2
+Revista do CAAP|C|
+Revista Galega de Economia||Q1
+Revue d'Etudes Comparatives Est-Ouest: economies et techniques de planification - droit et sciences sociales|B|
+Revue de l'OFCE|C|
+Richmond Journal of Global Law and Business|C|
+Rikkyo Economic Review|C|
+Risk Management|C|
+Risk Management and Insurance Review|C|Q2
+Risks||Q2
+Romanian Economic Business Review|C|
+Romanian Journal of Economic Forecasting|C|
+Rural Society||Q2
+Russian Journal of Economics|C|
+Rutgers Business Law Review|C|
+Rutgers Business Review|B|
+Rutgers Computer and Technology Law Journal|B|
+SA Journal of Human Resource Management||Q2
+Safety Science|A|
+Scandinavian Actuarial Journal|A|
+Scandinavian Economic History Review|C|
+Scandinavian Journal of Economics|A|
+Scandinavian Journal of Hospitality and Tourism|A|Q2
+Scandinavian Journal of Information Systems|A|
+Scandinavian Journal of Management|B|Q2
+Scandinavian Journal of Public Administration||Q2
+Scandinavian Journal of Statistics|A|
+Schmalenbach Journal of Business Research||Q2
+SCHOLE: A Journal of Leisure Studies and Recreation Education||Q2
+School Leadership and Management||Q1
+Science & Society|B|
+Science and Engineering Ethics||Q1
+Science and Public Policy|C|
+Science Communication|A|
+Science, Technology and Society|B|
+Science, Technology, & Human Values|A|
+Scientific Annals of Economics and Business||Q2
+Scientometrics|A|
+Scottish Journal of Political Economy|A|
+Security Dialogue|A|
+Security Journal||Q2
+Security Studies|B|
+Selection and Development Review|C|
+Seoul Journal of Business|C|
+SERIEs: Journal of the Spanish Economic Association|B|
+Service Business|B|Q1
+Service Industries Journal|B|Q1
+Service Oriented Computing and Applications||Q2
+Service Science|B|Q1
+Services Marketing Quarterly|B|Q2
+Sex Roles|A|
+She Ji||Q1
+SIAM Journal on Applied Mathematics|A|
+SIAM Journal on Financial Mathematics|B|
+Simulation and Gaming||Q1
+Singapore Academy of Law Journal|C|
+Singapore Economic Review|B|
+Singapore Journal of Legal Studies|A|
+Small Business Economics|A|Q1
+Small Enterprise Research|B|Q2
+Small Group Research|A|
+Smart and Sustainable Built Environment|C|
+Soccer & Society|C|
+Social and Economic Studies|C|
+Social and Environmental Accountability Journal|B|
+Social Choice and Welfare|A|
+Social Enterprise Journal|C|Q1
+Social Forces|A|
+Social Indicators Research|A|
+Social Justice Research|B|
+Social Marketing Quarterly|B|Q2
+Social Policy & Administration|A|
+Social Problems|A|
+Social Psychological and Personality Science|B|
+Social Responsibility Journal|B|Q1
+Social Science & Medicine|A|
+Social Science Information|C|
+Social Science Japan Journal|C|
+The Social Science Journal|C|
+Social Science Quarterly|B|
+Social Service Review|B|
+Society and Business Review|B|Q1
+Society and Economy||Q2
+Society and Economy in Central and Eastern Europe|C|
+Socio-Economic Planning Sciences|C|Q1
+Socio-Economic Review|A|
+SocioEconomic Challenges|C|
+Sociological Inquiry|A|
+Sociological Methodology|A|
+The Sociological Review|A|
+Sociological Theory|A|
+Sociologie du Travail|B|
+Sociology|A*|
+Sociology of Sport Journal|A|
+South African Journal of Accounting Research|C|Q2
+South African Journal of Business Management|C|
+South African Journal of Economic and Management Sciences|C|Q2
+South African Journal of Economics|B|
+South African Statistical Journal|B|
+South Asia Economic Journal|C|
+South Asian Journal of Business and Management Cases|C|
+South Asian Journal of Business Studies|B|Q1
+South Asian Journal of Human Resources Management|C|Q2
+South Asian Journal of Macroeconomics and Public Finance|C|
+South Asian Journal of Management|C|
+South Carolina Journal of International Law and Business|C|
+Southern Business and Economic Journal|C|
+Southern Economic Journal|A|
+Space and Culture||Q1
+Spanish Accounting Review / Revista de Contabilidad|B|
+Spanish Economic Review|B|
+Spanish Journal of Finance and Accounting|B|
+Spanish Journal of Marketing – ESIC|B|Q2
+Spanish Review of Financial Economics|C|
+Spatial Economic Analysis|B|
+Spatial Economics||Q2
+Sport i Turystyka||Q2
+Sport in Society|B|
+Sport Management Education Journal|C|
+Sport Management Review|A|Q1
+Sport Marketing Quarterly|B|Q2
+Sport Psychologist|B|
+Sport, Business and Management|B|
+Sport, Business and Management: An International Journal||Q2
+Sport, Education and Society|B|
+Sporting Traditions|C|
+Sports Coaching Review||Q1
+Sri Lanka Economic Journal|C|
+Sri Lankan Journal of Agricultural Economics|C|
+Stanford Journal of International Law|A|
+Stanford Journal of Law, Business and Finance|A|
+Stanford Social Innovation Review|B|
+Statistica Neerlandica|A|
+Statistica Sinica|A|
+Statistical Inference for Stochastic Processes|C|
+Statistical Journal of the IAOS|C|
+Statistical Methodology|C|
+Statistical Methods and Applications|C|
+Statistical Methods In Medical Research|B|
+Statistical Modelling|B|
+Statistical Papers|B|
+Statistical Science|A|
+Statistics|B|
+Statistics & Probability Letters|B|
+Statistics & Risk Modeling|C|
+Statistics and Computing|A|
+Statistics Education Research Journal|B|
+Statistics in Medicine|A|
+Statute Law Review|A|
+Stochastic Analysis and Applications|B|
+Stochastic Environmental Research and Risk Assessment|B|
+Stochastic Models|B|
+Stochastic Processes and their Applications|A|
+Stochastics: an international journal of probability and stochastic processes|B|
+Strategic Change||Q1
+Strategic Change: Briefings in Entrepreurial Finance|B|
+Strategic Entrepreneurship Journal|A|Q1
+Strategic Management Journal|A*|Q1
+Strategic Management Review||Q2
+Strategic Organization|A|Q1
+Strategy & Leadership|C|
+Strategy Science|A|Q1
+Stress and Health|A|
+Structural Change and Economic Dynamics|B|
+Structural Equation Modelling: A Multidisciplinary Journal|A|
+Studi Economici e Sociali: rivista di vita economica|C|
+Studies in Agricultural Economics|C|
+Studies in Business and Economics|C|
+Studies in Comparative International Development|A|
+Studies in Corpus Linguistics||Q2
+Studies in Economics and Finance|B|
+Studies in Higher Education|A|
+Studies in Microeconomics|C|
+Studies in Nonlinear Dynamics & Econometrics|A|
+Studies in Political Economy: a socialist review|C|
+Suffolk University Law Review|B|
+Supply Chain Forum||Q2
+Supply Chain Forum: An International Journal|C|
+Supply Chain Management||Q1
+Supply Chain Management Review|B|
+Supply Chain Management: an international journal|A|
+Survival|B|
+Sustainability Accounting, Management and Policy Journal|A|Q1
+Sustainable Development|C|
+Sustainable Futures|C|Q1
+Swedish Economic Policy Review|C|
+The Sydney Law Review|A*|
+Syracuse Journal of International Law and Commerce|C|
+System Dynamics Review|A|Q1
+Systemic Practice and Action Research|B|
+Systems Research and Behavioral Science|A|Q2
+Tarsadalom es Gazdasag|C|
+Tax Law Review|A|
+The Tax Lawyer|B|
+Tax Notes|C|
+Tax Policy Journal|C|
+Tax Specialist|B|
+Taxation in Australia|C|
+Teaching Business and Economics|C|
+Team Performance Management|C|Q2
+Tec Empresarial||Q2
+Technological Forecasting and Social Change|A|Q1
+Technological Sustainability|C|Q2
+Technology Analysis and Strategic Management|B|Q2
+Technology in Society|C|Q1
+Technology Innovation Management Review||Q1
+Technometrics|A|
+Technovation|A|Q1
+Telecommunications Policy||Q1
+Telematics and Informatics|C|
+Teoros: revue de recherche en tourisme|C|
+Tertiary Education and Management||Q2
+Texas International Law Journal|A|
+Theoretical and Applied Economics|C|
+Theoretical Economics|A*|
+Theory and Decision: an international journal for multidisciplinary advances in decision sciences|A|
+Theory of Probability and its Applications|A|
+Third Sector Review|C|
+Third World Quarterly|A|
+Thunderbird International Business Review|B|Q1
+Tijdschrift voor Economische en Sociale Geografie|B|
+Time and Society|B|
+Tobacco Control|B|
+TOP - Transactions in Operations Research|B|
+Tort Law Review|A|
+Torts Law Journal|A|
+Total Quality Management and Business Excellence|C|Q1
+Tourism||Q2
+Tourism & Management Studies|C|Q1
+Tourism Analysis|A|
+Tourism and Hospitality||Q2
+Tourism and Hospitality Management|C|Q2
+Tourism and Hospitality Research|B|Q1
+Tourism Economics|A|Q1
+Tourism Geographies|A|Q1
+Tourism in Marine Environments|C|
+Tourism Management|A*|Q1
+Tourism Management Perspectives|A*|Q1
+Tourism Planning & Development|A|Q1
+Tourism Recreation Research|A|Q1
+Tourism Review|A|Q1
+Tourism Review International|C|
+Tourism, Culture and Communication|C|Q1
+Tourism: An International Interdisciplinary Journal|B|
+Tourist Studies|B|Q2
+The TQM Journal|B|Q1
+Transfer||Q1
+Transfer: European review of labour and research|C|
+Transformations in Business and Economics|C|Q2
+Transforming Government: People, Process and Policy|B|
+Transnational Corporations Review|C|Q2
+Transport Economics and Management||Q1
+Transport Policy|A|
+Transport Reviews|A|
+Transportation|A|
+Transportation Journal|B|
+Transportation Letters|B|
+Transportation Planning and Technology|B|
+Transportation Research Part A: Policy and Practice|A*|Q1
+Transportation Research Part B: Methodological|A*|
+Transportation Research Part C: Emerging Technologies|A*|
+Transportation Research Part D: Transport and Environment|A|
+Transportation Research Part E: Logistics and Transportation Review|A*|Q1
+Transportation Research Part F: Traffic Psychology and Behaviour|A|
+Transportation Research Record|B|
+Transportation Science|A*|
+Transportmetrica A: Transport Science|B|
+Transportmetrica B: Transport Dynamics|B|
+Travel Behaviour and Society|A|
+Triple Helix||Q2
+Tulane Maritime Law Journal|A|
+UBC Law Review|B|
+UCLA Pacific Basin Law Journal|B|
+Ukrainian Geographical Journal||Q2
+The UNE Law Journal|C|
+University of Chicago Law Review|A*|
+University of Miami Business Law Review|C|
+University of New South Wales Law Journal|A|
+University of Pennsylvania Journal of Business Law|C|
+University of Queensland Law Journal|B|
+University of San Francisco Maritime Law Journal|B|
+University of Tasmania Law Review|B|
+University of Toronto Law Journal|A|
+University of Western Australia Law Review|B|
+University of Western Sydney Law Review|C|
+UNLV Gaming Research and Review Journal|B|
+Urban Affairs Review|B|
+Urban Studies: an international journal for research in urban studies|A*|
+US Bureau of Labor Statistics: Monthly Labor Review|B|
+Utilities Policy||Q1
+Valori e Valutazioni||Q2
+Value in Health|A|
+Vanderbilt Journal of Transnational Law|B|
+Variance: advancing the science of risk|C|
+Venture Capital|B|Q2
+Vestnik MGIMO-Universiteta||Q1
+Victoria University of Wellington Law Review|B|
+Vietnam's Socio-Economic Development|C|
+Villanova Journal of Law and Investment Management|C|
+Vindobona Journal of International Commercial Law and Arbitration|C|
+VINE Journal of Information and Knowledge Management Systems|B|Q1
+Virginia Tax Review|A|
+Virtual Economics||Q1
+Vision: The Journal of Business Perspectives|C|
+Visitor Studies|A|Q1
+Voluntas||Q1
+Voluntas: International Journal of Voluntary and Non-Profit Organizations|B|
+Voprosy Ekonomiki||Q1
+Waikato Law Review|C|
+Washington International Law Journal|B|
+Washington Journal of Law, Technology & Arts|C|
+Water Economics and Policy||Q2
+Water Resources Research|A|
+West European Politics|B|
+Western Australian Law Teachers' Review|C|
+Western Economics Forum|C|
+Western Journal of Communication|C|
+Work & Stress: An international Journal of Work, Health and Organisations|A|
+Work and Occupations|A|Q1
+Work in the Global Economy||Q1
+Work, Aging and Retirement|B|Q1
+Work, Employment and Society|A|Q1
+The World Bank Economic Review|A|Q1
+World Bank Research Observer|B|
+World Competition Law and Economics Review|C|
+World Development|A*|
+World Economics|B|
+The World Economy|A|Q1
+World Journal of Entrepreneurship, Management and Sustainable Development||Q2
+World Journal of Management and Economics|C|
+World Journal of VAT/GST|C|
+World Leisure Journal|B|Q1
+World Politics|A|
+World Review of Science, Technology and Sustainable Development|C|
+World Tax Journal|B|Q1
+World Trade Review|C|
+Worldwide Hospitality and Tourism Themes|C|Q2
+Written Communication|B|
+Yale Journal on Regulation|B|
+The Yale Law Journal|A*|
+Young Consumers|B|
+Zagreb International Review of Economics and Business|C|`;
+var J = RAW.trim().split("\n").map(function (l) {
+  var p = l.split("|");
+  var k = norm(p[0]); return { n: p[0], a: p[1] || "", s: p[2] || "", k: k, r: k.replace(/^the /, "") };
+});
+function norm(s) { return s.toLowerCase().replace(/&/g, " and ").replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim(); }
+function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+
+var F = { a: [], s: [] }, LIMIT = 50, shown = LIMIT;
+var AB = [["A*", "A*"], ["A", "A"], ["B", "B"], ["C", "C"], ["-", "Not in ABDC"]];
+var SC = [["Q1", "Q1"], ["Q2", "Q2"], ["-", "Not in Scopus list"]];
+function chips(id, opts, key) {
+  var g = document.getElementById(id);
+  opts.forEach(function (o) {
+    var n = J.filter(function (j) { return (j[key] || "-") === o[0]; }).length;
+    var lab = document.createElement("label");
+    lab.className = "chk";
+    lab.innerHTML = '<input type="checkbox" value="' + o[0] + '"> ' + o[1] + " <small>" + n.toLocaleString() + "</small>";
+    lab.querySelector("input").onchange = function () {
+      var v = this.value, i = F[key].indexOf(v);
+      if (this.checked && i < 0) F[key].push(v); else if (!this.checked && i >= 0) F[key].splice(i, 1);
+      lab.classList.toggle("on", this.checked); shown = LIMIT; render();
+    };
+    g.appendChild(lab);
+  });
+}
+chips("fa", AB, "a"); chips("fs", SC, "s");
+
+function badge(kind, v) {
+  if (!v) return '<span class="b none"><strong>–</strong>' + (kind === "a" ? "ABDC: not listed" : "Scopus: not listed") + "</span>";
+  var cls = kind === "a" ? "ab-" + v.replace("*", "s") : "sc-" + v;
+  return '<span class="b ' + cls + '"><strong>' + v + "</strong>" + (kind === "a" ? "ABDC 2025" : "Scopus") + "</span>";
+}
+function hl(name, words) {
+  var out = esc(name);
+  words.forEach(function (w) { if (w.length > 1) out = out.replace(new RegExp("(" + w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")", "ig"), "<mark>$1</mark>"); });
+  return out;
+}
+function render() {
+  var q = norm(document.getElementById("q").value), words = q ? q.split(" ") : [];
+  var res = J.filter(function (j) {
+    if (F.a.length && F.a.indexOf(j.a || "-") < 0) return false;
+    if (F.s.length && F.s.indexOf(j.s || "-") < 0) return false;
+    for (var i = 0; i < words.length; i++) if ((" " + j.k + " ").indexOf(words[i]) < 0) return false;
+    return true;
+  });
+  if (q) res.sort(function (x, y) {
+    var qq = q.replace(/^the /, "");
+    var sx = x.r === qq ? 0 : x.r.indexOf(qq) === 0 ? 1 : x.r.indexOf(qq) >= 0 ? 2 : 3;
+    var sy = y.r === qq ? 0 : y.r.indexOf(qq) === 0 ? 1 : y.r.indexOf(qq) >= 0 ? 2 : 3;
+    return sx - sy || x.n.length - y.n.length;
+  });
+  var list = document.getElementById("list");
+  list.innerHTML = res.length ? res.slice(0, shown).map(function (j) {
+    return '<div class="row"><div class="name">' + hl(j.n, words) + '</div><div class="badges">' + badge("a", j.a) + badge("s", j.s) + "</div></div>";
+  }).join("") : '<div class="empty">No journals found. Try fewer words or check the spelling.</div>';
+  document.getElementById("count").textContent = res.length.toLocaleString() + " journal" + (res.length === 1 ? "" : "s") + (q || F.a.length || F.s.length ? " found" : "");
+  document.getElementById("clear").hidden = !(F.a.length || F.s.length);
+  document.getElementById("more").hidden = res.length <= shown;
+}
+document.getElementById("clear").onclick = function () {
+  F.a = []; F.s = [];
+  [].forEach.call(document.querySelectorAll(".chk"), function (l) { l.classList.remove("on"); l.querySelector("input").checked = false; });
+  shown = LIMIT; render();
+};
+document.getElementById("more").onclick = function () { shown += LIMIT; render(); };
+var t; document.getElementById("q").addEventListener("input", function () { clearTimeout(t); t = setTimeout(function () { shown = LIMIT; render(); }, 120); });
+var urlQ = new URLSearchParams(location.search).get("q"); if (urlQ) document.getElementById("q").value = urlQ;
+var nA = J.filter(function (j) { return j.a; }).length, nS = J.filter(function (j) { return j.s; }).length;
+document.getElementById("stats").textContent = nA.toLocaleString() + " ABDC · " + nS.toLocaleString() + " Scopus";
+document.getElementById("yr").textContent = new Date().getFullYear();
+render();
+</script>
+</body>
+</html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Journal Finder – ABDC & Scopus | AIStudyTools</title>
+<meta name="description" content="Search any journal and instantly see its ABDC 2025 rating and Scopus quartile. Free tool for researchers by AIStudyTools." />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<style>
+@font-face{font-family:Inter;font-weight:100 900;font-display:swap;src:url(/assets/inter-latin-wght-normal-Dx4kXJAl.woff2) format("woff2")}
+:root{--lx:oklch(0.55 0.22 264);--lx2:oklch(0.62 0.2 300);--ink:oklch(0.21 0.03 264);--mut:oklch(0.5 0.03 264);--line:oklch(0.92 0.01 264);--bg:#fff;--soft:oklch(0.97 0.005 250)}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:var(--ink);background:var(--bg)}
+a{color:inherit}
+header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar{max-width:1100px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.brand{text-decoration:none;display:flex;flex-direction:column;line-height:1.15}
+.brand b{font-size:18px}.brand span{font-size:11px;color:var(--mut)}
+nav{display:flex;gap:20px;flex-wrap:wrap;font-size:14px;font-weight:500;margin-left:auto}
+nav a{text-decoration:none;color:var(--mut)}nav a:hover,nav a.on{color:var(--ink)}nav a.on{font-weight:700}
+.hero{background:linear-gradient(135deg,var(--lx),var(--lx2));color:#fff;padding:56px 20px 88px;text-align:center}
+.hero h1{margin:0 0 10px;font-size:clamp(28px,4.5vw,44px);line-height:1.1}
+.hero p{margin:0 auto;max-width:640px;opacity:.92;font-size:17px;line-height:1.5}
 main{max-width:1100px;margin:-56px auto 0;padding:0 20px 60px}
 .panel{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 50px -25px oklch(0.3 0.08 264 / .4);padding:22px}
 .search{position:relative}
