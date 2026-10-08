@@ -90,6 +90,31 @@
       .then(function () { if (btn) { btn.disabled = false; btn.textContent = label; } });
   }, true);
 
-  new MutationObserver(prefill).observe(document.documentElement, { childList: true, subtree: true });
-  prefill();
+  // 4) Email + Call/WhatsApp cards above the Contact form
+  function cards() {
+    if (location.pathname.replace(/\/+$/, "") !== "/contact") return;
+    var form = document.querySelector("form");
+    if (!form || document.getElementById("lx-contact-cards")) return;
+    if (!document.getElementById("lx-contact-css")) {
+      var st = document.createElement("style"); st.id = "lx-contact-css";
+      st.textContent = "#lx-contact-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:22px}" +
+        "#lx-contact-cards a{display:flex;gap:14px;align-items:center;text-decoration:none;color:inherit;background:#fff;border:1px solid oklch(0.92 0.01 264);border-radius:16px;padding:16px 18px;box-shadow:0 8px 24px -14px oklch(0.3 0.08 264 / .35);transition:transform .15s,border-color .15s}" +
+        "#lx-contact-cards a:hover{transform:translateY(-2px);border-color:oklch(0.55 0.22 264)}" +
+        "#lx-contact-cards .ic{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:22px;background:oklch(0.55 0.22 264 / .1);color:oklch(0.55 0.22 264)}" +
+        "#lx-contact-cards .wa .ic{background:#e7f8ee;color:#16a34a}" +
+        "#lx-contact-cards b{display:block;font-size:15px}#lx-contact-cards small{display:block;font-size:13px;color:oklch(0.5 0.03 264);margin-top:2px}" +
+        "#lx-contact-cards .v{display:block;font-size:14px;font-weight:600;color:oklch(0.55 0.22 264);margin-top:4px;word-break:break-all}" +
+        "@media (max-width:640px){#lx-contact-cards{grid-template-columns:1fr}}";
+      document.head.appendChild(st);
+    }
+    var box = document.createElement("div");
+    box.id = "lx-contact-cards";
+    box.innerHTML =
+      '<a href="mailto:' + TO + '"><span class="ic">✉</span><span><b>Email</b><small>We reply within one business day.</small><span class="v">' + TO + "</span></span></a>" +
+      '<a class="wa" href="https://wa.me/917303559258?text=' + encodeURIComponent("Hi AIStudyTools, I would like to know more about your services.") + '" target="_blank" rel="noopener"><span class="ic">☏</span><span><b>Call / WhatsApp</b><small>Send a quick message.</small><span class="v">+91 73035 59258</span></span></a>';
+    form.parentNode.insertBefore(box, form);
+  }
+
+  new MutationObserver(function () { prefill(); cards(); }).observe(document.documentElement, { childList: true, subtree: true });
+  prefill(); cards();
 })();
