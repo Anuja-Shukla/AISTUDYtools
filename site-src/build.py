@@ -3,7 +3,7 @@
 import os, html
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "9"  # cache-buster for css/js
+V = "10"  # cache-buster for css/js
 
 def svg(paths, extra=""):
     return f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"{extra}>{paths}</svg>'
@@ -125,10 +125,11 @@ def mindmap(center, chips, label):
 
 def hero(tag, h1, lead, btns, mm, tagcls=""):
     b = "".join(f'<button class="btn {c}" type="button" data-video="{h[6:]}">{t}</button>' if h.startswith("video:") else f'<a class="btn {c}" href="{h}">{t}</a>' for t, h, c in btns)
+    tg = f'<span class="tag {tagcls}">{tag}</span>' if tag else ""
     return f'''<section class="hero">
   <div class="wrap">
     <div class="hero-copy">
-      <span class="tag {tagcls}">{tag}</span>
+      {tg}
       <h1>{h1}</h1>
       <p class="lead">{lead}</p>
       <div class="hero-btns">{b}</div>
@@ -182,7 +183,7 @@ def write(path, content):
 # ---------------- HOME ----------------
 home = head("AIStudyTools | Accelerating Human Potential with AI",
             "One intelligent platform powering learning, healthcare insights and workforce development: LearnX, HealthX and SkillX.", "/") + header("home")
-home += hero("One platform · Three intelligent products",
+home += hero("",
              'Accelerating human potential with <span class="hl">AI</span>.',
              "One intelligent platform powering learning, healthcare insights and workforce development through advanced artificial intelligence.",
              [("Explore products", "#products", "btn-ink"), ("Know about us", "video:/videos/aistudytools-overview.mp4?v=1", "btn-soft")],
@@ -261,18 +262,26 @@ lx += f'''<section class="white"><div class="wrap">{stats([("100K+", "Learning s
   </div>
 </section>
 <section id="research" class="tint">
-  <div class="wrap">
-    {sec_head("Free for researchers", "Tools and live sessions to help you research, publish and grow.", "LearnX resources")}
-    <div class="grid g2">
-      <div class="card rv"><div class="ico i-indigo">{I["search"]}</div><h3>Journal Finder</h3><p>Search journals by name or ISSN and filter by ABDC rating, SJR quartile and Web of Science index, all in one place.</p>
-        <div style="display:grid;gap:8px;margin:6px 0 8px">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--bg);border-radius:12px;padding:10px 14px"><b style="font-size:15px">Journal of Marketing</b><span style="display:flex;gap:6px"><span class="tag indigo" style="padding:4px 10px;font-size:12px">A* ABDC</span><span class="tag" style="padding:4px 10px;font-size:12px;background:var(--mint);color:var(--mint-fg)">Q1</span></span></div>
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--bg);border-radius:12px;padding:10px 14px"><b style="font-size:15px">Journal of Business Research</b><span style="display:flex;gap:6px"><span class="tag indigo" style="padding:4px 10px;font-size:12px">A ABDC</span><span class="tag" style="padding:4px 10px;font-size:12px;background:var(--mint);color:var(--mint-fg)">Q1</span></span></div>
+  <div class="wrap" style="max-width:900px">
+    <div class="sec-head rv" style="margin-bottom:28px"><h2>Offerings</h2></div>
+    <div class="acc">
+      <details class="acc-item rv"><summary><span class="ico i-indigo">{I["search"]}</span><span>Journal Finder</span></summary>
+        <div class="acc-body">
+          <p>Search journals by name or ISSN and filter by ABDC rating, SJR quartile and Web of Science index, all in one place.</p>
+          <div style="display:grid;gap:8px">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--bg);border-radius:12px;padding:10px 14px"><b style="font-size:15px">Journal of Marketing</b><span style="display:flex;gap:6px"><span class="tag indigo" style="padding:4px 10px;font-size:12px">A* ABDC</span><span class="tag" style="padding:4px 10px;font-size:12px;background:var(--mint);color:var(--mint-fg)">Q1</span></span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--bg);border-radius:12px;padding:10px 14px"><b style="font-size:15px">Journal of Business Research</b><span style="display:flex;gap:6px"><span class="tag indigo" style="padding:4px 10px;font-size:12px">A ABDC</span><span class="tag" style="padding:4px 10px;font-size:12px;background:var(--mint);color:var(--mint-fg)">Q1</span></span></div>
+          </div>
+          <a class="btn btn-ink" href="/journals/" style="align-self:flex-start">Open Journal Finder {I["arrow"]}</a>
         </div>
-        <a class="btn btn-ink" href="/journals/" style="align-self:flex-start">Open Journal Finder {I["arrow"]}</a></div>
-      <div class="card rv"><div class="ico i-sun">{I["calendar"]}</div><h3>Live webinars</h3><p>Expert-led sessions on research methods, doctoral studies, publishing, career growth and AI in research.</p>
-        <div style="display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 8px"><span class="tag indigo">Research methods</span><span class="tag">Doctoral studies</span><span class="tag sky">Publishing</span><span class="tag indigo">AI in research</span></div>
-        <a class="btn btn-ink" href="/webinars/" style="align-self:flex-start;margin-top:auto">See upcoming webinars {I["arrow"]}</a></div>
+      </details>
+      <details class="acc-item rv"><summary><span class="ico i-sun">{I["calendar"]}</span><span>Live Webinars</span></summary>
+        <div class="acc-body">
+          <p>Expert-led sessions on research methods, doctoral studies, publishing, career growth and AI in research.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px"><span class="tag indigo">Research methods</span><span class="tag">Doctoral studies</span><span class="tag sky">Publishing</span><span class="tag indigo">AI in research</span></div>
+          <a class="btn btn-ink" href="/webinars/" style="align-self:flex-start">See upcoming webinars {I["arrow"]}</a>
+        </div>
+      </details>
     </div>
   </div>
 </section>
