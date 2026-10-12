@@ -1,0 +1,203 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Outfit;src:url(package/files/outfit-latin-wght-normal.woff2) format('woff2');font-weight:100 900}
+:root{--bg:#FAFAFF;--ink:#1E1B4B;--muted:#4A4878;--accent:#4F46E5;--dk:#3730A3;--soft:#EEF0FF;--line:#C9CCF7;--border:#E4E5F5;--sun:#FEF3C7;--sunfg:#854D0E;--sunS:#FBBF24;--sky:#E0F2FE;--skyfg:#075985;--pink:#FCE7F3;--pinkfg:#9D174D;--mint:#DCFCE7;--mintfg:#166534}
+*{box-sizing:border-box;margin:0}
+html,body{width:1280px;height:720px;overflow:hidden;background:var(--bg);font-family:Outfit,sans-serif;color:var(--ink)}
+#stage{position:absolute;inset:0;overflow:hidden}
+.sc{position:absolute;inset:0;opacity:0}
+.abs{position:absolute}
+.chip{position:absolute;padding:14px 22px;border-radius:18px;font-weight:700;font-size:24px;white-space:nowrap;box-shadow:0 10px 24px -14px rgba(30,27,75,.45)}
+.c-indigo{background:var(--soft);color:var(--dk)}.c-sun{background:var(--sun);color:var(--sunfg)}.c-sky{background:var(--sky);color:var(--skyfg)}.c-pink{background:var(--pink);color:var(--pinkfg)}.c-mint{background:var(--mint);color:var(--mintfg)}
+.tag{position:absolute;left:80px;top:70px;padding:9px 18px;border-radius:999px;background:var(--sun);color:var(--sunfg);font-weight:700;font-size:20px}
+.h{position:absolute;left:80px;top:122px;font-size:56px;font-weight:800;letter-spacing:-.02em;line-height:1.05;width:470px}
+.card{position:absolute;background:#fff;border:2px solid var(--border);border-radius:26px;box-shadow:0 30px 60px -30px rgba(30,27,75,.35)}
+#cap{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);max-width:1000px;text-align:center;background:rgba(30,27,75,.88);color:#fff;font-size:25px;font-weight:600;padding:10px 22px;border-radius:14px;line-height:1.3}
+</style></head>
+<body><div id="stage">
+
+<!-- S1 boring page -->
+<div class="sc" id="s1" style="background:#EDEDF2">
+  <div class="card" id="paper" style="left:390px;top:50px;width:500px;height:480px;padding:40px;border-color:#DDD;border-radius:10px;box-shadow:0 20px 50px -25px rgba(0,0,0,.35)">
+    <div style="font-size:15px;color:#888;font-weight:600;letter-spacing:.08em">CHAPTER 4</div>
+    <div style="font-size:28px;color:#555;font-weight:700;margin:6px 0 22px">Principles of Management</div>
+    <div id="lines"></div>
+  </div>
+  <div class="abs" id="zzz" style="left:900px;top:90px;font-size:56px;font-weight:800;color:#9a9ab0">z<span style="font-size:42px">z</span><span style="font-size:30px">z</span></div>
+  <div class="abs" id="yawn" style="left:300px;top:420px;font-size:80px">🥱</div>
+</div>
+
+<!-- S2 AI transform -->
+<div class="sc" id="s2">
+  <svg class="abs" style="left:0;top:0" width="1280" height="720"><g id="s2lines" stroke="#C9CCF7" stroke-width="4" fill="none" stroke-linecap="round"></g></svg>
+  <div class="abs" id="mini" style="left:590px;top:250px;width:100px;height:130px;background:#fff;border:2px solid #ddd;border-radius:6px"></div>
+  <div class="abs" id="orb" style="left:540px;top:220px;width:200px;height:200px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:800;font-size:44px;box-shadow:0 0 0 18px rgba(79,70,229,.15),0 0 0 40px rgba(79,70,229,.07)">AI</div>
+  <div class="abs" id="sunDot" style="left:700px;top:215px;width:46px;height:46px;border-radius:50%;background:var(--sunS);border:6px solid var(--bg)"></div>
+  <div class="chip c-indigo" id="o1" style="left:250px;top:140px">🎬 Videos</div>
+  <div class="chip c-sun" id="o2" style="left:830px;top:140px">🧠 Mind maps</div>
+  <div class="chip c-pink" id="o3" style="left:230px;top:450px">🎮 Games</div>
+  <div class="chip c-mint" id="o4" style="left:820px;top:450px">✅ AI feedback</div>
+  <div class="abs" id="brand" style="left:0;width:1280px;top:40px;text-align:center;font-size:30px;font-weight:800">AIStudyTools</div>
+</div>
+
+<!-- S3 video -->
+<div class="sc" id="s3">
+  <div class="tag">Format 1</div>
+  <div class="h">Short, engaging <span style="color:var(--accent)">videos</span></div>
+  <div class="card" id="player" style="left:600px;top:110px;width:600px;height:400px;overflow:hidden;background:var(--ink);border:0">
+    <div class="abs" style="left:0;top:0;right:0;height:340px;background:linear-gradient(135deg,#2E2A7A,#1E1B4B)"></div>
+    <div class="abs" id="vt" style="left:40px;top:34px;color:#fff;font-size:30px;font-weight:800">The 4 functions of management</div>
+    <div class="chip c-sun" id="v1" style="left:40px;top:120px;font-size:21px">Planning</div>
+    <div class="chip c-sky" id="v2" style="left:190px;top:190px;font-size:21px">Organising</div>
+    <div class="chip c-pink" id="v3" style="left:350px;top:120px;font-size:21px">Leading</div>
+    <div class="chip c-mint" id="v4" style="left:420px;top:230px;font-size:21px">Controlling</div>
+    <div class="abs" style="left:0;right:0;top:340px;height:60px;background:#151236"></div>
+    <div class="abs" style="left:24px;top:358px;width:0;height:0;border-left:18px solid #fff;border-top:12px solid transparent;border-bottom:12px solid transparent"></div>
+    <div class="abs" style="left:64px;top:367px;width:500px;height:6px;border-radius:3px;background:#3A3670"></div>
+    <div class="abs" id="prog" style="left:64px;top:367px;width:0;height:6px;border-radius:3px;background:var(--sunS)"></div>
+  </div>
+</div>
+
+<!-- S4 mind map -->
+<div class="sc" id="s4">
+  <div class="tag">Format 2</div>
+  <div class="h" style="width:430px">Mind maps that make ideas <span style="color:var(--accent)">click</span></div>
+  <svg class="abs" style="left:0;top:0" width="1280" height="720"><g id="mmL" stroke="#A5A9F0" stroke-width="4" fill="none" stroke-linecap="round"></g></svg>
+  <div class="abs" id="mmC" style="left:770px;top:280px;width:220px;padding:22px;border-radius:24px;background:var(--ink);color:#fff;text-align:center;font-weight:800;font-size:26px">Management</div>
+  <div class="chip c-sun" id="m1" style="left:600px;top:120px">Planning</div>
+  <div class="chip c-sky" id="m2" style="left:990px;top:120px">Organising</div>
+  <div class="chip c-pink" id="m3" style="left:590px;top:470px">Leading</div>
+  <div class="chip c-mint" id="m4" style="left:990px;top:470px">Controlling</div>
+  <div class="chip c-indigo" id="m5" style="left:560px;top:40px;font-size:18px;padding:9px 14px">Set goals</div>
+  <div class="chip c-indigo" id="m6" style="left:1080px;top:40px;font-size:18px;padding:9px 14px">Assign roles</div>
+  <div class="chip c-indigo" id="m7" style="left:520px;top:570px;font-size:18px;padding:9px 14px">Motivate</div>
+  <div class="chip c-indigo" id="m8" style="left:1080px;top:570px;font-size:18px;padding:9px 14px">Measure</div>
+</div>
+
+<!-- S5 game -->
+<div class="sc" id="s5">
+  <div class="tag">Format 3</div>
+  <div class="h" style="width:460px">Games &amp; simulations that turn learning into <span style="color:var(--accent)">play</span></div>
+  <div class="card" style="left:620px;top:90px;width:560px;height:470px;padding:30px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span style="background:var(--soft);color:var(--dk);font-weight:700;padding:6px 14px;border-radius:999px;font-size:18px">Level 3 · Question 4</span>
+      <span style="font-weight:800;font-size:24px">⭐ <span id="score">30</span></span>
+    </div>
+    <div style="font-size:30px;font-weight:800;margin:26px 0 22px;line-height:1.2">Which function sets goals and decides how to reach them?</div>
+    <div id="opts"></div>
+  </div>
+  <div class="abs" id="plus" style="left:1080px;top:110px;font-size:40px;font-weight:800;color:#16A34A">+10</div>
+  <div class="abs" id="cursor" style="left:900px;top:600px;font-size:44px">👆</div>
+  <div id="conf"></div>
+</div>
+
+<!-- S6 evaluation -->
+<div class="sc" id="s6">
+  <div class="tag">Format 4</div>
+  <div class="h" style="width:440px">Instant, personal <span style="color:var(--accent)">AI feedback</span></div>
+  <div class="card" id="ans" style="left:600px;top:70px;width:600px;padding:24px 28px">
+    <div style="font-size:16px;font-weight:700;color:#6E6C94;letter-spacing:.06em">STUDENT ANSWER</div>
+    <div id="ansT" style="font-size:21px;margin-top:8px;line-height:1.45;color:var(--muted);min-height:92px"></div>
+  </div>
+  <div class="card" id="fb" style="left:600px;top:280px;width:600px;padding:24px 28px;border-color:var(--line)">
+    <div style="display:flex;gap:22px;align-items:center">
+      <svg width="110" height="110" viewBox="0 0 110 110"><circle cx="55" cy="55" r="46" stroke="#EEF0FF" stroke-width="12" fill="none"/><circle id="ring" cx="55" cy="55" r="46" stroke="#4F46E5" stroke-width="12" fill="none" stroke-linecap="round" transform="rotate(-90 55 55)" stroke-dasharray="289" stroke-dashoffset="289"/><text id="sc" x="55" y="64" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="28" fill="#1E1B4B">0/10</text></svg>
+      <div style="display:grid;gap:8px;font-size:20px;font-weight:600">
+        <div id="f1">✅ Clear definition</div><div id="f2">✅ Good use of an example</div><div id="f3">💡 Add a real company case to score higher</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S7 steps -->
+<div class="sc" id="s7">
+  <div class="abs" style="left:0;width:1280px;top:80px;text-align:center;font-size:52px;font-weight:800;letter-spacing:-.02em">Upload. We do the rest.</div>
+  <div class="card st" id="t1" style="left:110px;top:230px;width:300px;height:250px;padding:30px;text-align:center"><div style="font-size:64px">📄</div><div style="font-size:28px;font-weight:800;margin-top:10px">1. Upload</div><div style="font-size:19px;color:var(--muted);margin-top:6px">PDF, slides or lecture</div></div>
+  <div class="abs ar" id="a1" style="left:425px;top:330px;font-size:44px;color:var(--accent);font-weight:800">→</div>
+  <div class="card st" id="t2" style="left:490px;top:230px;width:300px;height:250px;padding:30px;text-align:center;background:var(--soft);border-color:var(--line)"><div style="font-size:64px">✨</div><div style="font-size:28px;font-weight:800;margin-top:10px">2. AI transforms</div><div style="font-size:19px;color:var(--muted);margin-top:6px">Videos, mind maps, games</div></div>
+  <div class="abs ar" id="a2" style="left:805px;top:330px;font-size:44px;color:var(--accent);font-weight:800">→</div>
+  <div class="card st" id="t3" style="left:870px;top:230px;width:300px;height:250px;padding:30px;text-align:center;background:var(--sun);border-color:#F6E3A1"><div style="font-size:64px">🚀</div><div style="font-size:28px;font-weight:800;margin-top:10px">3. Share</div><div style="font-size:19px;color:var(--muted);margin-top:6px">Link or your LMS</div></div>
+</div>
+
+<!-- S8 end -->
+<div class="sc" id="s8" style="background:var(--ink);color:#fff">
+  <div class="abs" id="b1" style="right:-90px;top:-90px;width:340px;height:340px;border-radius:50%;background:var(--sunS)"></div>
+  <div class="abs" id="b2" style="left:-80px;bottom:-110px;width:300px;height:300px;border-radius:50%;background:var(--accent)"></div>
+  <div class="abs" id="endc" style="left:0;width:1280px;top:170px;text-align:center">
+    <div style="display:inline-flex;align-items:center;gap:16px"><span style="position:relative;width:62px;height:62px;border-radius:50%;background:var(--accent);display:inline-block"><span style="position:absolute;right:-6px;top:-6px;width:24px;height:24px;border-radius:50%;background:var(--sunS);border:5px solid var(--ink)"></span></span><span style="font-size:52px;font-weight:800">AIStudyTools</span></div>
+    <div style="font-size:66px;font-weight:800;margin-top:26px;letter-spacing:-.02em">Make learning <span style="color:var(--sunS)">engaging.</span></div>
+    <div id="btn" style="display:inline-block;margin-top:34px;background:var(--sunS);color:var(--ink);font-weight:800;font-size:28px;padding:16px 34px;border-radius:18px">Book a free demo</div>
+    <div style="margin-top:22px;font-size:26px;color:#C9C8EA;font-weight:600">www.aistudytools.com</div>
+  </div>
+</div>
+
+<div id="cap"></div>
+</div>
+<script>
+const D=[6.6,6.6,3.4,4.0,5.0,5.8,5.8,6.4];
+const CAP=["Your course content is full of great ideas. But let's be honest… it can be a little boring.","AIStudyTools uses AI to turn that same content into something learners love.","Short, engaging videos.","Mind maps that make big ideas click.","Interactive games and simulations that turn learning into play.","And AI evaluation that gives every learner instant, personal feedback.","Just upload a PDF, slides or a lecture recording. We do the rest.","AIStudyTools. Make learning engaging. Book your free demo today."];
+const START=[];let acc=0;for(const d of D){START.push(acc);acc+=d}
+window.TOTAL=acc;window.START=START;
+const $=id=>document.getElementById(id);
+const cl=x=>Math.max(0,Math.min(1,x));
+const seg=(t,a,b)=>cl((t-a)/(b-a));
+const eo=x=>1-Math.pow(1-x,3);
+const back=x=>{const c=1.7;x=x-1;return 1+x*x*((c+1)*x+c)};
+function pop(el,p){p=cl(p);el.style.opacity=Math.min(1,p*2.5);el.style.transform=`scale(${0.4+0.6*back(p)})`;}
+function rise(el,p){p=eo(cl(p));el.style.opacity=p;el.style.transform=`translateY(${(1-p)*30}px)`;}
+// build static bits
+let L='';for(let i=0;i<12;i++){L+=`<div style="height:12px;border-radius:6px;background:#D4D4DC;margin:0 0 17px;width:${[100,94,98,88,100,72,96,100,90,97,64,99,85][i]}%"></div>`}$('lines').innerHTML=L;
+const OPT=["Leading","Planning","Controlling","Organising"];
+$('opts').innerHTML=OPT.map((o,i)=>`<div id="op${i}" style="border:2px solid #E4E5F5;border-radius:16px;padding:13px 18px;font-size:22px;font-weight:700;margin-bottom:10px;display:flex;justify-content:space-between"><span>${String.fromCharCode(65+i)}. ${o}</span><span class="mk"></span></div>`).join('');
+const CC=['#4F46E5','#FBBF24','#EC4899','#22C55E','#38BDF8'];let cf='';for(let i=0;i<40;i++){cf+=`<div class="abs cf" style="width:12px;height:18px;border-radius:3px;background:${CC[i%5]};left:0;top:0;opacity:0"></div>`}$('conf').innerHTML=cf;
+const ANS="Planning means setting goals and deciding the best way to achieve them. For example, a café owner plans next month's menu and budget.";
+function curve(x1,y1,x2,y2){const mx=(x1+x2)/2,my=(y1+y2)/2;return `M${x1} ${y1} Q ${mx+(y2-y1)*.15} ${my-(x2-x1)*.15} ${x2} ${y2}`}
+function center(el){return [el.offsetLeft+el.offsetWidth/2,el.offsetTop+el.offsetHeight/2]}
+
+window.render=function(t){
+  let si=0;for(let i=0;i<D.length;i++){if(t>=START[i])si=i}
+  for(let i=0;i<D.length;i++){
+    const el=$('s'+(i+1));const lt=t-START[i];
+    let o=0;if(lt>=-0.001&&lt<D[i]){o=i===0?1:seg(lt,0,.35);if(i<D.length-1)o*=1-seg(lt,D[i]-.3,D[i])}
+    if(i===D.length-1&&lt>=D[i])o=1;
+    el.style.opacity=o;el.style.display=o>0?'block':'none';
+  }
+  const lt=t-START[si];
+  $('cap').textContent=CAP[si];$('cap').style.opacity=si===7?0:seg(lt,.15,.45);
+  // S1
+  if(si===0){const p=eo(seg(lt,0,.8));$('paper').style.transform=`translateY(${(1-p)*40}px) rotate(${-1.5+Math.sin(lt*.8)*.4}deg)`;$('paper').style.opacity=p;
+    $('zzz').style.opacity=seg(lt,2.6,3.2);$('zzz').style.transform=`translateY(${-lt*6}px)`;
+    const y=seg(lt,3.6,4.1);$('yawn').style.opacity=y;$('yawn').style.transform=`scale(${0.6+0.4*back(y)})`;}
+  // S2
+  if(si===1){const sh=eo(seg(lt,0,1.2));const m=$('mini');m.style.opacity=1-seg(lt,1,1.3);m.style.transform=`translateY(${-160+sh*160}px) scale(${1-sh*.5})`;
+    pop($('orb'),seg(lt,.9,1.5));$('orb').style.boxShadow=`0 0 0 ${18+Math.sin(lt*4)*6}px rgba(79,70,229,.15),0 0 0 ${40+Math.sin(lt*4)*8}px rgba(79,70,229,.07)`;
+    pop($('sunDot'),seg(lt,1.3,1.8));
+    let d='';['o1','o2','o3','o4'].forEach((id,k)=>{const p=seg(lt,2.0+k*.45,2.6+k*.45);pop($(id),p);if(p>0){const [x,y]=center($(id));d+=`<path d="${curve(640,320,x,y)}" pathLength="1" stroke-dasharray="1" stroke-dashoffset="${1-eo(p)}"/>`}});$('s2lines').innerHTML=d;
+    rise($('brand'),seg(lt,1.2,1.8));}
+  // S3
+  if(si===2){rise($('player'),seg(lt,.1,.7));['v1','v2','v3','v4'].forEach((id,k)=>pop($(id),seg(lt,.7+k*.45,1.2+k*.45)));$('prog').style.width=(500*seg(lt,.5,D[2]))+'px';}
+  // S4
+  if(si===3){pop($('mmC'),seg(lt,.1,.6));let d='';const [cx,cy]=center($('mmC'));
+    [['m1',0],['m2',1],['m3',2],['m4',3]].forEach(([id,k])=>{const p=seg(lt,.5+k*.35,1.0+k*.35);pop($(id),p);if(p>0){const [x,y]=center($(id));d+=`<path d="${curve(cx,cy,x,y)}" pathLength="1" stroke-dasharray="1" stroke-dashoffset="${1-eo(p)}"/>`}});
+    [['m5','m1'],['m6','m2'],['m7','m3'],['m8','m4']].forEach(([id,par],k)=>{const p=seg(lt,2.0+k*.25,2.5+k*.25);pop($(id),p);if(p>0){const [a,b]=center($(par));const [x,y]=center($(id));d+=`<path d="${curve(a,b,x,y)}" pathLength="1" stroke-dasharray="1" stroke-dashoffset="${1-eo(p)}" stroke-width="3"/>`}});
+    $('mmL').innerHTML=d;}
+  // S5
+  if(si===4){OPT.forEach((o,i)=>rise($('op'+i),seg(lt,.2+i*.15,.6+i*.15)));
+    const c=eo(seg(lt,1.4,2.3));$('cursor').style.left=(900+(820-900)*c)+'px';$('cursor').style.top=(600+(352-600)*c)+'px';$('cursor').style.opacity=seg(lt,1.2,1.4)*(1-seg(lt,3.2,3.5));
+    const ok=lt>2.5;const op=$('op1');op.style.background=ok?'#DCFCE7':'#fff';op.style.borderColor=ok?'#22C55E':'#E4E5F5';op.querySelector('.mk').textContent=ok?'✓':'';op.style.color=ok?'#166534':'';
+    $('score').textContent=ok?Math.round(30+10*seg(lt,2.5,3.0)):30;
+    const pl=seg(lt,2.5,3.6);$('plus').style.opacity=pl>0?1-seg(lt,3.2,3.6):0;$('plus').style.transform=`translateY(${-pl*40}px)`;
+    document.querySelectorAll('.cf').forEach((e,i)=>{const p=seg(lt,2.55,4.6);if(p<=0){e.style.opacity=0;return}const a=(i/40)*Math.PI*2+i;const v=180+(i*37%120);const x=900+Math.cos(a)*v*p;const y=330+Math.sin(a)*v*p*0.8+260*p*p;e.style.opacity=1-p;e.style.transform=`translate(${x}px,${y}px) rotate(${p*600+i*20}deg)`});}
+  // S6
+  if(si===5){rise($('ans'),seg(lt,.1,.6));const n=Math.floor(ANS.length*seg(lt,.5,2.0));$('ansT').textContent=ANS.slice(0,n);
+    rise($('fb'),seg(lt,2.1,2.6));const r=eo(seg(lt,2.5,3.6));$('ring').setAttribute('stroke-dashoffset',289*(1-0.8*r));$('sc').textContent=Math.round(8*r)+'/10';
+    ['f1','f2','f3'].forEach((id,k)=>rise($(id),seg(lt,3.0+k*.35,3.4+k*.35)));}
+  // S7
+  if(si===6){['t1','t2','t3'].forEach((id,k)=>pop($(id),seg(lt,.3+k*1.1,.9+k*1.1)));['a1','a2'].forEach((id,k)=>{const p=seg(lt,.95+k*1.1,1.35+k*1.1);$(id).style.opacity=p;$(id).style.transform=`translateX(${(1-p)*-20}px)`});}
+  // S8
+  if(si===7){rise($('endc'),seg(lt,.2,1.0));pop($('b1'),seg(lt,0,.8));pop($('b2'),seg(lt,.2,1.0));$('btn').style.transform=`scale(${1+Math.max(0,Math.sin((lt-1.6)*3.2))*.05*seg(lt,1.4,1.8)})`;}
+};
+render(0);
+</script>
+</body></html>
