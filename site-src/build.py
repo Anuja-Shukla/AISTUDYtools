@@ -161,7 +161,7 @@ def cta(title, text, btn, href):
 def hook(title, name, label, tag="40-second watch", ver="1"):
     return f'''<section id="hook" class="hook">
   <div class="wrap">
-    <div class="hook-head"><span class="tag">{tag}</span><h2>{title}</h2></div>
+    <div class="hook-head"><span class="tag">{tag}</span>{f"<h2>{title}</h2>" if title else ""}</div>
     <div class="hook-video">
       <video id="hook-video" src="/videos/{name}.mp4?v={ver}" poster="/videos/{name}-poster.jpg?v={ver}" autoplay muted loop playsinline preload="metadata" aria-label="{html.escape(label)}"></video>
       <button type="button" class="hook-sound" id="hook-sound">&#128266; Tap for sound</button>
@@ -186,7 +186,7 @@ home += hero("One platform · Three intelligent products",
              "One intelligent platform powering learning, healthcare insights and workforce development through advanced artificial intelligence.",
              [("Explore products", "#products", "btn-ink"), ("Watch the 50-sec overview", "#hook", "btn-soft")],
              mindmap("AIStudyTools", ["LearnX", "HealthX", "SkillX", "AIClinic", "AI evaluation"], "AIStudyTools connects LearnX, HealthX, SkillX, AIClinic and AI evaluation"))
-home += hook("See all three tools in 50 seconds.", "aistudytools-overview", "AIStudyTools overview video: LearnX turns course content into videos, mind maps, games and AI feedback; HealthX AIClinic prepares a pre-visit summary for doctors; SkillX builds AI role plays and simulations", "Overview")
+home += hook("", "aistudytools-overview", "AIStudyTools overview video: LearnX turns course content into videos, mind maps, games and AI feedback; HealthX AIClinic prepares a pre-visit summary for doctors; SkillX builds AI role plays and simulations", "What we do?")
 home += f'''<section id="products" class="white">
   <div class="wrap">
     {sec_head("Our offerings", "Designed to empower individuals, institutions, healthcare providers and organisations.", "Products")}
