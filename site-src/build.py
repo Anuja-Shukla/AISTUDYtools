@@ -152,7 +152,8 @@ def stats(items):
 def sec_head(title, sub="", tag=""):
     t = f'<span class="tag indigo">{tag}</span>' if tag else ""
     s = f"<p>{sub}</p>" if sub else ""
-    return f'<div class="sec-head rv">{t}<h2>{title}</h2>{s}</div>'
+    h = f"<h2>{title}</h2>" if title else ""
+    return f'<div class="sec-head rv">{t}{h}{s}</div>'
 
 def cta(title, text, btn, href):
     return f'''<section><div class="wrap"><div class="cta rv"><div><h2>{title}</h2><p>{text}</p></div><a class="btn btn-sun" href="{href}">{btn} {I["arrow"]}</a></div></div></section>
@@ -188,7 +189,7 @@ home += hero("One platform · Three intelligent products",
              mindmap("AIStudyTools", ["LearnX", "HealthX", "SkillX", "AIClinic", "AI evaluation"], "AIStudyTools connects LearnX, HealthX, SkillX, AIClinic and AI evaluation"))
 home += f'''<section id="products" class="white">
   <div class="wrap">
-    {sec_head("Our offerings", "Designed to empower individuals, institutions, healthcare providers and organisations.", "Products")}
+    {sec_head("", "Designed to empower individuals, institutions, healthcare providers and organisations.", "Our offerings")}
     <div class="grid g3">
       <a class="prod p-learn rv" href="/learnx/"><span class="kicker">Unlock knowledge potential</span><div class="ico i-indigo" style="background:#fff">{I["cap"]}</div><h3>LearnX</h3><p>AI-powered learning, education and research for students, educators, researchers and institutions.</p><ul><li>AI tutor</li><li>Question generator</li><li>Mind maps</li><li>Games &amp; simulations</li><li>AI-assisted evaluation</li><li>Interactive learning</li></ul><span class="go">Explore LearnX {I["arrow"]}</span></a>
       <a class="prod p-health rv" href="/healthx/"><span class="kicker">Unlock health potential</span><div class="ico i-sky" style="background:#fff">{I["pulse"]}</div><h3>HealthX</h3><p>AI-assisted healthcare and wellness information to help people understand symptoms, reports and medical terms.</p><ul><li>Report interpretation</li><li>AI health chat</li><li>Symptom understanding</li><li>Medication insights</li><li>Doctor visit preparation</li><li>3D interaction</li></ul><span class="go">Explore HealthX {I["arrow"]}</span></a>
