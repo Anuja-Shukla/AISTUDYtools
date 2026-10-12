@@ -10,6 +10,7 @@ VIDEOS = [  # (animation html, voiceover lines, output name)
     ("explainer.html", "lines.txt", "aistudytools-explainer"),
     ("healthx.html", "healthx-lines.txt", "healthx-explainer"),
     ("skillx.html", "skillx-lines.txt", "skillx-explainer"),
+    ("overview.html", "overview-lines.txt", "aistudytools-overview"),
 ]
 HERE = os.path.dirname(os.path.abspath(__file__))
 voice_dir, font, out_dir = sys.argv[1], sys.argv[2], sys.argv[3]

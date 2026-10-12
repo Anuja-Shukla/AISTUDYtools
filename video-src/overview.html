@@ -1,0 +1,192 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Outfit;src:url(package/files/outfit-latin-wght-normal.woff2) format('woff2');font-weight:100 900}
+:root{--bg:#FAFAFF;--ink:#1E1B4B;--muted:#4A4878;--accent:#4F46E5;--dk:#3730A3;--soft:#EEF0FF;--line:#C9CCF7;--border:#E4E5F5;--sun:#FEF3C7;--sunfg:#854D0E;--sunS:#FBBF24;--sky:#E0F2FE;--skyfg:#075985;--pink:#FCE7F3;--pinkfg:#9D174D;--mint:#DCFCE7;--mintfg:#166534}
+*{box-sizing:border-box;margin:0}
+html,body{width:1280px;height:720px;overflow:hidden;background:var(--bg);font-family:Outfit,sans-serif;color:var(--ink)}
+#stage{position:absolute;inset:0;overflow:hidden}
+.sc{position:absolute;inset:0;opacity:0}
+.abs{position:absolute}
+.chip{position:absolute;padding:13px 20px;border-radius:18px;font-weight:700;font-size:22px;white-space:nowrap;box-shadow:0 10px 24px -14px rgba(30,27,75,.45)}
+.c-indigo{background:var(--soft);color:var(--dk)}.c-sun{background:var(--sun);color:var(--sunfg)}.c-sky{background:var(--sky);color:var(--skyfg)}.c-pink{background:var(--pink);color:var(--pinkfg)}.c-mint{background:var(--mint);color:var(--mintfg)}
+.tag{position:absolute;left:80px;top:70px;padding:9px 18px;border-radius:999px;font-weight:800;font-size:20px}
+.h{position:absolute;left:80px;top:122px;font-size:54px;font-weight:800;letter-spacing:-.02em;line-height:1.05;width:470px}
+.card{position:absolute;background:#fff;border:2px solid var(--border);border-radius:26px;box-shadow:0 30px 60px -30px rgba(30,27,75,.35)}
+.li{font-size:21px;font-weight:600;padding:7px 0;display:flex;gap:12px;align-items:flex-start;line-height:1.3}
+.phone{position:absolute;left:640px;top:24px;width:300px;height:560px;border-radius:42px;background:#1E1B4B;padding:11px;box-shadow:0 40px 70px -30px rgba(30,27,75,.6)}
+.screen{position:relative;width:100%;height:100%;border-radius:32px;background:#F6F7FF;overflow:hidden}
+.appbar{height:58px;background:#0EA5E9;color:#fff;display:flex;align-items:center;gap:10px;padding:0 16px;font-weight:800;font-size:18px}
+.bub{position:absolute;max-width:230px;padding:10px 13px;border-radius:16px;font-size:14.5px;line-height:1.35;font-weight:500}
+.ai{left:12px;background:#fff;border:2px solid var(--border);border-top-left-radius:6px}
+.me{right:12px;background:var(--accent);color:#fff;border-top-right-radius:6px}
+.srow{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid #EEF0F6;font-size:18px}
+.srow b{width:150px;flex:none;color:#6E6C94;font-size:13px;letter-spacing:.04em;text-transform:uppercase;padding-top:3px}
+.opt{padding:12px 16px;border:2px solid var(--border);border-radius:14px;background:#fff;font-size:18px;font-weight:700;margin-top:10px}
+.bar{height:14px;border-radius:7px;background:var(--soft);overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;border-radius:7px;width:0}
+.pcard{position:absolute;top:300px;width:330px;height:250px;border-radius:28px;padding:28px;text-align:left}
+.pcard .em{font-size:52px}.pcard b{display:block;font-size:34px;font-weight:800;margin-top:6px}.pcard span{font-size:19px;font-weight:600;opacity:.85}
+#cap{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);max-width:1000px;text-align:center;background:rgba(30,27,75,.88);color:#fff;font-size:25px;font-weight:600;padding:10px 22px;border-radius:14px;line-height:1.3}
+</style></head>
+<body><div id="stage">
+
+<!-- S1 intro -->
+<div class="sc" id="s1">
+  <div class="abs" id="logo" style="left:0;width:1280px;top:60px;text-align:center"><span style="display:inline-flex;align-items:center;gap:14px"><span style="position:relative;width:52px;height:52px;border-radius:50%;background:var(--accent);display:inline-block"><span style="position:absolute;right:-5px;top:-5px;width:20px;height:20px;border-radius:50%;background:var(--sunS);border:4px solid var(--bg)"></span></span><span style="font-size:44px;font-weight:800">AIStudyTools</span></span></div>
+  <div class="abs" id="tline" style="left:0;width:1280px;top:150px;text-align:center;font-size:50px;font-weight:800;letter-spacing:-.02em">One AI platform. <span style="color:var(--accent)">Three ways to grow.</span></div>
+  <div class="pcard" id="p1" style="left:110px;background:var(--soft);color:var(--dk)"><div class="em">🎓</div><b>LearnX</b><span>Learn · education &amp; research</span></div>
+  <div class="pcard" id="p2" style="left:475px;background:var(--sky);color:var(--skyfg)"><div class="em">🩺</div><b>HealthX</b><span>Heal · AIClinic for doctors</span></div>
+  <div class="pcard" id="p3" style="left:840px;background:var(--sun);color:var(--sunfg)"><div class="em">🚀</div><b>SkillX</b><span>Grow · training by doing</span></div>
+</div>
+
+<!-- S2 LearnX content -->
+<div class="sc" id="s2">
+  <div class="tag" style="background:var(--soft);color:var(--dk)">🎓 LearnX</div>
+  <div class="h">Boring content, made <span style="color:var(--accent)">playful</span></div>
+  <svg class="abs" style="left:0;top:0" width="1280" height="720"><g id="lxL" stroke="#C9CCF7" stroke-width="4" fill="none" stroke-linecap="round"></g></svg>
+  <div class="abs" id="pdf" style="left:820px;top:200px;width:120px;height:150px;background:#fff;border:2px solid #ddd;border-radius:8px;padding:14px"><div style="font-size:12px;color:#999;font-weight:700">CHAPTER 4</div><div style="height:8px;background:#ddd;border-radius:4px;margin-top:10px"></div><div style="height:8px;background:#ddd;border-radius:4px;margin-top:8px;width:80%"></div><div style="height:8px;background:#ddd;border-radius:4px;margin-top:8px"></div><div style="height:8px;background:#ddd;border-radius:4px;margin-top:8px;width:60%"></div></div>
+  <div class="abs" id="lxc" style="left:785px;top:240px;width:190px;padding:18px;border-radius:22px;background:var(--ink);color:#fff;text-align:center;font-weight:800;font-size:22px">Your lecture</div>
+  <div class="chip c-indigo" id="x1" style="left:600px;top:90px">🎬 Videos</div>
+  <div class="chip c-sun" id="x2" style="left:1000px;top:90px">🧠 Mind maps</div>
+  <div class="chip c-pink" id="x3" style="left:600px;top:420px">🎮 Games</div>
+  <div class="chip c-mint" id="x4" style="left:990px;top:420px">💬 AI video chat</div>
+</div>
+
+<!-- S3 LearnX evaluation -->
+<div class="sc" id="s3">
+  <div class="tag" style="background:var(--soft);color:var(--dk)">🎓 LearnX Evaluate</div>
+  <div class="h">Instant, personal <span style="color:var(--accent)">feedback</span></div>
+  <div class="card" id="ev" style="left:600px;top:80px;width:600px;padding:24px 28px">
+    <div style="font-size:15px;font-weight:700;color:#6E6C94;letter-spacing:.06em">STUDENT ANSWER</div>
+    <div style="font-size:19px;margin-top:6px;line-height:1.45;color:var(--muted)">Planning means setting goals and deciding the best way to achieve them…</div>
+    <div style="display:flex;gap:20px;align-items:center;margin-top:16px;border-top:2px solid var(--border);padding-top:16px">
+      <svg width="100" height="100" viewBox="0 0 110 110"><circle cx="55" cy="55" r="46" stroke="#EEF0FF" stroke-width="12" fill="none"/><circle id="ring" cx="55" cy="55" r="46" stroke="#4F46E5" stroke-width="12" fill="none" stroke-linecap="round" transform="rotate(-90 55 55)" stroke-dasharray="289" stroke-dashoffset="289"/><text id="scr" x="55" y="64" text-anchor="middle" font-family="Outfit" font-weight="800" font-size="28" fill="#1E1B4B">0/10</text></svg>
+      <div><div class="li" id="e1">✅ Clear definition</div><div class="li" id="e2">✅ Good example</div><div class="li" id="e3">💡 Add a real company case</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- S4 HealthX patient chat -->
+<div class="sc" id="s4">
+  <div class="tag" style="background:var(--sky);color:var(--skyfg)">🩺 HealthX · AIClinic</div>
+  <div class="h">The AI talks to patients <span style="color:#0284C7">before the visit</span></div>
+  <div class="phone"><div class="screen">
+    <div class="appbar">💬 AIClinic</div>
+    <div class="bub ai" id="c1" style="top:74px">Hi Priya! What brings you in today?</div>
+    <div class="bub me" id="c2" style="top:136px">🎤 ▂▅▇▅▃ “Headache for three days.”</div>
+    <div class="bub ai" id="c3" style="top:206px">Any fever, or changes in your vision?</div>
+    <div class="bub me" id="c4" style="top:268px">⌨️ Mild fever. No vision problems.</div>
+    <div class="abs" id="c5" style="left:12px;right:12px;top:340px;background:#fff;border:2px solid var(--border);border-radius:14px;padding:10px 12px;font-size:14px;font-weight:700">📄 Blood_test_Sep.pdf <span style="float:right">✅</span></div>
+  </div></div>
+  <div class="abs" id="hp" style="left:990px;top:200px;width:230px;display:grid;gap:12px">
+    <div class="chip c-sky" style="position:static">🎤 Speak or type</div>
+    <div class="chip c-indigo" style="position:static">📎 Upload reports</div>
+  </div>
+</div>
+
+<!-- S5 HealthX summary -->
+<div class="sc" id="s5">
+  <div class="tag" style="background:var(--sky);color:var(--skyfg)">🩺 HealthX · AIClinic</div>
+  <div class="h">The doctor starts with a <span style="color:#0284C7">ready summary</span></div>
+  <div class="card" id="sm" style="left:600px;top:60px;width:610px;padding:22px 28px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><b style="font-size:20px">Pre-visit summary · Priya S., 34 F</b><span id="rdy" style="background:#22C55E;color:#fff;font-weight:800;font-size:13px;padding:5px 12px;border-radius:999px">✓ Ready</span></div>
+    <div class="srow" id="s5r1"><b>Main complaint</b><span>Headache for 3 days</span></div>
+    <div class="srow" id="s5r2"><b>Associated</b><span>Mild fever; no vision changes</span></div>
+    <div class="srow" id="s5r3"><b>Documents</b><span>Blood test (Sep)</span></div>
+    <div class="srow" id="s5r4" style="border:0"><b>To review</b><span style="color:var(--dk);font-weight:600">Fever with headache</span></div>
+  </div>
+  <div class="abs" id="pills" style="left:600px;top:400px;display:flex;gap:14px">
+    <div class="chip c-mint" style="position:static">⏱ Less waiting</div>
+    <div class="chip c-sun" style="position:static">💬 Better consultations</div>
+  </div>
+</div>
+
+<!-- S6 SkillX -->
+<div class="sc" id="s6">
+  <div class="tag" style="background:var(--sun);color:var(--sunfg)">🚀 SkillX</div>
+  <div class="h">Teams learn by <span style="color:#D97706">doing</span></div>
+  <div class="card" id="rp" style="left:580px;top:50px;width:400px;padding:20px 22px;background:#F6F7FF">
+    <div style="font-weight:700;color:var(--muted);font-size:15px" id="who">😠 Riya · AI customer</div>
+    <div style="background:#fff;border:2px solid var(--border);border-radius:16px;padding:12px 14px;font-size:17px;margin-top:8px">My order is late again! Third time this month.</div>
+    <div class="opt" id="oa">A. That's not my department.</div>
+    <div class="opt" id="ob">B. I'm so sorry. Let me check it right now.</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-top:14px"><span id="mood" style="font-size:30px">😠</span><div class="bar" style="flex:1;margin:0"><i id="mb" style="background:#EF4444;width:20%"></i></div></div>
+  </div>
+  <div class="card" id="scd" style="left:1000px;top:50px;width:230px;padding:20px">
+    <div style="font-size:13px;font-weight:700;color:#6E6C94;letter-spacing:.06em">SKILLS</div>
+    <div style="margin-top:10px;font-weight:700;font-size:16px">Empathy<div class="bar"><i id="k1" style="background:var(--accent)"></i></div></div>
+    <div style="margin-top:10px;font-weight:700;font-size:16px">Problem solving<div class="bar"><i id="k2" style="background:#F59E0B"></i></div></div>
+    <div style="margin-top:10px;font-weight:700;font-size:16px">Communication<div class="bar"><i id="k3" style="background:#22C55E"></i></div></div>
+  </div>
+  <div class="abs" id="sxp" style="left:1000px;top:330px;display:grid;gap:12px">
+    <div class="chip c-sun" style="position:static">🎭 AI role plays</div>
+    <div class="chip c-indigo" style="position:static">🧭 Simulations</div>
+  </div>
+</div>
+
+<!-- S7 common -->
+<div class="sc" id="s7">
+  <div class="abs" style="left:0;width:1280px;top:80px;text-align:center;font-size:50px;font-weight:800;letter-spacing:-.02em">Built around <span style="color:var(--accent)">you</span></div>
+  <div class="card" id="g1" style="left:110px;top:220px;width:320px;height:250px;padding:30px;text-align:center"><div style="font-size:60px">📚</div><div style="font-size:26px;font-weight:800;margin-top:10px">Your own content</div><div style="font-size:18px;color:var(--muted);margin-top:6px">Answers come from your material</div></div>
+  <div class="card" id="g2" style="left:480px;top:220px;width:320px;height:250px;padding:30px;text-align:center;background:var(--sky);border-color:#BAE0F5"><div style="font-size:60px">🌐</div><div style="font-size:26px;font-weight:800;margin-top:10px">Their language</div><div style="font-size:18px;color:var(--muted);margin-top:6px">Multi-language learning</div></div>
+  <div class="card" id="g3" style="left:850px;top:220px;width:320px;height:250px;padding:30px;text-align:center;background:var(--soft);border-color:var(--line)"><div style="font-size:60px">🔒</div><div style="font-size:26px;font-weight:800;margin-top:10px">Cloud or on-premise</div><div style="font-size:18px;color:var(--muted);margin-top:6px">Private by design</div></div>
+</div>
+
+<!-- S8 end -->
+<div class="sc" id="s8" style="background:var(--ink);color:#fff">
+  <div class="abs" id="b1" style="right:-90px;top:-90px;width:340px;height:340px;border-radius:50%;background:var(--sunS)"></div>
+  <div class="abs" id="b2" style="left:-80px;bottom:-110px;width:300px;height:300px;border-radius:50%;background:var(--accent)"></div>
+  <div class="abs" id="b3" style="left:900px;bottom:-60px;width:160px;height:160px;border-radius:50%;background:#38BDF8"></div>
+  <div class="abs" id="endc" style="left:0;width:1280px;top:150px;text-align:center">
+    <div style="display:inline-flex;align-items:center;gap:16px"><span style="position:relative;width:62px;height:62px;border-radius:50%;background:var(--accent);display:inline-block"><span style="position:absolute;right:-6px;top:-6px;width:24px;height:24px;border-radius:50%;background:var(--sunS);border:5px solid var(--ink)"></span></span><span style="font-size:52px;font-weight:800">AIStudyTools</span></div>
+    <div style="font-size:56px;font-weight:800;margin-top:24px;letter-spacing:-.02em">Accelerating human potential <span style="color:var(--sunS)">with AI.</span></div>
+    <div style="margin-top:18px;font-size:24px;color:#C9C8EA;font-weight:600">LearnX · HealthX · SkillX</div>
+    <div id="btn" style="display:inline-block;margin-top:28px;background:var(--sunS);color:var(--ink);font-weight:800;font-size:28px;padding:16px 34px;border-radius:18px">Book a free demo</div>
+    <div style="margin-top:20px;font-size:24px;color:#C9C8EA;font-weight:600">www.aistudytools.com</div>
+  </div>
+</div>
+
+<div id="cap"></div>
+</div>
+<script>
+const D=[7.3,6.6,5.6,6.5,6.1,6.0,6.4,7.0];
+const CAP=["AIStudyTools. One AI platform, with three ways to help people learn, heal and grow.","LearnX turns boring course content into videos, mind maps and interactive games.","And its AI evaluation gives every learner instant, personal feedback.","HealthX, with AIClinic, chats with patients before their visit and collects their reports.","So the doctor starts with a ready summary. Less waiting, and better consultations.","SkillX builds AI role plays and simulations, so teams learn by doing.","Every tool runs on your own content, in your learners' language, on cloud or on-premise.",""];
+const START=[];let acc=0;for(const d of D){START.push(acc);acc+=d}
+window.TOTAL=acc;window.START=START;window.D=D;
+const $=id=>document.getElementById(id);
+const cl=x=>Math.max(0,Math.min(1,x));
+const seg=(t,a,b)=>cl((t-a)/(b-a));
+const eo=x=>1-Math.pow(1-x,3);
+const back=x=>{const c=1.7;x=x-1;return 1+x*x*((c+1)*x+c)};
+function pop(el,p){p=cl(p);el.style.opacity=Math.min(1,p*2.5);el.style.transform='scale('+(0.4+0.6*back(p))+')';}
+function rise(el,p){p=eo(cl(p));el.style.opacity=p;el.style.transform='translateY('+((1-p)*30)+'px)';}
+function curve(x1,y1,x2,y2){const mx=(x1+x2)/2,my=(y1+y2)/2;return 'M'+x1+' '+y1+' Q '+(mx+(y2-y1)*.15)+' '+(my-(x2-x1)*.15)+' '+x2+' '+y2}
+function center(el){return [el.offsetLeft+el.offsetWidth/2,el.offsetTop+el.offsetHeight/2]}
+function path(d,p){return '<path d="'+d+'" pathLength="1" stroke-dasharray="1" stroke-dashoffset="'+(1-eo(p))+'"/>'}
+
+window.render=function(t){
+  let si=0;for(let i=0;i<D.length;i++){if(t>=START[i])si=i}
+  for(let i=0;i<D.length;i++){
+    const el=$('s'+(i+1));const lt=t-START[i];
+    let o=0;if(lt>=-0.001&&lt<D[i]){o=i===0?1:seg(lt,0,.35);if(i<D.length-1)o*=1-seg(lt,D[i]-.3,D[i])}
+    if(i===D.length-1&&lt>=D[i])o=1;
+    el.style.opacity=o;el.style.display=o>0?'block':'none';
+  }
+  const lt=t-START[si];
+  $('cap').textContent=CAP[si];$('cap').style.opacity=CAP[si]?seg(lt,.15,.45):0;
+  if(si===0){rise($('logo'),seg(lt,0,.6));rise($('tline'),seg(lt,.5,1.1));['p1','p2','p3'].forEach((id,k)=>{pop($(id),seg(lt,1.6+k*.6,2.2+k*.6));$(id).style.transform+=' translateY('+(Math.sin(lt*1.6+k)*4)+'px)'});}
+  if(si===1){const sh=eo(seg(lt,.1,1.0));const pd=$('pdf');pd.style.opacity=1-seg(lt,.8,1.1);pd.style.transform='translateY('+(-120+sh*120)+'px) scale('+(1-sh*.4)+')';pop($('lxc'),seg(lt,.9,1.4));
+    let d='';const c0=center($('lxc'));['x1','x2','x3','x4'].forEach((id,k)=>{const p=seg(lt,1.4+k*.4,2.0+k*.4);pop($(id),p);if(p>0){const c=center($(id));d+=path(curve(c0[0],c0[1],c[0],c[1]),p)}});$('lxL').innerHTML=d;}
+  if(si===2){rise($('ev'),seg(lt,.1,.6));const r=eo(seg(lt,.8,2.0));$('ring').setAttribute('stroke-dashoffset',289*(1-0.8*r));$('scr').textContent=Math.round(8*r)+'/10';['e1','e2','e3'].forEach((id,k)=>rise($(id),seg(lt,1.6+k*.4,2.0+k*.4)));}
+  if(si===3){rise($('c1'),seg(lt,.3,.7));rise($('c2'),seg(lt,1.2,1.6));rise($('c3'),seg(lt,2.2,2.6));rise($('c4'),seg(lt,3.0,3.4));rise($('c5'),seg(lt,3.9,4.3));rise($('hp'),seg(lt,1.0,1.6));}
+  if(si===4){rise($('sm'),seg(lt,.1,.6));['s5r1','s5r2','s5r3','s5r4'].forEach((id,k)=>rise($(id),seg(lt,.6+k*.4,1.0+k*.4)));pop($('rdy'),seg(lt,2.4,2.8));rise($('pills'),seg(lt,3.0,3.6));}
+  if(si===5){rise($('rp'),seg(lt,.1,.6));rise($('oa'),seg(lt,.7,1.1));rise($('ob'),seg(lt,.9,1.3));const ok=lt>1.8;const b=$('ob');b.style.background=ok?'#DCFCE7':'#fff';b.style.borderColor=ok?'#22C55E':'#E4E5F5';b.style.color=ok?'#166534':'';if(ok)$('oa').style.opacity=.45;
+    const m=seg(lt,1.9,2.8);$('mb').style.width=(20+m*65)+'%';$('mb').style.background=m>.5?'#22C55E':'#EF4444';$('mood').textContent=m>.5?'🙂':'😠';$('who').textContent=(m>.5?'🙂':'😠')+' Riya · AI customer';
+    rise($('scd'),seg(lt,2.4,2.9));[[1,86],[2,74],[3,91]].forEach(([k,v],j)=>{$('k'+k).style.width=(v*eo(seg(lt,2.8+j*.3,3.8+j*.3)))+'%'});rise($('sxp'),seg(lt,3.6,4.2));}
+  if(si===6){['g1','g2','g3'].forEach((id,k)=>pop($(id),seg(lt,.3+k*1.2,.9+k*1.2)));}
+  if(si===7){rise($('endc'),seg(lt,.2,1.0));pop($('b1'),seg(lt,0,.8));pop($('b2'),seg(lt,.2,1.0));pop($('b3'),seg(lt,.4,1.2));$('btn').style.transform='scale('+(1+Math.max(0,Math.sin((lt-1.6)*3.2))*.05*seg(lt,1.4,1.8))+')';}
+};
+render(0);
+</script>
+</body></html>
