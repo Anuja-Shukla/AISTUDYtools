@@ -1,7 +1,9 @@
-Medical reports are full of numbers and terms that are hard to understand.
-Health X by AI Study Tools turns them into information that makes sense.
-It explains your report in plain, simple language.
-You can ask questions and get clear answers, any time.
-And it helps you prepare the right questions for your doctor.
-Upload a report. Understand it. Talk to your doctor with confidence.
-Health X. Understand your health with confidence. Book your free demo today.
+With more patients every day, doctors spend a big part of each visit just collecting the history.
+A I Clinic, by Health X, gives that time back.
+Patients register and log in before their visit.
+A friendly AI assistant asks about their symptoms. They can speak or type their answers.
+They can also upload their reports and prescriptions.
+The whole conversation is summarised for the doctor.
+So when the patient arrives, the doctor already has the first round, ready.
+Less waiting for patients, and better conversations with their doctor.
+A I Clinic, by Health X. Book your free demo today.
