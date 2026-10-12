@@ -3,7 +3,7 @@
 import os, html
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "4"  # cache-buster for css/js
+V = "5"  # cache-buster for css/js
 
 def svg(paths, extra=""):
     return f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"{extra}>{paths}</svg>'
@@ -49,7 +49,7 @@ I = {
 }
 
 NAV = [("/", "Home", "home"), ("/learnx/", "LearnX", "learnx"), ("/healthx/", "HealthX", "healthx"), ("/skillx/", "SkillX", "skillx"),
-       ("/journals/", "Journal Finder", "journals"), ("/webinars/", "Webinars", "webinars"), ("/contact/", "Contact", "contact")]
+       ("/contact/", "Contact", "contact")]
 
 def head(title, desc, path):
     return f'''<!doctype html>
@@ -99,7 +99,6 @@ FOOT = f'''</main>
         <p style="margin-top:14px;max-width:340px">One intelligent platform for learning, healthcare insights and workforce development.</p>
       </div>
       <div><h4>Products</h4><a href="/learnx/">LearnX</a><a href="/healthx/">HealthX</a><a href="/skillx/">SkillX</a></div>
-      <div><h4>Resources</h4><a href="/journals/">Journal Finder</a><a href="/webinars/">Webinars</a></div>
       <div><h4>Contact</h4><a href="mailto:intelliqueresearchschool@gmail.com">intelliqueresearchschool@gmail.com</a><a href="https://wa.me/917303559258" target="_blank" rel="noopener">WhatsApp +91 73035 59258</a><a href="tel:+917303559258">Call +91 73035 59258</a></div>
     </div>
     <div class="copy"><span>© <span id="yr">2026</span> AIStudyTools. All rights reserved.</span><span>Made for learners, researchers and teams.</span></div>
@@ -186,7 +185,7 @@ home += hero("One platform · Three intelligent products",
              'Accelerating human potential with <span class="hl">AI</span>.',
              "One intelligent platform powering learning, healthcare insights and workforce development through advanced artificial intelligence.",
              [("Explore products", "#products", "btn-ink"), ("Watch the 40-sec video", "/learnx/#hook", "btn-soft")],
-             mindmap("AIStudyTools", ["LearnX", "HealthX", "SkillX", "Journal Finder", "AI evaluation"], "AIStudyTools connects LearnX, HealthX, SkillX, the Journal Finder and AI evaluation"))
+             mindmap("AIStudyTools", ["LearnX", "HealthX", "SkillX", "AIClinic", "AI evaluation"], "AIStudyTools connects LearnX, HealthX, SkillX, AIClinic and AI evaluation"))
 home += f'''<section id="products" class="white">
   <div class="wrap">
     {sec_head("Our offerings", "Designed to empower individuals, institutions, healthcare providers and organisations.", "Products")}
@@ -202,21 +201,6 @@ home += f'''<section id="products" class="white">
     {sec_head("Why choose AIStudyTools?", "", "Why us")}
     {cards([("bot", "AI-powered intelligence", "Purpose-built AI solutions on demand."), ("target", "Personalised experiences", "Adaptive recommendations tailored to each user's needs and goals."), ("lock", "Secure &amp; reliable", "Strong privacy and security, including on-premise options."), ("layers", "Scalable platform", "Built for people who want more than ordinary.")], "g4", "rotate")}
     <div style="margin-top:28px">{stats([("100K+", "Learning interactions"), ("50K+", "Research queries"), ("10K+", "AI simulations"), ("5K+", "Healthcare reports analysed")])}</div>
-  </div>
-</section>
-<section class="white">
-  <div class="wrap split">
-    <div class="rv" style="display:flex;flex-direction:column;gap:18px;align-items:flex-start">
-      <span class="tag">Free for researchers</span>
-      <h2>Find the right journal in seconds</h2>
-      <p class="lead">Search journals by name or ISSN and filter by ABDC rating, SJR quartile and Web of Science index, all in one place.</p>
-      <a class="btn btn-ink" href="/journals/">Open Journal Finder {I["arrow"]}</a>
-    </div>
-    <div class="rv" style="display:grid;gap:12px">
-      <div class="card" style="flex-direction:row;align-items:center;justify-content:space-between;padding:20px 24px"><b>Journal of Marketing</b><span style="display:flex;gap:8px"><span class="chip c-indigo" style="padding:6px 12px">A* ABDC</span><span class="chip c-mint" style="padding:6px 12px">Q1</span></span></div>
-      <div class="card" style="flex-direction:row;align-items:center;justify-content:space-between;padding:20px 24px"><b>The Journal of Finance</b><span style="display:flex;gap:8px"><span class="chip c-indigo" style="padding:6px 12px">A* ABDC</span><span class="chip c-mint" style="padding:6px 12px">Q1</span></span></div>
-      <div class="card" style="flex-direction:row;align-items:center;justify-content:space-between;padding:20px 24px"><b>Journal of Business Research</b><span style="display:flex;gap:8px"><span class="chip c-indigo" style="padding:6px 12px">A ABDC</span><span class="chip c-mint" style="padding:6px 12px">Q1</span></span></div>
-    </div>
   </div>
 </section>
 '''
@@ -274,6 +258,22 @@ lx += f'''<section class="white"><div class="wrap">{stats([("100K+", "Learning s
         <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><span style="color:var(--muted);font-size:15px">Teacher can accept or override the score</span><span class="chip c-mint" style="padding:6px 12px">Teacher score: 8 / 10</span></div>
       </div>
       <p style="text-align:center;color:var(--faint);font-size:14px;margin-top:10px">Illustration of the evaluation screen</p>
+    </div>
+  </div>
+</section>
+<section id="research" class="tint">
+  <div class="wrap">
+    {sec_head("Free for researchers", "Tools and live sessions to help you research, publish and grow.", "LearnX resources")}
+    <div class="grid g2">
+      <div class="card rv"><div class="ico i-indigo">{I["search"]}</div><h3>Journal Finder</h3><p>Search journals by name or ISSN and filter by ABDC rating, SJR quartile and Web of Science index, all in one place.</p>
+        <div style="display:grid;gap:8px;margin:6px 0 8px">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--bg);border-radius:12px;padding:10px 14px"><b style="font-size:15px">Journal of Marketing</b><span style="display:flex;gap:6px"><span class="tag indigo" style="padding:4px 10px;font-size:12px">A* ABDC</span><span class="tag" style="padding:4px 10px;font-size:12px;background:var(--mint);color:var(--mint-fg)">Q1</span></span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--bg);border-radius:12px;padding:10px 14px"><b style="font-size:15px">Journal of Business Research</b><span style="display:flex;gap:6px"><span class="tag indigo" style="padding:4px 10px;font-size:12px">A ABDC</span><span class="tag" style="padding:4px 10px;font-size:12px;background:var(--mint);color:var(--mint-fg)">Q1</span></span></div>
+        </div>
+        <a class="btn btn-ink" href="/journals/" style="align-self:flex-start">Open Journal Finder {I["arrow"]}</a></div>
+      <div class="card rv"><div class="ico i-sun">{I["calendar"]}</div><h3>Live webinars</h3><p>Expert-led sessions on research methods, doctoral studies, publishing, career growth and AI in research.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 8px"><span class="tag indigo">Research methods</span><span class="tag">Doctoral studies</span><span class="tag sky">Publishing</span><span class="tag indigo">AI in research</span></div>
+        <a class="btn btn-ink" href="/webinars/" style="align-self:flex-start;margin-top:auto">See upcoming webinars {I["arrow"]}</a></div>
     </div>
   </div>
 </section>
@@ -355,7 +355,7 @@ write("/skillx/", sx)
 
 # ---------------- WEBINARS ----------------
 wb = head("Live Expert-Led Webinars | AIStudyTools",
-          "Learn directly from international experts in live webinars on research, doctoral studies and career growth.", "/webinars/") + header("webinars")
+          "Learn directly from international experts in live webinars on research, doctoral studies and career growth.", "/webinars/") + header("learnx")
 wb += hero("LearnX webinars", 'Live, <span class="hl">expert-led</span> webinars.',
            "Learn directly from international experts. Join upcoming sessions on research, doctoral studies and career growth.",
            [("Get notified", "#demo:Webinars", "btn-ink"), ("Ask on WhatsApp", "https://wa.me/917303559258?text=" + "Hi%2C%20please%20share%20upcoming%20AIStudyTools%20webinars.", "btn-soft")],
@@ -421,7 +421,7 @@ nf = head("Page not found | AIStudyTools", "The page you are looking for could n
 nf += f'''<section class="hero"><div class="wrap" style="display:block;text-align:center;max-width:680px">
   <span class="tag">404</span><h1 style="margin-top:16px">This page wandered off.</h1>
   <p class="lead" style="margin-top:16px">The link may be old or mistyped. Try one of these instead.</p>
-  <div class="hero-btns" style="justify-content:center;margin-top:24px"><a class="btn btn-ink" href="/">Go home</a><a class="btn btn-soft" href="/journals/">Journal Finder</a><a class="btn btn-soft" href="/contact/">Contact us</a></div>
+  <div class="hero-btns" style="justify-content:center;margin-top:24px"><a class="btn btn-ink" href="/">Go home</a><a class="btn btn-soft" href="/learnx/">LearnX</a><a class="btn btn-soft" href="/contact/">Contact us</a></div>
 </div></section>
 ''' + FOOT
 write("/404.html", nf)

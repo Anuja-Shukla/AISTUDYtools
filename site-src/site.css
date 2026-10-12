@@ -178,7 +178,7 @@ section{padding:88px 0}
 
 /* Footer */
 .ftr{background:var(--ink);color:#C9C8EA;padding:56px 0 28px;margin-top:40px}
-.ftr .cols{display:grid;grid-template-columns:2fr 1fr 1fr 1.4fr;gap:32px}
+.ftr .cols{display:grid;grid-template-columns:2fr 1fr 1.6fr;gap:32px}
 .ftr h4{color:#fff;font-size:15px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}
 .ftr a{color:#C9C8EA;text-decoration:none;display:block;padding:4px 0}
 .ftr a:hover{color:#fff}
