@@ -224,3 +224,4 @@ section{padding:88px 0}
 .nav a,.hdr-cta .btn{white-space:nowrap}
 .hook-sound{right:auto;left:16px}
 @media (max-width:1320px){.nav a{padding:9px 9px;font-size:15px}.logo small{display:none}}
+@media (max-width:560px){.hero h1 .hl{white-space:normal}}

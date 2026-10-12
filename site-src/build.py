@@ -3,7 +3,7 @@
 import os, html
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "8"  # cache-buster for css/js
+V = "9"  # cache-buster for css/js
 
 def svg(paths, extra=""):
     return f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"{extra}>{paths}</svg>'
@@ -212,17 +212,15 @@ write("/", home)
 # ---------------- LEARNX ----------------
 lx = head("LearnX | AI-Powered Learning, Education & Research | AIStudyTools",
           "LearnX turns your lectures and PDFs into simulation games, mind maps and AI video chat, with AI-assisted evaluation for tests.", "/learnx/") + header("learnx")
-lx += hook("Boring content? Watch what we do with it.", "aistudytools-explainer", "AIStudyTools explainer video: boring content turned into videos, mind maps, games and AI feedback")
-lx += hero("Brain-science based learning", 'Your content, made <span class="hl">playful</span>.',
+lx += hero("Brain-science based learning", 'Turn dull content into <span class="hl">dynamic learning</span>.',
            "Upload a lecture or PDF. Learners get games, mind maps, notes and an AI they can chat with, in their own language. Learn smarter, research faster, achieve more.",
-           [("Watch the 40-sec video", "#hook", "btn-ink"), ("See AI evaluation", "#evaluate", "btn-soft")],
+           [("Discover how it works", "video:/videos/aistudytools-explainer.mp4?v=1", "btn-ink"), ("See AI evaluation", "#evaluate", "btn-soft")],
            mindmap("Your lecture", ["Simulation game", "Mind map", "AI video chat", "Quiz + scoreboard", "AI evaluation"], "A lecture becomes a simulation game, mind map, AI video chat, quiz and AI evaluation"))
 lx += f'''<section class="white"><div class="wrap">{stats([("100K+", "Learning sessions"), ("25K+", "Research queries"), ("500+", "Subjects covered"), ("24/7", "AI learning support")])}</div></section>
 <section>
   <div class="wrap">
     {sec_head("LearnX solutions", "Helping learners, educators and researchers achieve more with intelligent AI support.", "What you get")}
-    {cards([("bot", "AI tutor", "Personalised explanations, examples and concept guidance across subjects."), ("play", "Interactive learning", "AI-supported animated videos with interactive learning experiences."), ("chat", "Interactive bot", "Simulation and game-based learning with an AI chatbot for adaptive learning."), ("mic", "Audio questionnaire", "Create qualitative surveys with audio inputs and improve assignments and writing."),
-            ("puzzle", "Simulations", "Develop critical thinking using realistic simulations."), ("map", "Mind maps", "Turn understanding into live mind maps you can edit, save and download."), ("pencil", "Exam preparation", "Auto-generate questions and get AI-assisted evaluation for mock tests."), ("spark", "AI study companion", "A personal learning assistant, available any time for questions and guidance.")], "g4", "rotate")}
+    {cards([("bot", "AI tutor &amp; study companion", "Personalised explanations, examples and guidance across subjects, available any time."), ("play", "Interactive learning", "AI-supported animated videos with interactive learning experiences."), ("puzzle", "Simulations", "Develop critical thinking using realistic, game-based simulations."), ("mic", "Audio questionnaire", "Create qualitative surveys with audio inputs and improve assignments and writing.")], "g4", "rotate")}
   </div>
 </section>
 <section id="studio" class="white">
@@ -249,7 +247,7 @@ lx += f'''<section class="white"><div class="wrap">{stats([("100K+", "Learning s
         <li><div><b>AI evaluates</b><span>Every answer gets an accuracy score and specific, written feedback.</span></div></li>
         <li><div><b>Teacher decides</b><span>Review, override the score, add suggestions and publish the report card.</span></div></li>
       </ol>
-      <div style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn btn-ink" href="#demo:LearnX%20Evaluate">Get a free demo</a><button class="btn btn-soft" type="button" data-video="/videos/evaluate-highlight.mp4" id="demo-btn">Watch the 75-sec demo</button></div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap"><button class="btn btn-ink" type="button" data-video="/videos/evaluate-highlight.mp4" id="demo-btn">Watch the 75-sec demo</button></div>
     </div>
     <div class="rv">
       <div class="card" style="gap:14px;padding:26px">
