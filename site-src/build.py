@@ -3,7 +3,7 @@
 import os, html
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "10"  # cache-buster for css/js
+V = "11"  # cache-buster for css/js
 
 def svg(paths, extra=""):
     return f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"{extra}>{paths}</svg>'
@@ -302,10 +302,9 @@ write("/learnx/", lx)
 # ---------------- HEALTHX ----------------
 hx = head("HealthX | AI-Powered Healthcare Insights | AIStudyTools",
           "HealthX helps people understand medical reports, symptoms and medicines, and prepare for doctor visits, with AI-powered health education.", "/healthx/") + header("healthx")
-hx += hook("Less waiting. Better consultations.", "healthx-explainer", "AIClinic by HealthX video: patients register, chat with an AI assistant by voice or text and upload reports, and the doctor receives a summary before the visit", "Meet AIClinic", "2")
 hx += hero("AI-powered health information", 'Understand your health with <span class="hl">confidence</span>.',
            "Upload medical reports, explore health insights, understand symptoms and prepare for more informed conversations with healthcare professionals.",
-           [("Get a free demo", "#demo:HealthX", "btn-ink"), ("Watch the 40-sec video", "#hook", "btn-soft")],
+           [("Get a free demo", "#demo:HealthX", "btn-ink"), ("Discover how it works", "video:/videos/healthx-explainer.mp4?v=2", "btn-soft")],
            mindmap("Your report", ["Plain-language summary", "AI health chat", "Symptom insights", "Medication insights", "Visit preparation"], "A medical report becomes a plain-language summary, AI chat, symptom and medication insights and visit preparation"), "sky")
 hx += f'''<section class="white"><div class="wrap">{stats([("50K+", "Health queries"), ("15K+", "Reports analysed"), ("500+", "Medical topics"), ("24/7", "AI assistance")])}</div></section>
 <section id="solutions">
@@ -330,10 +329,9 @@ write("/healthx/", hx)
 # ---------------- SKILLX ----------------
 sx = head("SkillX | AI-Powered Training & Simulations | AIStudyTools",
           "SkillX builds real-world skills with AI simulations, role plays, interview practice and leadership, sales and customer service training.", "/skillx/") + header("skillx")
-sx += hook("Training people remember. Watch how.", "skillx-explainer", "SkillX explainer video: slide-based training turned into AI role plays, branching simulations and instant skills feedback")
 sx += hero("AI-powered workforce development", 'Train for <span class="hl">real-world</span> success.',
            "Simulations, interactive learning, leadership journeys, interview practice and AI role plays that turn knowledge into performance.",
-           [("Get a free demo", "#demo:SkillX", "btn-ink"), ("Watch the 40-sec video", "#hook", "btn-soft")],
+           [("Get a free demo", "#demo:SkillX", "btn-ink"), ("Discover how it works", "video:/videos/skillx-explainer.mp4?v=1", "btn-soft")],
            mindmap("Your team", ["AI role plays", "Simulations", "Interview practice", "Leadership journeys", "Sales &amp; service drills".replace("&amp;", "&")], "A team practises through AI role plays, simulations, interview practice, leadership journeys and sales and service drills"))
 sx += f'''<section class="white"><div class="wrap">{stats([("10,000+", "Simulations generated"), ("500+", "Training programmes"), ("50+", "Industry use cases"), ("95%", "Learner satisfaction")])}</div></section>
 <section id="solutions">
