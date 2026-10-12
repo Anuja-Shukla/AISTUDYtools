@@ -1,0 +1,162 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Outfit;src:url(package/files/outfit-latin-wght-normal.woff2) format('woff2');font-weight:100 900}
+:root{--bg:#FAFAFF;--ink:#1E1B4B;--muted:#4A4878;--accent:#4F46E5;--dk:#3730A3;--soft:#EEF0FF;--line:#C9CCF7;--border:#E4E5F5;--sun:#FEF3C7;--sunfg:#854D0E;--sunS:#FBBF24;--sky:#E0F2FE;--skyfg:#075985;--pink:#FCE7F3;--pinkfg:#9D174D;--mint:#DCFCE7;--mintfg:#166534}
+*{box-sizing:border-box;margin:0}
+html,body{width:1280px;height:720px;overflow:hidden;background:var(--bg);font-family:Outfit,sans-serif;color:var(--ink)}
+#stage{position:absolute;inset:0;overflow:hidden}
+.sc{position:absolute;inset:0;opacity:0}
+.abs{position:absolute}
+.chip{position:absolute;padding:13px 20px;border-radius:18px;font-weight:700;font-size:22px;white-space:nowrap;box-shadow:0 10px 24px -14px rgba(30,27,75,.45)}
+.c-indigo{background:var(--soft);color:var(--dk)}.c-sun{background:var(--sun);color:var(--sunfg)}.c-sky{background:var(--sky);color:var(--skyfg)}.c-pink{background:var(--pink);color:var(--pinkfg)}.c-mint{background:var(--mint);color:var(--mintfg)}
+.tag{position:absolute;left:80px;top:70px;padding:9px 18px;border-radius:999px;background:var(--sun);color:var(--sunfg);font-weight:800;font-size:20px}
+.h{position:absolute;left:80px;top:122px;font-size:54px;font-weight:800;letter-spacing:-.02em;line-height:1.05;width:470px}
+.card{position:absolute;background:#fff;border:2px solid var(--border);border-radius:26px;box-shadow:0 30px 60px -30px rgba(30,27,75,.35)}
+.opt{padding:13px 16px;border:2px solid var(--border);border-radius:14px;background:#fff;font-size:19px;font-weight:700;margin-top:10px}
+.bar{height:14px;border-radius:7px;background:var(--soft);overflow:hidden;flex:1}
+.bar i{display:block;height:100%;border-radius:7px;width:0}
+.tr{display:flex;align-items:center;gap:14px;padding:11px 0;border-bottom:1px solid #EEF0F6;font-size:18px;font-weight:600}
+.tr .n{width:150px}.tr .s{width:120px;text-align:right;font-weight:800}
+#cap{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);max-width:1000px;text-align:center;background:rgba(30,27,75,.88);color:#fff;font-size:25px;font-weight:600;padding:10px 22px;border-radius:14px;line-height:1.3}
+</style></head>
+<body><div id="stage">
+
+<!-- S1 thick manual -->
+<div class="sc" id="s1" style="background:#EDEDF2">
+  <div class="abs" id="stack" style="left:370px;top:60px;width:540px;height:440px">
+    <div class="abs" style="left:24px;top:24px;width:500px;height:410px;background:#e6e6ec;border:2px solid #d6d6de;border-radius:8px"></div>
+    <div class="abs" style="left:12px;top:12px;width:500px;height:410px;background:#f0f0f4;border:2px solid #d6d6de;border-radius:8px"></div>
+    <div class="abs" id="man" style="left:0;top:0;width:500px;height:410px;background:#fff;border:2px solid #d6d6de;border-radius:8px;padding:34px 38px">
+      <div style="font-size:14px;color:#888;font-weight:700;letter-spacing:.1em">STANDARD OPERATING PROCEDURE</div>
+      <div style="font-size:26px;color:#555;font-weight:700;margin:6px 0 4px">Vehicle pre-operation checks</div>
+      <div style="font-size:15px;color:#999;margin-bottom:18px">Section 4 · Page <span id="pg">1</span> of 124</div>
+      <div id="ml"></div>
+    </div>
+  </div>
+  <div class="abs" id="q" style="left:960px;top:150px;font-size:64px">😵‍💫</div>
+</div>
+
+<!-- S2 transform -->
+<div class="sc" id="s2">
+  <svg class="abs" style="left:0;top:0" width="1280" height="720"><g id="s2l" stroke="#F6D88A" stroke-width="4" fill="none" stroke-linecap="round"></g></svg>
+  <div class="abs" id="mini" style="left:585px;top:250px;width:110px;height:140px;background:#fff;border:2px solid #ddd;border-radius:6px"></div>
+  <div class="abs" id="orb" style="left:540px;top:220px;width:200px;height:200px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:800;font-size:40px">SkillX</div>
+  <div class="abs" id="dot" style="left:700px;top:215px;width:46px;height:46px;border-radius:50%;background:var(--sunS);border:6px solid var(--bg)"></div>
+  <div class="chip c-sun" id="o1" style="left:230px;top:140px">🎮 Simulation</div>
+  <div class="chip c-indigo" id="o2" style="left:830px;top:140px">🎬 Interactive video</div>
+  <div class="chip c-pink" id="o3" style="left:240px;top:450px">✅ Scenario quizzes</div>
+  <div class="chip c-mint" id="o4" style="left:810px;top:450px">📊 Readiness tracking</div>
+  <div class="abs" id="brand" style="left:0;width:1280px;top:40px;text-align:center;font-size:30px;font-weight:800">From manual <span style="color:var(--accent)">→</span> simulation</div>
+</div>
+
+<!-- S3 scenario -->
+<div class="sc" id="s3">
+  <div class="tag">Simulation</div>
+  <div class="h">Step into the <span style="color:#D97706">scenario</span></div>
+  <div class="card" id="sc3" style="left:580px;top:40px;width:620px;padding:24px 28px">
+    <div style="display:flex;justify-content:space-between;align-items:center"><span style="background:var(--soft);color:var(--dk);font-weight:700;padding:5px 12px;border-radius:999px;font-size:15px">Pre-operation check · Step 3 of 6</span><span style="font-weight:800;font-size:20px">⭐ <span id="pts">20</span></span></div>
+    <div style="display:flex;gap:16px;align-items:center;margin-top:16px"><div style="font-size:56px">🚙</div><div style="font-size:22px;font-weight:700;line-height:1.3">You notice low tyre pressure on the rear-left wheel. What do you do?</div></div>
+    <div class="opt" id="a">A. Start the trip anyway</div>
+    <div class="opt" id="b">B. Report it and fix it before departure</div>
+    <div class="opt" id="c">C. Check again on the way back</div>
+  </div>
+  <div class="abs" id="cur" style="left:1100px;top:620px;font-size:44px">👆</div>
+</div>
+
+<!-- S4 feedback -->
+<div class="sc" id="s4">
+  <div class="tag">Instant feedback</div>
+  <div class="h" style="width:450px">Every choice has a <span style="color:#D97706">consequence</span></div>
+  <div class="card" id="fb" style="left:600px;top:70px;width:600px;padding:24px 28px;border-color:#BBF7D0">
+    <div style="display:flex;align-items:center;gap:12px"><span style="font-size:40px">✅</span><b style="font-size:26px;color:#166534">Correct decision</b><span id="plus" style="margin-left:auto;font-weight:800;color:#16A34A;font-size:26px">+10</span></div>
+    <div style="font-size:20px;color:var(--muted);margin-top:12px;line-height:1.45">Driving on low tyre pressure can cause a blowout. Always report and fix it before departure.</div>
+    <div style="margin-top:14px;background:var(--soft);color:var(--dk);border-radius:12px;padding:10px 14px;font-weight:700;font-size:17px">📖 Linked to SOP section 4.2</div>
+    <div style="display:flex;gap:8px;margin-top:18px" id="steps"></div>
+  </div>
+</div>
+
+<!-- S5 readiness -->
+<div class="sc" id="s5">
+  <div class="tag">For supervisors</div>
+  <div class="h" style="width:430px">See who is <span style="color:#D97706">ready</span></div>
+  <div class="card" id="dash" style="left:580px;top:60px;width:620px;padding:22px 28px">
+    <div style="font-size:15px;font-weight:700;color:#6E6C94;letter-spacing:.06em;margin-bottom:6px">TEAM READINESS · VEHICLE CHECKS</div>
+    <div class="tr" id="t1"><span class="n">A. Singh</span><div class="bar"><i id="r1" style="background:#22C55E"></i></div><span class="s" style="color:#166534">✅ Ready</span></div>
+    <div class="tr" id="t2"><span class="n">R. Kumar</span><div class="bar"><i id="r2" style="background:#22C55E"></i></div><span class="s" style="color:#166534">✅ Ready</span></div>
+    <div class="tr" id="t3"><span class="n">P. Nair</span><div class="bar"><i id="r3" style="background:#F59E0B"></i></div><span class="s" style="color:#92400E">⚠️ Practise</span></div>
+    <div class="tr" id="t4" style="border:0"><span class="n">S. Das</span><div class="bar"><i id="r4" style="background:#22C55E"></i></div><span class="s" style="color:#166534">✅ Ready</span></div>
+  </div>
+</div>
+
+<!-- S6 sectors -->
+<div class="sc" id="s6">
+  <div class="abs" style="left:0;width:1280px;top:70px;text-align:center;font-size:50px;font-weight:800;letter-spacing:-.02em">Any manual. <span style="color:var(--accent)">Any SOP.</span></div>
+  <div class="chip c-indigo" id="k1" style="left:150px;top:220px">🛡️ Defence &amp; security</div>
+  <div class="chip c-sun" id="k2" style="left:520px;top:220px">🏭 Manufacturing safety</div>
+  <div class="chip c-sky" id="k3" style="left:900px;top:220px">🏥 Healthcare protocols</div>
+  <div class="chip c-mint" id="k4" style="left:230px;top:340px">✈️ Aviation checklists</div>
+  <div class="chip c-pink" id="k5" style="left:560px;top:340px">🏦 Banking compliance</div>
+  <div class="chip c-indigo" id="k6" style="left:890px;top:340px">🧭 Employee induction</div>
+</div>
+
+<!-- S7 end -->
+<div class="sc" id="s7" style="background:var(--ink);color:#fff">
+  <div class="abs" id="b1" style="right:-90px;top:-90px;width:340px;height:340px;border-radius:50%;background:var(--sunS)"></div>
+  <div class="abs" id="b2" style="left:-80px;bottom:-110px;width:300px;height:300px;border-radius:50%;background:var(--accent)"></div>
+  <div class="abs" id="endc" style="left:0;width:1280px;top:160px;text-align:center">
+    <div style="display:inline-flex;align-items:center;gap:16px"><span style="position:relative;width:62px;height:62px;border-radius:50%;background:var(--accent);display:inline-block"><span style="position:absolute;right:-6px;top:-6px;width:24px;height:24px;border-radius:50%;background:var(--sunS);border:5px solid var(--ink)"></span></span><span style="font-size:52px;font-weight:800">SkillX</span><span style="font-size:26px;color:#C9C8EA;font-weight:600;align-self:flex-end;margin-bottom:8px">by AIStudyTools</span></div>
+    <div style="font-size:60px;font-weight:800;margin-top:26px;letter-spacing:-.02em">Turn your manuals into <span style="color:var(--sunS)">practice.</span></div>
+    <div id="btn" style="display:inline-block;margin-top:34px;background:var(--sunS);color:var(--ink);font-weight:800;font-size:28px;padding:16px 34px;border-radius:18px">Book a free demo</div>
+    <div style="margin-top:22px;font-size:26px;color:#C9C8EA;font-weight:600">www.aistudytools.com</div>
+  </div>
+</div>
+
+<div id="cap"></div>
+</div>
+<script>
+const D=[7.4,5.0,6.4,5.6,5.6,6.8,6.0];
+const CAP=["Manuals and SOPs are packed with critical knowledge. But reading is not the same as being ready.","SkillX turns any manual into an interactive simulation.","Learners step into a realistic scenario, and make the decisions themselves.","Every choice has a consequence, with instant feedback linked to the manual.","Supervisors can see who is ready, and who needs more practice.","Defence, manufacturing, healthcare, aviation or banking. Any manual. Any SOP.",""];
+const START=[];let acc=0;for(const d of D){START.push(acc);acc+=d}
+window.TOTAL=acc;window.START=START;window.D=D;
+const $=id=>document.getElementById(id);
+const cl=x=>Math.max(0,Math.min(1,x));
+const seg=(t,a,b)=>cl((t-a)/(b-a));
+const eo=x=>1-Math.pow(1-x,3);
+const back=x=>{const c=1.7;x=x-1;return 1+x*x*((c+1)*x+c)};
+function pop(el,p){p=cl(p);el.style.opacity=Math.min(1,p*2.5);el.style.transform='scale('+(0.4+0.6*back(p))+')';}
+function rise(el,p){p=eo(cl(p));el.style.opacity=p;el.style.transform='translateY('+((1-p)*30)+'px)';}
+function curve(x1,y1,x2,y2){const mx=(x1+x2)/2,my=(y1+y2)/2;return 'M'+x1+' '+y1+' Q '+(mx+(y2-y1)*.15)+' '+(my-(x2-x1)*.15)+' '+x2+' '+y2}
+function center(el){return [el.offsetLeft+el.offsetWidth/2,el.offsetTop+el.offsetHeight/2]}
+function path(d,p){return '<path d="'+d+'" pathLength="1" stroke-dasharray="1" stroke-dashoffset="'+(1-eo(p))+'"/>'}
+let L='';const W=[100,94,98,72,100,88,96,60,92,85];for(let i=0;i<10;i++){L+='<div style="height:11px;border-radius:6px;background:#D4D4DC;margin:0 0 15px;width:'+W[i]+'%"></div>'}$('ml').innerHTML=L;
+let ST='';for(let i=0;i<6;i++){ST+='<span class="stp" style="flex:1;height:10px;border-radius:5px;background:#E4E5F5"></span>'}$('steps').innerHTML=ST;
+
+window.render=function(t){
+  let si=0;for(let i=0;i<D.length;i++){if(t>=START[i])si=i}
+  for(let i=0;i<D.length;i++){
+    const el=$('s'+(i+1));const lt=t-START[i];
+    let o=0;if(lt>=-0.001&&lt<D[i]){o=i===0?1:seg(lt,0,.35);if(i<D.length-1)o*=1-seg(lt,D[i]-.3,D[i])}
+    if(i===D.length-1&&lt>=D[i])o=1;
+    el.style.opacity=o;el.style.display=o>0?'block':'none';
+  }
+  const lt=t-START[si];
+  $('cap').textContent=CAP[si];$('cap').style.opacity=CAP[si]?seg(lt,.15,.45):0;
+  if(si===0){const p=eo(seg(lt,0,.8));$('stack').style.transform='translateY('+((1-p)*40)+'px) rotate('+(-1+Math.sin(lt*.8)*.3)+'deg)';$('stack').style.opacity=p;
+    $('pg').textContent=1+Math.floor(seg(lt,1,6)*123);pop($('q'),seg(lt,3.0,3.5));}
+  if(si===1){const sh=eo(seg(lt,0,1.0));const m=$('mini');m.style.opacity=1-seg(lt,.8,1.1);m.style.transform='translateY('+(-160+sh*160)+'px) scale('+(1-sh*.5)+')';
+    pop($('orb'),seg(lt,.8,1.3));$('orb').style.boxShadow='0 0 0 '+(18+Math.sin(lt*4)*6)+'px rgba(251,191,36,.2),0 0 0 '+(40+Math.sin(lt*4)*8)+'px rgba(251,191,36,.09)';
+    pop($('dot'),seg(lt,1.1,1.5));rise($('brand'),seg(lt,.3,.9));
+    let d='';['o1','o2','o3','o4'].forEach((id,k)=>{const p=seg(lt,1.5+k*.35,2.1+k*.35);pop($(id),p);if(p>0){const c=center($(id));d+=path(curve(640,320,c[0],c[1]),p)}});$('s2l').innerHTML=d;}
+  if(si===2){rise($('sc3'),seg(lt,.1,.6));['a','b','c'].forEach((id,k)=>rise($(id),seg(lt,.9+k*.25,1.3+k*.25)));
+    const c=eo(seg(lt,2.2,3.2));$('cur').style.left=(1100+(1060-1100)*c)+'px';$('cur').style.top=(620+(368-620)*c)+'px';$('cur').style.opacity=seg(lt,2.0,2.2)*(1-seg(lt,4.6,4.9));
+    const ok=lt>3.4;const b=$('b');b.style.background=ok?'#DCFCE7':'#fff';b.style.borderColor=ok?'#22C55E':'#E4E5F5';b.style.color=ok?'#166534':'';if(ok){$('a').style.opacity=.45;$('c').style.opacity=.45}
+    $('pts').textContent=ok?Math.round(20+10*seg(lt,3.4,3.9)):20;}
+  if(si===3){rise($('fb'),seg(lt,.1,.6));pop($('plus'),seg(lt,.6,1.0));document.querySelectorAll('.stp').forEach((e,i)=>{e.style.background=(i<3||(i===3&&lt>2.2))?'#22C55E':'#E4E5F5'});}
+  if(si===4){rise($('dash'),seg(lt,.1,.6));[[1,92],[2,86],[3,48],[4,81]].forEach(([k,v],j)=>{rise($('t'+k),seg(lt,.5+j*.25,.9+j*.25));$('r'+k).style.width=(v*eo(seg(lt,.9+j*.25,1.9+j*.25)))+'%'});}
+  if(si===5){['k1','k2','k3','k4','k5','k6'].forEach((id,k)=>pop($(id),seg(lt,.4+k*.45,.9+k*.45)));}
+  if(si===6){rise($('endc'),seg(lt,.2,1.0));pop($('b1'),seg(lt,0,.8));pop($('b2'),seg(lt,.2,1.0));$('btn').style.transform='scale('+(1+Math.max(0,Math.sin((lt-1.6)*3.2))*.05*seg(lt,1.4,1.8))+')';}
+};
+render(0);
+</script>
+</body></html>
