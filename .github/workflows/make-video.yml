@@ -1,0 +1,36 @@
+name: Make explainer video
+on:
+  push:
+    branches: [main]
+    paths: ['video-src/**']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  video:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install tools
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q ffmpeg fonts-noto-color-emoji
+          pip install -q playwright kokoro-onnx soundfile
+          python -m playwright install --with-deps chromium
+          mkdir -p /tmp/voice
+          curl -sSL -o /tmp/voice/kokoro.onnx https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v1.0.int8.onnx
+          curl -sSL -o /tmp/voice/voices.bin https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/voices-v1.0.bin
+          cd /tmp && npm pack @fontsource-variable/outfit@5.3.0 && tar xzf fontsource-variable-outfit-5.3.0.tgz
+      - name: Render video
+        run: python video-src/make_video.py /tmp/voice /tmp/package/files/outfit-latin-wght-normal.woff2 videos
+      - name: Commit video
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add videos
+          git commit -m "Render explainer video" || echo "No changes"
+          git pull --rebase
+          git push
