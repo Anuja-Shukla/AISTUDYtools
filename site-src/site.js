@@ -82,7 +82,12 @@
       if (!msg.value) msg.value = "I would like to book a demo of " + demo + ".";
       var h = document.getElementById("form-title"); if (h) h.textContent = "Book a demo of " + demo;
     }
-    form.addEventListener("submit", function (e) { e.preventDefault(); sendForm(form, demo ? "Demo request: " + demo : "Consultation request"); });
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var ph = form.querySelector('[name="phone"]');
+      if (ph && ph.value.replace(/[^0-9]/g, "").length < 7) { var st = form.querySelector(".status"); st.className = "status err"; st.textContent = "Please enter a phone number so we can call you back."; return; }
+      sendForm(form, demo ? "Call back request: " + demo : "Call back request");
+    });
   }
 
   // "Get a free demo" pop-up form (opened by any link to #demo)

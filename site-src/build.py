@@ -3,7 +3,7 @@
 import os, html
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "6"  # cache-buster for css/js
+V = "7"  # cache-buster for css/js
 
 def svg(paths, extra=""):
     return f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"{extra}>{paths}</svg>'
@@ -384,13 +384,13 @@ wb += FOOT
 write("/webinars/", wb)
 
 # ---------------- CONTACT ----------------
-ct = head("Contact | Book a Consultation | AIStudyTools",
+ct = head("Contact Us | AIStudyTools",
           "Book a demo of LearnX, HealthX or SkillX, or contact AIStudyTools by email or WhatsApp.", "/contact/") + header("contact")
 ct += f'''<section class="hero" style="padding-bottom:24px">
   <div class="wrap" style="display:block;text-align:center;max-width:760px">
     <span class="tag">Let's talk</span>
-    <h1 style="margin-top:16px">Book a consultation or ask us <span class="hl" style="color:var(--accent)">anything</span>.</h1>
-    <p class="lead" style="margin-top:16px">Tell us about your goals and our team will get back to you within one business day.</p>
+    <h1 style="margin-top:16px">Contact <span class="hl" style="color:var(--accent)">us</span>.</h1>
+    <p class="lead" style="margin-top:16px">Leave your number and our team will call you back within one business day.</p>
   </div>
 </section>
 <section style="padding-top:24px">
@@ -400,17 +400,18 @@ ct += f'''<section class="hero" style="padding-bottom:24px">
       <a class="ccard rv" href="https://wa.me/917303559258?text=Hi%20AIStudyTools%2C%20I%20would%20like%20to%20know%20more%20about%20your%20services." target="_blank" rel="noopener"><span class="ico i-mint">{I["phone"]}</span><span><b>Call / WhatsApp</b><small>Send a quick message.</small><span class="v">+91 73035 59258</span></span></a>
     </div>
     <form class="form rv" id="contact-form" novalidate>
-      <h2 id="form-title" style="font-size:28px">Send us a message</h2>
+      <h2 id="form-title" style="font-size:28px">We'll call you back</h2>
       <div class="row2">
         <div class="field"><label for="f-name">Full name</label><input id="f-name" name="name" autocomplete="name" required></div>
         <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
       </div>
       <div class="row2">
+        <div class="field"><label for="f-phone">Phone / WhatsApp</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" required></div>
         <div class="field"><label for="f-org">Organisation</label><input id="f-org" name="org" autocomplete="organization"></div>
-        <div class="field"><label for="f-product">Interested in</label><select id="f-product" name="product"><option>LearnX — Learning &amp; Research</option><option>HealthX — Healthcare Insights</option><option>SkillX — Training &amp; Simulations</option><option>All of the above</option><option>Webinars</option></select></div>
       </div>
+      <div class="field"><label for="f-product">Interested in</label><select id="f-product" name="product"><option>LearnX — Learning &amp; Research</option><option>HealthX — Healthcare Insights</option><option>SkillX — Training &amp; Simulations</option><option>All of the above</option><option>Webinars</option></select></div>
       <div class="field"><label for="f-msg">How can we help?</label><textarea id="f-msg" name="message"></textarea></div>
-      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap"><button class="btn btn-accent" type="submit">Book consultation</button><p class="status" role="status" aria-live="polite"></p></div>
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap"><button class="btn btn-accent" type="submit">Request a call back</button><p class="status" role="status" aria-live="polite"></p></div>
     </form>
   </div>
 </section>
