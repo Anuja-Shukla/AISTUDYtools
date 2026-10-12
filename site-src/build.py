@@ -3,7 +3,7 @@
 import os, html
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "5"  # cache-buster for css/js
+V = "6"  # cache-buster for css/js
 
 def svg(paths, extra=""):
     return f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"{extra}>{paths}</svg>'
@@ -82,7 +82,7 @@ def header(active):
     <a class="logo" href="/" aria-label="AIStudyTools home"><span class="logo-mark"></span><span><b>AIStudyTools</b><small>Accelerating Human Potential with AI</small></span></a>
     <nav class="nav" aria-label="Main">{links}</nav>
     <div class="hdr-cta">
-      <a class="btn btn-accent btn-sm" href="/contact/">Book a consultation</a>
+      <a class="btn btn-accent btn-sm" href="#demo">Get a free demo</a>
       <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     </div>
   </div>
@@ -184,8 +184,9 @@ home = head("AIStudyTools | Accelerating Human Potential with AI",
 home += hero("One platform · Three intelligent products",
              'Accelerating human potential with <span class="hl">AI</span>.',
              "One intelligent platform powering learning, healthcare insights and workforce development through advanced artificial intelligence.",
-             [("Explore products", "#products", "btn-ink"), ("Watch the 40-sec video", "/learnx/#hook", "btn-soft")],
+             [("Explore products", "#products", "btn-ink"), ("Watch the 50-sec overview", "#hook", "btn-soft")],
              mindmap("AIStudyTools", ["LearnX", "HealthX", "SkillX", "AIClinic", "AI evaluation"], "AIStudyTools connects LearnX, HealthX, SkillX, AIClinic and AI evaluation"))
+home += hook("See all three tools in 50 seconds.", "aistudytools-overview", "AIStudyTools overview video: LearnX turns course content into videos, mind maps, games and AI feedback; HealthX AIClinic prepares a pre-visit summary for doctors; SkillX builds AI role plays and simulations", "Overview")
 home += f'''<section id="products" class="white">
   <div class="wrap">
     {sec_head("Our offerings", "Designed to empower individuals, institutions, healthcare providers and organisations.", "Products")}

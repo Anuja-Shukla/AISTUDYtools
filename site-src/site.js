@@ -85,11 +85,7 @@
     form.addEventListener("submit", function (e) { e.preventDefault(); sendForm(form, demo ? "Demo request: " + demo : "Consultation request"); });
   }
 
-  // Side tab: "Get a free demo" opens a short form
-  var tab = document.createElement("button");
-  tab.type = "button"; tab.className = "demo-tab"; tab.setAttribute("aria-haspopup", "dialog");
-  tab.innerHTML = '<span class="dot" aria-hidden="true"></span>Get a free demo';
-  document.body.appendChild(tab);
+  // "Get a free demo" pop-up form (opened by any link to #demo)
   var dm = document.createElement("div");
   dm.className = "dmodal"; dm.setAttribute("role", "dialog"); dm.setAttribute("aria-modal", "true"); dm.setAttribute("aria-labelledby", "dm-title");
   dm.innerHTML = '<div class="panel"><button type="button" class="x" aria-label="Close">×</button>' +
@@ -113,8 +109,7 @@
     dform.querySelector(".status").textContent = "";
     dm.classList.add("on"); setTimeout(function () { dform.querySelector('[name="name"]').focus(); }, 50);
   }
-  function closeDemo() { dm.classList.remove("on"); tab.focus(); }
-  tab.addEventListener("click", function () { openDemo(""); });
+  function closeDemo() { dm.classList.remove("on"); }
   dm.addEventListener("click", function (e) { if (e.target === dm || e.target.classList.contains("x")) closeDemo(); });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape" && dm.classList.contains("on")) closeDemo(); });
   document.addEventListener("click", function (e) {
