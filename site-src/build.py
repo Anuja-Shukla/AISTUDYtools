@@ -3,7 +3,7 @@
 import os, html
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "7"  # cache-buster for css/js
+V = "8"  # cache-buster for css/js
 
 def svg(paths, extra=""):
     return f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"{extra}>{paths}</svg>'
@@ -124,7 +124,7 @@ def mindmap(center, chips, label):
 </div>'''
 
 def hero(tag, h1, lead, btns, mm, tagcls=""):
-    b = "".join(f'<a class="btn {c}" href="{h}">{t}</a>' for t, h, c in btns)
+    b = "".join(f'<button class="btn {c}" type="button" data-video="{h[6:]}">{t}</button>' if h.startswith("video:") else f'<a class="btn {c}" href="{h}">{t}</a>' for t, h, c in btns)
     return f'''<section class="hero">
   <div class="wrap">
     <div class="hero-copy">
@@ -184,9 +184,8 @@ home = head("AIStudyTools | Accelerating Human Potential with AI",
 home += hero("One platform · Three intelligent products",
              'Accelerating human potential with <span class="hl">AI</span>.',
              "One intelligent platform powering learning, healthcare insights and workforce development through advanced artificial intelligence.",
-             [("Explore products", "#products", "btn-ink"), ("Watch the 50-sec overview", "#hook", "btn-soft")],
+             [("Explore products", "#products", "btn-ink"), ("Know about us", "video:/videos/aistudytools-overview.mp4?v=1", "btn-soft")],
              mindmap("AIStudyTools", ["LearnX", "HealthX", "SkillX", "AIClinic", "AI evaluation"], "AIStudyTools connects LearnX, HealthX, SkillX, AIClinic and AI evaluation"))
-home += hook("", "aistudytools-overview", "AIStudyTools overview video: LearnX turns course content into videos, mind maps, games and AI feedback; HealthX AIClinic prepares a pre-visit summary for doctors; SkillX builds AI role plays and simulations", "What we do?")
 home += f'''<section id="products" class="white">
   <div class="wrap">
     {sec_head("Our offerings", "Designed to empower individuals, institutions, healthcare providers and organisations.", "Products")}
