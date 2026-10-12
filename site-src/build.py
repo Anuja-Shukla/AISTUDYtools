@@ -159,12 +159,12 @@ def cta(title, text, btn, href):
     return f'''<section><div class="wrap"><div class="cta rv"><div><h2>{title}</h2><p>{text}</p></div><a class="btn btn-sun" href="{href}">{btn} {I["arrow"]}</a></div></div></section>
 '''
 
-def hook(title, name, label, tag="40-second watch"):
+def hook(title, name, label, tag="40-second watch", ver="1"):
     return f'''<section id="hook" class="hook">
   <div class="wrap">
     <div class="hook-head"><span class="tag">{tag}</span><h2>{title}</h2></div>
     <div class="hook-video">
-      <video id="hook-video" src="/videos/{name}.mp4" poster="/videos/{name}-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="{html.escape(label)}"></video>
+      <video id="hook-video" src="/videos/{name}.mp4?v={ver}" poster="/videos/{name}-poster.jpg?v={ver}" autoplay muted loop playsinline preload="metadata" aria-label="{html.escape(label)}"></video>
       <button type="button" class="hook-sound" id="hook-sound">&#128266; Tap for sound</button>
     </div>
   </div>
@@ -294,7 +294,7 @@ write("/learnx/", lx)
 # ---------------- HEALTHX ----------------
 hx = head("HealthX | AI-Powered Healthcare Insights | AIStudyTools",
           "HealthX helps people understand medical reports, symptoms and medicines, and prepare for doctor visits, with AI-powered health education.", "/healthx/") + header("healthx")
-hx += hook("Medical reports, made easy to understand.", "healthx-explainer", "HealthX explainer video: a confusing medical report explained in plain language, with AI health chat and doctor visit preparation")
+hx += hook("Less waiting. Better consultations.", "healthx-explainer", "AIClinic by HealthX video: patients register, chat with an AI assistant by voice or text and upload reports, and the doctor receives a summary before the visit", "Meet AIClinic", "2")
 hx += hero("AI-powered health information", 'Understand your health with <span class="hl">confidence</span>.',
            "Upload medical reports, explore health insights, understand symptoms and prepare for more informed conversations with healthcare professionals.",
            [("Get a free demo", "#demo:HealthX", "btn-ink"), ("Watch the 40-sec video", "#hook", "btn-soft")],
