@@ -3,7 +3,7 @@
 import os, html
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "11"  # cache-buster for css/js
+V = "12"  # cache-buster for css/js
 
 def svg(paths, extra=""):
     return f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"{extra}>{paths}</svg>'
@@ -194,7 +194,7 @@ home += f'''<section id="products" class="white">
     <div class="grid g3">
       <a class="prod p-learn rv" href="/learnx/"><span class="kicker">Unlock knowledge potential</span><div class="ico i-indigo" style="background:#fff">{I["cap"]}</div><h3>LearnX</h3><p>AI-powered learning, education and research for students, educators, researchers and institutions.</p><ul><li>AI tutor</li><li>Question generator</li><li>Mind maps</li><li>Games &amp; simulations</li><li>AI-assisted evaluation</li><li>Interactive learning</li></ul><span class="go">Explore LearnX {I["arrow"]}</span></a>
       <a class="prod p-health rv" href="/healthx/"><span class="kicker">Unlock health potential</span><div class="ico i-sky" style="background:#fff">{I["pulse"]}</div><h3>HealthX</h3><p>AI-assisted healthcare and wellness information to help people understand symptoms, reports and medical terms.</p><ul><li>Report interpretation</li><li>AI health chat</li><li>Symptom understanding</li><li>Medication insights</li><li>Doctor visit preparation</li><li>3D interaction</li></ul><span class="go">Explore HealthX {I["arrow"]}</span></a>
-      <a class="prod p-skill rv" href="/skillx/"><span class="kicker">Unlock skill potential</span><div class="ico i-sun" style="background:#fff">{I["bars"]}</div><h3>SkillX</h3><p>AI-powered training and workforce development through simulations, role plays and experiential learning.</p><ul><li>AI simulations</li><li>Interactive videos</li><li>Leadership training</li><li>Sales practice</li><li>Customer service</li><li>AI assessment &amp; feedback</li></ul><span class="go">Explore SkillX {I["arrow"]}</span></a>
+      <a class="prod p-skill rv" href="/skillx/"><span class="kicker">Unlock skill potential</span><div class="ico i-sun" style="background:#fff">{I["bars"]}</div><h3>SkillX</h3><p>AI-powered training and workforce development through simulations, role plays and experiential learning.</p><ul><li>Manuals → simulations</li><li>AI simulations</li><li>Interactive videos</li><li>Leadership training</li><li>Sales practice</li><li>Customer service</li><li>AI assessment &amp; feedback</li></ul><span class="go">Explore SkillX {I["arrow"]}</span></a>
     </div>
   </div>
 </section>
@@ -339,6 +339,39 @@ sx += f'''<section class="white"><div class="wrap">{stats([("10,000+", "Simulati
     {sec_head("AI-powered training solutions", "Experiential learning designed to build real-world skills, confidence and performance.", "What you get")}
     {cards([("puzzle", "AI simulations", "Realistic workplace scenarios to practise decision-making without risk."), ("play", "Interactive learning videos", "Turn static content into journeys with branching scenarios and assessments."), ("chat", "AI role plays", "Practise conversations with AI characters for sales, leadership, interviews and service."), ("crown", "Leadership development", "Build future leaders through strategic decision-making simulations and coaching."),
             ("trend", "Sales excellence", "Improve prospecting, negotiation, objection handling and customer engagement."), ("headset", "Customer service", "Build communication, empathy, problem-solving and complaint resolution."), ("users", "AI interview simulator", "Prepare for technical, HR and behavioural interviews with instant feedback."), ("shield", "Compliance &amp; ethics", "Engaging compliance education using realistic workplace scenarios.")], "g4", "rotate")}
+  </div>
+</section>
+<section id="manual" class="tint">
+  <div class="wrap">
+    <div class="split">
+      <div class="rv" style="display:flex;flex-direction:column;gap:18px;align-items:flex-start">
+        <span class="tag">Manual to simulation</span>
+        <h2>Any manual. Any SOP. Turned into practice.</h2>
+        <p class="lead">Send us your training manual, SOP or rulebook. We turn it into interactive simulations, scenario quizzes and videos, so people practise the decisions instead of just reading about them.</p>
+        <button class="btn btn-ink" type="button" data-video="/videos/skillx-manual-to-simulation.mp4?v=1">{I["play"]} Watch how it works</button>
+      </div>
+      <div class="rv" style="display:grid;gap:14px">
+        <div class="card" style="flex-direction:row;align-items:center;gap:16px;padding:20px 22px;background:#F3F3F7;border-color:#E2E2EA">
+          <span style="font-size:40px">📄</span>
+          <div><b style="color:#555">SOP · Vehicle pre-operation checks</b><p style="font-size:15px">124 pages of text to read and remember</p></div>
+        </div>
+        <div style="text-align:center;font-size:28px;color:var(--accent);font-weight:800;line-height:1">↓</div>
+        <div class="card" style="gap:10px;padding:20px 22px;border-color:var(--line)">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span class="tag indigo" style="font-size:13px;padding:5px 12px">Step 3 of 6</span><b>⭐ 30</b></div>
+          <b style="font-size:18px">🚙 Low tyre pressure on the rear-left wheel. What do you do?</b>
+          <div style="border:2px solid #22C55E;background:var(--mint);color:var(--mint-fg);border-radius:12px;padding:10px 14px;font-weight:700;font-size:15px">✓ Report it and fix it before departure</div>
+          <span style="font-size:14px;color:var(--faint)">📖 Feedback linked to SOP section 4.2</span>
+        </div>
+      </div>
+    </div>
+    <ol class="steps rv" style="margin-top:40px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
+      <li><div><b>Share your manual</b><span>PDF, Word, slides or a printed book.</span></div></li>
+      <li><div><b>We build the simulations</b><span>Branching scenarios, interactive video and quizzes, linked to the source.</span></div></li>
+      <li><div><b>Your people practise</b><span>See who is ready and who needs more practice.</span></div></li>
+    </ol>
+    <div class="rv" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;justify-content:center">
+      <span class="chip c-indigo">🛡️ Defence &amp; security</span><span class="chip c-sun">🏭 Manufacturing safety</span><span class="chip c-sky">🏥 Healthcare protocols</span><span class="chip c-mint">✈️ Aviation &amp; logistics</span><span class="chip c-pink">🏦 Banking compliance</span><span class="chip c-indigo">🧭 Employee induction</span>
+    </div>
   </div>
 </section>
 <section class="white">
