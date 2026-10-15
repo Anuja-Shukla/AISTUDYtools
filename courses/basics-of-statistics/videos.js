@@ -5,7 +5,7 @@
   Leave a lesson empty ("") to show the built-in animated walkthrough instead.
 */
 window.BOS_VIDEOS = {
-  "1.1": "",
+  "1.1": "videos/Mean.mp4",
   "1.2": "",
   "1.3": "",
   "2.1": "",
