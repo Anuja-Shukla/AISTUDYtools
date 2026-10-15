@@ -4,7 +4,7 @@ import os, html, re, glob
 import markdown
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "12"  # cache-buster for css/js
+V = "13"  # cache-buster for css/js
 
 def svg(paths, extra=""):
     return f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"{extra}>{paths}</svg>'
@@ -199,6 +199,22 @@ home += f'''<section id="products" class="white">
       <a class="prod p-health rv" href="/practice/"><span class="kicker">Free for students</span><div class="ico i-sky" style="background:#fff">{I["student"]}</div><h3>Student Practice</h3><p>Make decisions, see consequences, get feedback and try again.</p><ul><li>Branching simulations</li><li>Learning games</li><li>Course comparison</li></ul><span class="go">Start practising {I["arrow"]}</span></a>
       <a class="prod p-learn rv" href="/learnx/"><span class="kicker">For institutions</span><div class="ico i-indigo" style="background:#fff">{I["cap"]}</div><h3>LearnX</h3><p>Your lectures and PDFs become games, mind maps, AI video chat and AI-assisted evaluation, on your own system.</p><ul><li>AI tutor</li><li>Question generator</li><li>Mind maps</li><li>Games &amp; simulations</li><li>AI-assisted evaluation</li></ul><span class="go">Explore LearnX {I["arrow"]}</span></a>
       <a class="prod p-course rv" href="/courses/"><span class="kicker">Learn with us</span><div class="ico i-pink" style="background:#fff">{I["calendar"]}</div><h3>Courses</h3><p>Short, practical courses on using AI in teaching, research and study.</p><ul><li>For faculty</li><li>For students</li><li>Live online</li></ul><span class="go">See courses {I["arrow"]}</span></a>
+    </div>
+  </div>
+</section>
+<section id="gamification" class="tint">
+  <div class="wrap">
+    {sec_head("Why gamification works", "Games are not just fun. When game elements serve the learning goal, students learn more, stay motivated and keep coming back.", "The science")}
+    <div class="grid g3">
+      <div class="stat rv"><b>Learning ↑</b><span>Better knowledge and understanding<br><small style="color:var(--faint)">effect size g = 0.49</small></span></div>
+      <div class="stat rv"><b>Motivation ↑</b><span>More interest and engagement<br><small style="color:var(--faint)">effect size g = 0.36</small></span></div>
+      <div class="stat rv"><b>Participation ↑</b><span>More active learning behaviour<br><small style="color:var(--faint)">effect size g = 0.25</small></span></div>
+    </div>
+    <p class="rv" style="text-align:center;color:var(--muted);font-size:15px;margin-top:14px">Source: Sailer &amp; Homner (2020), <i>The gamification of learning: a meta-analysis</i>, Educational Psychology Review. Positive effects were found on all three types of outcome. <a href="https://link.springer.com/article/10.1007/s10648-019-09498-w" target="_blank" rel="noopener">Read the study</a></p>
+    <div style="margin-top:36px">{cards([("chat", "Instant feedback", "Students know straight away what they got right and what to fix, while the idea is still fresh."), ("spark", "Recall, not re-reading", "Quizzes and challenges make students pull ideas from memory, which strengthens long-term learning."), ("trend", "Visible progress", "Points, levels and progress bars turn a long syllabus into small, achievable goals."), ("users", "Story and teamwork", "A game story and team challenges that mix competition with collaboration keep learners involved.")], "g4", "rotate")}</div>
+    <div class="note rv" style="margin-top:22px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:#fff;color:var(--ink);border:2px solid var(--border)">
+      <span><b style="color:var(--ink)">How we use it:</b> our Faculty Tools and LearnX turn your lessons into simulations, quiz games and quick cases, with instant feedback built in.</span>
+      <a class="btn btn-ink btn-sm" href="/tools/">Try the faculty tools {I["arrow"]}</a>
     </div>
   </div>
 </section>
