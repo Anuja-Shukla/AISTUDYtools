@@ -4,7 +4,7 @@ import os, html, re, glob
 import markdown
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "13"  # cache-buster for css/js
+V = "14"  # cache-buster for css/js
 
 def svg(paths, extra=""):
     return f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"{extra}>{paths}</svg>'
@@ -498,16 +498,31 @@ cs += hero("Courses", 'Learn to use AI <span class="hl">well</span>.',
            "Short, practical courses on using AI in teaching, research and study. Live online, with hands-on work on your own material.",
            [("Notify me when enrolment opens", "#demo:Courses", "btn-ink"), ("Host a course for your institution", "#demo:Courses", "btn-soft")],
            mindmap("Courses", ["AI in teaching", "AI in research", "Prompting", "Assessment", "Responsible AI"], "Course topics: AI in teaching, AI in research, prompting, assessment and responsible AI"))
-cs += f'''<section class="white">
+cs += f'''<section class="white" id="available">
   <div class="wrap">
-    {sec_head("Opening soon", "The first cohorts are being scheduled. Leave your details and we'll tell you when enrolment opens.", "Upcoming")}
-    <div class="grid g2">
-      <div class="card rv"><div class="ico i-indigo">{I["teacher"]}</div><span class="tag sky" style="align-self:flex-start">For faculty</span><h3>AI in Teaching and Research</h3><p>Build simulations, quick cases and quiz games for your own course, and use AI responsibly in research and assessment.</p><a class="btn btn-accent btn-sm" href="#demo:Courses" style="align-self:flex-start">Register interest</a></div>
-      <div class="card rv"><div class="ico i-sun">{I["student"]}</div><span class="tag" style="align-self:flex-start">For students</span><h3>Study and Practise with AI</h3><p>Use AI as a tutor and practice partner without letting it do the thinking for you.</p><a class="btn btn-accent btn-sm" href="#demo:Courses" style="align-self:flex-start">Register interest</a></div>
+    {sec_head("Available now", "Start today. Self-paced, free, with a certificate at the end.", "Open for all")}
+    <div class="card rv" style="display:flex;flex-direction:row;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:2px solid var(--accent)">
+      <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-indigo" style="flex:none">{I["bars"]}</div><div><span class="tag indigo">Free · Self-paced · Certificate</span><h3 style="margin-top:8px">Basics of Statistics</h3><p>Two modules: Measures of Central Tendency (mean, median, mode) and Measures of Dispersion (IQR, standard deviation, mean deviation). Teaching videos, calculators, quick checks and a final test.</p></div></div>
+      <a class="btn btn-accent" href="/courses/basics-of-statistics/" style="flex:none">Start the course {I["arrow"]}</a>
     </div>
   </div>
 </section>
 <section>
+  <div class="wrap">
+    {sec_head("Launching soon", "The first cohorts are being scheduled. Leave your details and we'll tell you when enrolment opens.", "Upcoming")}
+    <div class="grid g4">
+      <div class="card rv"><div class="ico i-indigo">{I["bot"]}</div><span class="tag sky" style="align-self:flex-start">New</span><h3>Agentic AI</h3><p>Understand AI agents and build simple ones that plan, use tools and finish multi-step tasks for you.</p><a class="btn btn-accent btn-sm" href="#demo:Courses" style="align-self:flex-start;margin-top:auto">Register interest</a></div>
+      <div class="card rv"><div class="ico i-sun">{I["puzzle"]}</div><span class="tag" style="align-self:flex-start">No coding needed</span><h3>Coding for Non-Coders</h3><p>Build small apps, scripts and automations by describing what you want to AI, with no programming background.</p><a class="btn btn-accent btn-sm" href="#demo:Courses" style="align-self:flex-start;margin-top:auto">Register interest</a></div>
+      <div class="card rv"><div class="ico i-mint">{I["bars"]}</div><span class="tag sky" style="align-self:flex-start">Data skills</span><h3>Data Analysis and Visualisation</h3><p>Clean data, find patterns and make clear charts and dashboards with AI and spreadsheet tools.</p><a class="btn btn-accent btn-sm" href="#demo:Courses" style="align-self:flex-start;margin-top:auto">Register interest</a></div>
+      <div class="card rv"><div class="ico i-pink">{I["chat"]}</div><span class="tag" style="align-self:flex-start">Everyone</span><h3>Prompt Engineering</h3><p>Write prompts that get reliable, useful answers for teaching, research and everyday work.</p><a class="btn btn-accent btn-sm" href="#demo:Courses" style="align-self:flex-start;margin-top:auto">Register interest</a></div>
+      <div class="card rv"><div class="ico i-sky">{I["search"]}</div><span class="tag sky" style="align-self:flex-start">For researchers</span><h3>AI for Research and Literature Review</h3><p>Find, read and summarise papers faster, and use AI responsibly in writing and publishing.</p><a class="btn btn-accent btn-sm" href="#demo:Courses" style="align-self:flex-start;margin-top:auto">Register interest</a></div>
+      <div class="card rv"><div class="ico i-indigo">{I["brief"]}</div><span class="tag" style="align-self:flex-start">For professionals</span><h3>Generative AI for Work and Productivity</h3><p>Use AI for emails, reports, presentations and meetings, and set up simple workflow automations.</p><a class="btn btn-accent btn-sm" href="#demo:Courses" style="align-self:flex-start;margin-top:auto">Register interest</a></div>
+      <div class="card rv"><div class="ico i-sun">{I["teacher"]}</div><span class="tag sky" style="align-self:flex-start">For faculty</span><h3>AI in Teaching and Research</h3><p>Build simulations, quick cases and quiz games for your own course, and use AI responsibly in research and assessment.</p><a class="btn btn-accent btn-sm" href="#demo:Courses" style="align-self:flex-start;margin-top:auto">Register interest</a></div>
+      <div class="card rv"><div class="ico i-mint">{I["student"]}</div><span class="tag" style="align-self:flex-start">For students</span><h3>Study and Practise with AI</h3><p>Use AI as a tutor and practice partner without letting it do the thinking for you.</p><a class="btn btn-accent btn-sm" href="#demo:Courses" style="align-self:flex-start;margin-top:auto">Register interest</a></div>
+    </div>
+  </div>
+</section>
+<section class="white">
   <div class="wrap">
     {sec_head("How the courses run", "", "Format")}
     {cards([("calendar", "Live online", "Short live sessions you can fit around teaching or classes."), ("pencil", "Hands-on", "You build something with your own material in every session."), ("school", "For your institution", "Any course can run as a faculty development programme for your team.")], cols="g3", color="rotate")}
