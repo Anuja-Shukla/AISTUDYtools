@@ -6,7 +6,7 @@
 */
 window.BOS_VIDEOS = {
   "1.1": "videos/Mean.mp4",
-  "1.2": "",
+  "1.2": "videos/Median_MBA_Microlecture.mp4",
   "1.3": "",
   "2.1": "",
   "2.2": "",
