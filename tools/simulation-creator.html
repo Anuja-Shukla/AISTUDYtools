@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulation Creator | AIStudyTools</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #FAFAFF;
+      --bg-2: #FFFFFF;
+      --panel: #FFFFFF;
+      --panel-hover: #EEF0FF;
+      --text: #1E1B4B;
+      --muted: #4A4878;
+      --accent: #4F46E5;
+      --accent-2: #FBBF24;
+      --accent-3: #6366F1;
+      --accent-strong: #3730A3;
+      --accent-strong-2: #4338CA;
+      --accent-text: #FFFFFF;
+      --border: #E4E5F5;
+      --shadow: rgba(79, 70, 229, 0.25);
+      --max-width: 820px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: linear-gradient(160deg, var(--bg) 0%, #F5F5FF 55%, #EEF0FF 100%);
+      background-attachment: fixed;
+      color: var(--text);
+      font-family: 'Outfit', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+      line-height: 1.65;
+    }
+    .wrap { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+    .site-header {
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0;
+      background: rgba(250, 250, 255, 0.9);
+      backdrop-filter: blur(10px);
+    }
+    .site-header .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; flex-wrap: wrap; max-width: 980px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.2rem; color: var(--text); text-decoration: none; }
+    .logo-mark { width: 34px; height: 34px; flex-shrink: 0; transition: transform 0.3s ease; }
+    .brand:hover .logo-mark { transform: rotate(-8deg) scale(1.08); }
+    .tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+    .tab {
+      color: var(--muted); text-decoration: none; padding: 9px 14px;
+      border-radius: 999px; font-size: 0.88rem; transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+    }
+    .tab:hover { background: var(--panel-hover); color: var(--text); transform: translateY(-1px); }
+    .tab.active { background: linear-gradient(120deg, var(--accent) 0%, var(--accent-3) 100%); color: var(--accent-text); font-weight: 600; }
+
+    .content { padding: 44px 20px 90px; }
+    h1, h2 { font-family: 'Outfit', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 1.9rem; margin-bottom: 6px; }
+    h5 { font-weight: normal; color: var(--muted); margin-top: 0; font-size: 0.95rem; }
+    label { display: block; margin: 20px 0 6px; font-weight: 600; font-size: 0.92rem; }
+    textarea, input {
+      display: block; width: 100%; padding: 11px 14px;
+      border: 1px solid var(--border); border-radius: 10px;
+      font-size: 0.95rem; font-family: inherit;
+      background: var(--bg-2); color: var(--text);
+    }
+    textarea { height: 90px; resize: vertical; }
+    input:focus, textarea:focus {
+      outline: none; border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--shadow);
+    }
+    textarea::placeholder, input::placeholder { color: var(--muted); opacity: 0.6; }
+
+    .btn-row { display: flex; gap: 10px; margin-top: 24px; flex-wrap: wrap; }
+    button {
+      padding: 12px 22px; font-size: 15px; cursor: pointer; border: none;
+      border-radius: 10px; font-weight: 700;
+      background: linear-gradient(120deg, var(--accent) 0%, var(--accent-3) 100%);
+      color: var(--accent-text);
+      transition: transform 0.15s ease, box-shadow 0.2s ease;
+    }
+    button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px var(--shadow); }
+    button.secondary {
+      background: transparent; color: var(--text);
+      border: 1px solid var(--border);
+    }
+    button.secondary:hover { border-color: var(--accent); box-shadow: none; transform: none; }
+
+    #output {
+      white-space: pre-wrap;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+      margin-top: 26px;
+      font-size: 0.9rem;
+      color: var(--text);
+      display: none;
+    }
+
+    .instructions {
+      background: rgba(251, 191, 36, 0.1);
+      border: 1px solid rgba(251, 191, 36, 0.35);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-top: 18px;
+      font-size: 0.9rem;
+      color: var(--muted);
+      display: none;
+    }
+
+    .see-sample {
+      display: inline-block;
+      margin-top: 40px;
+      color: var(--accent-strong);
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .see-sample:hover { text-decoration: underline; }
+
+    .intro-section { margin-bottom: 36px; padding-bottom: 30px; border-bottom: 1px solid var(--border); }
+    .section-label {
+      text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.78rem;
+      color: var(--accent-strong); font-weight: 700; margin-bottom: 10px;
+    }
+    .flow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+    .flow-step {
+      background: var(--bg-2); border: 1px solid var(--border); border-radius: 10px;
+      padding: 9px 14px; font-size: 0.82rem; font-weight: 600; color: var(--accent-strong);
+    }
+    .flow-arrow { color: var(--muted); font-size: 1rem; }
+
+    .site-footer {
+      border-top: 1px solid var(--border);
+      padding: 26px 0;
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-align: center;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<link rel="stylesheet" href="/static/tool-chrome.css?v=1">
+<header class="asx-hdr">
+  <div class="asx-wrap">
+    <a class="asx-logo" href="/" aria-label="AIStudyTools home"><span class="asx-mark"></span><span><b>AIStudyTools</b><small>AI for teaching &amp; learning</small></span></a>
+    <nav class="asx-nav" id="asx-nav" aria-label="Main"><a href="/">Home</a><a href="/learnx/">LearnX</a><a href="/tools/" class="on" aria-current="page">Faculty Tools</a><a href="/practice/">Student Practice</a><a href="/courses/">Courses</a><a href="/newsletter/">Newsletter</a><a href="/contact/">Contact</a></nav>
+    <button class="asx-menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="asx-nav"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </div>
+</header>
+
+<div class="wrap content">
+
+  <div class="intro-section">
+    <div class="section-label">Simulation Creator</div>
+    <h1 style="font-size: 1.5rem; margin: 0 0 6px;">Turn classroom concepts into immersive experiences.</h1>
+    <div class="flow">
+      <span class="flow-step">Choose Topic</span><span class="flow-arrow">&rarr;</span>
+      <span class="flow-step">Choose Sub Topic</span><span class="flow-arrow">&rarr;</span>
+      <span class="flow-step">Build Scenario</span><span class="flow-arrow">&rarr;</span>
+      <span class="flow-step">Run Simulation</span><span class="flow-arrow">&rarr;</span>
+      <span class="flow-step">Reflect &amp; Learn</span>
+    </div>
+  </div>
+
+  <h2>Simulation Creator</h2>
+  <h5>Fill in the fields below to generate a customized role-play prompt for your students. Once the prompt is generated, ask your students to copy paste in any LLM (Gemini/ChatGPT) and start playing live simulation.</h5>
+
+  <label for="topic">Field 1: Enter the Topic to be taught</label>
+  <input type="text" id="topic" placeholder="e.g. Integrated Marketing Communication, Brand Management, Negotiation, Physics, Dancing etc.">
+
+  <label for="subtopics">Field 2: Subtopics to be taught</label>
+  <textarea id="subtopics" placeholder="e.g.
+Brand Positioning, Digital Marketing, Maslow's Need hierarchy theory, Speech of 15 August, Grammar, Quadratic equations etc."></textarea>
+
+  <label for="scenarios">Field 3: Scenarios (Enter 3-4 Scenarios in which you want your students to experience the simulation)</label>
+  <textarea id="scenarios" placeholder="e.g.
+1. Practice creating an advertisement for a known chocolate brand.
+2. Act as a manager handling sales promotion for a jewelry company.
+3. Role-play in a futuristic metaverse branding environment.
+4. Develop a brand slogan for a sustainable startup."></textarea>
+
+  <div class="btn-row">
+    <button onclick="generatePrompt()">Generate Simulation Prompt</button>
+    <button class="secondary" id="copyBtn" onclick="copyPrompt()" style="display:none;">Copy Prompt</button>
+  </div>
+
+  <div class="instructions" id="instructions">
+    <strong style="color: var(--text);">Your prompt is generated below.</strong><br>
+    Copy it and share it with your students. Ask them to paste it into ChatGPT (or Claude) and run it — the role-play begins.
+  </div>
+
+  <div id="output"></div>
+
+  <a class="see-sample" href="/practice/prompt-engineering-basics/">See a sample playable simulation &rarr;</a>
+
+</div>
+
+<footer class="asx-ftr">
+  <div class="asx-wrap">
+    <div class="asx-cols">
+      <div><a class="asx-logo" href="/"><span class="asx-mark"></span><span><b>AIStudyTools</b></span></a><p>AI tools and courses for teaching and learning. A platform of Intellique Research School Pvt Ltd.</p></div>
+      <div><h4>Explore</h4><a href="/learnx/">LearnX</a><a href="/tools/">Faculty Tools</a><a href="/practice/">Student Practice</a><a href="/courses/">Courses</a></div>
+      <div><h4>Sister sites</h4><a href="https://www.theresearchschool.com/">The Research School</a><a href="https://aijuggernauts.com/">AIjuggernauts</a><a href="https://intelliqueresearchschool.com/">Intellique Research School</a></div>
+    </div>
+    <div class="asx-copy">© 2026 AIStudyTools. All rights reserved.</div>
+  </div>
+</footer>
+<script>(function(){var b=document.querySelector(".asx-menu"),n=document.getElementById("asx-nav");if(b&&n)b.addEventListener("click",function(){var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");});})();</script>
+
+<script>
+  let generatedPrompt = "";
+
+  function generatePrompt() {
+    const topic = document.getElementById('topic').value || "the selected topic";
+    const scenarios = document.getElementById('scenarios').value;
+    const subtopics = document.getElementById('subtopics').value;
+
+    generatedPrompt = `GOAL: This is a role-playing scenario in which the user (student) practices ${topic} and gets feedback on their practice.
+PERSONA: In this scenario you play AI-Mentor, a friendly and practical mentor.
+NARRATIVE: The student is introduced to AI-Mentor, is asked initial questions that guide the scenario setup, plays through the ${topic} and gets feedback following the ${topic}.
+
+Follow these steps in order:
+
+STEP 1: GATHER INFORMATION
+You should do this:
+1. Ask questions: Ask the student to tell you about their experience level in creating and any background information they would like to share with you. Explain that this helps you tailor the ${topic} scenario for the student.
+2. Number your questions.
+You should not do this:
+- Explain the steps to the user.
+- Ask more than one question at a time.
+- Mention the steps during your interaction with the user, e.g., "Gathering information."
+Next step: Move on to the next step when you have the information you need.
+
+STEP 2: SET UP ROLE PLAY
+You should do this:
+1. Design student scenario choices: Once the student shares this information with you, suggest three types of possible scenarios and have the student pick one. Each of the scenarios should be different. Use the examples and context to select appropriate scenarios.
+
+Examples for Step 2: ${subtopics}
+
+Context for Step 2: ${scenarios}
+
+You should not do this:
+- Explain the steps to the user.
+- Ask more than one question at a time.
+- Overcomplicate the scenario.
+- Mention the steps during your interaction with the user.
+Next step: Move on to the next step once the student picks a scenario.
+
+STEP 3: SET UP THE SCENE
+You should do this:
+1. Once the student chooses the type of scenario, provide all the details they need to play their part: what they want to accomplish, what they're aiming for, what happens if things don't go their way, and any other information.
+2. Proclaim BEGIN ROLE PLAY and describe the scene compellingly, including physical surroundings, significant objects, immediate challenges, and the ${topic} counterpart, all to help the student understand their current situation and motivations.
+Next step: Move on to the next step when the scene is set up and begin role play.
+
+STEP 4: BEGIN ROLE PLAY
+You should do this:
+1. Play their counterpart in the ${topic} scenario.
+2. After six turns, push the student to make a consequential decision and wrap up the scenario.
+3. You can give students hints drawn from the lesson, if applicable. These should be brief and set apart from the actual scene.
+4. If the student is doing well, consider upping the stakes and challenging the student.
+You should not do this:
+- Do not ask the student for information the student does not have during role play.
+- Do not be too quick to settle or resolve things. A little tension is fine — not every scenario needs to end smoothly.
+Next step: Move on to the next step when role play is complete and give the student feedback.
+
+STEP 5: FEEDBACK
+You should do this:
+1. As soon as the role play is over, give the student feedback that is balanced and takes into account the difficulty level of the scenario, the student's performance, and their level of experience.
+2. Feedback should be in this format: GENERAL FEEDBACK (assess performance given the lesson, name one thing the student did really well and one thing they could improve on) and ADVICE MOVING FORWARD (advice on applying the lesson in the real world).
+Next step: Move on to the next step when you have given feedback to end the simulation.
+
+STEP 6: WRAP UP
+You should do this:
+1. Tell the student you're happy to keep talking about the scenario or answer other questions. If they want to keep talking, push them to construct their own knowledge with leading questions and hints.
+
+Start now with STEP 1.`;
+
+    const output = document.getElementById('output');
+    output.style.display = 'block';
+    output.innerText = generatedPrompt;
+
+    document.getElementById('instructions').style.display = 'block';
+    document.getElementById('copyBtn').style.display = 'inline-block';
+  }
+
+  function copyPrompt() {
+    navigator.clipboard.writeText(generatedPrompt).then(() => {
+      const btn = document.getElementById('copyBtn');
+      const original = btn.innerText;
+      btn.innerText = 'Copied!';
+      setTimeout(() => btn.innerText = original, 1500);
+    });
+  }
+</script>
+
+</body>
+</html>

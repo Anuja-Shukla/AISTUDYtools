@@ -11,13 +11,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Markdown
+        run: pip install markdown
       - name: Generate pages
         run: |
           python3 site-src/build.py
           cp -r site-src/out/. .
           rm -rf site-src/out
           mkdir -p static
-          cp site-src/site.css site-src/site.js static/
+          cp site-src/site.css site-src/site.js site-src/tool-chrome.css static/
       - name: Commit generated site
         run: |
           git config user.name "github-actions[bot]"

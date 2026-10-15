@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course Comparison | AIStudyTools</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #FAFAFF;
+      --bg-2: #FFFFFF;
+      --panel: #FFFFFF;
+      --panel-hover: #EEF0FF;
+      --text: #1E1B4B;
+      --muted: #4A4878;
+      --accent: #4F46E5;
+      --accent-2: #FBBF24;
+      --accent-3: #6366F1;
+      --accent-strong: #3730A3;
+      --accent-strong-2: #4338CA;
+      --accent-text: #FFFFFF;
+      --border: #E4E5F5;
+      --shadow: rgba(79, 70, 229, 0.25);
+      --max-width: 860px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: linear-gradient(160deg, var(--bg) 0%, #F5F5FF 55%, #EEF0FF 100%);
+      background-attachment: fixed;
+      color: var(--text);
+      font-family: 'Outfit', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+      line-height: 1.65;
+    }
+    .wrap { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+    .site-header {
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0;
+      background: rgba(250, 250, 255, 0.9);
+      backdrop-filter: blur(10px);
+    }
+    .site-header .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; flex-wrap: wrap; max-width: 980px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.2rem; color: var(--text); text-decoration: none; }
+    .logo-mark { width: 34px; height: 34px; flex-shrink: 0; transition: transform 0.3s ease; }
+    .brand:hover .logo-mark { transform: rotate(-8deg) scale(1.08); }
+    .tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+    .tab {
+      color: var(--muted); text-decoration: none; padding: 9px 14px;
+      border-radius: 999px; font-size: 0.88rem; transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+    }
+    .tab:hover { background: var(--panel-hover); color: var(--text); transform: translateY(-1px); }
+    .tab.active { background: linear-gradient(120deg, var(--accent) 0%, var(--accent-3) 100%); color: var(--accent-text); font-weight: 600; }
+
+    .content { padding: 44px 20px 90px; }
+    h2 { font-family: 'Outfit', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 1.9rem; margin-bottom: 6px; }
+    h5 { font-weight: normal; color: var(--muted); margin-top: 0; font-size: 0.95rem; }
+    label { display: block; margin: 20px 0 6px; font-weight: 600; font-size: 0.92rem; }
+    .hint { font-weight: normal; color: var(--muted); font-size: 0.82rem; margin-top: -2px; margin-bottom: 6px; }
+    textarea, input, select {
+      display: block; width: 100%; padding: 11px 14px;
+      border: 1px solid var(--border); border-radius: 10px;
+      font-size: 0.95rem; font-family: inherit;
+      background: var(--bg-2); color: var(--text);
+    }
+    input:focus, select:focus {
+      outline: none; border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--shadow);
+    }
+
+    .intro-section { margin-bottom: 36px; padding-bottom: 30px; border-bottom: 1px solid var(--border); }
+    .section-label {
+      text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.78rem;
+      color: var(--accent-strong); font-weight: 700; margin-bottom: 10px;
+    }
+    .flow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+    .flow-step {
+      background: var(--bg-2); border: 1px solid var(--border); border-radius: 10px;
+      padding: 9px 14px; font-size: 0.82rem; font-weight: 600; color: var(--accent-strong);
+    }
+    .flow-arrow { color: var(--muted); font-size: 1rem; }
+
+    .platform-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-top: 8px; }
+    .platform-check {
+      display: flex; align-items: center; gap: 8px; background: var(--bg-2);
+      border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; font-size: 0.88rem;
+    }
+    .platform-check input { width: auto; margin: 0; }
+
+    .key-box {
+      background: rgba(251, 191, 36, 0.08);
+      border: 1px solid rgba(251, 191, 36, 0.3);
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-bottom: 26px;
+    }
+    .key-box h4 { margin: 0 0 6px; font-size: 0.95rem; color: var(--accent-strong); }
+    .key-box p { margin: 0 0 12px; font-size: 0.85rem; color: var(--muted); }
+    .key-box a { color: var(--accent-strong); }
+    .key-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .key-row input { flex: 1; min-width: 220px; }
+    .key-status { font-size: 0.85rem; color: var(--accent-strong); font-weight: 600; }
+    .key-status.missing { color: var(--accent-3); }
+
+    .btn-row { display: flex; gap: 10px; margin-top: 24px; flex-wrap: wrap; align-items: center; }
+    button {
+      padding: 12px 22px; font-size: 15px; cursor: pointer; border: none;
+      border-radius: 10px; font-weight: 700;
+      background: linear-gradient(120deg, var(--accent) 0%, var(--accent-3) 100%);
+      color: var(--accent-text);
+      transition: transform 0.15s ease, box-shadow 0.2s ease;
+    }
+    button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px var(--shadow); }
+    button.secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    button.secondary:hover { border-color: var(--accent); box-shadow: none; transform: none; }
+    button.small { padding: 8px 14px; font-size: 0.85rem; }
+    button:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    #status { font-size: 0.9rem; color: var(--muted); }
+    #status.error { color: var(--accent-3); }
+
+    #result {
+      white-space: pre-wrap;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      margin-top: 26px;
+      font-size: 0.92rem;
+      line-height: 1.55;
+      color: var(--text);
+      display: none;
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--border);
+      padding: 26px 0;
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-align: center;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<link rel="stylesheet" href="/static/tool-chrome.css?v=1">
+<header class="asx-hdr">
+  <div class="asx-wrap">
+    <a class="asx-logo" href="/" aria-label="AIStudyTools home"><span class="asx-mark"></span><span><b>AIStudyTools</b><small>AI for teaching &amp; learning</small></span></a>
+    <nav class="asx-nav" id="asx-nav" aria-label="Main"><a href="/">Home</a><a href="/learnx/">LearnX</a><a href="/tools/">Faculty Tools</a><a href="/practice/" class="on" aria-current="page">Student Practice</a><a href="/courses/">Courses</a><a href="/newsletter/">Newsletter</a><a href="/contact/">Contact</a></nav>
+    <button class="asx-menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="asx-nav"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </div>
+</header>
+
+<div class="wrap content">
+
+  <div class="intro-section">
+    <div class="section-label">Course Comparison</div>
+    <h1 style="font-size: 1.5rem; margin: 0 0 6px;">Compare courses across platforms before you enroll.</h1>
+    <div class="flow">
+      <span class="flow-step">Pick a Subject</span><span class="flow-arrow">&rarr;</span>
+      <span class="flow-step">Set Preferences</span><span class="flow-arrow">&rarr;</span>
+      <span class="flow-step">AI Comparison</span><span class="flow-arrow">&rarr;</span>
+      <span class="flow-step">Side-by-Side Table</span><span class="flow-arrow">&rarr;</span>
+      <span class="flow-step">Decide</span>
+    </div>
+  </div>
+
+  <h2>Course Comparison</h2>
+  <h5>Built for students. Enter what you want to learn and your preferences, and the AI will compare how major platforms teach it — format, duration, certification, and typical cost — so you can pick the right one.</h5>
+
+  <div class="key-box">
+    <h4>Your Google Gemini API Key</h4>
+    <p>
+      This tool uses your own free Google Gemini API key — no cost, no credit card, ever. Get a key at
+      <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a>
+      (sign in with any Google account). Your key is stored only in this browser and is never sent anywhere except directly to Google.
+      Note: on the free tier, Google's terms allow using your prompts to help improve their models — avoid pasting sensitive material.
+    </p>
+    <div class="key-row">
+      <input type="password" id="apiKeyInput" placeholder="AIzaSy...">
+      <button class="small" onclick="saveKey()">Save Key</button>
+      <button class="small secondary" onclick="clearKey()">Clear</button>
+      <span class="key-status" id="keyStatus"></span>
+    </div>
+  </div>
+
+  <label for="subject">Subject / Skill to Learn</label>
+  <div class="hint">e.g. Data Science, Digital Marketing, Product Management, Generative AI, Financial Modeling</div>
+  <input type="text" id="subject" placeholder="e.g. Data Science">
+
+  <label for="goal">Career Goal (optional)</label>
+  <select id="goal">
+    <option value="">Not specified</option>
+    <option value="Career switch">Career switch</option>
+    <option value="Upskilling in current role">Upskilling in current role</option>
+    <option value="Academic credit">Academic credit</option>
+    <option value="Personal interest">Personal interest</option>
+  </select>
+
+  <label for="budget">Budget Range (optional)</label>
+  <select id="budget">
+    <option value="">Not specified</option>
+    <option value="Free only">Free only</option>
+    <option value="Under ₹10,000">Under ₹10,000</option>
+    <option value="₹10,000–₹50,000">₹10,000–₹50,000</option>
+    <option value="No budget constraint">No budget constraint</option>
+  </select>
+
+  <label for="time">Time Commitment (optional)</label>
+  <select id="time">
+    <option value="">Not specified</option>
+    <option value="Under 4 weeks">Under 4 weeks</option>
+    <option value="1–3 months">1–3 months</option>
+    <option value="3–6 months">3–6 months</option>
+    <option value="Self-paced / no deadline">Self-paced / no deadline</option>
+  </select>
+
+  <label>Platforms to Compare (optional — edit the default list)</label>
+  <div class="platform-grid">
+    <label class="platform-check"><input type="checkbox" value="Coursera" checked> Coursera</label>
+    <label class="platform-check"><input type="checkbox" value="edX" checked> edX</label>
+    <label class="platform-check"><input type="checkbox" value="Udemy" checked> Udemy</label>
+    <label class="platform-check"><input type="checkbox" value="upGrad" checked> upGrad</label>
+    <label class="platform-check"><input type="checkbox" value="Emeritus" checked> Emeritus</label>
+    <label class="platform-check"><input type="checkbox" value="Simplilearn" checked> Simplilearn</label>
+  </div>
+
+  <div class="btn-row">
+    <button id="generateBtn" onclick="generateComparison()">Compare Courses</button>
+    <button class="secondary" id="copyBtn" onclick="copyResult()" style="display:none;">Copy Result</button>
+    <span id="status"></span>
+  </div>
+
+  <div id="result"></div>
+
+</div>
+
+<footer class="asx-ftr">
+  <div class="asx-wrap">
+    <div class="asx-cols">
+      <div><a class="asx-logo" href="/"><span class="asx-mark"></span><span><b>AIStudyTools</b></span></a><p>AI tools and courses for teaching and learning. A platform of Intellique Research School Pvt Ltd.</p></div>
+      <div><h4>Explore</h4><a href="/learnx/">LearnX</a><a href="/tools/">Faculty Tools</a><a href="/practice/">Student Practice</a><a href="/courses/">Courses</a></div>
+      <div><h4>Sister sites</h4><a href="https://www.theresearchschool.com/">The Research School</a><a href="https://aijuggernauts.com/">AIjuggernauts</a><a href="https://intelliqueresearchschool.com/">Intellique Research School</a></div>
+    </div>
+    <div class="asx-copy">© 2026 AIStudyTools. All rights reserved.</div>
+  </div>
+</footer>
+<script>(function(){var b=document.querySelector(".asx-menu"),n=document.getElementById("asx-nav");if(b&&n)b.addEventListener("click",function(){var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");});})();</script>
+
+<script>
+  const STORAGE_KEY = "aijuggernauts_gemini_api_key";
+  let generatedText = "";
+
+  function refreshKeyStatus() {
+    const status = document.getElementById('keyStatus');
+    const key = localStorage.getItem(STORAGE_KEY);
+    if (key) {
+      status.textContent = "Key saved in this browser";
+      status.className = "key-status";
+    } else {
+      status.textContent = "No key saved yet";
+      status.className = "key-status missing";
+    }
+  }
+
+  function saveKey() {
+    const input = document.getElementById('apiKeyInput');
+    const value = input.value.trim();
+    if (value.length < 20) {
+      alert('That doesn\'t look like a valid Gemini API key. Please check and try again.');
+      return;
+    }
+    localStorage.setItem(STORAGE_KEY, value);
+    input.value = '';
+    refreshKeyStatus();
+  }
+
+  function clearKey() {
+    localStorage.removeItem(STORAGE_KEY);
+    refreshKeyStatus();
+  }
+
+  refreshKeyStatus();
+
+  function buildPrompt() {
+    const subject = document.getElementById('subject').value.trim() || "(not specified — ask the student to provide a subject before proceeding)";
+    const goal = document.getElementById('goal').value || "Not specified";
+    const budget = document.getElementById('budget').value || "Not specified";
+    const time = document.getElementById('time').value || "Not specified";
+    const platforms = Array.from(document.querySelectorAll('.platform-check input:checked')).map(el => el.value);
+    const platformList = platforms.length ? platforms.join(', ') : "Coursera, edX, Udemy, upGrad, Emeritus, Simplilearn";
+
+    return `You are an AI-powered course comparison assistant designed for students exploring online learning options. Your purpose is to help a student compare how a subject or skill is taught across major edtech platforms, so they can make an informed choice.
+
+STUDENT INPUTS (already provided — do not ask for these again):
+- Subject / Skill to Learn: ${subject}
+- Career Goal: ${goal}
+- Budget Range: ${budget}
+- Time Commitment: ${time}
+- Platforms to Compare: ${platformList}
+
+YOUR TASK
+
+For the subject the student entered, identify one representative, well-known course or program on each selected platform and generate a clear, side-by-side comparison.
+
+IMPORTANT CONSTRAINT ON ACCURACY: Do not state specific current prices, enrollment numbers, ratings, or start dates as fixed facts — these change frequently and you do not have live access to each platform. Instead:
+- Describe typical pricing ranges or models (e.g., "subscription-based, typically $39-79/month" rather than an exact figure).
+- Always include a note telling the student to confirm current price, dates, and availability directly on the platform before enrolling.
+- Do not fabricate specific instructor names, exact course titles, or accreditation claims you are not confident about — if unsure, describe the type of offering typically found on that platform instead of inventing a specific course.
+
+COMPARISON STRUCTURE
+
+1. Quick Summary
+One or two sentences on how these platforms generally differ in their approach to teaching this subject.
+
+2. Comparison Table
+A markdown table with columns: Platform | Typical Course Type | Format | Duration | Certification | Price Model | Best For
+
+3. Depth & Rigor Comparison
+A short paragraph comparing how academically rigorous vs. practically applied each platform's offerings tend to be for this subject.
+
+4. Credential Value
+A short paragraph on how each platform's certificate is generally perceived (by employers, for academic credit, for portfolio-building) — framed as general reputation, not a ranking or endorsement.
+
+5. Decision Guide
+3-4 short conditional recommendations in the format "If your goal is [X], consider [Platform]," tailored to the student's stated goal, budget, and time commitment.
+
+6. Verification Reminder
+Close with: "Course offerings, pricing, and certificates change frequently. Please verify current details directly on each platform before enrolling."
+
+DESIGN PRINCIPLES
+- Objectivity first — do not favor one platform; present trade-offs neutrally.
+- No fabricated specifics — general patterns and typical ranges only, never invented exact data.
+- Student-goal-driven — tailor the "Best For" and "Decision Guide" sections to what the student said they want.
+- Concise — scannable in under 3 minutes; avoid long prose blocks.
+- Actionable ending — the student should finish knowing which 1-2 platforms to actually go look at.
+
+Generate the full comparison now, in the order listed above. Do not ask any clarifying questions.`;
+  }
+
+  async function callGemini(model, apiKey, prompt) {
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { maxOutputTokens: 6000 }
+        })
+      }
+    );
+    const data = await response.json();
+    if (!response.ok) {
+      const message = data && data.error && data.error.message ? data.error.message : `Request failed (${response.status})`;
+      const err = new Error(message);
+      err.status = response.status;
+      throw err;
+    }
+    const candidate = data.candidates && data.candidates[0];
+    const text = candidate && candidate.content && candidate.content.parts
+      ? candidate.content.parts.map(p => p.text || '').join('\n').trim()
+      : '';
+    if (!text) throw new Error('No content returned');
+    return text;
+  }
+
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  async function generateComparison() {
+    const btn = document.getElementById('generateBtn');
+    const status = document.getElementById('status');
+    const result = document.getElementById('result');
+    const copyBtn = document.getElementById('copyBtn');
+
+    const apiKey = localStorage.getItem(STORAGE_KEY);
+    if (!apiKey) {
+      status.className = 'error';
+      status.innerText = 'Please add your Gemini API key above first.';
+      return;
+    }
+    if (!document.getElementById('subject').value.trim()) {
+      status.className = 'error';
+      status.innerText = 'Please enter a subject or skill to compare.';
+      return;
+    }
+
+    btn.disabled = true;
+    status.className = '';
+    result.style.display = 'none';
+    copyBtn.style.display = 'none';
+
+    const prompt = buildPrompt();
+    const primaryModel = 'gemini-3.6-flash';
+    const fallbackModel = 'gemini-3.5-flash-lite';
+    const maxAttempts = 3;
+    let text = null;
+    let lastError = null;
+
+    for (let attempt = 1; attempt <= maxAttempts && !text; attempt++) {
+      const model = attempt < maxAttempts ? primaryModel : fallbackModel;
+      status.innerText = attempt === 1
+        ? 'Comparing courses — this can take 15-30 seconds...'
+        : `Google's servers are busy — retrying (attempt ${attempt} of ${maxAttempts})...`;
+      try {
+        text = await callGemini(model, apiKey, prompt);
+      } catch (err) {
+        lastError = err;
+        const overloaded = err.status === 503 || /overloaded|high demand|unavailable/i.test(err.message);
+        if (overloaded && attempt < maxAttempts) {
+          await sleep(2000 * attempt);
+          continue;
+        }
+        break;
+      }
+    }
+
+    if (text) {
+      generatedText = text;
+      result.innerText = text;
+      result.style.display = 'block';
+      copyBtn.style.display = 'inline-block';
+      status.innerText = 'Done.';
+    } else {
+      status.className = 'error';
+      status.innerText = 'Error: ' + (lastError ? lastError.message : 'Unknown error') + ' — Google\'s free tier can get busy at peak times. Please wait a minute and try again.';
+      console.error(lastError);
+    }
+
+    btn.disabled = false;
+  }
+
+  function copyResult() {
+    navigator.clipboard.writeText(generatedText).then(() => {
+      const btn = document.getElementById('copyBtn');
+      const original = btn.innerText;
+      btn.innerText = 'Copied!';
+      setTimeout(() => btn.innerText = original, 1500);
+    });
+  }
+</script>
+
+</body>
+</html>

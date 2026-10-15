@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Presentation Creator | AIStudyTools</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+  <style>
+    :root {
+      --bg: #FAFAFF; --bg-2: #FFFFFF; --panel: #FFFFFF; --panel-hover: #EEF0FF;
+      --text: #1E1B4B; --muted: #4A4878; --accent: #4F46E5; --accent-2: #FBBF24;
+      --accent-3: #6366F1;
+      --accent-strong: #3730A3;
+      --accent-strong-2: #4338CA; --accent-text: #FFFFFF; --border: #E4E5F5;
+      --shadow: rgba(79, 70, 229, 0.25); --max-width: 860px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: linear-gradient(160deg, var(--bg) 0%, #F5F5FF 55%, #EEF0FF 100%);
+      background-attachment: fixed; color: var(--text);
+      font-family: 'Outfit', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+      line-height: 1.65;
+    }
+    .wrap { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+    .site-header { border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(250, 250, 255, 0.9); backdrop-filter: blur(10px); }
+    .site-header .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; flex-wrap: wrap; max-width: 980px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.2rem; color: var(--text); text-decoration: none; }
+    .logo-mark { width: 34px; height: 34px; flex-shrink: 0; transition: transform 0.3s ease; }
+    .brand:hover .logo-mark { transform: rotate(-8deg) scale(1.08); }
+    .tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+    .tab { color: var(--muted); text-decoration: none; padding: 9px 14px; border-radius: 999px; font-size: 0.88rem; transition: background 0.2s ease, color 0.2s ease; }
+    .tab:hover { background: var(--panel-hover); color: var(--text); }
+    .tab.active { background: linear-gradient(120deg, var(--accent) 0%, var(--accent-3) 100%); color: var(--accent-text); font-weight: 600; }
+
+    .content { padding: 44px 20px 90px; }
+    h2 { font-family: 'Outfit', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 1.9rem; margin-bottom: 6px; }
+    h5 { font-weight: normal; color: var(--muted); margin-top: 0; font-size: 0.95rem; }
+    label { display: block; margin: 20px 0 6px; font-weight: 600; font-size: 0.92rem; }
+    .hint { font-weight: normal; color: var(--muted); font-size: 0.82rem; margin-top: -2px; margin-bottom: 6px; }
+    textarea, input, select {
+      display: block; width: 100%; padding: 11px 14px; border: 1px solid var(--border); border-radius: 10px;
+      font-size: 0.95rem; font-family: inherit; background: var(--bg-2); color: var(--text);
+    }
+    textarea { min-height: 160px; resize: vertical; }
+    input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--shadow); }
+
+    .key-box { background: rgba(251, 191, 36, 0.08); border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 14px; padding: 18px 20px; margin-bottom: 26px; }
+    .key-box h4 { margin: 0 0 6px; font-size: 0.95rem; color: var(--accent-strong); }
+    .key-box p { margin: 0 0 12px; font-size: 0.85rem; color: var(--muted); }
+    .key-box a { color: var(--accent-strong); }
+    .key-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .key-row input { flex: 1; min-width: 220px; }
+    .key-status { font-size: 0.85rem; color: var(--accent-strong); font-weight: 600; }
+    .key-status.missing { color: var(--accent-3); }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+
+    .btn-row { display: flex; gap: 10px; margin-top: 24px; flex-wrap: wrap; align-items: center; }
+    button { padding: 12px 22px; font-size: 15px; cursor: pointer; border: none; border-radius: 10px; font-weight: 700; background: linear-gradient(120deg, var(--accent) 0%, var(--accent-3) 100%); color: var(--accent-text); transition: transform 0.15s ease, box-shadow 0.2s ease; }
+    button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px var(--shadow); }
+    button.small { padding: 8px 14px; font-size: 0.85rem; }
+    button:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+    button.secondary { background: transparent; border: 1px solid var(--border); color: var(--text); }
+
+    #status { font-size: 0.9rem; color: var(--muted); }
+    #status.error { color: var(--accent-3); }
+
+    #preview { display: none; margin-top: 26px; }
+    #preview h3 { color: var(--accent-strong); font-size: 1.05rem; }
+    .slide-preview-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+    .slide-preview-item { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; font-size: 0.85rem; color: var(--muted); }
+    .slide-preview-item strong { color: var(--text); }
+
+    .site-footer { border-top: 1px solid var(--border); padding: 26px 0; color: var(--muted); font-size: 0.85rem; text-align: center; margin-top: 40px; }
+  </style>
+</head>
+<body>
+
+<link rel="stylesheet" href="/static/tool-chrome.css?v=1">
+<header class="asx-hdr">
+  <div class="asx-wrap">
+    <a class="asx-logo" href="/" aria-label="AIStudyTools home"><span class="asx-mark"></span><span><b>AIStudyTools</b><small>AI for teaching &amp; learning</small></span></a>
+    <nav class="asx-nav" id="asx-nav" aria-label="Main"><a href="/">Home</a><a href="/learnx/">LearnX</a><a href="/tools/" class="on" aria-current="page">Faculty Tools</a><a href="/practice/">Student Practice</a><a href="/courses/">Courses</a><a href="/newsletter/">Newsletter</a><a href="/contact/">Contact</a></nav>
+    <button class="asx-menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="asx-nav"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </div>
+</header>
+
+<div class="wrap content">
+
+  <h2>AI Presentation Creator</h2>
+  <h5>Paste your content, pick a style, and get a polished, ready-to-present PowerPoint — real slides, real charts, downloaded directly to your device. (Note: this generates fully designed slides with varied layouts and data visualizations, but PowerPoint's built-in entrance/transition animations aren't supported by this browser-based generator — you can add those yourself in PowerPoint after downloading.)</h5>
+
+  <div class="key-box">
+    <h4>Your Google Gemini API Key</h4>
+    <p>
+      Free, no credit card. Get a key at <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> and paste it below.
+      Stored only in this browser, sent only to Google.
+    </p>
+    <div class="key-row">
+      <input type="password" id="apiKeyInput" placeholder="AIzaSy...">
+      <button class="small" onclick="saveKey()">Save Key</button>
+      <button class="small secondary" onclick="clearKey()">Clear</button>
+      <span class="key-status" id="keyStatus"></span>
+    </div>
+  </div>
+
+  <label for="sourceContent">Source Content</label>
+  <div class="hint">Paste your notes, outline, or document text — this becomes the presentation.</div>
+  <textarea id="sourceContent" placeholder="Paste your content here..."></textarea>
+
+  <div class="two-col">
+    <div>
+      <label for="audience">Audience (optional)</label>
+      <input type="text" id="audience" placeholder="e.g. Executive board, MBA students">
+    </div>
+    <div>
+      <label for="tone">Tone (optional)</label>
+      <select id="tone">
+        <option value="">Not specified</option>
+        <option value="Formal / Corporate">Formal / Corporate</option>
+        <option value="Energetic / Startup">Energetic / Startup</option>
+        <option value="Academic">Academic</option>
+        <option value="Minimalist">Minimalist</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <label for="slideCount">Approximate Slide Count (optional)</label>
+      <input type="number" id="slideCount" min="5" max="25" placeholder="e.g. 12">
+    </div>
+    <div>
+      <label for="colorTheme">Color Theme</label>
+      <select id="colorTheme">
+        <option value="gold">Classic Gold (indigo/gold)</option>
+        <option value="navy">Professional Navy</option>
+        <option value="coral">Energetic Coral</option>
+        <option value="green">Academic Green</option>
+        <option value="mono">Minimalist Mono</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button id="generateBtn" onclick="generatePresentation()">Generate Presentation</button>
+    <span id="status"></span>
+  </div>
+
+  <div id="preview">
+    <h3 id="previewTitle"></h3>
+    <div class="slide-preview-list" id="slideList"></div>
+    <div class="btn-row">
+      <button onclick="downloadPptx()">Download .pptx</button>
+    </div>
+  </div>
+
+</div>
+
+<footer class="asx-ftr">
+  <div class="asx-wrap">
+    <div class="asx-cols">
+      <div><a class="asx-logo" href="/"><span class="asx-mark"></span><span><b>AIStudyTools</b></span></a><p>AI tools and courses for teaching and learning. A platform of Intellique Research School Pvt Ltd.</p></div>
+      <div><h4>Explore</h4><a href="/learnx/">LearnX</a><a href="/tools/">Faculty Tools</a><a href="/practice/">Student Practice</a><a href="/courses/">Courses</a></div>
+      <div><h4>Sister sites</h4><a href="https://www.theresearchschool.com/">The Research School</a><a href="https://aijuggernauts.com/">AIjuggernauts</a><a href="https://intelliqueresearchschool.com/">Intellique Research School</a></div>
+    </div>
+    <div class="asx-copy">© 2026 AIStudyTools. All rights reserved.</div>
+  </div>
+</footer>
+<script>(function(){var b=document.querySelector(".asx-menu"),n=document.getElementById("asx-nav");if(b&&n)b.addEventListener("click",function(){var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");});})();</script>
+
+<script>
+  const STORAGE_KEY = "aijuggernauts_gemini_api_key";
+  let deckData = null;
+
+  const THEMES = {
+    gold:  { primary: "F5A623", accent: "7DD8C6", dark: "241505", bgLight: "FFFDF7", text: "241505", muted: "6B6350" },
+    navy:  { primary: "1E3A8A", accent: "60A5FA", dark: "0F172A", bgLight: "F8FAFC", text: "0F172A", muted: "64748B" },
+    coral: { primary: "FF6B5B", accent: "FFB347", dark: "3A1410", bgLight: "FFF8F6", text: "3A1410", muted: "8A5E56" },
+    green: { primary: "2F6B4F", accent: "8FBF9F", dark: "13291F", bgLight: "F6FAF7", text: "13291F", muted: "5E7A6A" },
+    mono:  { primary: "2B2B2B", accent: "9B9B9B", dark: "111111", bgLight: "FAFAFA", text: "111111", muted: "6E6E6E" }
+  };
+
+  function refreshKeyStatus() {
+    const status = document.getElementById('keyStatus');
+    const key = localStorage.getItem(STORAGE_KEY);
+    if (key) { status.textContent = "Key saved"; status.className = "key-status"; }
+    else { status.textContent = "No key saved yet"; status.className = "key-status missing"; }
+  }
+  function saveKey() {
+    const input = document.getElementById('apiKeyInput');
+    const value = input.value.trim();
+    if (value.length < 20) { alert('That doesn\'t look like a valid Gemini API key.'); return; }
+    localStorage.setItem(STORAGE_KEY, value);
+    input.value = '';
+    refreshKeyStatus();
+  }
+  function clearKey() { localStorage.removeItem(STORAGE_KEY); refreshKeyStatus(); }
+  refreshKeyStatus();
+
+  function buildPrompt() {
+    const content = document.getElementById('sourceContent').value.trim();
+    const audience = document.getElementById('audience').value.trim() || "general audience";
+    const tone = document.getElementById('tone').value || "professional";
+    const slideCount = document.getElementById('slideCount').value || "10-16";
+
+    return `You are an expert presentation designer. Transform the SOURCE CONTENT below into a structured slide deck plan. Do not copy text verbatim onto slides — condense into scannable, high-impact statements, and push fuller detail into speaker notes.
+
+AUDIENCE: ${audience}
+TONE: ${tone}
+TARGET SLIDE COUNT: approximately ${slideCount}
+
+SOURCE CONTENT:
+"""
+${content}
+"""
+
+Choose slide types from: title, section, bullets, twocolumn, chart, quote, process, closing.
+- Use "chart" only when the source content contains actual numbers to compare (bar/line/pie) — never invent data.
+- Use "process" for sequential steps or stages.
+- Use "twocolumn" for contrasts or before/after.
+- Use "quote" sparingly, only for a genuinely quotable statement from the source content.
+- Vary slide types — do not use "bullets" for every slide.
+- Bullets: 3-5 short items max per slide, no long sentences.
+- Every slide needs "notes" containing the fuller supporting detail.
+
+Output ONLY valid JSON, no markdown fences, in this exact structure:
+{
+  "title": "Presentation Title",
+  "subtitle": "Optional subtitle",
+  "slides": [
+    {"type": "title", "title": "...", "subtitle": "...", "notes": "..."},
+    {"type": "section", "title": "...", "notes": "..."},
+    {"type": "bullets", "title": "...", "bullets": ["...", "..."], "notes": "..."},
+    {"type": "twocolumn", "title": "...", "leftHeading": "...", "leftBullets": ["..."], "rightHeading": "...", "rightBullets": ["..."], "notes": "..."},
+    {"type": "chart", "title": "...", "chartType": "bar", "categories": ["A","B","C"], "seriesName": "...", "values": [1,2,3], "notes": "..."},
+    {"type": "quote", "quote": "...", "attribution": "...", "notes": "..."},
+    {"type": "process", "title": "...", "steps": ["...", "..."], "notes": "..."},
+    {"type": "closing", "title": "...", "bullets": ["...", "..."], "notes": "..."}
+  ]
+}`;
+  }
+
+  async function callGemini(prompt) {
+    const apiKey = localStorage.getItem(STORAGE_KEY);
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${encodeURIComponent(apiKey)}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { maxOutputTokens: 6000 } })
+      }
+    );
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error && data.error.message ? data.error.message : `Request failed (${response.status})`);
+    const candidate = data.candidates && data.candidates[0];
+    let text = candidate && candidate.content && candidate.content.parts ? candidate.content.parts.map(p => p.text || '').join('\n').trim() : '';
+    text = text.replace(/^```json\s*|\s*```$/g, '');
+    return JSON.parse(text);
+  }
+
+  async function generatePresentation() {
+    const btn = document.getElementById('generateBtn');
+    const status = document.getElementById('status');
+    const preview = document.getElementById('preview');
+
+    const apiKey = localStorage.getItem(STORAGE_KEY);
+    if (!apiKey) { status.className = 'error'; status.innerText = 'Please add your Gemini API key above first.'; return; }
+    if (!document.getElementById('sourceContent').value.trim()) { status.className = 'error'; status.innerText = 'Please paste some source content first.'; return; }
+
+    btn.disabled = true;
+    status.className = '';
+    status.innerText = 'Designing your presentation — this can take 20-40 seconds...';
+    preview.style.display = 'none';
+
+    try {
+      deckData = await callGemini(buildPrompt());
+      document.getElementById('previewTitle').innerText = deckData.title || 'Your Presentation';
+      const list = document.getElementById('slideList');
+      list.innerHTML = '';
+      deckData.slides.forEach((s, i) => {
+        const div = document.createElement('div');
+        div.className = 'slide-preview-item';
+        div.innerHTML = `<strong>${i + 1}. ${s.title || s.quote || s.type}</strong> — ${s.type}`;
+        list.appendChild(div);
+      });
+      preview.style.display = 'block';
+      status.innerText = `Done — ${deckData.slides.length} slides ready.`;
+    } catch (err) {
+      status.className = 'error';
+      status.innerText = 'Error: ' + err.message;
+      console.error(err);
+    }
+    btn.disabled = false;
+  }
+
+  function downloadPptx() {
+    if (!deckData) return;
+    const theme = THEMES[document.getElementById('colorTheme').value] || THEMES.gold;
+    const pptx = new PptxGenJS();
+    pptx.defineLayout({ name: "WIDE", width: 13.33, height: 7.5 });
+    pptx.layout = "WIDE";
+
+    deckData.slides.forEach(s => {
+      const slide = pptx.addSlide();
+      slide.background = { color: theme.bgLight };
+      if (s.notes) slide.addNotes(s.notes);
+
+      if (s.type === 'title') {
+        slide.background = { color: theme.dark };
+        slide.addText(s.title || deckData.title || '', { x: 0.8, y: 2.6, w: 11.7, h: 1.4, fontSize: 40, bold: true, color: theme.primary, fontFace: "Arial" });
+        if (s.subtitle) slide.addText(s.subtitle, { x: 0.8, y: 3.9, w: 11.7, h: 0.8, fontSize: 18, color: "FFFFFF", fontFace: "Arial" });
+        slide.addShape(pptx.ShapeType.rect, { x: 0.8, y: 2.35, w: 1.4, h: 0.06, fill: { color: theme.accent } });
+      } else if (s.type === 'section') {
+        slide.background = { color: theme.primary };
+        slide.addText(s.title || '', { x: 0.8, y: 3.2, w: 11.7, h: 1.2, fontSize: 34, bold: true, color: "FFFFFF", fontFace: "Arial" });
+      } else if (s.type === 'bullets') {
+        slide.addText(s.title || '', { x: 0.6, y: 0.5, w: 12.1, h: 0.8, fontSize: 28, bold: true, color: theme.text, fontFace: "Arial" });
+        slide.addShape(pptx.ShapeType.rect, { x: 0.6, y: 1.25, w: 1.1, h: 0.05, fill: { color: theme.accent } });
+        const bulletText = (s.bullets || []).map(b => ({ text: b, options: { bullet: { code: "25CF", color: theme.primary }, breakLine: true, fontSize: 18, color: theme.text } }));
+        slide.addText(bulletText, { x: 0.6, y: 1.7, w: 11.5, h: 5, valign: "top", lineSpacing: 34, fontFace: "Arial" });
+      } else if (s.type === 'twocolumn') {
+        slide.addText(s.title || '', { x: 0.6, y: 0.5, w: 12.1, h: 0.8, fontSize: 26, bold: true, color: theme.text, fontFace: "Arial" });
+        slide.addText(s.leftHeading || '', { x: 0.6, y: 1.5, w: 5.8, h: 0.5, fontSize: 18, bold: true, color: theme.primary, fontFace: "Arial" });
+        slide.addText((s.leftBullets || []).map(b => ({ text: b, options: { bullet: true, breakLine: true, fontSize: 15, color: theme.text } })), { x: 0.6, y: 2.1, w: 5.8, h: 4, valign: "top", fontFace: "Arial" });
+        slide.addText(s.rightHeading || '', { x: 6.9, y: 1.5, w: 5.8, h: 0.5, fontSize: 18, bold: true, color: theme.primary, fontFace: "Arial" });
+        slide.addText((s.rightBullets || []).map(b => ({ text: b, options: { bullet: true, breakLine: true, fontSize: 15, color: theme.text } })), { x: 6.9, y: 2.1, w: 5.8, h: 4, valign: "top", fontFace: "Arial" });
+      } else if (s.type === 'chart') {
+        slide.addText(s.title || '', { x: 0.6, y: 0.5, w: 12.1, h: 0.8, fontSize: 26, bold: true, color: theme.text, fontFace: "Arial" });
+        const chartTypeMap = { bar: pptx.ChartType.bar, line: pptx.ChartType.line, pie: pptx.ChartType.pie };
+        const chartType = chartTypeMap[s.chartType] || pptx.ChartType.bar;
+        const chartData = [{ name: s.seriesName || 'Series 1', labels: s.categories || [], values: s.values || [] }];
+        slide.addChart(chartType, chartData, { x: 1.2, y: 1.5, w: 10.9, h: 5, chartColors: [theme.primary, theme.accent, theme.dark], showLegend: s.chartType === 'pie', dataLabelColor: theme.text });
+      } else if (s.type === 'quote') {
+        slide.background = { color: theme.dark };
+        slide.addText(`"${s.quote || ''}"`, { x: 1.2, y: 2.3, w: 10.9, h: 2, fontSize: 30, italic: true, color: "FFFFFF", align: "center", fontFace: "Arial" });
+        if (s.attribution) slide.addText(`— ${s.attribution}`, { x: 1.2, y: 4.3, w: 10.9, h: 0.6, fontSize: 16, color: theme.accent, align: "center", fontFace: "Arial" });
+      } else if (s.type === 'process') {
+        slide.addText(s.title || '', { x: 0.6, y: 0.5, w: 12.1, h: 0.8, fontSize: 26, bold: true, color: theme.text, fontFace: "Arial" });
+        const steps = s.steps || [];
+        const stepW = 11.5 / Math.max(steps.length, 1);
+        steps.forEach((step, i) => {
+          const x = 0.6 + i * stepW;
+          slide.addShape(pptx.ShapeType.roundRect, { x: x, y: 2.5, w: stepW - 0.3, h: 1.4, fill: { color: i % 2 === 0 ? theme.primary : theme.accent }, rectRadius: 0.1 });
+          slide.addText(String(i + 1), { x: x, y: 2.6, w: stepW - 0.3, h: 0.4, fontSize: 14, bold: true, color: "FFFFFF", align: "center", fontFace: "Arial" });
+          slide.addText(step, { x: x, y: 3.0, w: stepW - 0.3, h: 0.9, fontSize: 12, color: "FFFFFF", align: "center", valign: "top", fontFace: "Arial" });
+          if (i < steps.length - 1) slide.addText("→", { x: x + stepW - 0.35, y: 2.9, w: 0.3, h: 0.6, fontSize: 20, color: theme.muted, align: "center" });
+        });
+      } else if (s.type === 'closing') {
+        slide.background = { color: theme.dark };
+        slide.addText(s.title || 'Thank You', { x: 0.8, y: 2.2, w: 11.7, h: 1, fontSize: 34, bold: true, color: theme.primary, fontFace: "Arial" });
+        slide.addText((s.bullets || []).map(b => ({ text: b, options: { bullet: { code: "25CF", color: theme.accent }, breakLine: true, fontSize: 16, color: "FFFFFF" } })), { x: 0.8, y: 3.3, w: 11.7, h: 3, fontFace: "Arial" });
+      }
+    });
+
+    const filename = (deckData.title || 'presentation').replace(/[^a-z0-9]+/gi, '-').toLowerCase();
+    pptx.writeFile({ fileName: filename + '.pptx' });
+  }
+</script>
+
+</body>
+</html>

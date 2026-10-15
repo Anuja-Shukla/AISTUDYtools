@@ -67,10 +67,10 @@
   }
   function pickProduct(sel, name) {
     if (!sel || !name) return;
-    var key = /HealthX/i.test(name) ? "HealthX" : /SkillX/i.test(name) ? "SkillX" : /Webinar/i.test(name) ? "Webinars" : "LearnX";
+    var key = /Course/i.test(name) ? "Courses" : /tool|Faculty/i.test(name) ? "Faculty tools" : /Webinar/i.test(name) ? "Webinars" : "LearnX";
     [].forEach.call(sel.options, function (o) { if (o.text.indexOf(key) === 0) sel.value = o.value; });
   }
-  var OPTIONS = '<option>LearnX — Learning &amp; Research</option><option>HealthX — Healthcare Insights</option><option>SkillX — Training &amp; Simulations</option><option>All of the above</option><option>Webinars</option>';
+  var OPTIONS = '<option>LearnX — Learning &amp; Research</option><option>Faculty tools — Help or training</option><option>Courses — Joining or hosting one</option><option>Webinars</option><option>Something else</option>';
 
   // Contact page form (consultations): prefill from ?demo=
   var form = document.getElementById("contact-form");
@@ -110,7 +110,7 @@
   function openDemo(product) {
     dprod = product || "";
     var path = location.pathname;
-    pickProduct(dform.querySelector('[name="product"]'), dprod || (/healthx/.test(path) ? "HealthX" : /skillx/.test(path) ? "SkillX" : /webinars/.test(path) ? "Webinars" : "LearnX"));
+    pickProduct(dform.querySelector('[name="product"]'), dprod || (/courses/.test(path) ? "Courses" : /tools|practice/.test(path) ? "Faculty tools" : /webinars/.test(path) ? "Webinars" : "LearnX"));
     dform.querySelector(".status").textContent = "";
     dm.classList.add("on"); setTimeout(function () { dform.querySelector('[name="name"]').focus(); }, 50);
   }
@@ -151,6 +151,39 @@
   }
   drawMaps(); window.addEventListener("resize", drawMaps);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawMaps);
+
+  // Free tools: quick one-time registration (on the Faculty Tools and Student Practice pages)
+  if (document.body.hasAttribute("data-gate")) {
+    var KEY = "aistudytools_registered", done = false;
+    try { done = !!localStorage.getItem(KEY); } catch (e) { done = true; }
+    if (!done) {
+      var g = document.createElement("div");
+      g.className = "dmodal gate on"; g.setAttribute("role", "dialog"); g.setAttribute("aria-modal", "true"); g.setAttribute("aria-labelledby", "gate-title");
+      g.innerHTML = '<div class="panel"><span class="tag">Free · 15 seconds</span><h2 id="gate-title" style="margin-top:12px">Welcome to the free tools</h2>' +
+        '<p class="sub">Practice makes learning stick. Register once and use every tool free.</p>' +
+        '<ul class="gate-points"><li><span>+50 XP</span>Instant feedback keeps students engaged</li><li><span>+30 XP</span>Visible progress builds momentum</li><li><span>+80 XP</span>Milestones turn effort into achievement</li></ul>' +
+        '<form class="form" id="gate-form" novalidate>' +
+        '<div class="field"><label for="g-name">Name</label><input id="g-name" name="name" autocomplete="name" required></div>' +
+        '<div class="field"><label for="g-email">Email</label><input id="g-email" name="email" type="email" autocomplete="email" required></div>' +
+        '<div class="field"><label for="g-phone">Mobile number</label><input id="g-phone" name="phone" type="tel" autocomplete="tel" placeholder="+91 98765 43210" required></div>' +
+        '<div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap"><button class="btn btn-accent" type="submit">Get started</button><p class="status" role="status" aria-live="polite"></p></div>' +
+        '</form></div>';
+      document.body.appendChild(g); document.body.style.overflow = "hidden";
+      var gf = g.querySelector("form");
+      gf.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var get = function (n) { return gf.querySelector('[name="' + n + '"]').value.trim(); };
+        var d = { name: get("name"), email: get("email"), mobile: get("phone") }, st = gf.querySelector(".status");
+        if (!d.name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email) || d.mobile.replace(/[^0-9]/g, "").length < 7) { st.className = "status err"; st.textContent = "Please enter your name, a valid email and your mobile number."; return; }
+        var b = gf.querySelector("button"); b.disabled = true; st.className = "status"; st.textContent = "Registering…";
+        d._subject = "New AIStudyTools free-tools registration"; d._template = "table"; d._captcha = "false"; d.page = location.href;
+        fetch("https://formsubmit.co/ajax/anujaa.gshukla@gmail.com", { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify(d) })
+          .then(function (r) { if (!r.ok) throw new Error(); })
+          .then(function () { try { localStorage.setItem(KEY, JSON.stringify({ name: d.name, date: new Date().toISOString() })); } catch (e) {} g.remove(); document.body.style.overflow = ""; })
+          .catch(function () { st.className = "status err"; st.textContent = "Something went wrong. Please try again."; b.disabled = false; });
+      });
+    }
+  }
 
   var yr = document.getElementById("yr"); if (yr) yr.textContent = new Date().getFullYear();
 })();

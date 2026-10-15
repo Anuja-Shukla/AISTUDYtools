@@ -103,7 +103,7 @@ section{padding:88px 0}
 /* Product cards (home) */
 .prod{border-radius:28px;padding:34px;display:flex;flex-direction:column;gap:16px;position:relative;overflow:hidden;text-decoration:none;color:var(--ink);transition:transform .2s,box-shadow .2s}
 .prod:hover{transform:translateY(-6px);box-shadow:var(--shadow);color:var(--ink)}
-.prod.p-learn{background:var(--soft)}.prod.p-health{background:var(--sky)}.prod.p-skill{background:var(--sun)}
+.prod.p-learn{background:var(--soft)}.prod.p-health{background:var(--sky)}.prod.p-skill{background:var(--sun)}.prod.p-course{background:var(--pink)}
 .prod .kicker{font-weight:700;font-size:14px;letter-spacing:.06em;text-transform:uppercase;opacity:.75}
 .prod h3{font-size:30px;font-weight:800}
 .prod ul{margin:4px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:8px}
@@ -178,7 +178,7 @@ section{padding:88px 0}
 
 /* Footer */
 .ftr{background:var(--ink);color:#C9C8EA;padding:56px 0 28px;margin-top:40px}
-.ftr .cols{display:grid;grid-template-columns:2fr 1fr 1.6fr;gap:32px}
+.ftr .cols{display:grid;grid-template-columns:1.6fr 1fr 1.5fr 1.2fr;gap:32px}
 .ftr h4{color:#fff;font-size:15px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}
 .ftr a{color:#C9C8EA;text-decoration:none;display:block;padding:4px 0}
 .ftr a:hover{color:#fff}
@@ -238,3 +238,37 @@ section{padding:88px 0}
 .acc-body p{color:var(--muted)}
 @media (max-width:560px){.acc-body{padding:0 18px 20px}.acc-item summary{font-size:19px;padding:16px 18px}}
 .btn svg{width:20px;height:20px;flex:none}
+
+/* Tool and practice cards */
+.card.tool{text-decoration:none;color:var(--ink)}
+.card.tool:hover{color:var(--ink)}
+.card.tool .go{margin-top:auto;font-weight:800;color:var(--accent);display:inline-flex;align-items:center;gap:6px}
+
+/* Branching simulation */
+.sim-box{background:#fff;border:2px solid var(--border);border-radius:var(--radius);padding:30px;display:flex;flex-direction:column;gap:14px}
+.sim-box h2{font-size:22px;color:var(--accent-dk)}
+.sim-box p{font-size:18px}
+.sim-choices{display:grid;gap:10px;margin-top:6px}
+.sim-choices button{font:inherit;font-weight:600;text-align:left;padding:14px 18px;border-radius:14px;border:2px solid var(--line);background:var(--soft);color:var(--ink);cursor:pointer;transition:border-color .15s,background .15s,transform .15s}
+.sim-choices button:hover{border-color:var(--accent);background:#fff;transform:translateY(-1px)}
+
+/* Newsletter */
+.card.issue{text-decoration:none;color:var(--ink);gap:8px}
+.card.issue:hover{color:var(--ink)}
+.card.issue .date{font-size:14px;font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.05em}
+.prose{font-size:18px;line-height:1.75;max-width:68ch}
+.prose>*+*{margin-top:1.1em}
+.prose h2{font-size:28px;margin-top:1.8em}
+.prose h3{font-size:22px;margin-top:1.5em}
+.prose ul,.prose ol{padding-left:1.3em}
+.prose li+li{margin-top:.4em}
+.prose blockquote{margin-left:0;padding:4px 0 4px 20px;border-left:4px solid var(--sun-strong);color:var(--muted)}
+.prose code{background:var(--soft);padding:2px 6px;border-radius:6px;font-size:.9em}
+.prose table{border-collapse:collapse;display:block;overflow-x:auto}
+.prose th,.prose td{border:1px solid var(--border);padding:8px 12px;text-align:left}
+
+/* Free-tools registration */
+.gate .panel{text-align:left}
+.gate .gate-points{list-style:none;padding:0;margin:0 0 18px;display:grid;gap:8px}
+.gate .gate-points li{display:flex;gap:10px;align-items:center;font-weight:600}
+.gate .gate-points li span{flex:none;background:var(--sun);color:var(--sun-fg);font-weight:800;border-radius:999px;padding:3px 10px;font-size:13px}
