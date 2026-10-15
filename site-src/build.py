@@ -4,7 +4,7 @@ import os, html, re, glob
 import markdown
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "14"  # cache-buster for css/js
+V = "15"  # cache-buster for css/js
 
 def svg(paths, extra=""):
     return f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"{extra}>{paths}</svg>'
@@ -49,7 +49,7 @@ I = {
  "arrow": svg('<path d="M5 12h14M13 6l6 6-6 6"/>', ' width="18" height="18"'),
 }
 
-NAV = [("/", "Home", "home"), ("/learnx/", "LearnX", "learnx"), ("/tools/", "Faculty Tools", "tools"),
+NAV = [("/", "Home", "home"), ("/learnx/", "Transform content", "learnx"), ("/tools/", "Faculty Tools", "tools"),
        ("/practice/", "Student Practice", "practice"), ("/courses/", "Courses", "courses"),
        ("/newsletter/", "Newsletter", "newsletter"), ("/contact/", "Contact", "contact")]
 
@@ -100,7 +100,7 @@ FOOT = f'''</main>
         <a class="logo" href="/"><span class="logo-mark"></span><span><b>AIStudyTools</b></span></a>
         <p style="margin-top:14px;max-width:340px">AI tools and courses for teaching and learning. A platform of Intellique Research School Pvt Ltd.</p>
       </div>
-      <div><h4>Explore</h4><a href="/learnx/">LearnX</a><a href="/tools/">Faculty Tools</a><a href="/practice/">Student Practice</a><a href="/courses/">Courses</a><a href="/newsletter/">Newsletter</a></div>
+      <div><h4>Explore</h4><a href="/learnx/">Transform content</a><a href="/tools/">Faculty Tools</a><a href="/practice/">Student Practice</a><a href="/courses/">Courses</a><a href="/newsletter/">Newsletter</a></div>
       <div><h4>Contact</h4><a href="mailto:intelliqueresearchschool@gmail.com">intelliqueresearchschool@gmail.com</a><a href="https://wa.me/917303559258" target="_blank" rel="noopener">WhatsApp +91 73035 59258</a><a href="tel:+917303559258">Call +91 73035 59258</a></div>
       <div><h4>Sister sites</h4><a href="https://www.theresearchschool.com/">The Research School</a><a href="https://aijuggernauts.com/">AIjuggernauts</a><a href="https://intelliqueresearchschool.com/">Intellique Research School</a></div>
     </div>
@@ -583,7 +583,7 @@ nf = head("Page not found | AIStudyTools", "The page you are looking for could n
 nf += f'''<section class="hero"><div class="wrap" style="display:block;text-align:center;max-width:680px">
   <span class="tag">404</span><h1 style="margin-top:16px">This page wandered off.</h1>
   <p class="lead" style="margin-top:16px">The link may be old or mistyped. Try one of these instead.</p>
-  <div class="hero-btns" style="justify-content:center;margin-top:24px"><a class="btn btn-ink" href="/">Go home</a><a class="btn btn-soft" href="/learnx/">LearnX</a><a class="btn btn-soft" href="/contact/">Contact us</a></div>
+  <div class="hero-btns" style="justify-content:center;margin-top:24px"><a class="btn btn-ink" href="/">Go home</a><a class="btn btn-soft" href="/learnx/">Transform content</a><a class="btn btn-soft" href="/contact/">Contact us</a></div>
 </div></section>
 ''' + FOOT
 write("/404.html", nf)
