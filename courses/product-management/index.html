@@ -1,0 +1,1348 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Product Management Course | AIStudyTools</title>
+<meta name="description" content="A free five-module Product Management course for MBA/PGDM students: discovery, strategy, prioritisation, delivery and growth, with slide decks, a RICE calculator, templates, a glossary, a quiz and cases.">
+<link rel="canonical" href="https://www.aistudytools.com/courses/product-management/">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sticky product-board top bar; content column of 1120px; module "roadmap track" as the home hero */
+:root {
+  --bg: #F6F8FA; --surface: #FFFFFF; --surface-2: #EEF3F6; --ink: #142033; --muted: #56657A; --line: #D9E1E8;
+  --navy: #1B2A4A; --navy-ink: #FFFFFF; --teal: #0F7F81; --teal-soft: #DDF1F0; --orange: #C9661A; --orange-soft: #FDEBDA;
+  --on-teal: #FFFFFF; --good: #1F7A4D; --good-soft: #E1F3EA; --bad: #B4352B; --bad-soft: #FBE5E2; --focus: #0F7F81;
+  --shadow: 0 1px 2px rgba(20,32,51,.06), 0 4px 14px rgba(20,32,51,.06);
+  --f-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0F1622; --surface: #172131; --surface-2: #1E2A3D; --ink: #E7EDF5; --muted: #A2B0C3; --line: #2C3A50;
+  --navy: #22365E; --navy-ink: #FFFFFF; --teal: #4CC3C0; --teal-soft: #173B40; --orange: #F0A055; --orange-soft: #3A2A1A;
+  --on-teal: #0B1A1F; --good: #5FD39A; --good-soft: #173A2A; --bad: #F2867B; --bad-soft: #3D1F1C; --focus: #4CC3C0;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 14px rgba(0,0,0,.25); color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0F1622; --surface: #172131; --surface-2: #1E2A3D; --ink: #E7EDF5; --muted: #A2B0C3; --line: #2C3A50;
+  --navy: #22365E; --navy-ink: #FFFFFF; --teal: #4CC3C0; --teal-soft: #173B40; --orange: #F0A055; --orange-soft: #3A2A1A;
+  --on-teal: #0B1A1F; --good: #5FD39A; --good-soft: #173A2A; --bad: #F2867B; --bad-soft: #3D1F1C; --focus: #4CC3C0;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 14px rgba(0,0,0,.25); color-scheme: dark }
+
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--ink); font: 17px/1.6 var(--f-body); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--navy) }
+a { color: var(--teal) }
+h1, h2, h3, h4 { font-family: var(--f-display); line-height: 1.15; text-wrap: balance; margin: 0 }
+h1 { font-size: clamp(2rem, 4.6vw, 3.1rem); font-weight: 800; letter-spacing: -.01em }
+h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700 }
+h3 { font-size: 1.22rem; font-weight: 700 }
+p { margin: 0 }
+button, input, select, textarea { font: inherit; color: inherit }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px }
+.eyebrow { font: 600 .78rem/1 var(--f-body); letter-spacing: .12em; text-transform: uppercase; color: var(--teal) }
+.muted { color: var(--muted) }
+.wrap { max-width: 1120px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+
+/* top bar */
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--navy); color: var(--navy-ink) }
+.topbar .wrap { display: flex; align-items: center; gap: 16px; min-height: 60px; padding-block: 6px }
+.brand { display: flex; align-items: center; gap: 10px; color: var(--navy-ink); text-decoration: none; font: 800 1.12rem/1 var(--f-display); white-space: nowrap }
+.brand-mark { width: 30px; height: 30px; border-radius: 8px; background: #0F8B8D; display: grid; place-items: center; font: 800 .8rem/1 var(--f-mono); color: #fff }
+.nav { display: flex; gap: 2px; margin-left: auto; flex-wrap: wrap }
+.nav a { color: #D6DEEA; text-decoration: none; padding: 8px 11px; border-radius: 8px; font-weight: 600; font-size: .95rem }
+.nav a:hover { background: rgba(255,255,255,.08); color: #fff }
+.nav a[aria-current="page"] { background: rgba(255,255,255,.14); color: #fff }
+.menu-btn { display: none; margin-left: auto; background: transparent; border: 1px solid rgba(255,255,255,.35); color: #fff; border-radius: 8px; padding: 6px 12px; font-weight: 600; cursor: pointer }
+@media (max-width: 960px) {
+  .menu-btn { display: block }
+  .nav { display: none; position: absolute; left: 0; right: 0; top: 100%; background: var(--navy); flex-direction: column; padding: 8px max(16px, env(safe-area-inset-right, 0px)) 14px max(16px, env(safe-area-inset-left, 0px)) }
+  .nav.open { display: flex }
+}
+
+main { padding-block: 32px 72px }
+.page { display: grid; gap: 32px }
+.section { display: grid; gap: 16px }
+.lede { font-size: 1.15rem; max-width: 66ch; color: var(--muted) }
+.prose { max-width: 70ch; display: grid; gap: 10px }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 20px; min-width: 0 }
+.panel.tint { background: var(--surface-2); border-color: transparent }
+ul.clean { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px }
+ul.ticks { margin: 0; padding-left: 1.2em; display: grid; gap: 6px }
+.chips { display: flex; flex-wrap: wrap; gap: 8px }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; background: var(--teal-soft); color: var(--teal); font-weight: 600; font-size: .88rem; text-decoration: none; border: 0; cursor: pointer }
+.chip.orange { background: var(--orange-soft); color: var(--orange) }
+.chip.plain { background: var(--surface-2); color: var(--ink) }
+.tag { font: 600 .74rem/1 var(--f-body); letter-spacing: .06em; text-transform: uppercase; padding: 5px 8px; border-radius: 6px; background: var(--surface-2); color: var(--muted) }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 8px; border: 1px solid var(--navy); background: var(--navy); color: var(--navy-ink); font-weight: 700; cursor: pointer; text-decoration: none; font-size: .96rem }
+.btn:hover { filter: brightness(1.12) }
+.btn.ghost { background: transparent; color: var(--ink); border-color: var(--line) }
+.btn.ghost:hover { background: var(--surface-2) }
+.btn.teal { background: var(--teal); border-color: var(--teal); color: var(--on-teal) }
+.btn.small { padding: 6px 11px; font-size: .88rem }
+.btn[disabled] { opacity: .5; cursor: not-allowed }
+.btn-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center }
+.note { font-size: .92rem; color: var(--muted) }
+.callout { border-left: 4px solid var(--teal); background: var(--surface-2); padding: 14px 16px; border-radius: 0 var(--r) var(--r) 0; display: grid; gap: 6px }
+.callout.orange { border-color: var(--orange) }
+
+/* home: hero + roadmap track */
+.hero { display: grid; gap: 18px; padding-block: 8px 4px }
+.hero h1 span { color: var(--teal) }
+.progress { display: grid; gap: 8px; max-width: 560px }
+.bar { height: 10px; background: var(--surface-2); border-radius: 99px; overflow: hidden; border: 1px solid var(--line) }
+.bar > i { display: block; height: 100%; background: var(--teal); border-radius: 99px; transition: width .4s }
+.track { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; position: relative }
+.track::before { content: ""; position: absolute; left: 4%; right: 4%; top: 22px; height: 2px; background: repeating-linear-gradient(90deg, var(--line) 0 8px, transparent 8px 14px) }
+@media (max-width: 900px) { .track { grid-template-columns: 1fr } .track::before { display: none } }
+.mod-card { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; display: grid; gap: 10px; align-content: start; text-decoration: none; color: inherit; box-shadow: var(--shadow); transition: transform .15s, border-color .15s }
+.mod-card:hover { transform: translateY(-2px); border-color: var(--teal) }
+.mod-num { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font: 800 1.05rem/1 var(--f-display); background: var(--navy); color: var(--navy-ink); border: 3px solid var(--bg) }
+.mod-card.done .mod-num { background: var(--teal) }
+.mod-card h3 { font-size: 1.08rem }
+.mod-card ul { margin: 0; padding-left: 1.1em; font-size: .9rem; color: var(--muted); display: grid; gap: 4px }
+.stage { font: 600 .72rem/1 var(--f-body); letter-spacing: .1em; text-transform: uppercase; color: var(--orange) }
+.challenge { background: var(--navy); color: var(--navy-ink); border-radius: var(--r); padding: 24px; display: grid; gap: 12px }
+.challenge .eyebrow { color: #9FE3DF }
+.challenge p { color: #DCE4EE }
+.challenge .btn { background: #0F8B8D; border-color: #0F8B8D; color: #fff; width: max-content }
+.challenge .reveal { background: rgba(255,255,255,.08); border-radius: 8px; padding: 14px 16px; display: grid; gap: 6px }
+.quick { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px }
+.quick a { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px; text-decoration: none; color: var(--ink); display: grid; gap: 4px }
+.quick a strong { font-family: var(--f-display) }
+.quick a span { font-size: .9rem; color: var(--muted) }
+.quick a:hover { border-color: var(--teal) }
+
+/* tables */
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface) }
+table { border-collapse: collapse; width: 100%; font-size: .95rem }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top }
+th { background: var(--surface-2); font-weight: 700; white-space: nowrap }
+tr:last-child td { border-bottom: 0 }
+.num { font-variant-numeric: tabular-nums; text-align: right }
+
+/* module page */
+.mod-head { display: grid; gap: 12px }
+.mod-nav { display: flex; gap: 8px; flex-wrap: wrap }
+.mod-nav a { padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); text-decoration: none; color: var(--ink); font-weight: 600; font-size: .9rem; background: var(--surface) }
+.mod-nav a[aria-current="page"] { background: var(--navy); color: var(--navy-ink); border-color: var(--navy) }
+.topic { display: grid; gap: 8px; padding-block: 14px; border-top: 1px solid var(--line) }
+.topic:first-child { border-top: 0; padding-top: 0 }
+.two-col { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 24px; align-items: start }
+@media (max-width: 900px) { .two-col { grid-template-columns: 1fr } }
+.side { display: grid; gap: 16px; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 76px) }
+@media (max-width: 900px) { .side { position: static } }
+ol.steps { margin: 0; padding-left: 1.3em; display: grid; gap: 6px }
+
+/* knowledge check + quiz */
+.q { display: grid; gap: 12px }
+.opts { display: grid; gap: 8px }
+.opt { display: flex; gap: 10px; align-items: flex-start; text-align: left; width: 100%; padding: 11px 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; line-height: 1.4 }
+.opt:hover:not([disabled]) { border-color: var(--teal) }
+.opt .key { flex: none; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font: 700 .8rem/1 var(--f-mono); background: var(--surface-2) }
+.opt.sel { border-color: var(--navy); box-shadow: inset 0 0 0 1px var(--navy) }
+.opt.right { border-color: var(--good); background: var(--good-soft) }
+.opt.wrong { border-color: var(--bad); background: var(--bad-soft) }
+.opt[disabled] { cursor: default }
+.feedback { border-radius: 8px; padding: 12px 14px; display: grid; gap: 4px }
+.feedback.ok { background: var(--good-soft) } .feedback.no { background: var(--bad-soft) }
+.feedback b { font-family: var(--f-display) }
+.quiz-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap }
+.dots { display: flex; gap: 5px; flex-wrap: wrap }
+.dots button { width: 22px; height: 22px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); font: 600 .7rem/1 var(--f-mono); cursor: pointer; padding: 0 }
+.dots button.cur { border-color: var(--navy); box-shadow: inset 0 0 0 1px var(--navy) }
+.dots button.ans { background: var(--teal-soft) }
+.score-big { font: 800 3.4rem/1 var(--f-display); color: var(--teal); font-variant-numeric: tabular-nums }
+
+/* glossary */
+.filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: center }
+.field { display: grid; gap: 4px; min-width: 0 }
+.field label { font-weight: 600; font-size: .88rem; color: var(--muted) }
+input[type="search"], input[type="text"], input[type="number"], select, textarea { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px; min-width: 0 }
+input[type="search"] { width: min(420px, 100%) }
+.az { display: flex; flex-wrap: wrap; gap: 4px }
+.az button { width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); font: 600 .82rem/1 var(--f-mono); cursor: pointer; padding: 0 }
+.az button[aria-pressed="true"] { background: var(--navy); color: var(--navy-ink); border-color: var(--navy) }
+.az button:disabled { opacity: .35; cursor: default }
+.term { display: grid; gap: 6px; scroll-margin-top: 90px }
+.term h3 { font-size: 1.1rem }
+.term .ex { font-size: .93rem; color: var(--muted) }
+.term.flash { animation: flash 1.6s ease-out }
+@keyframes flash { from { box-shadow: 0 0 0 3px var(--teal) } to { box-shadow: 0 0 0 0 transparent } }
+.empty { text-align: center; padding: 32px; color: var(--muted); border: 1px dashed var(--line); border-radius: var(--r) }
+
+/* templates + code */
+pre.tpl { font: 400 .86rem/1.55 var(--f-mono); background: var(--surface-2); border-radius: 8px; padding: 14px; margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 340px; overflow: auto }
+details.tpl-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); scroll-margin-top: 90px }
+details.tpl-card > summary { cursor: pointer; padding: 14px 18px; display: flex; gap: 10px; align-items: center; justify-content: space-between; list-style: none }
+details.tpl-card > summary::-webkit-details-marker { display: none }
+details.tpl-card > summary::after { content: "+"; font: 600 1.3rem/1 var(--f-mono); color: var(--muted) }
+details.tpl-card[open] > summary::after { content: "–" }
+.tpl-body { padding: 0 18px 18px; display: grid; gap: 12px }
+.copy-ok { color: var(--good); font-weight: 600; font-size: .9rem }
+
+/* RICE */
+.rice-table input { width: 100%; min-width: 70px; padding: 6px 8px }
+.rice-table td:nth-child(2) input { min-width: 220px }
+.rice-table tr.top td { background: var(--teal-soft) }
+.rank { font: 700 .85rem/1 var(--f-mono); color: var(--muted) }
+.rice-score { font: 700 1rem/1 var(--f-mono) }
+.err { color: var(--bad); font-size: .85rem }
+
+/* slides viewer */
+.deck-list { display: grid; gap: 12px }
+.deck-row { display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap }
+.viewer { display: grid; gap: 12px }
+.slide { aspect-ratio: 16 / 9; max-width: 100%; background: #FFFFFF; color: #1F2937; border-radius: 8px; border: 1px solid var(--line); position: relative; overflow: hidden; container-type: inline-size; box-shadow: var(--shadow) }
+.slide .sbar { position: absolute; left: 0; top: 0; bottom: 0; width: 1.35%; background: #0F8B8D }
+.slide .st { position: absolute; left: 4.5%; top: 5%; right: 4.5%; font: 700 4.1cqw/1.15 var(--f-display); color: #1B2A4A }
+.slide .sline { position: absolute; left: 4.5%; top: 17.3%; width: 10.5%; height: .5cqw; background: #E07A1F }
+.slide .sbody { position: absolute; left: 6%; right: 6%; top: 21.5%; bottom: 9%; font-size: 2.15cqw; line-height: 1.45; display: flex; flex-direction: column; gap: 1.4cqw }
+.slide .sfoot { position: absolute; left: 4.5%; right: 4.5%; bottom: 3%; display: flex; justify-content: space-between; font-size: 1.15cqw; color: #6B7280 }
+.slide ul { margin: 0; padding-left: 1.2em; display: grid; gap: .9cqw }
+.slide ol { margin: 0; padding-left: 1.3em; display: grid; gap: .9cqw }
+.slide.cover { background: #1B2A4A; color: #fff }
+.slide.cover .k { position: absolute; left: 6.7%; top: 21%; font: 700 1.8cqw/1 var(--f-body); color: #9FE3DF }
+.slide.cover .t { position: absolute; left: 6.7%; top: 29%; right: 8%; font: 800 5.6cqw/1.1 var(--f-display) }
+.slide.cover .tg { position: absolute; left: 6.7%; top: 60%; right: 10%; font-size: 2.2cqw; color: #D7DEE8 }
+.slide.cover .stripe { position: absolute; left: 0; right: 0; top: 78.7%; height: 1.6%; background: #0F8B8D }
+.s-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 3cqw; height: 100% }
+.s-cols > div { background: #F3F6F9; border: 1px solid #DDE3EA }
+.s-cols h4 { margin: 0; padding: 1cqw 1.6cqw; color: #fff; font: 700 2cqw/1.3 var(--f-display) }
+.s-cols ul { padding: 1.4cqw 1.6cqw 1.4cqw 3.4cqw }
+.s-table { width: 100%; border-collapse: collapse; font-size: 1.75cqw }
+.s-table th { background: #1B2A4A; color: #fff; padding: .9cqw 1.2cqw; white-space: normal }
+.s-table td { padding: .9cqw 1.2cqw; border: 1px solid #DDE3EA }
+.s-table tr:nth-child(even) td { background: #F3F6F9 }
+.s-steps { display: flex; gap: 1.6cqw; align-items: stretch; margin-top: 4cqw; height: 40% }
+.s-steps > div { flex: 1; border: 1.5px solid #0F8B8D; border-radius: 1.2cqw; background: #F3F6F9; display: grid; align-content: center; justify-items: center; text-align: center; padding: 1.4cqw; position: relative }
+.s-steps > div:nth-child(even) { background: #DDF1F0 }
+.s-steps b { font: 700 2cqw/1.2 var(--f-display); color: #1B2A4A }
+.s-steps span { font-size: 1.6cqw }
+.s-steps i { position: absolute; top: -2.2cqw; width: 4.4cqw; height: 4.4cqw; border-radius: 50%; background: #E07A1F; color: #fff; font: 700 1.6cqw/4.4cqw var(--f-body); font-style: normal; border: .3cqw solid #fff }
+.s-matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 1cqw; height: 100%; padding: 0 6% }
+.s-matrix > div { padding: 1.6cqw 2cqw; border: 1px solid #CBD5E1; display: grid; align-content: start; gap: .6cqw }
+.s-matrix b { font: 700 2.1cqw/1.2 var(--f-display); color: #1B2A4A }
+.s-matrix span { font-size: 1.7cqw }
+.s-funnel { display: grid; gap: .7cqw }
+.s-funnel > div { display: grid; grid-template-columns: 58% 1fr; gap: 2.4cqw; align-items: center }
+.s-funnel b { display: block; color: #fff; text-align: center; padding: 1.3cqw 0; font: 700 1.9cqw/1 var(--f-display); margin: 0 auto }
+.s-funnel span { font-size: 1.7cqw }
+.s-tree { display: grid; gap: 3cqw; justify-items: center; text-align: center }
+.s-tree .r { background: #1B2A4A; color: #fff; padding: 1.2cqw 3cqw; border-radius: 1cqw; font: 700 1.8cqw/1.2 var(--f-display) }
+.s-tree .row { display: flex; gap: 3cqw; justify-content: center; width: 100% }
+.s-tree .m { background: #DDF1F0; border: 1px solid #0F8B8D; padding: 1cqw 2cqw; border-radius: 1cqw; font-weight: 700; color: #1B2A4A; font-size: 1.7cqw; flex: 1 }
+.s-tree .l { background: #FFF1E3; border: 1px solid #E07A1F; padding: .9cqw 1.4cqw; border-radius: 1cqw; font-size: 1.55cqw; flex: 1 }
+.s-curve { display: grid; grid-template-columns: 1.9fr 1fr; gap: 2.4cqw; height: 100% }
+.s-curve svg { width: 100%; height: 100% }
+.s-curve .tips { display: grid; gap: .9cqw; align-content: start }
+.s-curve .tips div { background: #F3F6F9; border: 1px solid #DDE3EA; padding: .9cqw 1.4cqw; font-size: 1.5cqw; line-height: 1.3 }
+.s-curve .tips b { display: block; color: #1B2A4A; font-size: 1.75cqw }
+.s-venn { position: relative; height: 100% }
+.s-venn .c { position: absolute; width: 26%; aspect-ratio: 1; border-radius: 50%; border: .3cqw solid }
+.s-venn .lab { position: absolute; font: 700 2cqw/1.2 var(--f-display) }
+.s-tag { width: max-content; color: #fff; padding: .6cqw 1.6cqw; border-radius: .8cqw; font: 700 1.3cqw/1.2 var(--f-body); letter-spacing: .08em }
+.notes { font-size: .95rem; color: var(--muted) }
+.viewer-ctrl { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important } }
+</style>
+
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#home"><span class="brand-mark">PM</span><span>Product Management</span></a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="/courses/">← All courses</a>
+      <a href="#home" data-r="home">Home</a>
+      <a href="#syllabus" data-r="syllabus">Syllabus</a>
+      <a href="#modules" data-r="modules">Modules</a>
+      <a href="#presentations" data-r="presentations">Presentations</a>
+      <a href="#toolkit" data-r="toolkit">Toolkit</a>
+      <a href="#glossary" data-r="glossary">Glossary</a>
+      <a href="#quiz" data-r="quiz">Quiz</a>
+      <a href="#cases" data-r="cases">Cases</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap" id="view" tabindex="-1"></main>
+
+<script>
+// Course content: Modules 1-2. Slide kinds: title, bullets, two, table, steps, venn, matrix, funnel, tree, curve, activity, recap, questions
+const MODULES = [];
+
+MODULES.push({
+  id: 1,
+  title: "Foundations of Product Management",
+  short: "Foundations",
+  tagline: "What products are, what product managers do, and how they think.",
+  overview: "This module introduces product management as a discipline that sits between customers, business, and technology. You will learn what separates a product from a project, what a product manager is accountable for, and the habit of mind that good PMs share: start from a customer problem and measure success by outcomes, not by the number of features shipped.",
+  outcomes: [
+    "Distinguish product management from project and program management using a concrete example.",
+    "Describe the core responsibilities and competencies of a product manager across a product's life.",
+    "Explain how a PM collaborates with engineering, design, marketing, sales, and leadership.",
+    "Apply product thinking to reframe a feature request as a customer problem with a measurable outcome.",
+    "Classify products as B2C, B2B/SaaS, platform, or physical, and explain how the PM role changes across them.",
+    "Map the product life cycle to typical PM priorities at each stage."
+  ],
+  concepts: ["Product vs project", "Outcome over output", "Four product risks", "Product life cycle", "Cross-functional team", "Product thinking"],
+  topics: [
+    { h: "What is a product?", body: "A product is anything offered to customers that solves a problem or meets a need repeatedly over time: a mobile app, a SaaS tool, a bank account, a packaged food item, or a service plan. What makes it a product rather than a one-off deliverable is that it has users, it evolves, and it must keep earning its place against alternatives.", points: ["A project has a fixed scope and end date; a product has a life cycle with no planned end.", "Program management coordinates several related projects; product management decides what is worth building and why.", "The same team can run projects inside a product, for example a two-month project to launch a new payment option."] },
+    { h: "The role of the product manager", body: "A product manager is accountable for the value a product creates for customers and for the business. PMs usually have no direct authority over engineers or designers, so they lead through clarity: a well-understood problem, evidence, and a shared definition of success.", points: ["Discover: understand users, problems, and the market.", "Decide: set strategy, prioritise, and say no.", "Deliver: work with design and engineering to ship and learn.", "Measure: track outcomes and decide what to do next."] },
+    { h: "Working with the cross-functional team", body: "The core product trio is product, design, and engineering. Around it sit marketing (positioning and launch), sales and customer success (customer feedback and adoption), data/analytics, legal and compliance, and leadership. A PM's week mixes customer conversations, reviewing designs, refining the backlog, reading metrics, and aligning stakeholders.", points: ["Engineering owns how to build; the PM owns why and what problem to solve.", "Design owns the experience; the PM ensures it solves the right problem.", "Marketing and sales need early involvement, not a hand-off on launch day."] },
+    { h: "Product thinking: outcomes over outputs", body: "An output is something the team ships, such as a new filter screen. An outcome is a change in customer behaviour or business results, such as more users finding a product within two minutes. Product thinking starts from the problem and the outcome, then treats features as bets that may or may not move it.", points: ["Ask 'what problem, for whom, and how will we know it is solved?' before 'what should we build?'", "Marty Cagan's four product risks: value (will they want it?), usability (can they use it?), feasibility (can we build it?), viability (does it work for the business?)."] },
+    { h: "Types of products", body: "The PM role changes with the business model. B2C products need scale, simplicity, and habit formation. B2B and SaaS products serve buyers and users who may be different people, with longer sales cycles. Platforms and marketplaces must balance two or more sides, such as buyers and sellers. Physical products add manufacturing, supply chain, and longer iteration cycles.", points: ["B2C example: a food-delivery or payments app used daily by consumers.", "B2B/SaaS example: payroll or CRM software sold to companies.", "Marketplace example: a platform matching sellers and buyers.", "Physical example: a home appliance with a connected app."] },
+    { h: "Product life cycle and careers", body: "Products move through introduction, growth, maturity, and decline. Early on, the PM focuses on discovery and product–market fit; in growth, on scaling and onboarding; in maturity, on efficiency, retention, and new segments; in decline, on harvesting or sunsetting. Typical career steps run from Associate PM to PM, Senior PM, Group PM, and Director or VP of Product.", points: ["Introduction: find fit. Growth: scale. Maturity: defend and extend. Decline: harvest or retire.", "Many MBA graduates enter through APM programmes or move from consulting, analytics, or marketing roles."] }
+  ],
+  example: { title: "Industry application: UPI payment apps", body: "When India's Unified Payments Interface (UPI) made instant bank-to-bank transfers possible, several consumer apps competed to make small, everyday payments effortless. The product problem was not 'build a payments screen' but 'make paying a neighbourhood shop as quick as handing over cash'. Features such as QR-code scanning and simple payment confirmation were outputs; the outcome teams cared about was repeated everyday use. (Illustrative analysis based on public product features.)" },
+  miniCase: { title: "Mini-case: the dashboard request", context: "A sales director at a B2B software company asks the PM to 'add an export-to-Excel button on every report'. Three large clients have asked for it.", question: "Before agreeing, what questions would you ask to uncover the underlying problem? What outcome would tell you the problem is solved?" },
+  activity: { title: "Activity: product teardown", steps: ["Pick a familiar app (for example, a payments, food-delivery, or travel app).", "Write the main customer problem it solves in one sentence.", "Identify two user types and what each is trying to get done.", "List three features and, for each, the outcome it is meant to drive.", "Name one of Cagan's four risks the product appears to manage well."], deliverable: "A one-page teardown shared in class." },
+  check: [
+    { q: "Which statement best describes an outcome rather than an output?", o: ["Launched a new search filter", "Reduced the time for users to find a product from 4 to 2 minutes", "Completed 12 user stories this sprint", "Redesigned the checkout screen"], a: 1, why: "An outcome is a change in user behaviour or results. The others describe things the team shipped." },
+    { q: "Who typically owns the decision on how a feature is technically built?", o: ["The product manager", "Engineering", "Sales", "Marketing"], a: 1, why: "Engineering owns the 'how'. The PM owns the problem and the 'why'." },
+    { q: "Which of these is a viability risk?", o: ["Users cannot find the button", "The team lacks the skills to build it", "The feature costs more to serve than it earns", "Users do not want the feature"], a: 2, why: "Viability asks whether the solution works for the business, including cost and revenue." }
+  ],
+  glossary: ["Product manager", "Product thinking", "Outcome vs output", "Cross-functional team", "Product life cycle", "Four product risks"],
+  templates: ["problem"],
+  slides: [
+    { k: "title", t: "Foundations of Product Management", s: "Module 1 · Product Management", n: "Welcome students. This module sets up the vocabulary and mindset for the whole course." },
+    { k: "bullets", t: "Learning objectives", b: ["Distinguish products, projects, and programs", "Describe what a product manager is accountable for", "Explain how PMs work with cross-functional teams", "Reframe features as problems and outcomes", "Relate the product life cycle to PM priorities"], n: "Read the objectives aloud and ask which one students find least clear today." },
+    { k: "two", t: "Product vs project", l: { h: "Project", i: ["Fixed scope and deadline", "Success = on time, on budget", "Team disbands at the end"] }, r: { h: "Product", i: ["Evolves with no planned end", "Success = customer and business outcomes", "Long-lived team that keeps learning"] }, n: "Use a campus example: building a new library is a project; the library service is a product." },
+    { k: "venn", t: "Where the PM sits", c: ["Business", "Technology", "User experience"], centre: "PM", n: "Martin Eriksson's well-known Venn diagram: the PM works at the intersection of business, technology, and user experience." },
+    { k: "steps", t: "What a PM does", st: [["Discover", "Users, problems, market"], ["Decide", "Strategy, priorities, trade-offs"], ["Deliver", "Ship with design and engineering"], ["Measure", "Outcomes, learning, next bet"]], n: "Stress that this is a loop, not a line." },
+    { k: "two", t: "Outputs vs outcomes", l: { h: "Output (what we ship)", i: ["A new filter screen", "A loyalty-points feature", "An onboarding video"] }, r: { h: "Outcome (what changes)", i: ["Users find items in 2 minutes, not 4", "Repeat orders rise in month 2", "More new users complete setup"] }, n: "Ask students to convert one of their own project deliverables into an outcome." },
+    { k: "matrix", t: "The four product risks", q: [["Value", "Will customers want it?"], ["Usability", "Can they figure out how to use it?"], ["Feasibility", "Can we build it with our time, skills, and tech?"], ["Viability", "Does it work for the business: cost, legal, brand?"]], n: "From Marty Cagan, 'Inspired'. Good teams test these risks before building, not after." },
+    { k: "table", t: "Types of products", h: ["Type", "Example", "PM focus"], rows: [["B2C", "Payments or food-delivery app", "Scale, simplicity, habit"], ["B2B / SaaS", "Payroll or CRM software", "Buyer vs user, sales cycle"], ["Marketplace", "Buyer–seller platform", "Balance both sides"], ["Physical", "Connected appliance", "Supply chain, slower iteration"]], n: "Ask which type students would most like to manage, and why." },
+    { k: "curve", t: "Product life cycle", labels: ["Introduction", "Growth", "Maturity", "Decline"], tips: ["Find fit", "Scale", "Defend and extend", "Harvest or retire"], n: "Map well-known products to each stage. Avoid quoting figures you have not verified." },
+    { k: "activity", t: "Activity: product teardown", b: ["Pick a familiar app", "State its core customer problem in one sentence", "Name two user types and their goals", "Link three features to outcomes", "Identify one product risk it manages well"], n: "Give 15 minutes in pairs, then take three quick share-outs." },
+    { k: "recap", t: "Recap", b: ["Products evolve; projects end", "PMs own the why and the what, not the how", "Measure outcomes, not outputs", "Test value, usability, feasibility, viability early", "Priorities shift across the life cycle"], n: "Summarise in under two minutes." },
+    { k: "questions", t: "Discussion questions", b: ["Can a PM succeed without authority? How?", "When might shipping more features hurt a product?", "How would the PM role differ in a bank versus a start-up?"], n: "Use for the closing discussion or as a short written reflection." }
+  ]
+});
+
+MODULES.push({
+  id: 2,
+  title: "Product Discovery and Customer Insight",
+  short: "Discovery",
+  tagline: "Find problems worth solving before building solutions.",
+  overview: "Discovery is the work of understanding customers and testing ideas before committing engineering time. This module covers how to frame problems, run user research, use Jobs-to-be-Done, build personas and journey maps, size a market, analyse competitors, and validate ideas cheaply with experiments.",
+  outcomes: [
+    "Write a clear problem statement that names the user, the need, and the evidence.",
+    "Select an appropriate research method (interview, survey, observation, usability test, analytics) for a given question.",
+    "Express customer needs as Jobs-to-be-Done statements and build a customer journey map.",
+    "Estimate a market using TAM, SAM, and SOM with a bottom-up calculation.",
+    "Design a low-cost validation test such as a fake-door or concierge MVP."
+  ],
+  concepts: ["Problem statement", "Jobs-to-be-Done", "Persona", "Journey map", "Opportunity solution tree", "TAM/SAM/SOM", "Validation experiments"],
+  topics: [
+    { h: "Problem discovery and problem statements", body: "A good problem statement describes who is struggling, with what, in what situation, and how we know. It avoids naming a solution. Weak: 'We need a chatbot.' Strong: 'First-time buyers on our app abandon checkout when delivery dates are unclear; 38 of 50 support tickets last month asked about delivery timing.' (Numbers illustrative.)", points: ["Name the user and situation.", "Describe the struggle, not the feature.", "State the evidence and its source."] },
+    { h: "User research methods", body: "Choose the method that fits the question. Interviews explore why people behave as they do. Surveys measure how common something is. Observation and contextual inquiry reveal what people actually do. Usability tests check whether people can use a design. Product analytics show what users do at scale but rarely why.", points: ["Interviews: 5–8 conversations often surface the main themes.", "Ask about past behaviour ('tell me about the last time…'), not hypothetical futures.", "Avoid leading questions such as 'Would you use a feature that…?'"] },
+    { h: "Jobs-to-be-Done", body: "Jobs-to-be-Done (JTBD), associated with Clayton Christensen, says customers 'hire' a product to make progress in a particular situation. A JTBD statement takes the form: When [situation], I want to [motivation], so I can [expected outcome]. Thinking in jobs widens the view of competition: a learning app competes with YouTube, tutors, and friends.", points: ["Functional, emotional, and social dimensions of a job.", "Example: When I'm commuting, I want to learn something useful in 10 minutes, so I can feel I'm progressing in my career."] },
+    { h: "Personas, empathy maps, and journey maps", body: "Personas summarise research into a few archetypal users with goals, behaviours, and pain points; they should be built from real data, not imagination. Empathy maps capture what users say, think, do, and feel. Journey maps follow a user through stages (aware, consider, sign up, use, return) and mark pain points and opportunities at each stage.", points: ["One persona per distinct goal, not per demographic.", "Mark the highest-emotion moments on a journey map; they are often the best opportunities."] },
+    { h: "Opportunity solution trees", body: "Teresa Torres's opportunity solution tree links a desired outcome to the customer opportunities (needs, pains, desires) that could drive it, then to candidate solutions, then to small experiments that test them. It keeps teams from jumping from an outcome straight to one favourite feature.", points: ["Outcome → opportunities → solutions → experiments.", "Compare several solutions per opportunity before choosing."] },
+    { h: "Market sizing and competition", body: "TAM (total addressable market) is the total demand for the category; SAM (serviceable available market) is the part your product and channels can reach; SOM (serviceable obtainable market) is the share you can realistically win soon. Bottom-up sizing multiplies the number of target customers by what each would pay, and is usually more credible than top-down figures from reports.", points: ["Bottom-up example: 2,00,000 kirana stores × ₹6,000 per year = ₹120 crore SAM (illustrative).", "Competitive analysis compares alternatives on the jobs customers care about, including non-obvious substitutes."] },
+    { h: "Validating ideas cheaply", body: "Before building, test whether people want something. A fake-door test shows a button or offer for a feature that does not yet exist and measures clicks. A landing page tests interest and willingness to sign up. A concierge MVP delivers the service manually to a few users. A Wizard-of-Oz MVP looks automated to users but is run by people behind the scenes.", points: ["Define the success threshold before running the test.", "Be transparent with users after a fake-door test; respect their time and trust."] }
+  ],
+  example: { title: "Industry application: discount broking", body: "Zerodha is widely credited with popularising discount broking in India by focusing on a clear customer problem: active retail investors found traditional brokerage fees high and platforms cluttered. A JTBD lens frames the job as 'When I want to trade or invest, I want low, predictable costs and a fast, simple platform, so I can manage my own money confidently.' (Qualitative illustration; no performance figures implied.)" },
+  miniCase: { title: "Mini-case: the abandoned sign-up", context: "A health-and-fitness start-up sees that many visitors begin sign-up but few finish. The founder wants to add social login immediately.", question: "Design a discovery plan: which two research methods would you use first, what would you ask, and what evidence would justify building social login?" },
+  activity: { title: "Activity: interview and synthesise", steps: ["Choose an everyday problem area (for example, booking a doctor's appointment).", "Interview three people about the last time they faced it.", "Capture quotes, pains, and workarounds on sticky notes.", "Cluster findings and write one JTBD statement.", "Sketch a five-stage journey map with the biggest pain marked."], deliverable: "A JTBD statement, a journey map, and a bottom-up market estimate." },
+  check: [
+    { q: "Which interview question is least biased?", o: ["Would you use an app that reminds you to drink water?", "Don't you find it hard to stay hydrated?", "Tell me about the last time you tried to change a daily habit.", "How much would you pay for our hydration app?"], a: 2, why: "Asking about real past behaviour avoids leading the user or asking them to predict the future." },
+    { q: "SOM represents:", o: ["The total demand for the whole category", "The part of the market your channels can serve", "The share you can realistically capture in the near term", "Your competitor's market share"], a: 2, why: "SOM is the serviceable obtainable market: what you can realistically win soon." },
+    { q: "A Wizard-of-Oz MVP is best described as:", o: ["A product built with no-code tools", "A service that looks automated but is run manually behind the scenes", "A fake button that measures clicks", "A beta released only to employees"], a: 1, why: "In a Wizard-of-Oz test, users see an automated experience while people do the work manually." }
+  ],
+  glossary: ["Jobs-to-be-Done", "Persona", "Customer journey map", "Opportunity solution tree", "TAM / SAM / SOM", "Fake-door test", "Concierge MVP", "Usability testing"],
+  templates: ["interview", "persona", "jtbd", "lean"],
+  slides: [
+    { k: "title", t: "Product Discovery and Customer Insight", s: "Module 2 · Product Management", n: "Discovery reduces the risk of building the wrong thing." },
+    { k: "bullets", t: "Learning objectives", b: ["Write problem statements without naming solutions", "Choose the right research method", "Use Jobs-to-be-Done, personas, and journey maps", "Size a market bottom-up", "Design cheap validation tests"], n: "Link back to the four risks from Module 1: discovery mostly tests value and usability." },
+    { k: "two", t: "Weak vs strong problem statements", l: { h: "Weak", i: ["We need a chatbot", "Users want more features", "Build a loyalty programme"] }, r: { h: "Strong", i: ["First-time buyers abandon checkout when delivery dates are unclear", "Evidence: support tickets and session recordings", "No solution named yet"] }, n: "Have students rewrite a weak statement live." },
+    { k: "table", t: "Choosing a research method", h: ["Question", "Method", "Gives you"], rows: [["Why do people do this?", "Interviews", "Motivations, context"], ["How common is it?", "Survey", "Frequency, scale"], ["What do they actually do?", "Observation", "Real behaviour"], ["Can they use it?", "Usability test", "Friction points"], ["What happens at scale?", "Analytics", "Patterns, not reasons"]], n: "Combine qualitative 'why' with quantitative 'how many'." },
+    { k: "bullets", t: "Jobs-to-be-Done", b: ["Customers 'hire' products to make progress", "When [situation], I want to [motivation], so I can [outcome]", "Jobs have functional, emotional, and social sides", "Competition = every way the job gets done today"], n: "Christensen's milkshake story is a useful hook if students have not heard it." },
+    { k: "steps", t: "Customer journey map", st: [["Aware", "Hears about it"], ["Consider", "Compares options"], ["Sign up", "First use"], ["Use", "Gets value?"], ["Return", "Habit or churn"]], n: "Mark pains and emotions at each stage; the lowest points are opportunities." },
+    { k: "tree", t: "Opportunity solution tree", root: "Outcome: more repeat orders", mid: ["Hard to reorder favourites", "Unsure of delivery time"], leaf: ["One-tap reorder", "Saved baskets", "Live ETA", "Delivery slots"], n: "Teresa Torres, 'Continuous Discovery Habits'. Compare several solutions per opportunity." },
+    { k: "funnel", t: "TAM, SAM, SOM", lv: [["TAM", "All small retail stores needing inventory software"], ["SAM", "Stores in cities we serve with smartphones"], ["SOM", "Stores we can win in 2 years"]], n: "Walk through the bottom-up calculation: customers × price." },
+    { k: "table", t: "Cheap validation tests", h: ["Test", "What it checks", "Watch out"], rows: [["Fake door", "Interest in a feature", "Explain honestly after"], ["Landing page", "Demand and sign-ups", "Traffic quality"], ["Concierge MVP", "Value of the service", "Doesn't test scale"], ["Wizard of Oz", "Experience before automation", "Cost of manual effort"]], n: "Always set the success threshold before running the test." },
+    { k: "activity", t: "Activity: interview and synthesise", b: ["Interview three people about a real recent experience", "Capture quotes, pains, workarounds", "Cluster into themes", "Write one JTBD statement", "Sketch a journey map with the biggest pain"], n: "Pairs work well: one asks, one takes notes." },
+    { k: "recap", t: "Recap", b: ["Start from problems, not solutions", "Ask about past behaviour, not hypotheticals", "Jobs reveal true competition", "Size markets bottom-up", "Validate before you build"], n: "" },
+    { k: "questions", t: "Discussion questions", b: ["When is a survey misleading?", "Is a fake-door test ethical? Under what conditions?", "What would you do if research contradicts the CEO's idea?"], n: "" }
+  ]
+});
+
+MODULES.push({
+  id: 3,
+  title: "Product Strategy, Vision, and Prioritisation",
+  short: "Strategy",
+  tagline: "Decide where to go, what matters most, and what to leave out.",
+  overview: "Strategy turns discovery into direction. This module covers product vision and strategy, how to recognise product–market fit, choosing a North Star metric, setting OKRs, prioritising with RICE, MoSCoW, Kano, and value-versus-effort, building outcome-based roadmaps, managing stakeholders, and deciding whether to build, buy, or partner.",
+  outcomes: [
+    "Write a product vision statement and a strategy that names target customers, the problem, and the differentiator.",
+    "Assess product–market fit using retention and customer-sentiment signals.",
+    "Choose a North Star metric and supporting input metrics for a product.",
+    "Prioritise a backlog using RICE and explain the limits of scoring models.",
+    "Build a Now–Next–Later roadmap and justify trade-offs to stakeholders.",
+    "Evaluate a build, buy, or partner decision."
+  ],
+  concepts: ["Vision", "Strategy", "Product–market fit", "North Star metric", "OKRs", "RICE", "MoSCoW", "Kano", "Roadmap"],
+  topics: [
+    { h: "Vision, mission, and strategy", body: "A product vision describes the future you want to create for customers, usually three to five years out. Strategy is the set of choices about how to get there: which customers to serve first, which problems to solve, and how to win against alternatives. A good strategy says what you will not do.", points: ["Vision: inspiring and customer-centred.", "Strategy: target segment, key problem, differentiator, and the bets you are making.", "Roadmaps and backlogs should trace back to the strategy."] },
+    { h: "Product–market fit", body: "Marc Andreessen described product–market fit as being in a good market with a product that can satisfy that market. In practice, PMs look for signals: retention curves that flatten rather than fall to zero, strong organic referrals, and customers who would be very disappointed without the product. Sean Ellis popularised a survey benchmark: if around 40% or more of users say they would be 'very disappointed', fit is likely.", points: ["Flattening retention is the most reliable signal.", "Fit is specific to a segment; you can have fit with one group and not another."] },
+    { h: "North Star and input metrics", body: "A North Star metric captures the core value customers get, and predicts long-term business success. Input metrics are the levers teams can move that drive it. For a music app the North Star might be time spent listening; inputs could include new users activated, playlists created, and recommendations played.", points: ["A good North Star reflects customer value, not just revenue.", "Avoid vanity metrics such as total downloads."] },
+    { h: "OKRs", body: "Objectives and Key Results (OKRs) pair a qualitative objective with three to five measurable key results. Objectives say where you want to go; key results say how you will know you got there. Product teams should set outcome-based key results rather than lists of features.", points: ["Objective: Make reordering effortless for repeat customers.", "KR: Raise the 30-day repeat-order rate from 22% to 30% (illustrative)."] },
+    { h: "Prioritisation frameworks", body: "RICE (popularised by Intercom) scores each idea as Reach × Impact × Confidence ÷ Effort. MoSCoW sorts scope into Must, Should, Could, and Won't. The Kano model (Noriaki Kano) separates basic expectations, performance features, and delighters. Value-versus-effort plots ideas on a 2×2 to find quick wins. Cost of delay asks what it costs to wait.", points: ["Frameworks structure debate; they do not replace judgement.", "Be explicit about where the numbers come from, especially Confidence."] },
+    { h: "Roadmaps", body: "A roadmap communicates direction and priorities over time. Feature-based roadmaps with fixed dates create false certainty. Outcome-based roadmaps, often in a Now–Next–Later format, show the problems the team will tackle and the outcomes it expects, with detail decreasing further out.", points: ["Now: committed and well understood.", "Next: likely, being explored.", "Later: directional, open to change."] },
+    { h: "Stakeholders, trade-offs, and build–buy–partner", body: "PMs balance requests from sales, leadership, support, and partners. Saying no is easier when priorities are tied to a shared strategy and evidence. For capabilities outside the core, PMs weigh building in-house, buying a tool or company, or partnering, considering speed, cost, control, and strategic importance.", points: ["Build what differentiates you; buy or partner for commodities.", "Use a stakeholder map (influence vs interest) to plan communication."] }
+  ],
+  example: { title: "Industry application: choosing a North Star", body: "Consider a food-delivery app. 'Number of app downloads' is a vanity metric. A stronger North Star is 'orders delivered on time to repeat customers per week', because it reflects customer value (getting food reliably) and predicts revenue. Input metrics could include restaurant coverage, delivery-time accuracy, and reorder rate. (Illustrative example.)" },
+  miniCase: { title: "Mini-case: the loud customer", context: "Your largest enterprise client threatens to leave unless you build a custom reporting feature. Your roadmap focuses on improving onboarding, which data shows is the main reason small customers churn.", question: "How would you decide? Which framework would you use, and how would you explain the decision to the sales head and the client?" },
+  activity: { title: "Activity: prioritise and roadmap", steps: ["Open the RICE calculator in the Product Toolkit and load the sample backlog.", "Adjust the scores using your own assumptions and note why.", "Compare the top three with what MoSCoW would give you.", "Place the items on a Now–Next–Later roadmap.", "Write a 100-word note defending one item you chose not to build."], deliverable: "A prioritised backlog, roadmap, and trade-off note." },
+  check: [
+    { q: "A feature has Reach 2,000, Impact 2, Confidence 80%, and Effort 4 person-months. What is its RICE score?", o: ["400", "800", "1,600", "3,200"], a: 1, why: "2,000 × 2 × 0.8 ÷ 4 = 800." },
+    { q: "Which is the strongest signal of product–market fit?", o: ["A spike in downloads after an ad campaign", "A retention curve that flattens over time", "Positive comments from investors", "A long feature list"], a: 1, why: "Flattening retention shows a group of users keeps getting value." },
+    { q: "In the Kano model, a feature customers expect and are angry without, but don't praise, is a:", o: ["Delighter", "Performance feature", "Basic (must-be) feature", "Indifferent feature"], a: 2, why: "Basic features cause dissatisfaction when absent but add little satisfaction when present." }
+  ],
+  glossary: ["Product vision", "Product strategy", "Product–market fit", "North Star metric", "OKR", "RICE", "MoSCoW", "Kano model", "Roadmap", "Cost of delay"],
+  templates: ["rice"],
+  slides: [
+    { k: "title", t: "Product Strategy, Vision, and Prioritisation", s: "Module 3 · Product Management", n: "Strategy is about choices, including what not to do." },
+    { k: "bullets", t: "Learning objectives", b: ["Write a vision and a strategy", "Recognise product–market fit", "Choose a North Star and input metrics", "Prioritise with RICE, MoSCoW, and Kano", "Build an outcome-based roadmap"], n: "" },
+    { k: "steps", t: "From vision to backlog", st: [["Vision", "Where we're going"], ["Strategy", "How we'll win"], ["Goals / OKRs", "What success looks like"], ["Roadmap", "Problems over time"], ["Backlog", "Work to do now"]], n: "Every backlog item should trace back up this chain." },
+    { k: "curve", t: "Product–market fit: retention", labels: ["Week 1", "Week 4", "Week 8", "Week 12"], tips: ["Most leave early", "Curve keeps falling: no fit", "Curve flattens: fit", "Core users stay"], retention: true, n: "Draw two curves: one that falls to zero and one that flattens. Ask which product has fit." },
+    { k: "two", t: "North Star and input metrics", l: { h: "North Star (example)", i: ["Orders delivered on time to repeat customers per week", "Reflects customer value", "Predicts revenue"] }, r: { h: "Input metrics", i: ["Restaurant coverage", "Delivery-time accuracy", "Reorder rate", "Activation of new users"] }, n: "Illustrative example for a food-delivery app." },
+    { k: "table", t: "RICE scoring", h: ["Factor", "Question", "Example"], rows: [["Reach", "How many users per quarter?", "2,000"], ["Impact", "How much per user? (0.25–3)", "2"], ["Confidence", "How sure are we?", "80%"], ["Effort", "Person-months", "4"], ["Score", "R × I × C ÷ E", "800"]], n: "Work through the calculation, then open the RICE calculator." },
+    { k: "matrix", t: "Value vs effort", q: [["Quick wins", "High value, low effort: do first"], ["Big bets", "High value, high effort: plan carefully"], ["Fill-ins", "Low value, low effort: if time allows"], ["Money pits", "Low value, high effort: avoid"]], n: "A quick visual alternative to RICE for workshops." },
+    { k: "table", t: "Kano model", h: ["Category", "If absent", "If present"], rows: [["Basic", "Very dissatisfied", "Neutral"], ["Performance", "Dissatisfied", "Satisfied (more is better)"], ["Delighter", "Neutral", "Delighted"]], n: "Delighters become basics over time: ask for examples (e.g. free returns)." },
+    { k: "steps", t: "Now–Next–Later roadmap", st: [["Now", "Committed, well understood"], ["Next", "Likely, being explored"], ["Later", "Directional, may change"]], n: "Contrast with a dated feature list." },
+    { k: "activity", t: "Activity: prioritise and roadmap", b: ["Load the sample backlog in the RICE calculator", "Adjust scores and justify your assumptions", "Compare with a MoSCoW sort", "Build a Now–Next–Later roadmap", "Defend one item you left out"], n: "" },
+    { k: "recap", t: "Recap", b: ["Strategy means choosing what not to do", "Retention is the clearest fit signal", "North Star = customer value that predicts success", "Frameworks support, not replace, judgement", "Roadmaps show outcomes, not promises"], n: "" },
+    { k: "questions", t: "Discussion questions", b: ["Should one big customer change your roadmap?", "Can a North Star metric be gamed? How?", "When should a company buy rather than build?"], n: "" }
+  ]
+});
+
+MODULES.push({
+  id: 4,
+  title: "Product Design, Development, and Delivery",
+  short: "Delivery",
+  tagline: "Turn priorities into products people can use, built well and shipped often.",
+  overview: "This module covers how PMs translate strategy into working products: writing PRDs and user stories, defining MVPs, applying UX fundamentals, working in Agile teams with Scrum and Kanban, collaborating with engineers on estimation and technical debt, designing for accessibility, and the special considerations of AI-powered features.",
+  outcomes: [
+    "Write a one-page PRD that states the problem, goals, scope, and success metrics.",
+    "Write user stories with testable acceptance criteria.",
+    "Define an MVP scope and explain the difference between MVP and MLP.",
+    "Apply basic usability principles to critique a wireframe.",
+    "Describe Scrum ceremonies and when Kanban is a better fit.",
+    "Explain technical debt, accessibility, and the extra risks of AI features to a non-technical audience."
+  ],
+  concepts: ["PRD", "User story", "Acceptance criteria", "MVP / MLP", "Wireframe", "Scrum", "Kanban", "Technical debt", "Accessibility"],
+  topics: [
+    { h: "PRDs and product briefs", body: "A product requirements document (PRD) aligns the team on what is being built and why. Modern PRDs are short and living: problem, target users, goals and success metrics, scope and non-goals, user stories, design links, open questions, and risks. A one-page brief is often enough to start; detail grows as the team learns.", points: ["Write the 'why' and success metrics first.", "Non-goals prevent scope creep.", "Keep open questions visible and assign owners."] },
+    { h: "User stories and acceptance criteria", body: "A user story expresses a need from the user's point of view: As a [user], I want to [action], so that [benefit]. Acceptance criteria define when the story is done, often in Given–When–Then form. The definition of done adds team-wide standards such as tests passing and accessibility checks.", points: ["Good stories are independent, negotiable, valuable, estimable, small, and testable (INVEST).", "Example criterion: Given a saved basket, when I tap Reorder, then all available items are added to my cart."] },
+    { h: "MVP and MLP", body: "A minimum viable product is the smallest version that lets you learn whether you are solving the right problem. It is a learning tool, not a low-quality product. A minimum lovable product (MLP) sets the bar higher: the smallest version customers would genuinely enjoy and recommend. Iterative releases then add value in small steps.", points: ["Cut scope, not quality.", "Each release should test a clear hypothesis."] },
+    { h: "UX fundamentals", body: "Good UX makes the right action obvious. Key principles include visibility of system status, matching users' language, consistency, error prevention, and recognition over recall (from Jakob Nielsen's usability heuristics). Wireframes sketch structure without visual polish; prototypes simulate interaction so teams can test with users before building.", points: ["Low-fidelity first: paper or simple boxes.", "Test with five users to catch most major issues early."] },
+    { h: "Agile, Scrum, and Kanban", body: "Agile teams deliver in small increments and adapt based on feedback. Scrum uses fixed-length sprints (often two weeks) with sprint planning, daily stand-ups, a sprint review, and a retrospective; the product owner manages the backlog. Kanban visualises work on a board and limits work in progress, which suits continuous flows such as support or operations.", points: ["Backlog refinement keeps upcoming stories ready.", "Retrospectives improve how the team works, not just what it builds."] },
+    { h: "Working with engineers", body: "PMs should understand enough technology to have good conversations: what an API is, why estimates are uncertain, and what technical debt means. Technical debt is the future cost of shortcuts taken today; some is acceptable, but unmanaged debt slows every future release. Feature flags let teams release code to a subset of users safely.", points: ["Bring engineers into discovery early.", "Reserve capacity for debt and reliability work."] },
+    { h: "Accessibility, quality, and AI features", body: "Inclusive design ensures products work for people with different abilities, devices, languages, and connectivity. Accessibility includes readable contrast, screen-reader support, and captions. AI-powered features add new questions: what data trains or grounds the model, how outputs will be evaluated, how errors are handled, and how users are told what the AI can and cannot do.", points: ["Design for low bandwidth and older devices in many Indian markets.", "For AI features, define evaluation criteria and a human fallback before launch."] }
+  ],
+  example: { title: "Industry application: shipping in small slices", body: "Many consumer apps release new features first to a small percentage of users behind a feature flag, monitor errors and key metrics, then expand the rollout. A PM's job is to define what 'good' looks like before the rollout begins, so the team can decide quickly whether to expand, fix, or roll back. (General industry practice.)" },
+  miniCase: { title: "Mini-case: the MVP that grew", context: "A team planned a six-week MVP for a doctor-appointment booking feature. After stakeholder reviews, scope now includes payments, reminders, reviews, and video calls, and the estimate is five months.", question: "How would you bring scope back to an MVP? Which single hypothesis should the first release test, and what would you cut?" },
+  activity: { title: "Activity: write a mini-PRD", steps: ["Choose one feature from your Module 3 roadmap.", "Write the problem, goal, and success metric.", "List scope and two explicit non-goals.", "Write five user stories with acceptance criteria.", "Sketch two low-fidelity wireframes."], deliverable: "A one-page PRD with stories and wireframes." },
+  check: [
+    { q: "Which is a well-formed user story?", o: ["Build a reorder button on the home screen", "As a repeat customer, I want to reorder a past basket, so that I save time on weekly shopping", "Reordering must load in under one second", "The team will finish reordering by Friday"], a: 1, why: "It names the user, the need, and the benefit, without dictating the solution." },
+    { q: "The main purpose of an MVP is to:", o: ["Launch with as few bugs as possible", "Learn whether you are solving the right problem with minimal effort", "Impress investors with a complete product", "Replace user research"], a: 1, why: "An MVP is a learning tool that tests key assumptions." },
+    { q: "When is Kanban usually a better fit than Scrum?", o: ["When work arrives continuously and priorities change daily", "When the team wants fixed two-week sprints", "When there is no backlog", "When the product is brand new"], a: 0, why: "Kanban suits continuous flows by visualising work and limiting work in progress." }
+  ],
+  glossary: ["PRD", "User story", "Acceptance criteria", "Definition of done", "MVP", "MLP", "Wireframe", "Prototype", "Agile", "Scrum", "Sprint", "Kanban", "Technical debt", "Feature flag", "Accessibility"],
+  templates: ["prd", "story"],
+  slides: [
+    { k: "title", t: "Product Design, Development, and Delivery", s: "Module 4 · Product Management", n: "From priorities to working software." },
+    { k: "bullets", t: "Learning objectives", b: ["Write a one-page PRD", "Write user stories with acceptance criteria", "Scope an MVP", "Apply usability principles", "Work effectively in Agile teams"], n: "" },
+    { k: "table", t: "Anatomy of a one-page PRD", h: ["Section", "Answers"], rows: [["Problem", "Who struggles with what?"], ["Goals and metrics", "How will we know it worked?"], ["Scope / non-goals", "What's in and out?"], ["User stories", "What must users be able to do?"], ["Risks and questions", "What could go wrong? Who decides?"]], n: "Show a real-looking example from the Product Toolkit." },
+    { k: "two", t: "User stories and acceptance criteria", l: { h: "User story", i: ["As a repeat customer", "I want to reorder a past basket", "so that I save time on weekly shopping"] }, r: { h: "Acceptance criteria", i: ["Given a saved basket", "When I tap Reorder", "Then available items go to my cart", "And unavailable items are flagged"] }, n: "Introduce INVEST." },
+    { k: "two", t: "MVP vs MLP", l: { h: "MVP", i: ["Smallest thing to learn", "Tests a key hypothesis", "May be manual behind the scenes"] }, r: { h: "MLP", i: ["Smallest thing users love", "Sets a quality bar", "Encourages word of mouth"] }, n: "Cut scope, never quality." },
+    { k: "bullets", t: "Usability principles (selected)", b: ["Show system status", "Speak the user's language", "Be consistent", "Prevent errors", "Recognition over recall"], n: "From Jakob Nielsen's ten usability heuristics." },
+    { k: "steps", t: "A Scrum sprint", st: [["Planning", "Pick sprint goal and stories"], ["Daily stand-up", "Sync and unblock"], ["Build and test", "Ship increments"], ["Review", "Demo to stakeholders"], ["Retrospective", "Improve the process"]], n: "Typically a two-week cycle." },
+    { k: "two", t: "Scrum vs Kanban", l: { h: "Scrum", i: ["Fixed sprints", "Defined roles and ceremonies", "Good for planned product work"] }, r: { h: "Kanban", i: ["Continuous flow", "Limits work in progress", "Good for support and operations"] }, n: "" },
+    { k: "bullets", t: "Building AI-powered features", b: ["What data grounds or trains the model?", "How will we evaluate output quality?", "What happens when the AI is wrong?", "How do we explain limits to users?", "What is the human fallback?"], n: "Keep it conceptual; no model-specific claims." },
+    { k: "activity", t: "Activity: write a mini-PRD", b: ["Pick a roadmap item from Module 3", "State problem, goal, and metric", "Add scope and two non-goals", "Write five user stories", "Sketch two wireframes"], n: "" },
+    { k: "recap", t: "Recap", b: ["PRDs are short and living", "Stories need testable criteria", "MVP = learning, MLP = love", "Test designs before building", "Manage tech debt and accessibility deliberately"], n: "" },
+    { k: "questions", t: "Discussion questions", b: ["When is a long PRD justified?", "How much technical knowledge does a PM need?", "Who is accountable when an AI feature makes a mistake?"], n: "" }
+  ]
+});
+
+MODULES.push({
+  id: 5,
+  title: "Launch, Growth, and Product Analytics",
+  short: "Growth",
+  tagline: "Bring products to market, measure what matters, and grow responsibly.",
+  overview: "The final module covers what happens around and after launch: go-to-market planning, pricing and packaging, the AARRR funnel, product analytics including retention and cohorts, A/B testing, product-led growth and onboarding, managing the later life cycle, and the responsibilities PMs carry for privacy, ethics, and inclusion.",
+  outcomes: [
+    "Create a go-to-market and launch plan for a feature or product.",
+    "Compare pricing and packaging models and choose one for a given product.",
+    "Diagnose a growth problem using the AARRR funnel.",
+    "Calculate and interpret activation, retention, churn, and DAU/MAU.",
+    "Design an A/B test with a hypothesis, primary metric, and success criteria.",
+    "Identify dark patterns and propose ethical alternatives."
+  ],
+  concepts: ["Go-to-market", "Pricing models", "AARRR", "Retention", "Cohort analysis", "Churn", "DAU/MAU", "A/B testing", "Product-led growth", "Dark patterns"],
+  topics: [
+    { h: "Go-to-market and launch planning", body: "A go-to-market (GTM) strategy defines the target segment, value proposition, positioning, pricing, channels, and launch sequence. A launch plan turns this into tasks: readiness of support and sales, documentation, communication, a rollout plan, and the metrics to watch in the first days and weeks.", points: ["Launch tiers: not every feature needs a big launch.", "Agree success metrics and a rollback plan before launch day."] },
+    { h: "Pricing and packaging", body: "Common models include one-time purchase, subscription, freemium (free core with paid upgrades), tiered plans, and usage-based pricing. Packaging decides which features go into which tier. Good pricing reflects the value customers receive and their willingness to pay, not just cost.", points: ["Freemium works when the free tier creates value and a natural reason to upgrade.", "Test price perception with research before changing live prices."] },
+    { h: "The AARRR funnel", body: "Dave McClure's AARRR ('pirate metrics') framework tracks Acquisition (users arrive), Activation (they experience core value), Retention (they come back), Referral (they bring others), and Revenue (they pay). It helps find the biggest leak: there is little point buying more traffic if new users never activate.", points: ["Define activation as the moment users first get real value.", "Fix the leakiest stage first."] },
+    { h: "Product analytics", body: "Key measures include activation rate (activated users ÷ new sign-ups), retention (users still active after a period), churn (customers lost in a period), and stickiness (DAU ÷ MAU). Cohort analysis groups users by sign-up period and tracks them over time, separating real improvement from growth that hides poor retention.", points: ["Example: 250 of 1,000 week-0 sign-ups active in week 4 = 25% week-4 retention.", "DAU 30,000 ÷ MAU 1,20,000 = 25% stickiness (illustrative)."] },
+    { h: "A/B testing", body: "An A/B test randomly splits users between a control and a variant to measure the effect of a change on a primary metric. Write the hypothesis and success criteria first, run the test long enough to reach an adequate sample, and avoid stopping as soon as results look good. Watch guardrail metrics so a win on one metric does not hide harm elsewhere.", points: ["Hypothesis: If we show delivery time on the product page, checkout conversion will rise because uncertainty causes drop-off.", "Pitfalls: peeking, too many variants, novelty effects, small samples."] },
+    { h: "Product-led growth, onboarding, and the later life cycle", body: "In product-led growth (PLG), the product itself drives acquisition and expansion through free trials, freemium, and built-in sharing. Onboarding gets users to value quickly. Growth loops reuse output from one user to attract the next. As products mature, PMs also decide when to sunset features that cost more to maintain than the value they deliver.", points: ["Shorten time-to-value in onboarding.", "Sunset with notice, migration help, and clear communication."] },
+    { h: "Responsible product management", body: "Dark patterns are designs that trick users, such as hidden costs, hard-to-cancel subscriptions, or pre-ticked consent boxes. They may lift short-term metrics but damage trust and can breach consumer-protection and data-protection rules. Responsible PMs design for informed consent, data minimisation, accessibility, and digital inclusion across languages and connectivity levels.", points: ["India has issued guidelines against dark patterns on online platforms; check current regulations for your market.", "Ask: would we be comfortable if users saw exactly how this works?"] }
+  ],
+  example: { title: "Industry application: activation before acquisition", body: "A learning app spends heavily on ads, and sign-ups grow, but revenue does not. Funnel analysis shows most new users never finish their first lesson. The PM shifts focus from acquisition to activation: shorter onboarding, a five-minute first lesson, and a reminder at the right time. (Illustrative scenario.)" },
+  miniCase: { title: "Mini-case: the winning test", context: "An A/B test shows that a 'Only 2 left!' banner raised conversion by 6%. Later, support complaints rise because the stock counts were not always accurate.", question: "Was the test a success? What guardrail metrics and ethical checks should have been in place?" },
+  activity: { title: "Activity: launch and measure", steps: ["Pick a feature from your PRD in Module 4.", "Write a one-paragraph GTM summary: segment, value, channel.", "Define the AARRR metric that matters most for this feature.", "Design one A/B test using the template.", "List three launch-readiness checks and one rollback trigger."], deliverable: "A launch plan and a metrics dashboard outline." },
+  check: [
+    { q: "1,000 users signed up in week 0 and 250 were still active in week 4. What is week-4 retention?", o: ["4%", "25%", "40%", "75%"], a: 1, why: "250 ÷ 1,000 = 25%." },
+    { q: "Ad spend is rising and sign-ups are growing, but few users complete their first task. Which AARRR stage needs attention first?", o: ["Acquisition", "Activation", "Referral", "Revenue"], a: 1, why: "Users arrive but don't reach core value, so activation is the leak." },
+    { q: "Which is a dark pattern?", o: ["A clear cancel button in account settings", "A pre-ticked box adding paid insurance to a ticket", "A free trial with a reminder before charging", "Showing the total price before checkout"], a: 1, why: "Pre-ticked paid add-ons rely on users not noticing, undermining informed consent." }
+  ],
+  glossary: ["Go-to-market", "Freemium", "Product-led growth", "AARRR", "Activation", "Retention", "Churn", "Cohort analysis", "DAU / MAU", "A/B test", "Statistical significance", "Guardrail metric", "Dark pattern"],
+  templates: ["abtest", "launch", "dashboard"],
+  slides: [
+    { k: "title", t: "Launch, Growth, and Product Analytics", s: "Module 5 · Product Management", n: "Shipping is the start, not the finish." },
+    { k: "bullets", t: "Learning objectives", b: ["Plan a go-to-market and launch", "Choose a pricing and packaging model", "Diagnose growth with AARRR", "Read retention, churn, and cohorts", "Design an A/B test", "Spot and avoid dark patterns"], n: "" },
+    { k: "table", t: "Pricing models", h: ["Model", "Works well when", "Risk"], rows: [["Subscription", "Ongoing value", "Churn"], ["Freemium", "Free tier creates value and upgrade reasons", "Too few convert"], ["Tiered", "Segments value features differently", "Complex choice"], ["Usage-based", "Value scales with use", "Unpredictable bills"]], n: "" },
+    { k: "funnel", t: "AARRR funnel", lv: [["Acquisition", "Users arrive"], ["Activation", "First real value"], ["Retention", "They come back"], ["Referral", "They bring others"], ["Revenue", "They pay"]], n: "Fix the leakiest stage first." },
+    { k: "table", t: "Key product metrics", h: ["Metric", "Formula", "Example"], rows: [["Activation rate", "Activated ÷ sign-ups", "600 ÷ 1,000 = 60%"], ["Week-4 retention", "Active in wk 4 ÷ cohort", "250 ÷ 1,000 = 25%"], ["Monthly churn", "Customers lost ÷ start", "50 ÷ 1,000 = 5%"], ["Stickiness", "DAU ÷ MAU", "30k ÷ 120k = 25%"]], n: "Illustrative numbers for practice." },
+    { k: "curve", t: "Reading cohort retention", labels: ["Month 0", "Month 1", "Month 2", "Month 3"], tips: ["Sign-up cohort", "Early drop", "Improving cohorts sit higher", "Flattening = loyal core"], retention: true, n: "Newer cohorts above older ones means the product is improving." },
+    { k: "steps", t: "Designing an A/B test", st: [["Hypothesis", "If… then… because…"], ["Metric", "One primary + guardrails"], ["Sample", "Enough users and time"], ["Run", "No peeking"], ["Decide", "Ship, iterate, or drop"]], n: "" },
+    { k: "two", t: "Dark patterns vs ethical design", l: { h: "Dark pattern", i: ["Pre-ticked paid add-ons", "Hidden fees at checkout", "Hard-to-find cancel option", "Fake urgency timers"] }, r: { h: "Ethical alternative", i: ["Opt-in add-ons", "Total price shown upfront", "One-click cancel", "Honest stock information"] }, n: "Mention that India has issued guidelines against dark patterns; ask students to check current rules." },
+    { k: "bullets", t: "Product-led growth", b: ["The product drives acquisition and expansion", "Free trial or freemium entry", "Fast time-to-value in onboarding", "Built-in sharing and collaboration", "Growth loops: one user's output attracts the next"], n: "" },
+    { k: "activity", t: "Activity: launch and measure", b: ["Write a GTM summary", "Pick the key AARRR metric", "Design one A/B test", "List launch-readiness checks", "Define a rollback trigger"], n: "" },
+    { k: "recap", t: "Recap", b: ["Plan launches with metrics and rollback", "Price on value", "Find the leakiest funnel stage", "Use cohorts to see real retention", "Test with discipline; design with ethics"], n: "" },
+    { k: "questions", t: "Discussion questions", b: ["Is freemium right for B2B software?", "When should you stop an A/B test early?", "Where is the line between persuasion and manipulation?"], n: "" }
+  ]
+});
+
+// Glossary: [term, definition, example, module]
+const GLOSSARY = [
+  ["Product", "Anything offered to customers that solves a problem repeatedly over time and keeps evolving.", "A payments app, a SaaS tool, or a packaged snack brand.", 1],
+  ["Product manager", "The person accountable for the value a product creates for customers and the business, leading through clarity rather than authority.", "A PM decides which checkout problem the team tackles this quarter and why.", 1],
+  ["Project management", "Planning and coordinating work with a fixed scope, budget, and end date.", "Running the two-month project to integrate a new payment gateway.", 1],
+  ["Product thinking", "Starting from a customer problem and a desired outcome before choosing solutions.", "Asking 'why do users abandon checkout?' before agreeing to build a chatbot.", 1],
+  ["Outcome vs output", "An output is what a team ships; an outcome is the change in user behaviour or results it causes.", "Output: a new filter. Outcome: users find items twice as fast.", 1],
+  ["Cross-functional team", "A team combining product, design, engineering, and often data, marketing, and operations.", "The 'product trio' of PM, designer, and tech lead running discovery together.", 1],
+  ["Stakeholder", "Anyone with an interest in or influence over the product, inside or outside the company.", "Sales head, legal team, key enterprise clients, and the CEO.", 1],
+  ["Four product risks", "Marty Cagan's value, usability, feasibility, and viability risks that teams should test early.", "Testing with a prototype whether users understand a new pricing screen (usability).", 1],
+  ["Product life cycle", "The stages a product moves through: introduction, growth, maturity, and decline.", "A mature messaging app focuses on retention and new segments.", 1],
+  ["Product owner", "In Scrum, the role accountable for the product backlog; often held by the PM.", "The product owner orders the backlog before sprint planning.", 1],
+  ["Problem statement", "A short description of who struggles with what, in which situation, and with what evidence, without naming a solution.", "First-time buyers abandon checkout when delivery dates are unclear.", 2],
+  ["Jobs-to-be-Done", "A framework that sees customers 'hiring' products to make progress in a specific situation.", "When I'm commuting, I want quick learning so I feel I'm progressing.", 2],
+  ["Persona", "A research-based archetype of a user with goals, behaviours, and pain points.", "'Ravi, 34, kirana owner who restocks twice a week and prefers Hindi.'", 2],
+  ["Empathy map", "A grid capturing what a user says, thinks, does, and feels.", "Used after interviews to spot gaps between what users say and do.", 2],
+  ["Customer journey map", "A visual of the stages a customer goes through, with pains and emotions at each stage.", "Aware → consider → sign up → use → return, with the biggest pain at sign-up.", 2],
+  ["Opportunity solution tree", "Teresa Torres's diagram linking an outcome to customer opportunities, solutions, and experiments.", "Outcome: more repeat orders → opportunity: hard to reorder → solution: one-tap reorder.", 2],
+  ["User research", "Methods for understanding users, such as interviews, surveys, observation, and usability tests.", "Five interviews with recent drop-offs before redesigning onboarding.", 2],
+  ["Usability testing", "Watching real users attempt tasks with a design to find friction.", "Asking five users to book an appointment on a prototype.", 2],
+  ["TAM / SAM / SOM", "Total, serviceable available, and serviceable obtainable market: the category, the part you can reach, and the share you can win soon.", "Bottom-up: 2,00,000 stores × ₹6,000/year = ₹120 crore SAM (illustrative).", 2],
+  ["Competitive analysis", "Comparing alternatives, including indirect substitutes, on the jobs customers care about.", "A learning app compares itself with tutors, YouTube, and books.", 2],
+  ["Value proposition", "A clear statement of the benefit a product delivers to a specific customer and why it beats alternatives.", "Groceries from your trusted local store, delivered in 30 minutes.", 2],
+  ["Fake-door test", "Showing an option for a feature that does not exist yet to measure interest.", "A 'Pay later' button that explains the feature is coming and records clicks.", 2],
+  ["Concierge MVP", "Delivering a service manually to a few customers to test its value before automating.", "A founder personally curates weekly meal plans for 20 users.", 2],
+  ["Wizard-of-Oz MVP", "A product that looks automated to users but is run by people behind the scenes.", "'AI' travel recommendations actually written by staff during the test.", 2],
+  ["Product vision", "A description of the future the product aims to create for customers, typically 3–5 years out.", "Every neighbourhood store can sell online as easily as in person.", 3],
+  ["Product strategy", "The choices about which customers, problems, and advantages the product will focus on to reach the vision.", "Start with grocery stores in tier-2 cities, win on regional-language support.", 3],
+  ["Product–market fit", "Being in a good market with a product that satisfies it; signalled by retention that flattens and strong pull from users.", "Retention stabilises at 35% after month 3 for a core segment.", 3],
+  ["North Star metric", "The single metric that best captures the value customers get and predicts long-term success.", "Orders delivered on time to repeat customers per week.", 3],
+  ["Input metric", "A metric teams can directly influence that drives the North Star.", "Delivery-time accuracy or restaurant coverage.", 3],
+  ["Vanity metric", "A number that looks impressive but does not reflect real value or guide decisions.", "Total app downloads since launch.", 3],
+  ["OKR", "Objectives and Key Results: a qualitative objective with 3–5 measurable results.", "O: Make reordering effortless. KR: repeat-order rate from 22% to 30%.", 3],
+  ["Prioritisation", "Deciding the order in which to tackle problems and features given limited capacity.", "Choosing onboarding fixes over a custom report for one client.", 3],
+  ["RICE", "A scoring model: Reach × Impact × Confidence ÷ Effort.", "2,000 × 2 × 0.8 ÷ 4 = 800.", 3],
+  ["MoSCoW", "Sorting scope into Must have, Should have, Could have, and Won't have (this time).", "Must: secure payment. Won't: dark mode in v1.", 3],
+  ["Kano model", "Classifies features as basic, performance, or delighter based on how they affect satisfaction.", "Free returns started as a delighter and became a basic expectation.", 3],
+  ["Value vs effort matrix", "A 2×2 grid placing ideas by value and effort to find quick wins and avoid money pits.", "A high-value, low-effort fix goes into the next sprint.", 3],
+  ["Cost of delay", "The value lost by not doing something now.", "A festive-season feature loses most of its value if it ships after Diwali.", 3],
+  ["Roadmap", "A communication of direction and priorities over time, ideally framed around outcomes.", "A Now–Next–Later roadmap of problems to solve.", 3],
+  ["Backlog", "An ordered list of work items for the team.", "The top ten stories are refined and ready for the next sprint.", 3],
+  ["Build–buy–partner", "Deciding whether to develop a capability in-house, acquire it, or work with another company.", "Partnering with a payment provider instead of building payments.", 3],
+  ["PRD", "Product requirements document: problem, goals, metrics, scope, stories, and risks for a piece of work.", "A one-page PRD for a reorder feature.", 4],
+  ["User story", "A requirement written from the user's perspective: As a…, I want…, so that….", "As a repeat customer, I want to reorder a basket so I save time.", 4],
+  ["Acceptance criteria", "Testable conditions a story must meet to be accepted, often in Given–When–Then form.", "Given a saved basket, when I tap Reorder, then items go to my cart.", 4],
+  ["Definition of done", "Team-wide standards every item must meet before it counts as finished.", "Code reviewed, tests pass, accessibility checked, analytics added.", 4],
+  ["Epic", "A large body of work broken down into multiple user stories.", "'Reordering' epic containing saved baskets, one-tap reorder, and reminders.", 4],
+  ["MVP", "Minimum viable product: the smallest version that tests whether you are solving the right problem.", "A WhatsApp-based ordering flow before building a full app.", 4],
+  ["MLP", "Minimum lovable product: the smallest version customers would genuinely enjoy and recommend.", "A simple booking flow polished enough that users tell friends.", 4],
+  ["Wireframe", "A low-fidelity sketch of a screen's structure without visual design.", "Boxes and labels showing where search, filters, and results sit.", 4],
+  ["Prototype", "An interactive simulation of a product used to test ideas before building.", "A clickable Figma flow tested with five users.", 4],
+  ["Agile", "An approach to building products in small increments with frequent feedback and adaptation.", "Shipping a basic version in two weeks and improving it each sprint.", 4],
+  ["Scrum", "An Agile framework with fixed sprints, defined roles, and ceremonies such as stand-ups and retrospectives.", "Two-week sprints with planning, review, and retrospective.", 4],
+  ["Sprint", "A fixed time-box, often two weeks, in which a Scrum team delivers a usable increment.", "Sprint goal: users can save and reorder a basket.", 4],
+  ["Kanban", "A method that visualises work on a board and limits work in progress for continuous flow.", "A support team's To do / Doing / Done board with a WIP limit of 3.", 4],
+  ["Velocity", "The amount of work a Scrum team typically completes in a sprint, used for planning.", "The team averages 30 story points per sprint.", 4],
+  ["Technical debt", "The future cost of shortcuts taken in code or design today.", "A quick fix that makes every later checkout change slower.", 4],
+  ["API", "Application programming interface: a defined way for software systems to talk to each other.", "The app calls a payment provider's API to process UPI payments.", 4],
+  ["Feature flag", "A switch that turns a feature on or off for selected users without a new release.", "Rolling out a new home screen to 5% of users first.", 4],
+  ["Accessibility", "Designing products that people with different abilities can use.", "Screen-reader labels, readable contrast, and captions on videos.", 4],
+  ["Go-to-market", "The plan for bringing a product to customers: segment, positioning, pricing, channels, and launch.", "Launching first to small stores in two cities through field sales.", 5],
+  ["Positioning", "How a product is framed in customers' minds relative to alternatives.", "'The simplest invoicing app for freelancers.'", 5],
+  ["Freemium", "A pricing model with a free core product and paid upgrades.", "Free basic plan; premium unlocks analytics and more users.", 5],
+  ["Product-led growth", "A strategy where the product itself drives acquisition, conversion, and expansion.", "Free trial plus built-in team invites drive sign-ups.", 5],
+  ["Onboarding", "The first-use experience that helps new users reach value.", "A three-step setup that ends with the user's first invoice sent.", 5],
+  ["Time to value", "How long it takes a new user to experience the product's core benefit.", "Cutting setup from 20 minutes to 5 minutes.", 5],
+  ["AARRR", "Dave McClure's funnel: Acquisition, Activation, Retention, Referral, Revenue.", "Finding that most users drop between sign-up and first order.", 5],
+  ["Activation", "The point at which a new user first experiences core value.", "Activation = first order delivered within 7 days of sign-up.", 5],
+  ["Retention", "The share of users who keep using the product over time.", "25% of the January cohort still active in April.", 5],
+  ["Churn", "The share of customers who stop using or paying in a period.", "50 of 1,000 subscribers cancel this month: 5% churn.", 5],
+  ["Cohort analysis", "Tracking groups of users who started in the same period to compare behaviour over time.", "March sign-ups retain better than January sign-ups after the onboarding fix.", 5],
+  ["DAU / MAU", "Daily active users divided by monthly active users; a measure of stickiness.", "30,000 ÷ 1,20,000 = 25%.", 5],
+  ["Conversion rate", "The share of users who complete a desired action.", "360 sign-ups from 12,000 visitors = 3%.", 5],
+  ["Customer acquisition cost", "Total spend to acquire customers divided by the number acquired.", "₹5,00,000 spend ÷ 1,000 customers = ₹500 CAC (illustrative).", 5],
+  ["Customer lifetime value", "The total margin a customer is expected to generate over their relationship.", "Compared with CAC to judge whether growth is profitable.", 5],
+  ["Net Promoter Score", "A loyalty measure based on how likely users are to recommend the product (0–10).", "% promoters (9–10) minus % detractors (0–6).", 5],
+  ["A/B test", "An experiment that randomly splits users between versions to measure the effect of a change.", "Testing whether showing delivery time lifts checkout conversion.", 5],
+  ["Statistical significance", "Evidence that a measured difference is unlikely to be due to chance alone.", "Waiting for enough users before declaring a test winner.", 5],
+  ["Guardrail metric", "A metric watched during an experiment to make sure a win does not cause harm elsewhere.", "Support tickets and refund rate during a checkout test.", 5],
+  ["Growth loop", "A cycle in which one user's activity brings in new users.", "Shared invoices introduce the app to new businesses.", 5],
+  ["Sunsetting", "Retiring a feature or product in a planned way.", "Removing a rarely used feature with notice and a migration path.", 5],
+  ["Dark pattern", "A design that tricks or pressures users into actions they did not intend.", "Pre-ticked paid add-ons or a hidden cancel button.", 5]
+];
+
+// Quiz: q, options, answer index, explanation, module
+const QUIZ = [
+  { m: 1, q: "A bank is launching a new mobile savings account. Which work is best described as product management rather than project management?", o: ["Coordinating the vendor timeline for app release", "Deciding which customer segment and savings problem the account should solve first", "Tracking the budget for the marketing launch", "Scheduling testing across teams"], a: 1, e: "Product management decides what problem to solve and for whom. The others are project-coordination tasks." },
+  { m: 1, q: "A sales head asks for 'export to Excel on every report'. What should the PM do first?", o: ["Add it to the next sprint to keep the client happy", "Reject it because it is not on the roadmap", "Ask what the clients are trying to do with the exported data", "Ask engineering for an estimate"], a: 2, e: "Understanding the underlying job (for example, sharing data with finance) may reveal a better solution than the requested feature." },
+  { m: 1, q: "Users love a new feature in tests, but it would cost more to serve than it earns. Which risk is this?", o: ["Value", "Usability", "Feasibility", "Viability"], a: 3, e: "Viability covers whether the solution works for the business, including costs." },
+  { m: 1, q: "Which goal is framed as an outcome?", o: ["Release the new onboarding flow by March", "Increase the share of new users who complete setup from 40% to 55%", "Write 20 user stories", "Redesign the logo"], a: 1, e: "Outcomes describe a measurable change in behaviour or results." },
+  { m: 1, q: "In which stage of the product life cycle is the PM most focused on finding product–market fit?", o: ["Introduction", "Growth", "Maturity", "Decline"], a: 0, e: "In the introduction stage, the priority is discovering whether the product satisfies a market." },
+  { m: 2, q: "You need to know how many of your 50,000 users face a problem found in interviews. Which method fits best?", o: ["More interviews", "A survey", "A usability test", "A focus group"], a: 1, e: "Surveys measure how common something is; interviews explain why." },
+  { m: 2, q: "Which is a well-formed Jobs-to-be-Done statement?", o: ["Users want a dark mode", "Build a meal planner", "When I come home tired, I want a quick healthy dinner, so I can avoid ordering junk food", "Women aged 25–35 who cook"], a: 2, e: "It names the situation, motivation, and expected outcome without prescribing a solution." },
+  { m: 2, q: "There are 2,00,000 target stores and each would pay ₹6,000 a year. What is the bottom-up market size?", o: ["₹12 crore", "₹120 crore", "₹1,200 crore", "₹1.2 crore"], a: 1, e: "2,00,000 × ₹6,000 = ₹1,20,00,00,000 = ₹120 crore." },
+  { m: 2, q: "A team adds a 'Pay later' button that leads to a 'coming soon' message and counts clicks. This is a:", o: ["Concierge MVP", "Wizard-of-Oz MVP", "Fake-door test", "Usability test"], a: 2, e: "A fake-door test measures interest in a feature before it exists." },
+  { m: 2, q: "Why are opportunity solution trees useful?", o: ["They replace the need for metrics", "They stop teams jumping from an outcome straight to one favourite solution", "They estimate engineering effort", "They define pricing tiers"], a: 1, e: "Mapping several opportunities and solutions encourages comparison before committing." },
+  { m: 3, q: "Which is the best North Star metric for a ride-hailing app?", o: ["App downloads", "Completed rides per week", "Number of drivers registered", "Marketing spend"], a: 1, e: "Completed rides reflect value for riders and drivers and predict revenue; the others are vanity or input measures." },
+  { m: 3, q: "Feature A: Reach 5,000, Impact 1, Confidence 80%, Effort 2. Feature B: Reach 1,000, Impact 3, Confidence 100%, Effort 1. Which ranks higher on RICE?", o: ["A (2,000 vs 3,000)", "B (3,000 vs 2,000)", "They tie", "Cannot be calculated"], a: 1, e: "A = 5,000 × 1 × 0.8 ÷ 2 = 2,000. B = 1,000 × 3 × 1 ÷ 1 = 3,000." },
+  { m: 3, q: "Your largest client demands a custom feature that serves no other customer. What is the strongest response?", o: ["Build it immediately", "Ignore the request", "Evaluate it against the strategy and other priorities, then explain the decision with evidence", "Let sales decide"], a: 2, e: "Tie decisions to strategy and data; a single client's request can be valid but must be weighed transparently." },
+  { m: 3, q: "Which roadmap format best communicates uncertainty?", o: ["A Gantt chart with fixed dates for 18 months", "A Now–Next–Later roadmap organised by problems and outcomes", "A list of every feature request", "A release calendar"], a: 1, e: "Now–Next–Later shows decreasing certainty further out and focuses on outcomes." },
+  { m: 3, q: "Payments are not core to your edtech product and reliable providers exist. The usual best choice is to:", o: ["Build an in-house payment system", "Partner with or buy from a payment provider", "Delay payments indefinitely", "Ask users to pay offline"], a: 1, e: "Build what differentiates you; partner or buy for commodity capabilities." },
+  { m: 4, q: "Which acceptance criterion is testable?", o: ["Reorder should feel fast", "Given a saved basket, when I tap Reorder, then all available items appear in my cart within 2 seconds", "Users will love reordering", "Reorder should be well designed"], a: 1, e: "It defines a clear condition, action, and observable result." },
+  { m: 4, q: "An MVP's scope has grown from six weeks to five months. What is the best first step?", o: ["Add more engineers", "Identify the single riskiest hypothesis and cut scope to test only that", "Delay launch until everything is ready", "Skip testing"], a: 1, e: "An MVP exists to learn; focus it on the key assumption." },
+  { m: 4, q: "During sprint review, stakeholders see a working increment. What happens at the retrospective?", o: ["The team plans next quarter's roadmap", "The team reflects on how it worked and agrees improvements", "Stakeholders approve the budget", "Bugs are fixed"], a: 1, e: "Retrospectives improve the team's process." },
+  { m: 4, q: "Every new checkout change takes twice as long as a year ago because of past shortcuts. This is a symptom of:", o: ["Feature flags", "Technical debt", "Kanban", "Accessibility"], a: 1, e: "Unmanaged technical debt slows future development." },
+  { m: 4, q: "You plan an AI feature that summarises customer complaints. What should you define before launch?", o: ["Only the button colour", "How output quality will be evaluated and what happens when the summary is wrong", "The marketing tagline", "Nothing; AI handles it"], a: 1, e: "AI features need evaluation criteria and a fallback for errors." },
+  { m: 5, q: "12,000 visitors produced 360 sign-ups. What is the conversion rate?", o: ["0.3%", "3%", "30%", "36%"], a: 1, e: "360 ÷ 12,000 = 0.03 = 3%." },
+  { m: 5, q: "Sign-ups are growing fast but monthly revenue is flat, and most users never complete a first order. Where should the PM focus?", o: ["Acquisition", "Activation", "Referral", "Pricing increases"], a: 1, e: "Users arrive but do not reach value, so activation is the bottleneck." },
+  { m: 5, q: "Halfway through an A/B test, the variant is ahead. What should you do?", o: ["Stop and ship the variant", "Continue until the planned sample size and duration are reached", "Add three more variants", "Change the primary metric"], a: 1, e: "Stopping early ('peeking') increases false positives." },
+  { m: 5, q: "DAU is 30,000 and MAU is 1,20,000. What is stickiness?", o: ["4%", "25%", "40%", "400%"], a: 1, e: "30,000 ÷ 1,20,000 = 25%." },
+  { m: 5, q: "A 'Hurry, only 2 left!' banner lifts conversion but stock counts are often wrong. The best decision is to:", o: ["Keep it because conversion rose", "Remove or fix it, because it misleads users and can breach consumer-protection rules", "Show it to more users", "Make the countdown faster"], a: 1, e: "Fake urgency is a dark pattern; short-term gains damage trust and may be unlawful." }
+];
+
+// Templates for the Product Toolkit
+const TEMPLATES = [
+  { id: "problem", name: "Problem statement", m: 1, how: "Use before any solution discussion. Keep it to three or four sentences and cite your evidence.",
+    t: "USER: [Who is struggling?]\nSITUATION: [When and where does it happen?]\nPROBLEM: [What are they trying to do, and what gets in the way?]\nEVIDENCE: [Data, quotes, or tickets that show this is real]\nIMPACT: [Why it matters to users and the business]",
+    ex: "USER: Kirana store owners using KiranaNow for the first time\nSITUATION: Adding their first 50 products during setup\nPROBLEM: Typing each product name and price takes too long, so many give up\nEVIDENCE: 7 of 10 interviewed owners stopped before listing 20 products (illustrative)\nIMPACT: Stores that never finish setup never receive orders" },
+  { id: "interview", name: "Customer interview guide", m: 2, how: "Ask about real past behaviour. Listen more than you talk. Record quotes, not your interpretations.",
+    t: "INTRO (2 min): Thank them, explain purpose, ask consent to take notes.\nCONTEXT (5 min): Tell me about your role / a typical day.\nLAST TIME (15 min): Tell me about the last time you [did the task]. What happened first? Then? What was hardest?\nWORKAROUNDS (5 min): What do you use today? What do you like or dislike about it?\nWRAP-UP (3 min): Anything else I should have asked? May we follow up?",
+    ex: "LAST TIME: Tell me about the last time you restocked your shop. Where did you order from? How did you know what to order? What went wrong?" },
+  { id: "persona", name: "Persona", m: 2, how: "Build from interview patterns, not imagination. Focus on goals and behaviours rather than demographics.",
+    t: "NAME AND ROLE: [Archetype name, role]\nGOALS: [What they want to achieve]\nBEHAVIOURS: [How they work today]\nPAIN POINTS: [What frustrates them]\nTECH AND CONTEXT: [Devices, language, connectivity]\nQUOTE: [A real representative quote]",
+    ex: "NAME AND ROLE: Ravi, owner of a kirana store in Indore\nGOALS: Get more regular customers ordering from home\nBEHAVIOURS: Takes orders on WhatsApp, restocks twice a week\nPAIN POINTS: Missed messages, no time to update prices\nTECH AND CONTEXT: Mid-range Android phone, prefers Hindi\nQUOTE: 'Customers message me at 9 pm when I'm busiest.' (illustrative)" },
+  { id: "jtbd", name: "Jobs-to-be-Done statement", m: 2, how: "Write one statement per distinct job. Avoid naming your product or a feature.",
+    t: "When [situation],\nI want to [motivation],\nso I can [expected outcome].",
+    ex: "When I run out of essentials late in the evening,\nI want to order from a store I already trust,\nso I can get what I need without leaving home." },
+  { id: "lean", name: "Lean canvas", m: 2, how: "Fill it in one sitting, then mark which boxes are assumptions to test.",
+    t: "PROBLEM: [Top 3 problems]\nCUSTOMER SEGMENTS: [Target customers, early adopters]\nUNIQUE VALUE PROPOSITION: [Single clear message]\nSOLUTION: [Top 3 features]\nCHANNELS: [Path to customers]\nREVENUE STREAMS: [How you earn]\nCOST STRUCTURE: [Main costs]\nKEY METRICS: [What you measure]\nUNFAIR ADVANTAGE: [What can't easily be copied]",
+    ex: "PROBLEM: Local stores can't take online orders easily\nCUSTOMER SEGMENTS: Kirana stores in tier-2 cities; early adopters already using WhatsApp\nUNIQUE VALUE PROPOSITION: Your store online in 10 minutes, in your language\nSOLUTION: Photo-based catalogue, order inbox, UPI payments\nCHANNELS: Field agents, distributor partnerships\nREVENUE STREAMS: Monthly subscription\nCOST STRUCTURE: Field sales, cloud hosting, support\nKEY METRICS: Stores activated, weekly orders per store\nUNFAIR ADVANTAGE: Distributor relationships (illustrative)" },
+  { id: "prd", name: "One-page PRD", m: 4, how: "Write the problem and success metrics first. Keep non-goals explicit. Update it as you learn.",
+    t: "TITLE:\nOWNER / DATE:\nPROBLEM: [Who, what, evidence]\nGOALS AND SUCCESS METRICS: [Outcome + target]\nTARGET USERS:\nSCOPE: [In]\nNON-GOALS: [Out]\nUSER STORIES: [Links or list]\nDESIGN: [Wireframe links]\nRISKS AND OPEN QUESTIONS: [With owners]\nLAUNCH PLAN: [Rollout, metrics to watch]",
+    ex: "TITLE: Photo-based product catalogue\nPROBLEM: New stores abandon setup when typing products (7/10 interviews)\nGOALS: Raise setup completion from 35% to 60% in 8 weeks (illustrative)\nSCOPE: Snap shelf photo → suggested product list → confirm prices\nNON-GOALS: Barcode scanning; bulk Excel import\nRISKS: Recognition accuracy on regional brands (owner: tech lead)" },
+  { id: "story", name: "User story with acceptance criteria", m: 4, how: "One user, one need, one benefit. Each criterion must be testable.",
+    t: "As a [user type],\nI want to [action],\nso that [benefit].\n\nAcceptance criteria:\nGiven [context], when [action], then [result].\nGiven [context], when [action], then [result].",
+    ex: "As a repeat customer,\nI want to reorder a past basket,\nso that I save time on weekly shopping.\n\nAcceptance criteria:\nGiven a past order, when I tap Reorder, then available items are added to my cart.\nGiven an item is out of stock, when I reorder, then it is flagged with a suggested substitute." },
+  { id: "abtest", name: "A/B test plan", m: 5, how: "Agree every field before the test starts, and don't stop early.",
+    t: "HYPOTHESIS: If we [change], then [metric] will [direction], because [reason].\nPRIMARY METRIC:\nGUARDRAIL METRICS:\nAUDIENCE AND SPLIT:\nMINIMUM SAMPLE / DURATION:\nSUCCESS CRITERIA:\nDECISION: Ship / iterate / drop",
+    ex: "HYPOTHESIS: If we show estimated delivery time on product pages, checkout conversion will rise, because uncertainty causes drop-off.\nPRIMARY METRIC: Checkout conversion\nGUARDRAIL METRICS: Late-delivery complaints, refund rate\nAUDIENCE AND SPLIT: All app users, 50/50\nMINIMUM DURATION: Two full weeks (covers weekdays and weekends)\nSUCCESS CRITERIA: Statistically significant lift; guardrails unchanged" },
+  { id: "launch", name: "Launch checklist", m: 5, how: "Match the checklist to the launch tier. Assign an owner to every line.",
+    t: "[ ] Success metrics and dashboard ready\n[ ] Rollout plan (% of users, regions)\n[ ] Rollback trigger defined\n[ ] Support team briefed, FAQs written\n[ ] Sales / partners briefed\n[ ] In-app messaging and release notes\n[ ] Accessibility and language checks\n[ ] Legal and privacy review\n[ ] Post-launch review date set",
+    ex: "Rollback trigger: payment failure rate above 2% for 30 minutes (illustrative)\nPost-launch review: 14 days after 100% rollout" },
+  { id: "dashboard", name: "Metrics dashboard outline", m: 5, how: "Lead with the North Star, then the AARRR stages, then guardrails. Keep it to one screen.",
+    t: "NORTH STAR:\nACQUISITION: [metric]\nACTIVATION: [metric]\nRETENTION: [metric + cohort view]\nREFERRAL: [metric]\nREVENUE: [metric]\nGUARDRAILS: [support tickets, errors, complaints]\nREVIEW CADENCE: [weekly / monthly]",
+    ex: "NORTH STAR: Weekly orders per active store\nACQUISITION: New stores signed up\nACTIVATION: Stores receiving first order within 7 days\nRETENTION: Stores active in week 4 (by cohort)\nREFERRAL: Stores joining via another store's invite\nREVENUE: Paid subscriptions\nGUARDRAILS: Order cancellation rate, support tickets per store" }
+];
+
+// RICE sample backlog (illustrative, fictional app "KiranaNow")
+const RICE_SAMPLE = [
+  ["One-tap reorder of past baskets", 6000, 2, 80, 2],
+  ["Out-of-stock substitution suggestions", 5000, 1, 80, 2],
+  ["Store ratings and reviews", 7000, 0.5, 100, 2],
+  ["Live delivery tracking", 8000, 1, 80, 4],
+  ["Scheduled delivery slots", 5000, 1, 80, 3],
+  ["Hindi and Tamil language support", 4000, 2, 80, 5],
+  ["UPI autopay for monthly orders", 1500, 2, 50, 3],
+  ["Dark mode", 2000, 0.25, 100, 1],
+  ["Loyalty points", 6000, 0.5, 50, 4],
+  ["Voice search", 3000, 1, 50, 6]
+];
+
+// Cases (illustrative, fictional companies)
+const CASES = [
+  { title: "Finding fit in smaller cities", m: 2, tag: "Discovery · Product–market fit",
+    context: "BazaarBox (fictional) is an online fashion marketplace that grew quickly in metro cities. Leadership wants to expand to tier-2 and tier-3 cities, where many shoppers are first-time online buyers, prefer regional languages, and are cautious about payment and returns.",
+    problem: "Early pilots in two smaller cities show high app installs but very few first orders.",
+    info: ["Most pilot users browse for 3–5 minutes and leave without adding to cart.", "Support calls mention size confusion and fear that returns are complicated.", "Cash on delivery is requested far more often than in metros.", "All figures in this scenario are illustrative."],
+    questions: ["What discovery research would you run before changing the product? Whom would you interview?", "Write two JTBD statements for a first-time shopper in a smaller city.", "Which activation metric would tell you the pilot is working?"],
+    framework: "Jobs-to-be-Done, customer journey map, AARRR (activation focus)" },
+  { title: "The crowded backlog", m: 3, tag: "Strategy · Prioritisation",
+    context: "LedgerLite (fictional) sells accounting software to small businesses. The team of eight engineers has 40 open feature requests from sales, support, and the founders. The company's strategy this year is to reduce churn among businesses in their first three months.",
+    problem: "Sales wants multi-currency invoicing for two prospects; support wants better bank-reconciliation; the founder wants an AI assistant.",
+    info: ["Most churned customers never connected their bank account (illustrative).", "Multi-currency would serve a small share of current customers.", "The AI assistant has no defined use case yet."],
+    questions: ["Score the three requests with RICE. What assumptions drive your Confidence values?", "Which request best serves the strategy? How would you explain your decision to sales and the founder?", "Build a Now–Next–Later roadmap for the next two quarters."],
+    framework: "RICE, North Star and input metrics, Now–Next–Later roadmap" },
+  { title: "An MVP for doctor appointments", m: 4, tag: "Delivery · MVP and PRD",
+    context: "CareSlot (fictional) wants to help patients book appointments with neighbourhood clinics that today rely on phone calls and paper registers.",
+    problem: "The team's MVP scope has grown to include payments, reminders, reviews, and video consultations, and the estimate has reached five months.",
+    info: ["Clinic receptionists say phones ring constantly during peak hours.", "Patients complain about long waits even with a booked time.", "Many clinics have one shared computer and unreliable internet."],
+    questions: ["What is the single riskiest assumption? Design an MVP that tests it in under six weeks.", "Write three user stories with acceptance criteria for the MVP.", "Which accessibility and low-connectivity considerations must the MVP include?"],
+    framework: "Four product risks, MVP scoping, user stories and acceptance criteria" },
+  { title: "Growth without retention", m: 5, tag: "Growth · Analytics",
+    context: "SkillSprint (fictional) is a mobile learning app for young professionals. A large ad campaign tripled monthly sign-ups.",
+    problem: "Revenue barely moved. The board asks whether to double the ad budget.",
+    info: ["Week-1 retention fell after the campaign: new users were less engaged.", "Only a minority of new users finish their first lesson.", "Users who finish three lessons in week 1 retain far better (illustrative)."],
+    questions: ["Use AARRR to locate the leak. Which stage should get investment first?", "Define an activation metric and design one A/B test to improve it.", "What would you advise the board about the ad budget, and why?"],
+    framework: "AARRR funnel, cohort retention, A/B test plan" },
+  { title: "The urgency banner", m: 5, tag: "Responsible PM · Ethics",
+    context: "TripTrove (fictional), a travel-booking platform, tested a banner saying 'Only 2 rooms left at this price!' on hotel pages.",
+    problem: "Conversion rose in the test, but complaints increased when users found many rooms available later. A regulator's guidelines on dark patterns are under discussion internally.",
+    info: ["The room count came from a cached feed that was often out of date.", "The test had no guardrail metrics for complaints or refunds.", "Competitors use similar banners."],
+    questions: ["Was the test a success? What should the PM have defined before running it?", "Redesign the banner so it informs rather than pressures.", "How would you make the case for the ethical option to a growth-focused leadership team?"],
+    framework: "A/B test plan with guardrails, dark-pattern checklist, stakeholder communication" }
+];
+
+// Shared PowerPoint builder (browser and Node). buildDeck(PptxGenJS, module) -> pptx instance
+const DECK = { navy: "1B2A4A", teal: "0F8B8D", tealLight: "DDF1F0", orange: "E07A1F", ink: "1F2937", grey: "6B7280", paper: "FFFFFF", mist: "F3F6F9" };
+const FONT_H = "Calibri", FONT_B = "Calibri";
+
+function plcValues(retention) {
+  return retention ? [100, 46, 33, 28, 26, 25, 25] : [4, 12, 35, 70, 92, 98, 90, 70, 45];
+}
+
+function buildDeck(PptxGenJS, mod) {
+  const C = DECK;
+  const pptx = new PptxGenJS();
+  pptx.layout = "LAYOUT_WIDE"; // 13.33 x 7.5 in
+  pptx.author = "Product Management course";
+  pptx.title = "Module " + mod.id + ": " + mod.title;
+  const W = 13.33;
+  const total = mod.slides.length;
+
+  function frame(slide, title, idx) {
+    slide.background = { color: C.paper };
+    slide.addShape(pptx.ShapeType.rect, { x: 0, y: 0, w: 0.18, h: 7.5, fill: { color: C.teal }, line: { color: C.teal } });
+    slide.addText(title, { x: 0.6, y: 0.35, w: W - 1.2, h: 0.9, fontFace: FONT_H, fontSize: 30, bold: true, color: C.navy, valign: "middle" });
+    slide.addShape(pptx.ShapeType.line, { x: 0.6, y: 1.3, w: 1.4, h: 0, line: { color: C.orange, width: 3 } });
+    slide.addText("Product Management · Module " + mod.id + " · " + mod.short, { x: 0.6, y: 6.95, w: 8, h: 0.35, fontFace: FONT_B, fontSize: 11, color: C.grey });
+    slide.addText(String(idx + 1) + " / " + total, { x: W - 2.1, y: 6.95, w: 1.5, h: 0.35, fontFace: FONT_B, fontSize: 11, color: C.grey, align: "right" });
+  }
+
+  function bulletList(slide, items, opts) {
+    const o = Object.assign({ x: 0.8, y: 1.6, w: W - 1.6, h: 5.1, size: 22, numbered: false }, opts || {});
+    slide.addText(items.map(t => ({ text: t, options: { bullet: o.numbered ? { type: "number" } : { code: "25A0" }, paraSpaceAfter: 10 } })),
+      { x: o.x, y: o.y, w: o.w, h: o.h, fontFace: FONT_B, fontSize: o.size, color: C.ink, valign: "top" });
+  }
+
+  function connector(slide, x1, y1, x2, y2, wpt) {
+    slide.addShape(pptx.ShapeType.line, { x: Math.min(x1, x2), y: y1, w: Math.max(0.01, Math.abs(x2 - x1)), h: y2 - y1, flipH: x2 < x1, line: { color: C.grey, width: wpt } });
+  }
+
+  mod.slides.forEach((s, idx) => {
+    const slide = pptx.addSlide();
+    if (s.k === "title") {
+      slide.background = { color: C.navy };
+      slide.addShape(pptx.ShapeType.rect, { x: 0, y: 5.9, w: W, h: 0.12, fill: { color: C.teal }, line: { color: C.teal } });
+      slide.addText(s.s, { x: 0.9, y: 1.6, w: 11, h: 0.5, fontFace: FONT_B, fontSize: 18, color: "9FE3DF", bold: true });
+      slide.addText(s.t, { x: 0.9, y: 2.2, w: 11.5, h: 2.2, fontFace: FONT_H, fontSize: 44, bold: true, color: "FFFFFF", valign: "top" });
+      slide.addText(mod.tagline, { x: 0.9, y: 4.5, w: 11, h: 0.8, fontFace: FONT_B, fontSize: 20, color: "D7DEE8" });
+      slide.addText("MBA / PGDM", { x: 0.9, y: 6.3, w: 6, h: 0.4, fontFace: FONT_B, fontSize: 14, color: "9FE3DF" });
+    } else {
+      frame(slide, s.t, idx);
+      if (s.k === "bullets" || s.k === "recap") {
+        bulletList(slide, s.b);
+      } else if (s.k === "activity" || s.k === "questions") {
+        slide.addShape(pptx.ShapeType.roundRect, { x: 0.8, y: 1.6, w: 2.2, h: 0.5, rectRadius: 0.1, fill: { color: s.k === "activity" ? C.orange : C.teal }, line: { color: s.k === "activity" ? C.orange : C.teal } });
+        slide.addText(s.k === "activity" ? "CLASS ACTIVITY" : "DISCUSS", { x: 0.8, y: 1.6, w: 2.2, h: 0.5, fontFace: FONT_B, fontSize: 13, bold: true, color: "FFFFFF", align: "center", valign: "middle" });
+        bulletList(slide, s.b, { y: 2.35, h: 4.4, numbered: true });
+      } else if (s.k === "two") {
+        [[s.l, 0.8, C.navy], [s.r, 6.9, C.teal]].forEach(([col, x, colr]) => {
+          slide.addShape(pptx.ShapeType.rect, { x, y: 1.6, w: 5.6, h: 0.65, fill: { color: colr }, line: { color: colr } });
+          slide.addText(col.h, { x: x + 0.2, y: 1.6, w: 5.2, h: 0.65, fontFace: FONT_H, fontSize: 20, bold: true, color: "FFFFFF", valign: "middle" });
+          slide.addShape(pptx.ShapeType.rect, { x, y: 2.25, w: 5.6, h: 4.3, fill: { color: C.mist }, line: { color: "DDE3EA" } });
+          bulletList(slide, col.i, { x: x + 0.2, y: 2.45, w: 5.2, h: 3.9, size: 19 });
+        });
+      } else if (s.k === "table") {
+        const rows = [s.h.map(h => ({ text: h, options: { bold: true, color: "FFFFFF", fill: { color: C.navy } } }))]
+          .concat(s.rows.map((r, i) => r.map(c => ({ text: c, options: { fill: { color: i % 2 ? "FFFFFF" : C.mist } } }))));
+        slide.addTable(rows, { x: 0.8, y: 1.65, w: W - 1.6, fontFace: FONT_B, fontSize: 17, color: C.ink, border: { type: "solid", color: "DDE3EA", pt: 1 }, rowH: 0.62, valign: "middle", margin: 0.08 });
+      } else if (s.k === "steps") {
+        const n = s.st.length, gap = 0.25, w = (W - 1.6 - gap * (n - 1)) / n;
+        s.st.forEach(([a, b], i) => {
+          const x = 0.8 + i * (w + gap);
+          slide.addShape(pptx.ShapeType.roundRect, { x, y: 2.4, w, h: 2.6, rectRadius: 0.12, fill: { color: i % 2 ? C.tealLight : C.mist }, line: { color: C.teal, width: 1.5 } });
+          slide.addShape(pptx.ShapeType.ellipse, { x: x + w / 2 - 0.3, y: 2.05, w: 0.6, h: 0.6, fill: { color: C.orange }, line: { color: "FFFFFF", width: 2 } });
+          slide.addText(String(i + 1), { x: x + w / 2 - 0.3, y: 2.05, w: 0.6, h: 0.6, fontFace: FONT_B, fontSize: 16, bold: true, color: "FFFFFF", align: "center", valign: "middle" });
+          slide.addText(a, { x: x + 0.1, y: 2.85, w: w - 0.2, h: 0.8, fontFace: FONT_H, fontSize: 20, bold: true, color: C.navy, align: "center", valign: "middle" });
+          slide.addText(b, { x: x + 0.15, y: 3.65, w: w - 0.3, h: 1.2, fontFace: FONT_B, fontSize: 15, color: C.ink, align: "center", valign: "top" });
+          if (i < n - 1) slide.addShape(pptx.ShapeType.rightArrow, { x: x + w + 0.02, y: 3.55, w: gap - 0.04, h: 0.3, fill: { color: C.teal }, line: { color: C.teal } });
+        });
+      } else if (s.k === "venn") {
+        const pos = [[4.2, 1.6], [6.3, 1.6], [5.25, 3.3]], cols = [C.navy, C.teal, C.orange];
+        pos.forEach(([x, y], i) => slide.addShape(pptx.ShapeType.ellipse, { x, y, w: 3.2, h: 3.2, fill: { color: cols[i], transparency: 70 }, line: { color: cols[i], width: 2 } }));
+        const lp = [[2.2, 2.3, "right"], [9.6, 2.3, "left"], [5.25, 6.45, "center"]];
+        s.c.forEach((t, i) => slide.addText(t, { x: lp[i][2] === "center" ? lp[i][0] : (lp[i][2] === "right" ? lp[i][0] : lp[i][0]), y: lp[i][1], w: lp[i][2] === "center" ? 3.2 : 1.9, h: 0.5, fontFace: FONT_H, fontSize: 18, bold: true, color: cols[i], align: lp[i][2] }));
+        slide.addText(s.centre, { x: 5.95, y: 3.45, w: 1.8, h: 0.6, fontFace: FONT_H, fontSize: 24, bold: true, color: C.navy, align: "center" });
+      } else if (s.k === "matrix") {
+        const cols = [C.tealLight, "E7EDF5", "FFF1E3", C.mist];
+        s.q.forEach(([a, b], i) => {
+          const x = 1.6 + (i % 2) * 5.2, y = 1.6 + Math.floor(i / 2) * 2.6;
+          slide.addShape(pptx.ShapeType.rect, { x, y, w: 5.0, h: 2.45, fill: { color: cols[i] }, line: { color: "CBD5E1" } });
+          slide.addText(a, { x: x + 0.25, y: y + 0.25, w: 4.5, h: 0.6, fontFace: FONT_H, fontSize: 22, bold: true, color: C.navy });
+          slide.addText(b, { x: x + 0.25, y: y + 0.95, w: 4.5, h: 1.3, fontFace: FONT_B, fontSize: 17, color: C.ink, valign: "top" });
+        });
+      } else if (s.k === "funnel") {
+        const n = s.lv.length, h = Math.min(0.95, 4.9 / n);
+        s.lv.forEach(([a, b], i) => {
+          const w = 7.2 - i * (4.4 / Math.max(1, n - 1)), x = 0.8 + (7.2 - w) / 2, y = 1.6 + i * (h + 0.08);
+          slide.addShape(pptx.ShapeType.rect, { x, y, w, h, fill: { color: i % 2 ? C.teal : C.navy }, line: { color: "FFFFFF" } });
+          slide.addText(a, { x, y, w, h, fontFace: FONT_H, fontSize: 18, bold: true, color: "FFFFFF", align: "center", valign: "middle" });
+          slide.addText(b, { x: 8.3, y, w: 4.4, h, fontFace: FONT_B, fontSize: 16, color: C.ink, valign: "middle" });
+        });
+      } else if (s.k === "tree") {
+        slide.addShape(pptx.ShapeType.roundRect, { x: 4.4, y: 1.55, w: 4.5, h: 0.75, rectRadius: 0.1, fill: { color: C.navy }, line: { color: C.navy } });
+        slide.addText(s.root, { x: 4.4, y: 1.55, w: 4.5, h: 0.75, fontFace: FONT_H, fontSize: 17, bold: true, color: "FFFFFF", align: "center", valign: "middle" });
+        s.mid.forEach((m, i) => {
+          const x = 1.4 + i * 5.8;
+          connector(slide, 6.65, 2.3, x + 2.25, 3.05, 1.5);
+          slide.addShape(pptx.ShapeType.roundRect, { x, y: 3.05, w: 4.5, h: 0.75, rectRadius: 0.1, fill: { color: C.tealLight }, line: { color: C.teal } });
+          slide.addText(m, { x, y: 3.05, w: 4.5, h: 0.75, fontFace: FONT_B, fontSize: 16, bold: true, color: C.navy, align: "center", valign: "middle" });
+          s.leaf.slice(i * 2, i * 2 + 2).forEach((l, j) => {
+            const lx = x - 0.4 + j * 2.75;
+            connector(slide, x + 2.25, 3.8, lx + 1.2, 4.6, 1.2);
+            slide.addShape(pptx.ShapeType.roundRect, { x: lx, y: 4.6, w: 2.4, h: 0.75, rectRadius: 0.1, fill: { color: "FFF1E3" }, line: { color: C.orange } });
+            slide.addText(l, { x: lx, y: 4.6, w: 2.4, h: 0.75, fontFace: FONT_B, fontSize: 14, color: C.ink, align: "center", valign: "middle" });
+          });
+        });
+        slide.addText("Outcome → opportunities → solutions → experiments", { x: 0.8, y: 5.9, w: 11.7, h: 0.5, fontFace: FONT_B, fontSize: 15, italic: true, color: C.grey, align: "center" });
+      } else if (s.k === "curve") {
+        const vals = plcValues(s.retention);
+        const labels = vals.map((_, i) => s.retention ? "P" + i : "");
+        const data = [{ name: s.retention ? "Retained users (%)" : "Sales", labels, values: vals }];
+        if (s.retention) data.push({ name: "No fit (falls to zero)", labels, values: [100, 40, 20, 10, 5, 2, 1] });
+        slide.addChart(pptx.ChartType.line, data, { x: 0.8, y: 1.5, w: 7.6, h: 4.9, chartColors: [C.teal, C.orange], lineSize: 3, lineDataSymbol: "none", catAxisHidden: true, valAxisHidden: !s.retention, valAxisMaxVal: s.retention ? 100 : 100, valAxisMinVal: 0, showLegend: !!s.retention, legendPos: "b", legendFontSize: 12, valGridLine: { style: "none" } });
+        s.labels.forEach((lab, i) => {
+          const y = 1.6 + i * 1.2;
+          slide.addShape(pptx.ShapeType.roundRect, { x: 8.8, y, w: 3.9, h: 1.05, rectRadius: 0.08, fill: { color: i % 2 ? C.tealLight : C.mist }, line: { color: "DDE3EA" } });
+          slide.addText([{ text: lab, options: { bold: true, color: C.navy, fontSize: 17, breakLine: true } }, { text: s.tips[i], options: { color: C.ink, fontSize: 14 } }], { x: 9.0, y, w: 3.6, h: 1.05, fontFace: FONT_B, valign: "middle" });
+        });
+        slide.addText("Illustrative shape, not real data", { x: 0.8, y: 6.4, w: 7.6, h: 0.35, fontFace: FONT_B, fontSize: 11, italic: true, color: C.grey, align: "center" });
+      }
+    }
+    if (s.n) slide.addNotes(s.n);
+  });
+  return pptx;
+}
+
+if (typeof module !== "undefined") module.exports = { buildDeck, plcValues, DECK };
+
+(function () {
+"use strict";
+const STAGES = ["Understand", "Discover", "Decide", "Deliver", "Grow"];
+// Spread correct answers across A–D (numeric option lists keep their ascending order)
+(function balance() {
+  const T = [2, 0, 3, 1, 0, 2, 3, 1]; let k = 0;
+  const bal = q => { if (q.o.every(o => /^[₹\d]/.test(o))) return; const t = T[k++ % T.length]; const a = q.a; [q.o[a], q.o[t]] = [q.o[t], q.o[a]]; q.a = t; };
+  QUIZ.forEach(bal); MODULES.forEach(m => m.check.forEach(bal));
+})();
+const $ = (s, el) => (el || document).querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const inr = n => Number(n).toLocaleString("en-IN", { maximumFractionDigits: 0 });
+
+// ---------- storage (best effort) ----------
+const store = {
+  get(k, d) { try { const v = localStorage.getItem("pmportal:" + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem("pmportal:" + k, JSON.stringify(v)); } catch (e) { /* ignore */ } }
+};
+
+// ---------- state ----------
+const S = {
+  route: "home",
+  done: new Set(store.get("done", [])),
+  best: store.get("best", null),
+  gq: "", gm: 0, gl: "", gsort: "az", gfocus: null,
+  deck: 1, slide: {}, notes: true,
+  kc: {},
+  quiz: freshQuiz(),
+  rice: store.get("rice", null) || sampleRice(),
+  caseM: 0,
+  challenge: false
+};
+function freshQuiz() { return { i: 0, sel: QUIZ.map(() => null), sub: QUIZ.map(() => false), finished: false }; }
+function sampleRice() { return RICE_SAMPLE.map(r => ({ name: r[0], reach: r[1], impact: r[2], conf: r[3], effort: r[4] })); }
+const modById = id => MODULES.find(m => m.id === id);
+const tplById = id => TEMPLATES.find(t => t.id === id);
+
+// ---------- downloads capability ----------
+let dlPromise = (async () => {
+  try { if (window.claude && typeof window.claude.use === "function") return await window.claude.use("downloads"); } catch (e) { /* none */ }
+  return null;
+})();
+
+async function downloadDeck(id, statusEl) {
+  const mod = modById(id);
+  const say = (msg, cls) => { if (statusEl) { statusEl.textContent = msg; statusEl.className = "note " + (cls || ""); } };
+  // On a normal website (not inside Claude), serve the prebuilt .pptx file directly
+  if (!(window.claude && typeof window.claude.use === "function")) {
+    const a = document.createElement("a");
+    a.href = "decks/PM_Module" + id + "_" + mod.short + ".pptx"; a.download = "PM_Module" + id + "_" + mod.short + ".pptx";
+    document.body.appendChild(a); a.click(); a.remove();
+    say("Downloading PM_Module" + id + "_" + mod.short + ".pptx", "copy-ok"); return;
+  }
+  if (typeof window.PptxGenJS !== "function") { say("The PowerPoint generator didn't load. Check your connection and reload the page. You can still use the slide viewer."); return; }
+  say("Preparing the PowerPoint file…");
+  const dl = await dlPromise;
+  if (!dl) { say("File downloads aren't available in this view. Use the slide viewer, or ask your instructor for the .pptx files."); return; }
+  try {
+    const pptx = buildDeck(window.PptxGenJS, mod);
+    const blob = await pptx.write({ outputType: "blob" });
+    const res = await dl.save({ filename: "PM_Module" + id + "_" + mod.short + ".pptx", data: blob });
+    say(res && res.status === "delivered" ? "File sent." : "Saved: PM_Module" + id + "_" + mod.short + ".pptx", "copy-ok");
+  } catch (e) {
+    const code = e && e.code;
+    if (code === "declined") say("Download cancelled.");
+    else if (code === "rate_limited") say("A download prompt is already open. Finish that one first.");
+    else say("The file couldn't be saved here. Use the slide viewer instead.");
+  }
+}
+
+// ---------- copy ----------
+function copyText(text, btn) {
+  const done = ok => {
+    const s = btn.parentElement.querySelector(".copy-status");
+    if (s) { s.textContent = ok ? "Copied" : "Select the text and press Ctrl+C (Cmd+C on Mac)"; s.className = "copy-status " + (ok ? "copy-ok" : "note"); }
+  };
+  try {
+    navigator.clipboard.writeText(text).then(() => done(true), () => { selectNear(btn); done(false); });
+  } catch (e) { selectNear(btn); done(false); }
+}
+function selectNear(btn) {
+  const pre = btn.closest(".copy-block") && btn.closest(".copy-block").querySelector("pre");
+  if (!pre) return;
+  const r = document.createRange(); r.selectNodeContents(pre);
+  const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+}
+
+// ---------- slides ----------
+function slideHTML(mod, i) {
+  const s = mod.slides[i], tot = mod.slides.length;
+  if (s.k === "title") return `<div class="slide cover" role="img" aria-label="Title slide: ${esc(s.t)}"><div class="k">${esc(s.s)}</div><div class="t">${esc(s.t)}</div><div class="tg">${esc(mod.tagline)}</div><div class="stripe"></div></div>`;
+  let body = "";
+  const ul = (a, ord) => `<${ord ? "ol" : "ul"}>${a.map(x => `<li>${esc(x)}</li>`).join("")}</${ord ? "ol" : "ul"}>`;
+  switch (s.k) {
+    case "bullets": case "recap": body = ul(s.b); break;
+    case "activity": case "questions":
+      body = `<div class="s-tag" style="background:${s.k === "activity" ? "#E07A1F" : "#0F8B8D"}">${s.k === "activity" ? "CLASS ACTIVITY" : "DISCUSS"}</div>${ul(s.b, true)}`; break;
+    case "two":
+      body = `<div class="s-cols"><div><h4 style="background:#1B2A4A">${esc(s.l.h)}</h4>${ul(s.l.i)}</div><div><h4 style="background:#0F8B8D">${esc(s.r.h)}</h4>${ul(s.r.i)}</div></div>`; break;
+    case "table":
+      body = `<table class="s-table"><thead><tr>${s.h.map(h => `<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${s.rows.map(r => `<tr>${r.map(c => `<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table>`; break;
+    case "steps":
+      body = `<div class="s-steps">${s.st.map((x, j) => `<div><i>${j + 1}</i><b>${esc(x[0])}</b><span>${esc(x[1])}</span></div>`).join("")}</div>`; break;
+    case "matrix":
+      body = `<div class="s-matrix">${s.q.map((x, j) => `<div style="background:${["#DDF1F0", "#E7EDF5", "#FFF1E3", "#F3F6F9"][j]}"><b>${esc(x[0])}</b><span>${esc(x[1])}</span></div>`).join("")}</div>`; break;
+    case "funnel": {
+      const n = s.lv.length;
+      body = `<div class="s-funnel">${s.lv.map((x, j) => `<div><b style="width:${100 - j * (55 / Math.max(1, n - 1))}%;background:${j % 2 ? "#0F8B8D" : "#1B2A4A"}">${esc(x[0])}</b><span>${esc(x[1])}</span></div>`).join("")}</div>`; break;
+    }
+    case "tree":
+      body = `<div class="s-tree"><div class="r">${esc(s.root)}</div><div class="row">${s.mid.map(m => `<div class="m">${esc(m)}</div>`).join("")}</div><div class="row">${s.leaf.map(l => `<div class="l">${esc(l)}</div>`).join("")}</div><div style="font-style:italic;color:#6B7280;font-size:1.5cqw">Outcome → opportunities → solutions → experiments</div></div>`; break;
+    case "venn": {
+      const cols = ["#1B2A4A", "#0F8B8D", "#E07A1F"];
+      body = `<div class="s-venn">
+        <div class="c" style="left:28%;top:0;border-color:${cols[0]};background:${cols[0]}22"></div>
+        <div class="c" style="left:46%;top:0;border-color:${cols[1]};background:${cols[1]}22"></div>
+        <div class="c" style="left:37%;top:40%;border-color:${cols[2]};background:${cols[2]}22"></div>
+        <div class="lab" style="right:76%;top:18%;color:${cols[0]}">${esc(s.c[0])}</div>
+        <div class="lab" style="left:75%;top:18%;color:${cols[1]}">${esc(s.c[1])}</div>
+        <div class="lab" style="left:64%;top:84%;color:${cols[2]}">${esc(s.c[2])}</div>
+        <div class="lab" style="left:47%;top:33%;color:#1B2A4A;font-size:2.8cqw">${esc(s.centre)}</div></div>`; break;
+    }
+    case "curve": {
+      const v = plcValues(s.retention), X = j => 20 + j * (360 / (v.length - 1)), Y = y => 230 - y * 2;
+      const line = arr => arr.map((y, j) => `${X(j).toFixed(1)},${Y(y).toFixed(1)}`).join(" ");
+      const second = s.retention ? `<polyline points="${line([100, 40, 20, 10, 5, 2, 1])}" fill="none" stroke="#E07A1F" stroke-width="4" stroke-linejoin="round"/>` : "";
+      const legend = s.retention ? `<g font-size="12" fill="#374151"><rect x="40" y="244" width="14" height="4" fill="#0F8B8D"/><text x="60" y="250">Retained users (flattens)</text><rect x="220" y="244" width="14" height="4" fill="#E07A1F"/><text x="240" y="250">No fit (falls to zero)</text></g>` : `<text x="200" y="252" font-size="12" fill="#6B7280" text-anchor="middle">Sales over time (illustrative shape)</text>`;
+      body = `<div class="s-curve"><svg viewBox="0 0 400 260" role="img" aria-label="Illustrative curve"><line x1="20" y1="232" x2="385" y2="232" stroke="#9CA3AF" stroke-width="1.5"/><line x1="20" y1="20" x2="20" y2="232" stroke="#9CA3AF" stroke-width="1.5"/><polyline points="${line(v)}" fill="none" stroke="#0F8B8D" stroke-width="4" stroke-linejoin="round"/>${second}${legend}</svg><div class="tips">${s.labels.map((l, j) => `<div><b>${esc(l)}</b>${esc(s.tips[j])}</div>`).join("")}</div></div>`; break;
+    }
+  }
+  return `<div class="slide" role="img" aria-label="Slide ${i + 1}: ${esc(s.t)}"><div class="sbar"></div><div class="st">${esc(s.t)}</div><div class="sline"></div><div class="sbody">${body}</div><div class="sfoot"><span>Product Management · Module ${mod.id} · ${esc(mod.short)}</span><span>${i + 1} / ${tot}</span></div></div>`;
+}
+
+function viewerHTML(mod) {
+  const i = S.slide[mod.id] || 0, s = mod.slides[i];
+  return `<div class="viewer" data-viewer="${mod.id}">
+    ${slideHTML(mod, i)}
+    <div class="viewer-ctrl">
+      <div class="btn-row"><button class="btn ghost small" data-act="prev-slide" data-m="${mod.id}" ${i === 0 ? "disabled" : ""}>← Previous</button>
+      <button class="btn ghost small" data-act="next-slide" data-m="${mod.id}" ${i === mod.slides.length - 1 ? "disabled" : ""}>Next →</button>
+      <span class="note">Slide ${i + 1} of ${mod.slides.length}</span></div>
+      <label class="note"><input type="checkbox" id="notes-${mod.id}" data-act="toggle-notes" ${S.notes ? "checked" : ""}> Show speaker notes</label>
+    </div>
+    ${S.notes && s.n ? `<div class="callout"><span class="eyebrow">Speaker notes</span><p class="notes">${esc(s.n)}</p></div>` : ""}
+  </div>`;
+}
+function dlButton(id) {
+  return `<div class="btn-row"><button class="btn teal" data-act="download" data-m="${id}">Download PowerPoint</button><span class="note dl-status" aria-live="polite"></span></div>`;
+}
+
+// ---------- pages ----------
+function progressHTML() {
+  const n = S.done.size, pct = Math.round(n / 5 * 100);
+  return `<div class="progress"><div class="btn-row" style="justify-content:space-between"><strong>Course progress: ${n} of 5 modules complete</strong><span class="note">${S.best != null ? "Best quiz score: " + S.best + " / " + QUIZ.length : "Quiz not taken yet"}</span></div><div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}" aria-label="Modules completed"><i style="width:${pct}%"></i></div></div>`;
+}
+function trackHTML(full) {
+  return `<div class="track">${MODULES.map((m, k) => `<a class="mod-card ${S.done.has(m.id) ? "done" : ""}" href="#m${m.id}">
+    <div class="mod-num" aria-hidden="true">${S.done.has(m.id) ? "✓" : m.id}</div>
+    <span class="stage">${STAGES[k]}</span><h3>${esc(m.title)}</h3>
+    <ul>${(full ? m.outcomes : m.outcomes.slice(0, 3)).map(o => `<li>${esc(o)}</li>`).join("")}</ul>
+    ${full ? "" : `<span class="note">+${m.outcomes.length - 3} more outcomes</span>`}</a>`).join("")}</div>`;
+}
+
+function pageHome() {
+  return `<div class="page">
+  <section class="hero">
+    <span class="eyebrow">MBA / PGDM · Five modules</span>
+    <h1>Product Management: <span>Discover, Build, and Grow Products Customers Love</span></h1>
+    <p class="lede">Product managers decide which customer problems are worth solving, rally designers and engineers around them, and measure whether the product made a difference. Across Indian and global companies, from fintech and e-commerce to SaaS and consumer goods, this role turns strategy into products people use every day. This course takes you through the full cycle, with frameworks, cases, and hands-on tools at each step.</p>
+    ${progressHTML()}
+  </section>
+  <section class="section"><div class="btn-row" style="justify-content:space-between"><h2>Your course roadmap</h2><a class="btn ghost small" href="#syllabus">Full syllabus</a></div>${trackHTML(false)}</section>
+  <section class="section"><h2>Jump to</h2><div class="quick">
+    <a href="#presentations"><strong>Presentations</strong><span>Five decks with speaker notes</span></a>
+    <a href="#toolkit"><strong>Product Toolkit</strong><span>RICE calculator and 10 templates</span></a>
+    <a href="#glossary"><strong>Glossary</strong><span>${GLOSSARY.length} terms, searchable</span></a>
+    <a href="#quiz"><strong>Practice quiz</strong><span>${QUIZ.length} questions with explanations</span></a>
+    <a href="#cases"><strong>Case studies</strong><span>${CASES.length} classroom cases</span></a>
+  </div></section>
+  <section class="challenge">
+    <span class="eyebrow">Product challenge</span>
+    <h2>Weekly active users fell 15% in the two weeks after a home-screen redesign. What do you investigate first?</h2>
+    <p>Think it through before revealing an approach. There is no single right answer, but there is a disciplined order of questions.</p>
+    <button class="btn" data-act="challenge" aria-expanded="${S.challenge}">${S.challenge ? "Hide suggested approach" : "Reveal a suggested approach"}</button>
+    ${S.challenge ? `<div class="reveal"><ol class="steps">
+      <li><b>Check the data first.</b> Did tracking or the definition of "active" change with the release?</li>
+      <li><b>Segment the drop.</b> New vs existing users, Android vs iOS, regions, and app versions.</li>
+      <li><b>Find the step.</b> Where in the funnel do users now stop? Compare with the old flow.</li>
+      <li><b>Look for external causes.</b> Seasonality, outages, competitor campaigns, or marketing changes.</li>
+      <li><b>Hear from users.</b> Support tickets, reviews, and a few quick calls or session recordings.</li>
+      <li><b>Act safely.</b> Form a hypothesis and test a fix, or roll back behind a feature flag while you learn.</li></ol>
+      <p class="note">Related: Module 5 (AARRR, cohorts, A/B testing) and Module 4 (feature flags).</p></div>` : ""}
+  </section></div>`;
+}
+
+function pageSyllabus() {
+  return `<div class="page">
+  <section class="section"><span class="eyebrow">Course syllabus</span><h1>Product Management</h1>
+  <p class="lede">Five modules follow the life of a product: understand the role, discover problems, decide strategy and priorities, deliver solutions, and grow through launch and analytics. Each module combines concepts, Indian and global examples, a classroom activity, and a knowledge check.</p></section>
+  <section class="section"><h2>Suggested assessment plan</h2><p class="note">A suggested structure; adapt weights to your institution's norms.</p>
+  <div class="table-wrap"><table><thead><tr><th>Component</th><th>Linked modules</th><th>Description</th><th class="num">Weight</th></tr></thead><tbody>
+  <tr><td>Product teardown</td><td>1</td><td>One-page analysis of an existing product's problem, users, and outcomes</td><td class="num">10%</td></tr>
+  <tr><td>Discovery report</td><td>2</td><td>Interviews, JTBD statements, journey map, and bottom-up market size</td><td class="num">20%</td></tr>
+  <tr><td>Strategy and roadmap</td><td>3</td><td>North Star, OKRs, RICE-prioritised backlog, and Now–Next–Later roadmap</td><td class="num">20%</td></tr>
+  <tr><td>PRD and prototype</td><td>4</td><td>One-page PRD, user stories with acceptance criteria, and wireframes</td><td class="num">20%</td></tr>
+  <tr><td>Launch and metrics plan</td><td>5</td><td>GTM summary, metrics dashboard, and A/B test plan (group presentation)</td><td class="num">20%</td></tr>
+  <tr><td>Practice quiz and participation</td><td>1–5</td><td>Quiz completion, case discussions, and class activities</td><td class="num">10%</td></tr>
+  </tbody></table></div></section>
+  ${MODULES.map(m => `<section class="panel section" id="syl-${m.id}">
+    <span class="eyebrow">Module ${m.id} · ${STAGES[m.id - 1]}</span><h2>${esc(m.title)}</h2>
+    <p><b>Objective:</b> ${esc(m.tagline)}</p>
+    <div class="grid-2">
+      <div class="section"><h3>Topics and subtopics</h3><ul class="ticks">${m.topics.map(t => `<li><b>${esc(t.h)}</b><ul class="ticks note">${(t.points || []).map(p => `<li>${esc(p)}</li>`).join("")}</ul></li>`).join("")}</ul></div>
+      <div class="section"><h3>Learning outcomes</h3><ul class="ticks">${m.outcomes.map(o => `<li>${esc(o)}</li>`).join("")}</ul>
+      <h3>Practical application</h3><p>${esc(m.activity.steps.join(" "))}</p>
+      <h3>Assessment activity</h3><p>${esc(m.activity.deliverable)}</p>
+      <div class="btn-row"><a class="btn small" href="#m${m.id}">Open module</a></div></div>
+    </div></section>`).join("")}
+  </div>`;
+}
+
+function pageModules() {
+  return `<div class="page"><section class="section"><span class="eyebrow">Learning modules</span><h1>Five modules, one product cycle</h1><p class="lede">Work through the modules in order. Mark each one complete when you finish its knowledge check; your progress is saved in this browser.</p>${progressHTML()}</section>${trackHTML(true)}</div>`;
+}
+
+function kcHTML(m) {
+  const st = S.kc[m.id] || (S.kc[m.id] = m.check.map(() => ({ sel: null, sub: false })));
+  const right = st.filter((x, i) => x.sub && x.sel === m.check[i].a).length, subN = st.filter(x => x.sub).length;
+  return `<section class="panel section" id="kc"><div class="btn-row" style="justify-content:space-between"><h2>Knowledge check</h2>${subN === m.check.length ? `<span class="chip">${right} of ${m.check.length} correct</span>` : `<span class="note">${subN} of ${m.check.length} answered</span>`}</div>
+  ${m.check.map((q, qi) => {
+    const x = st[qi];
+    return `<div class="q"><p><b>${qi + 1}. ${esc(q.q)}</b></p><div class="opts" role="radiogroup">${q.o.map((o, oi) => {
+      const cls = x.sub ? (oi === q.a ? "right" : (oi === x.sel ? "wrong" : "")) : (oi === x.sel ? "sel" : "");
+      return `<button class="opt ${cls}" role="radio" aria-checked="${oi === x.sel}" data-act="kc-pick" data-m="${m.id}" data-q="${qi}" data-o="${oi}" ${x.sub ? "disabled" : ""}><span class="key">${"ABCD"[oi]}</span><span>${esc(o)}</span></button>`;
+    }).join("")}</div>
+    ${x.sub ? `<div class="feedback ${x.sel === q.a ? "ok" : "no"}"><b>${x.sel === q.a ? "Correct." : "Not quite. The answer is " + "ABCD"[q.a] + "."}</b><span>${esc(q.why)}</span></div>` : `<div><button class="btn small" data-act="kc-check" data-m="${m.id}" data-q="${qi}" ${x.sel == null ? "disabled" : ""}>Check answer</button></div>`}</div>`;
+  }).join("")}
+  ${subN === m.check.length ? `<div class="btn-row"><button class="btn ghost small" data-act="kc-reset" data-m="${m.id}">Try again</button></div>` : ""}
+  </section>`;
+}
+
+function pageModule(id) {
+  const m = modById(id);
+  return `<div class="page">
+  <section class="mod-head"><nav class="mod-nav" aria-label="Modules">${MODULES.map(x => `<a href="#m${x.id}" ${x.id === id ? 'aria-current="page"' : ""}>${x.id}. ${esc(x.short)}</a>`).join("")}</nav>
+  <span class="eyebrow">Module ${m.id} · ${STAGES[m.id - 1]}</span><h1>${esc(m.title)}</h1><p class="lede">${esc(m.tagline)}</p></section>
+  <div class="two-col">
+    <div class="page">
+      <section class="section"><h2>Overview</h2><p class="prose">${esc(m.overview)}</p></section>
+      <section class="section"><h2>Learning outcomes</h2><p class="note">By the end of this module you will be able to:</p><ul class="ticks">${m.outcomes.map(o => `<li>${esc(o)}</li>`).join("")}</ul></section>
+      <section class="section"><h2>Key concepts</h2><div class="chips">${m.concepts.map(c => `<span class="chip plain">${esc(c)}</span>`).join("")}</div></section>
+      <section class="section"><h2>Lecture notes</h2><div class="panel">${m.topics.map(t => `<div class="topic"><h3>${esc(t.h)}</h3><p class="prose">${esc(t.body)}</p>${t.points ? `<ul class="ticks">${t.points.map(p => `<li>${esc(p)}</li>`).join("")}</ul>` : ""}</div>`).join("")}</div></section>
+      <section class="callout"><span class="eyebrow">${esc(m.example.title)}</span><p>${esc(m.example.body)}</p></section>
+      <section class="callout orange"><span class="eyebrow" style="color:var(--orange)">${esc(m.miniCase.title)}</span><p>${esc(m.miniCase.context)}</p><p><b>Your decision:</b> ${esc(m.miniCase.question)}</p></section>
+      <section class="panel section"><h2>${esc(m.activity.title)}</h2><ol class="steps">${m.activity.steps.map(s => `<li>${esc(s)}</li>`).join("")}</ol><p><b>Deliverable:</b> ${esc(m.activity.deliverable)}</p></section>
+    </div>
+    <aside class="side">
+      <div class="panel section"><h3>Module presentation</h3><p class="note">12 slides with speaker notes. Preview below or download the editable file.</p>${dlButton(m.id)}<a class="btn ghost small" href="#slides-${m.id}" data-act="goto-slides" data-m="${m.id}">Preview slides</a></div>
+      <div class="panel section"><h3>Progress</h3><button class="btn ${S.done.has(m.id) ? "ghost" : ""}" data-act="toggle-done" data-m="${m.id}">${S.done.has(m.id) ? "✓ Completed (undo)" : "Mark module complete"}</button></div>
+      <div class="panel section"><h3>Glossary terms</h3><div class="chips">${m.glossary.map(g => `<button class="chip" data-act="term" data-term="${esc(g)}">${esc(g)}</button>`).join("")}</div></div>
+      <div class="panel section"><h3>Toolkit</h3><div class="chips">${m.templates.map(t => t === "rice" ? `<a class="chip orange" href="#toolkit">RICE calculator</a>` : `<button class="chip orange" data-act="tpl" data-t="${t}">${esc(tplById(t).name)}</button>`).join("")}</div></div>
+    </aside>
+  </div>
+  ${kcHTML(m)}
+  <section class="section" id="slides-${m.id}"><h2>Slides</h2>${viewerHTML(m)}</section>
+  <div class="btn-row" style="justify-content:space-between">${id > 1 ? `<a class="btn ghost" href="#m${id - 1}">← Module ${id - 1}</a>` : "<span></span>"}${id < 5 ? `<a class="btn" href="#m${id + 1}">Module ${id + 1} →</a>` : `<a class="btn" href="#quiz">Take the practice quiz →</a>`}</div>
+  </div>`;
+}
+
+function pagePresentations() {
+  const m = modById(S.deck);
+  return `<div class="page"><section class="section"><span class="eyebrow">Presentations</span><h1>Module slide decks</h1>
+  <p class="lede">Each deck has about 12 editable slides with frameworks, examples, an activity, a recap, and discussion questions. Speaker notes are included in the PowerPoint file.</p>
+  <p class="note">Downloads are generated in your browser. If your view doesn't allow file downloads, the slide viewer shows the same content.</p></section>
+  <section class="panel deck-list">${MODULES.map(x => `<div class="deck-row"><div><span class="eyebrow">Module ${x.id}</span><h3>${esc(x.title)}</h3><span class="note">${x.slides.length} slides</span></div>
+    <div class="btn-row"><button class="btn ghost small" data-act="view-deck" data-m="${x.id}" ${x.id === S.deck ? 'aria-pressed="true"' : ""}>${x.id === S.deck ? "Viewing" : "View slides"}</button>${dlButton(x.id)}</div></div>`).join('<hr style="border:0;border-top:1px solid var(--line);margin:0">')}</section>
+  <section class="section" id="deckview"><h2>Module ${m.id}: ${esc(m.title)}</h2>${viewerHTML(m)}</section></div>`;
+}
+
+function riceScore(r) {
+  const reach = +r.reach, imp = +r.impact, conf = +r.conf, eff = +r.effort;
+  if (!(eff > 0) || !(reach >= 0) || !(conf >= 0) || conf > 100 || !(imp > 0)) return null;
+  return reach * imp * (conf / 100) / eff;
+}
+function riceRows() {
+  return S.rice.map((r, i) => ({ r, i, s: riceScore(r) })).sort((a, b) => (b.s ?? -1) - (a.s ?? -1));
+}
+function riceBody() {
+  const rows = riceRows();
+  if (!rows.length) return `<tr><td colspan="8"><div class="empty">No features yet. Add one, or load the sample backlog.</div></td></tr>`;
+  return rows.map((x, k) => `<tr class="${k < 3 && x.s != null ? "top" : ""}" data-row="${x.i}">
+    <td class="rank">${x.s != null ? "#" + (k + 1) : "–"}</td>
+    <td><input type="text" id="rn-${x.i}" aria-label="Feature name" data-f="name" value="${esc(x.r.name)}"></td>
+    <td><input type="number" id="rr-${x.i}" aria-label="Reach" data-f="reach" min="0" step="100" value="${esc(x.r.reach)}"></td>
+    <td><select id="ri-${x.i}" aria-label="Impact" data-f="impact">${[0.25, 0.5, 1, 2, 3].map(v => `<option value="${v}" ${+x.r.impact === v ? "selected" : ""}>${v}</option>`).join("")}</select></td>
+    <td><input type="number" id="rc-${x.i}" aria-label="Confidence percent" data-f="conf" min="0" max="100" step="10" value="${esc(x.r.conf)}"></td>
+    <td><input type="number" id="re-${x.i}" aria-label="Effort in person-months" data-f="effort" min="0" step="0.5" value="${esc(x.r.effort)}"></td>
+    <td class="num rice-score">${x.s != null ? inr(x.s) : `<span class="err">Check inputs</span>`}</td>
+    <td><button class="btn ghost small" data-act="rice-del" data-i="${x.i}" aria-label="Delete ${esc(x.r.name)}">Delete</button></td></tr>`).join("");
+}
+
+function pageToolkit() {
+  return `<div class="page"><section class="section"><span class="eyebrow">Product Toolkit</span><h1>Tools and templates</h1><p class="lede">Prioritise a backlog with RICE, then use the templates to run discovery, write requirements, and plan launches. Every template has a worked example.</p></section>
+  <section class="panel section" id="rice"><div class="btn-row" style="justify-content:space-between"><div><h2>RICE prioritisation calculator</h2><p class="note">Score = Reach × Impact × Confidence ÷ Effort. Loaded with an illustrative backlog for a fictional grocery app, KiranaNow.</p></div></div>
+    <div class="table-wrap"><table class="rice-table"><thead><tr><th>Rank</th><th>Feature</th><th>Reach <span class="note">(users/qtr)</span></th><th>Impact</th><th>Confidence %</th><th>Effort <span class="note">(person-months)</span></th><th class="num">RICE score</th><th></th></tr></thead><tbody id="riceBody">${riceBody()}</tbody></table></div>
+    <div class="btn-row"><button class="btn" data-act="rice-add">Add feature</button><button class="btn ghost" data-act="rice-sort">Re-sort by score</button><button class="btn ghost" data-act="rice-sample">Load sample backlog</button><button class="btn ghost" data-act="rice-reset">Clear all</button></div>
+    <div class="grid-3 note"><p><b>Reach:</b> how many users the feature affects in a set period (for example, per quarter).</p><p><b>Impact:</b> effect per user: 3 massive, 2 high, 1 medium, 0.5 low, 0.25 minimal.</p><p><b>Confidence:</b> how sure you are about the estimates (100% high, 80% medium, 50% low). <b>Effort:</b> total person-months.</p></div>
+    <div class="callout"><p>RICE structures the debate; it doesn't make the decision. Check the top items against your strategy, dependencies, and risks before committing. Your table is saved in this browser.</p></div>
+  </section>
+  <section class="section"><h2>Templates</h2><div class="section">${TEMPLATES.map(t => `<details class="tpl-card" id="tpl-${t.id}" ${S.openTpl === t.id ? "open" : ""}><summary><span><span class="tag">Module ${t.m}</span> <b style="font-family:var(--f-display);font-size:1.1rem;margin-left:6px">${esc(t.name)}</b></span></summary>
+    <div class="tpl-body"><p><b>How to use:</b> ${esc(t.how)}</p>
+    <div class="grid-2"><div class="copy-block section"><h3>Template</h3><pre class="tpl">${esc(t.t)}</pre><div class="btn-row"><button class="btn small" data-act="copy" data-t="${t.id}" data-w="t">Copy template</button><span class="copy-status" aria-live="polite"></span></div></div>
+    <div class="copy-block section"><h3>Worked example</h3><pre class="tpl">${esc(t.ex)}</pre><div class="btn-row"><button class="btn ghost small" data-act="copy" data-t="${t.id}" data-w="ex">Copy example</button><span class="copy-status" aria-live="polite"></span></div></div></div></div></details>`).join("")}</div></section></div>`;
+}
+
+function glossList() {
+  const q = S.gq.trim().toLowerCase();
+  let list = GLOSSARY.filter(g => (!S.gm || g[3] === S.gm) && (!q || g[0].toLowerCase().includes(q) || g[1].toLowerCase().includes(q)) && (!S.gl || g[0][0].toUpperCase() === S.gl));
+  list = list.slice().sort((a, b) => S.gsort === "mod" ? (a[3] - b[3] || a[0].localeCompare(b[0])) : a[0].localeCompare(b[0]));
+  if (!list.length) return `<div class="empty">No terms match${q ? ` “${esc(S.gq)}”` : ""}. Try a shorter word or clear the filters.</div>`;
+  return `<p class="note">${list.length} term${list.length === 1 ? "" : "s"}</p><div class="grid-2">${list.map(g => `<article class="panel term" id="term-${slug(g[0])}"><div class="btn-row" style="justify-content:space-between"><h3>${esc(g[0])}</h3><a class="tag" href="#m${g[3]}">Module ${g[3]}</a></div><p>${esc(g[1])}</p><p class="ex"><b>Example:</b> ${esc(g[2])}</p></article>`).join("")}</div>`;
+}
+const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+function pageGlossary() {
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""), have = new Set(GLOSSARY.map(g => g[0][0].toUpperCase()));
+  return `<div class="page"><section class="section"><span class="eyebrow">Glossary</span><h1>Product Management terms</h1><p class="lede">${GLOSSARY.length} terms in plain language, each with an example and its module.</p></section>
+  <section class="section"><div class="filters">
+    <div class="field" style="flex:1 1 260px"><label for="gq">Search terms and definitions</label><input type="search" id="gq" value="${esc(S.gq)}" placeholder="e.g. retention, MVP, roadmap"></div>
+    <div class="field"><label for="gm">Module</label><select id="gm"><option value="0">All modules</option>${MODULES.map(m => `<option value="${m.id}" ${S.gm === m.id ? "selected" : ""}>${m.id}. ${esc(m.short)}</option>`).join("")}</select></div>
+    <div class="field"><label for="gs">Sort</label><select id="gs"><option value="az" ${S.gsort === "az" ? "selected" : ""}>A to Z</option><option value="mod" ${S.gsort === "mod" ? "selected" : ""}>By module</option></select></div>
+    <button class="btn ghost small" data-act="g-clear" style="align-self:end">Clear filters</button></div>
+    <div class="az" role="group" aria-label="Filter by first letter">${letters.map(l => `<button data-act="g-letter" data-l="${l}" aria-pressed="${S.gl === l}" ${have.has(l) ? "" : "disabled"}>${l}</button>`).join("")}</div>
+  </section><section id="glist">${glossList()}</section></div>`;
+}
+
+function pageQuiz() {
+  const z = S.quiz;
+  if (z.finished) return quizResults();
+  const q = QUIZ[z.i], sel = z.sel[z.i], sub = z.sub[z.i], answered = z.sub.filter(Boolean).length;
+  return `<div class="page"><section class="section"><span class="eyebrow">Practice quiz</span><h1>Test your product judgement</h1><p class="lede">${QUIZ.length} questions, five per module. Choose an answer and submit it to see the explanation. Your score appears at the end.</p></section>
+  <section class="panel section"><div class="quiz-top"><span class="tag">Question ${z.i + 1} of ${QUIZ.length} · Module ${q.m}</span><span class="note">${answered} answered</span></div>
+  <div class="bar"><i style="width:${Math.round(answered / QUIZ.length * 100)}%"></i></div>
+  <div class="dots" aria-label="Jump to question">${QUIZ.map((_, i) => `<button data-act="q-go" data-i="${i}" class="${i === z.i ? "cur" : ""} ${z.sub[i] ? "ans" : ""}" aria-label="Question ${i + 1}${z.sub[i] ? ", answered" : ""}">${i + 1}</button>`).join("")}</div>
+  <div class="q"><h2 style="font-size:1.35rem">${esc(q.q)}</h2><div class="opts" role="radiogroup">${q.o.map((o, oi) => {
+    const cls = sub ? (oi === q.a ? "right" : (oi === sel ? "wrong" : "")) : (oi === sel ? "sel" : "");
+    return `<button class="opt ${cls}" role="radio" aria-checked="${oi === sel}" data-act="q-pick" data-o="${oi}" ${sub ? "disabled" : ""}><span class="key">${"ABCD"[oi]}</span><span>${esc(o)}</span></button>`;
+  }).join("")}</div>
+  ${sub ? `<div class="feedback ${sel === q.a ? "ok" : "no"}"><b>${sel === q.a ? "Correct." : "Not quite. The answer is " + "ABCD"[q.a] + "."}</b><span>${esc(q.e)}</span></div>` : ""}</div>
+  <div class="btn-row" style="justify-content:space-between"><button class="btn ghost" data-act="q-prev" ${z.i === 0 ? "disabled" : ""}>← Previous</button>
+  <div class="btn-row">${sub ? "" : `<button class="btn teal" data-act="q-submit" ${sel == null ? "disabled" : ""}>Submit answer</button>`}
+  ${z.i < QUIZ.length - 1 ? `<button class="btn ${sub ? "" : "ghost"}" data-act="q-next">Next →</button>` : ""}
+  ${answered === QUIZ.length ? `<button class="btn" data-act="q-finish">See results</button>` : (z.i === QUIZ.length - 1 ? `<button class="btn ghost" data-act="q-finish">Finish now (${QUIZ.length - answered} unanswered)</button>` : "")}</div></div>
+  </section></div>`;
+}
+function quizResults() {
+  const z = S.quiz, right = QUIZ.filter((q, i) => z.sub[i] && z.sel[i] === q.a).length, pct = Math.round(right / QUIZ.length * 100);
+  const band = pct >= 80 ? "Excellent. You're making strong product calls. Try explaining your reasoning to a classmate." : pct >= 60 ? "Good work. Review the explanations for the questions you missed, then revisit those modules." : "A solid start. Revisit the modules with the lowest scores below and retake the quiz.";
+  return `<div class="page"><section class="section"><span class="eyebrow">Quiz results</span><h1>Your score</h1></section>
+  <section class="panel section"><div class="btn-row" style="gap:24px"><div class="score-big">${right}/${QUIZ.length}</div><div><b style="font-size:1.4rem;font-family:var(--f-display)">${pct}%</b><p>${band}</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>Module</th><th class="num">Correct</th><th>Score</th></tr></thead><tbody>${MODULES.map(m => {
+    const idx = QUIZ.map((q, i) => q.m === m.id ? i : -1).filter(i => i >= 0), c = idx.filter(i => z.sub[i] && z.sel[i] === QUIZ[i].a).length;
+    return `<tr><td><a href="#m${m.id}">${m.id}. ${esc(m.title)}</a></td><td class="num">${c} / ${idx.length}</td><td style="min-width:140px"><div class="bar"><i style="width:${c / idx.length * 100}%"></i></div></td></tr>`;
+  }).join("")}</tbody></table></div>
+  <div class="btn-row"><button class="btn" data-act="q-retake">Retake quiz</button><a class="btn ghost" href="#review">Review answers</a></div></section>
+  <section class="section" id="review"><h2>Review answers</h2>${QUIZ.map((q, i) => {
+    const ok = z.sub[i] && z.sel[i] === q.a;
+    return `<div class="panel q"><div class="btn-row" style="justify-content:space-between"><span class="tag">Q${i + 1} · Module ${q.m}</span><span class="chip ${ok ? "" : "orange"}">${ok ? "Correct" : (z.sub[i] ? "Incorrect" : "Not answered")}</span></div><p><b>${esc(q.q)}</b></p>
+    <p>Your answer: ${z.sel[i] != null && z.sub[i] ? esc("ABCD"[z.sel[i]] + ". " + q.o[z.sel[i]]) : "—"}<br>Correct answer: <b>${esc("ABCD"[q.a] + ". " + q.o[q.a])}</b></p><p class="note">${esc(q.e)}</p></div>`;
+  }).join("")}</section></div>`;
+}
+
+function pageCases() {
+  const list = CASES.filter(c => !S.caseM || c.m === S.caseM);
+  return `<div class="page"><section class="section"><span class="eyebrow">Case studies</span><h1>Classroom cases</h1><p class="lede">Short scenarios for discussion. Companies and figures are illustrative and fictional, written to reflect common situations in Indian and global product teams.</p>
+  <div class="chips"><button class="chip ${S.caseM ? "plain" : ""}" data-act="case-m" data-m="0">All</button>${[2, 3, 4, 5].map(m => `<button class="chip ${S.caseM === m ? "" : "plain"}" data-act="case-m" data-m="${m}">Module ${m}</button>`).join("")}</div></section>
+  ${list.map(c => `<article class="panel section"><div class="btn-row" style="justify-content:space-between"><span class="tag">${esc(c.tag)}</span><span class="chip orange">Illustrative</span></div><h2>${esc(c.title)}</h2>
+  <div class="grid-2"><div class="section"><h3>Business context</h3><p>${esc(c.context)}</p><h3>The problem</h3><p>${esc(c.problem)}</p></div>
+  <div class="section"><h3>What we know</h3><ul class="ticks">${c.info.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div></div>
+  <div class="grid-2"><div class="section"><h3>Discussion questions</h3><ol class="steps">${c.questions.map(x => `<li>${esc(x)}</li>`).join("")}</ol></div>
+  <div class="callout"><span class="eyebrow">Suggested framework</span><p>${esc(c.framework)}</p><a href="#m${c.m}">Go to Module ${c.m}</a></div></div></article>`).join("")}</div>`;
+}
+
+// ---------- router ----------
+const PAGES = { home: pageHome, syllabus: pageSyllabus, modules: pageModules, presentations: pagePresentations, toolkit: pageToolkit, glossary: pageGlossary, quiz: pageQuiz, cases: pageCases };
+function parseRoute() {
+  const h = (location.hash || "#home").slice(1);
+  if (/^m[1-5]$/.test(h)) return { page: "module", id: +h[1] };
+  if (/^slides-[1-5]$/.test(h)) return { page: "module", id: +h.slice(-1), anchor: h };
+  if (h === "review") return { page: "quiz", anchor: "review" };
+  if (h === "kc") return null;
+  return { page: PAGES[h] ? h : "home" };
+}
+function render(scrollTop) {
+  const r = parseRoute(); if (!r) return;
+  S.route = r.page === "module" ? "m" + r.id : r.page;
+  const view = $("#view");
+  view.innerHTML = r.page === "module" ? pageModule(r.id) : PAGES[r.page]();
+  document.querySelectorAll(".nav a").forEach(a => {
+    const on = a.dataset.r === r.page || (r.page === "module" && a.dataset.r === "modules");
+    if (on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+  });
+  $("#nav").classList.remove("open"); $("#menuBtn").setAttribute("aria-expanded", "false");
+  if (r.anchor) { const el = document.getElementById(r.anchor); if (el) el.scrollIntoView(); }
+  else if (S.gfocus && r.page === "glossary") { const el = document.getElementById("term-" + slug(S.gfocus)); S.gfocus = null; if (el) { el.scrollIntoView({ block: "center" }); el.classList.add("flash"); } }
+  else if (S.openTpl && r.page === "toolkit") { const el = document.getElementById("tpl-" + S.openTpl); if (el) el.scrollIntoView(); }
+  else if (scrollTop !== false) window.scrollTo(0, 0);
+}
+function rerender() { const y = window.scrollY; render(false); window.scrollTo(0, y); }
+window.addEventListener("hashchange", () => { S.openTpl = null; render(); });
+
+// ---------- events ----------
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]"); if (!b) return;
+  const act = b.dataset.act, m = +b.dataset.m;
+  switch (act) {
+    case "challenge": S.challenge = !S.challenge; rerender(); break;
+    case "download": downloadDeck(m, b.parentElement.querySelector(".dl-status")); break;
+    case "prev-slide": S.slide[m] = Math.max(0, (S.slide[m] || 0) - 1); rerenderViewer(m); break;
+    case "next-slide": S.slide[m] = Math.min(modById(m).slides.length - 1, (S.slide[m] || 0) + 1); rerenderViewer(m); break;
+    case "toggle-notes": S.notes = b.checked; rerenderViewer(+b.closest("[data-viewer]").dataset.viewer); break;
+    case "view-deck": S.deck = m; rerender(); { const el = $("#deckview"); if (el) el.scrollIntoView({ behavior: "smooth" }); } break;
+    case "goto-slides": e.preventDefault(); { const el = document.getElementById("slides-" + m); if (el) el.scrollIntoView({ behavior: "smooth" }); } break;
+    case "toggle-done": if (S.done.has(m)) S.done.delete(m); else S.done.add(m); store.set("done", [...S.done]); rerender(); break;
+    case "term": S.gq = ""; S.gm = 0; S.gl = ""; S.gfocus = b.dataset.term; location.hash = "#glossary"; break;
+    case "tpl": S.openTpl = b.dataset.t; if (location.hash === "#toolkit") rerender(); else { location.hash = "#toolkit"; setTimeout(() => { S.openTpl = b.dataset.t; render(false); }, 0); } break;
+    case "kc-pick": S.kc[m][+b.dataset.q].sel = +b.dataset.o; rerender(); break;
+    case "kc-check": S.kc[m][+b.dataset.q].sub = true; rerender(); break;
+    case "kc-reset": delete S.kc[m]; rerender(); break;
+    case "q-pick": S.quiz.sel[S.quiz.i] = +b.dataset.o; rerender(); break;
+    case "q-submit": S.quiz.sub[S.quiz.i] = true; rerender(); break;
+    case "q-next": S.quiz.i++; rerender(); break;
+    case "q-prev": S.quiz.i--; rerender(); break;
+    case "q-go": S.quiz.i = +b.dataset.i; rerender(); break;
+    case "q-finish": {
+      S.quiz.finished = true;
+      const right = QUIZ.filter((q, i) => S.quiz.sub[i] && S.quiz.sel[i] === q.a).length;
+      if (S.best == null || right > S.best) { S.best = right; store.set("best", right); }
+      render(); break;
+    }
+    case "q-retake": S.quiz = freshQuiz(); render(); break;
+    case "copy": { const t = tplById(b.dataset.t); copyText(b.dataset.w === "ex" ? t.ex : t.t, b); break; }
+    case "rice-add": S.rice.push({ name: "New feature", reach: 1000, impact: 1, conf: 80, effort: 1 }); saveRice(); $("#riceBody").innerHTML = riceBody(); { const el = document.getElementById("rn-" + (S.rice.length - 1)); if (el) { el.focus(); el.select(); } } break;
+    case "rice-del": S.rice.splice(+b.dataset.i, 1); saveRice(); $("#riceBody").innerHTML = riceBody(); break;
+    case "rice-sort": $("#riceBody").innerHTML = riceBody(); break;
+    case "rice-sample": S.rice = sampleRice(); saveRice(); $("#riceBody").innerHTML = riceBody(); break;
+    case "rice-reset": S.rice = []; saveRice(); $("#riceBody").innerHTML = riceBody(); break;
+    case "g-letter": S.gl = S.gl === b.dataset.l ? "" : b.dataset.l; document.querySelectorAll(".az button").forEach(x => x.setAttribute("aria-pressed", String(x.dataset.l === S.gl))); $("#glist").innerHTML = glossList(); break;
+    case "g-clear": S.gq = ""; S.gm = 0; S.gl = ""; S.gsort = "az"; rerender(); break;
+    case "case-m": S.caseM = m; rerender(); break;
+  }
+});
+function rerenderViewer(m) {
+  const v = document.querySelector(`[data-viewer="${m}"]`); if (!v) return;
+  v.outerHTML = viewerHTML(modById(m));
+}
+function saveRice() { store.set("rice", S.rice); }
+
+document.addEventListener("input", e => {
+  const t = e.target;
+  if (t.id === "gq") { S.gq = t.value; $("#glist").innerHTML = glossList(); }
+  const tr = t.closest && t.closest("tr[data-row]");
+  if (tr && t.dataset.f) {
+    const i = +tr.dataset.row; S.rice[i][t.dataset.f] = t.dataset.f === "name" ? t.value : t.value;
+    saveRice();
+    const s = riceScore(S.rice[i]);
+    tr.querySelector(".rice-score").innerHTML = s != null ? inr(s) : `<span class="err">Check inputs</span>`;
+  }
+});
+document.addEventListener("change", e => {
+  const t = e.target;
+  if (t.id === "gm") { S.gm = +t.value; $("#glist").innerHTML = glossList(); }
+  if (t.id === "gs") { S.gsort = t.value; $("#glist").innerHTML = glossList(); }
+  if (t.closest && t.closest("tr[data-row]") && t.dataset.f && t.dataset.f !== "name") { $("#riceBody").innerHTML = riceBody(); }
+});
+document.addEventListener("keydown", e => {
+  if (e.target.closest && e.target.closest("input, textarea, select")) return;
+  const v = document.querySelector("[data-viewer]"); if (!v) return;
+  const m = +v.dataset.viewer;
+  if (e.key === "ArrowRight" && v.matches(":hover, :focus-within")) { S.slide[m] = Math.min(modById(m).slides.length - 1, (S.slide[m] || 0) + 1); rerenderViewer(m); }
+  if (e.key === "ArrowLeft" && v.matches(":hover, :focus-within")) { S.slide[m] = Math.max(0, (S.slide[m] || 0) - 1); rerenderViewer(m); }
+});
+$("#menuBtn").addEventListener("click", () => { const n = $("#nav"); n.classList.toggle("open"); $("#menuBtn").setAttribute("aria-expanded", String(n.classList.contains("open"))); });
+
+render();
+})();
+
+</script>
+</body>
+</html>

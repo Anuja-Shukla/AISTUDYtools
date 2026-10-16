@@ -505,6 +505,10 @@ cs += f'''<section class="white" id="available">
       <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-indigo" style="flex:none">{I["bars"]}</div><div><span class="tag indigo">Free · Self-paced · Certificate</span><h3 style="margin-top:8px">Basics of Statistics</h3><p>Two modules: Measures of Central Tendency (mean, median, mode) and Measures of Dispersion (IQR, standard deviation, mean deviation). Teaching videos, calculators, quick checks and a final test.</p></div></div>
       <a class="btn btn-accent" href="/courses/basics-of-statistics/" style="flex:none">Start the course {I["arrow"]}</a>
     </div>
+    <div class="card rv" style="display:flex;flex-direction:row;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:2px solid var(--accent);margin-top:18px">
+      <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-sun" style="flex:none">{I["target"]}</div><div><span class="tag indigo">Free · Self-paced · MBA / PGDM</span><h3 style="margin-top:8px">Product Management</h3><p>Five modules from discovery to growth: product thinking, customer research, strategy and prioritisation, delivery, and launch analytics. Slide decks, a RICE calculator, templates, a glossary, a practice quiz and cases.</p></div></div>
+      <a class="btn btn-accent" href="/courses/product-management/" style="flex:none">Start the course {I["arrow"]}</a>
+    </div>
   </div>
 </section>
 <section>
