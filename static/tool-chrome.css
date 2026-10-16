@@ -30,3 +30,6 @@
 .asx-ftr a:hover{color:#fff}
 .asx-ftr .asx-copy{border-top:1px solid rgba(255,255,255,.12);margin-top:28px;padding-top:18px;font-size:13px}
 @media (max-width:760px){.asx-ftr .asx-cols{grid-template-columns:1fr}}
+/* keep all tabs on one row on laptops */
+@media (min-width:1001px){.asx-nav{flex-wrap:nowrap}.asx-nav a{padding:8px 8px;font-size:14px}}
+@media (min-width:1001px) and (max-width:1200px){.asx-nav a{padding:6px 5px;font-size:13px}.asx-wrap{gap:10px}}
