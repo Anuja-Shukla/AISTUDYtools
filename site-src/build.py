@@ -500,10 +500,14 @@ cs += hero("Courses", 'Learn to use AI <span class="hl">well</span>.',
            mindmap("Courses", ["AI in teaching", "AI in research", "Prompting", "Assessment", "Responsible AI"], "Course topics: AI in teaching, AI in research, prompting, assessment and responsible AI"))
 cs += f'''<section class="white" id="available">
   <div class="wrap">
-    {sec_head("Available now", "Start today. Self-paced, free, with a certificate at the end.", "Open for all")}
+    {sec_head("Available now", "Start today. Free, self-paced and open to everyone.", "Open for all")}
     <div class="card rv" style="display:flex;flex-direction:row;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:2px solid var(--accent)">
       <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-indigo" style="flex:none">{I["bars"]}</div><div><span class="tag indigo">Free · Self-paced · Certificate</span><h3 style="margin-top:8px">Basics of Statistics</h3><p>Two modules: Measures of Central Tendency (mean, median, mode) and Measures of Dispersion (IQR, standard deviation, mean deviation). Teaching videos, calculators, quick checks and a final test.</p></div></div>
       <a class="btn btn-accent" href="/courses/basics-of-statistics/" style="flex:none">Start the course {I["arrow"]}</a>
+    </div>
+    <div class="card rv" style="display:flex;flex-direction:row;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:2px solid var(--accent);margin-top:18px">
+      <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-sky" style="flex:none">{I["target"]}</div><div><span class="tag sky">Free · Self-paced · MBA/PGDM</span><h3 style="margin-top:8px">Product Management</h3><p>Five modules from foundations to discovery, strategy, delivery and growth, with downloadable PowerPoints, a RICE prioritisation calculator, templates, a glossary, a practice quiz and case studies.</p></div></div>
+      <a class="btn btn-accent" href="/courses/product-management/" style="flex:none">Start the course {I["arrow"]}</a>
     </div>
     <div class="card rv" style="display:flex;flex-direction:row;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:2px solid var(--accent);margin-top:18px">
       <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-sun" style="flex:none">{I["target"]}</div><div><span class="tag indigo">Free · Self-paced · MBA / PGDM</span><h3 style="margin-top:8px">Product Management</h3><p>Five modules from discovery to growth: product thinking, customer research, strategy and prioritisation, delivery, and launch analytics. Slide decks, a RICE calculator, templates, a glossary, a practice quiz and cases.</p></div></div>
