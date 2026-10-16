@@ -638,9 +638,9 @@
     return '<div class="cert" id="certv"><div class="small muted" style="letter-spacing:.12em;font-weight:700">AISTUDYTOOLS</div><h2 style="margin-top:6px">Certificate of Completion</h2><p class="muted" style="margin-top:14px">This is to certify that</p><div class="nm">' + esc(c.name) + "</div>" +
       (c.inst ? '<p class="muted">' + esc(c.inst) + "</p>" : "") + '<p style="margin-top:10px">has successfully completed the course</p><h3 style="font-size:26px;margin-top:6px;color:var(--accent-dk)">Basics of Statistics</h3>' +
       '<p class="muted small" style="margin-top:6px">Measures of Central Tendency · Measures of Dispersion</p><p style="margin-top:12px">with a final test score of <b>' + c.score + "%</b></p>" +
-      '<div class="row" style="justify-content:space-between;margin-top:26px;text-align:left"><div class="small"><b>Date:</b> ' + esc(c.date) + "<br><b>Certificate ID:</b> " + esc(c.id) + '</div><div class="small" style="text-align:right"><b>Dr. Anuja Shukla</b><br>Course Instructor</div></div></div>' +
+      '<div class="row" style="justify-content:space-between;margin-top:26px;text-align:left"><div class="small"><b>Date:</b> ' + esc(c.date) + "<br><b>Certificate ID:</b> " + esc(c.id) + '</div><div class="small" style="text-align:right"><b>AIStudyTools</b><br>A subsidiary of Intellique Research School Private Limited</div></div></div>' +
       '<div class="row noprint" style="justify-content:center;margin-top:18px"><button class="btn btn-accent" id="cpdf">Download certificate (PDF)</button><button class="btn btn-soft" id="cprint">Print</button></div>' +
-      '<p class="small muted noprint" style="text-align:center;margin-top:10px">This is a certificate of completion issued by AIStudyTools. It is not an accredited qualification.</p>';
+      '<p class="small muted noprint" style="text-align:center;margin-top:10px">This is a certificate of completion issued by AIStudyTools, a subsidiary of Intellique Research School Private Limited. It is not an accredited qualification.</p>';
   }
   function certWire() {
     var g = document.getElementById("cgo2");
@@ -676,9 +676,9 @@
     doc.setFontSize(13); doc.setTextColor(30, 27, 75); doc.text("Final test score: " + c.score + "%", W / 2, y + 33, { align: "center" });
     doc.setFontSize(11); doc.setTextColor(74, 72, 120);
     doc.text("Date: " + c.date, 30, H - 30); doc.text("Certificate ID: " + c.id, 30, H - 24);
-    doc.setFont("helvetica", "bold"); doc.setTextColor(30, 27, 75); doc.text("Dr. Anuja Shukla", W - 30, H - 30, { align: "right" });
-    doc.setFont("helvetica", "normal"); doc.setTextColor(74, 72, 120); doc.text("Course Instructor", W - 30, H - 24, { align: "right" });
-    doc.setFontSize(8.5); doc.setTextColor(150, 150, 170); doc.text("Certificate of completion issued by AIStudyTools (www.aistudytools.com). Not an accredited qualification.", W / 2, H - 15, { align: "center" });
+    doc.setFont("helvetica", "bold"); doc.setTextColor(30, 27, 75); doc.text("AIStudyTools", W - 30, H - 30, { align: "right" });
+    doc.setFont("helvetica", "normal"); doc.setTextColor(74, 72, 120); doc.text("A subsidiary of Intellique Research School Private Limited", W - 30, H - 24, { align: "right" });
+    doc.setFontSize(8.5); doc.setTextColor(150, 150, 170); doc.text("Certificate of completion issued by AIStudyTools (www.aistudytools.com), a subsidiary of Intellique Research School Private Limited. Not an accredited qualification.", W / 2, H - 15, { align: "center" });
     doc.save("Basics-of-Statistics-Certificate-" + c.name.replace(/[^A-Za-z0-9]+/g, "-") + ".pdf");
   }
   function alertBox(msg) { var d = document.createElement("p"); d.className = "err noprint"; d.style.textAlign = "center"; d.textContent = msg; app.appendChild(d); }
