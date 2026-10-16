@@ -4,7 +4,7 @@ import os, html, re, glob
 import markdown
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "17"  # cache-buster for css/js
+V = "18"  # cache-buster for css/js
 
 def svg(paths, extra=""):
     return f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"{extra}>{paths}</svg>'
@@ -484,11 +484,7 @@ cs += f'''<section class="white" id="available">
       <a class="btn btn-accent" href="/courses/basics-of-statistics/" style="flex:none">Start the course {I["arrow"]}</a>
     </div>
     <div class="card rv" style="display:flex;flex-direction:row;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:2px solid var(--accent);margin-top:18px">
-      <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-sky" style="flex:none">{I["target"]}</div><div><span class="tag sky">Free · Self-paced · MBA/PGDM</span><h3 style="margin-top:8px">Product Management</h3><p>Five modules from foundations to discovery, strategy, delivery and growth, with downloadable PowerPoints, a RICE prioritisation calculator, templates, a glossary, a practice quiz and case studies.</p></div></div>
-      <a class="btn btn-accent" href="/courses/product-management/" style="flex:none">Start the course {I["arrow"]}</a>
-    </div>
-    <div class="card rv" style="display:flex;flex-direction:row;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:2px solid var(--accent);margin-top:18px">
-      <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-sun" style="flex:none">{I["target"]}</div><div><span class="tag indigo">Free · Self-paced · MBA / PGDM</span><h3 style="margin-top:8px">Product Management</h3><p>Five modules from discovery to growth: product thinking, customer research, strategy and prioritisation, delivery, and launch analytics. Slide decks, a RICE calculator, templates, a glossary, a practice quiz and cases.</p></div></div>
+      <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-sky" style="flex:none">{I["target"]}</div><div><span class="tag indigo">Free · Self-paced · Certificate</span><h3 style="margin-top:8px">Product Management</h3><p>Two modules: Discovery and Strategy (the PM role, customer discovery and jobs to be done, market sizing) and Delivery and Growth (RICE prioritisation, MVPs and retention, funnels and A/B testing). Interactive tools, quick checks and a final test.</p></div></div>
       <a class="btn btn-accent" href="/courses/product-management/" style="flex:none">Start the course {I["arrow"]}</a>
     </div>
     <div class="card rv" style="display:flex;flex-direction:row;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:2px solid var(--accent);margin-top:18px">
