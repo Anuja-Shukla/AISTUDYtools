@@ -3,7 +3,7 @@
   "use strict";
   var M = PM.modules, app = document.getElementById("app");
   var KEY = "pm_course_v1", RKEY = "pm_rice_v1";
-  var PPTX_URL = "https://cdnjs.cloudflare.com/ajax/libs/pptxgenjs/3.12.0/pptxgen.bundle.js";
+  var PPTX_URLS = ["https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js", "https://unpkg.com/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"];
 
   /* ---------- state ---------- */
   var st;
@@ -155,10 +155,14 @@
     if (window.PptxGenJS) return Promise.resolve();
     if (pptxLoading) return pptxLoading;
     pptxLoading = new Promise(function (res, rej) {
-      var s = document.createElement("script"); s.src = PPTX_URL; s.async = true;
-      s.onload = function () { window.PptxGenJS ? res() : rej(new Error("not available")); };
-      s.onerror = function () { pptxLoading = null; rej(new Error("blocked")); };
-      document.head.appendChild(s);
+      var k = 0;
+      (function next() {
+        if (k >= PPTX_URLS.length) { pptxLoading = null; rej(new Error("blocked")); return; }
+        var s = document.createElement("script"); s.src = PPTX_URLS[k++]; s.async = true;
+        s.onload = function () { if (window.PptxGenJS) res(); else next(); };
+        s.onerror = next;
+        document.head.appendChild(s);
+      })();
     });
     return pptxLoading;
   }
