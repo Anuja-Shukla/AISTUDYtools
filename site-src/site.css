@@ -275,3 +275,7 @@ section{padding:88px 0}
 /* keep all tabs visible on laptops: progressively compact the header */
 @media (max-width:1300px) and (min-width:1024px){.hdr .wrap{gap:12px}.nav{gap:2px}.nav a{padding:8px 7px;font-size:14px}.logo b{font-size:19px}.logo-mark{width:32px;height:32px}.hdr-cta .btn{padding:9px 14px;font-size:14px;min-height:40px}}
 @media (max-width:1120px) and (min-width:1024px){.nav a{padding:7px 5px;font-size:13px}.logo b{font-size:17px}.hdr-cta .btn{padding:8px 11px;font-size:13px}.hdr .wrap{gap:8px}}
+/* pages with the demo button (Transform content): tighter tabs so everything fits */
+@media (min-width:1024px){.hdr .wrap:has(.hdr-cta .btn) .nav a{padding:8px 6px;font-size:14px}.hdr .wrap:has(.hdr-cta .btn){gap:10px}}
+@media (max-width:1300px) and (min-width:1024px){.hdr .wrap:has(.hdr-cta .btn) .nav a{padding:7px 4px;font-size:13px}}
+@media (max-width:1120px) and (min-width:1024px){.hdr .wrap:has(.hdr-cta .btn) .nav a{padding:6px 2px;font-size:12.5px}.hdr .wrap:has(.hdr-cta .btn) .logo b{font-size:16px}.hdr .wrap:has(.hdr-cta .btn) .logo-mark{width:28px;height:28px}.hdr-cta .btn{padding:7px 10px;font-size:12.5px}}

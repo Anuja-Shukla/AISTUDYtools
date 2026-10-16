@@ -107,9 +107,15 @@
     '</form></div>';
   document.body.appendChild(dm);
   var dform = dm.querySelector("form"), dprod = "";
+  var dmode = "demo";
   function openDemo(product) {
     dprod = product || "";
     var path = location.pathname;
+    dmode = (/learnx/.test(path) || /^LearnX/.test(dprod)) ? "demo" : "talk";
+    var reg = /^(Courses|Webinars)/.test(dprod) || /courses|webinars/.test(path);
+    dm.querySelector("#dm-title").textContent = dmode === "demo" ? "Get a free demo" : (reg ? "Register your interest" : "Talk to us");
+    dm.querySelector(".sub").textContent = dmode === "demo" ? "Tell us a little about you. We will show you your own content as a video, mind map and game." : "Leave your details and we will get back to you within one business day.";
+    dform.querySelector('button[type="submit"]').textContent = dmode === "demo" ? "Request my free demo" : "Send";
     pickProduct(dform.querySelector('[name="product"]'), dprod || (/courses/.test(path) ? "Courses" : /tools|practice/.test(path) ? "Faculty tools" : /webinars/.test(path) ? "Webinars" : "LearnX"));
     dform.querySelector(".status").textContent = "";
     dm.classList.add("on"); setTimeout(function () { dform.querySelector('[name="name"]').focus(); }, 50);
@@ -124,7 +130,7 @@
   dform.addEventListener("submit", function (e) {
     e.preventDefault();
     var p = dform.querySelector('[name="product"]').value.split(" ")[0];
-    sendForm(dform, "Free demo request: " + (dprod || p));
+    sendForm(dform, (dmode === "demo" ? "Free demo request: " : "Enquiry: ") + (dprod || p));
   });
 
   // LearnX hook video: sound toggle, hide if the file is missing

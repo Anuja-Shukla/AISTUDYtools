@@ -4,7 +4,7 @@ import os, html, re, glob
 import markdown
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "16"  # cache-buster for css/js
+V = "17"  # cache-buster for css/js
 
 def svg(paths, extra=""):
     return f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"{extra}>{paths}</svg>'
@@ -50,7 +50,7 @@ I = {
 }
 
 NAV = [("/", "Home", "home"), ("/learnx/", "Transform content", "learnx"), ("/tools/", "Faculty Tools", "tools"),
-       ("/practice/", "Student Practice", "practice"), ("/courses/", "Courses", "courses"),
+       ("/practice/", "Student Practice", "practice"), ("/courses/", "Courses", "courses"), ("/webinars/", "Webinars", "webinars"),
        ("/newsletter/", "Newsletter", "newsletter"), ("/contact/", "Contact", "contact")]
 
 def head(title, desc, path):
@@ -79,12 +79,13 @@ def head(title, desc, path):
 def header(active):
     ON = ' class="on" aria-current="page"'
     links = "".join(f'<a href="{h}"{ON if k == active else ""}>{t}</a>' for h, t, k in NAV)
+    demo_btn = '<a class="btn btn-accent btn-sm" href="#demo">Get a free demo</a>' if active == "learnx" else ""
     return f'''<header class="hdr">
   <div class="wrap">
     <a class="logo" href="/" aria-label="AIStudyTools home"><span class="logo-mark"></span><span><b>AIStudyTools</b><small>AI for teaching &amp; learning</small></span></a>
     <nav class="nav" aria-label="Main">{links}</nav>
     <div class="hdr-cta">
-      <a class="btn btn-accent btn-sm" href="#demo">Get a free demo</a>
+      {demo_btn}
       <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     </div>
   </div>
@@ -100,7 +101,7 @@ FOOT = f'''</main>
         <a class="logo" href="/"><span class="logo-mark"></span><span><b>AIStudyTools</b></span></a>
         <p style="margin-top:14px;max-width:340px">AI tools and courses for teaching and learning. A platform of Intellique Research School Pvt Ltd.</p>
       </div>
-      <div><h4>Explore</h4><a href="/learnx/">Transform content</a><a href="/tools/">Faculty Tools</a><a href="/practice/">Student Practice</a><a href="/courses/">Courses</a><a href="/newsletter/">Newsletter</a></div>
+      <div><h4>Explore</h4><a href="/learnx/">Transform content</a><a href="/tools/">Faculty Tools</a><a href="/practice/">Student Practice</a><a href="/courses/">Courses</a><a href="/webinars/">Webinars</a><a href="/journals/">Journal Finder</a><a href="/newsletter/">Newsletter</a></div>
       <div><h4>Contact</h4><a href="mailto:intelliqueresearchschool@gmail.com">intelliqueresearchschool@gmail.com</a><a href="https://wa.me/917303559258" target="_blank" rel="noopener">WhatsApp +91 73035 59258</a><a href="tel:+917303559258">Call +91 73035 59258</a></div>
       <div><h4>Sister sites</h4><a href="https://www.theresearchschool.com/">The Research School</a><a href="https://aijuggernauts.com/">AIjuggernauts</a><a href="https://intelliqueresearchschool.com/">Intellique Research School</a></div>
     </div>
@@ -226,7 +227,7 @@ home += f'''<section id="products" class="white">
   </div>
 </section>
 '''
-home += cta("See your own lesson come alive", "Send us one topic and see it turned into a video, mind map and game. Free, with no obligation.", "Get a free demo", "#demo")
+home += cta("See your own lesson come alive", "Send us one topic and see it turned into a video, mind map and game. Free, with no obligation.", "Talk to us", "/contact/")
 home += FOOT
 write("/", home)
 
@@ -281,30 +282,6 @@ lx += f'''<section class="white"><div class="wrap">{stats([("100K+", "Learning s
     </div>
   </div>
 </section>
-<section id="research" class="tint">
-  <div class="wrap" style="max-width:900px">
-    <div class="sec-head rv" style="margin-bottom:28px"><h2>Offerings</h2></div>
-    <div class="acc">
-      <details class="acc-item rv"><summary><span class="ico i-indigo">{I["search"]}</span><span>Journal Finder</span></summary>
-        <div class="acc-body">
-          <p>Search journals by name or ISSN and filter by ABDC rating, SJR quartile and Web of Science index, all in one place.</p>
-          <div style="display:grid;gap:8px">
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--bg);border-radius:12px;padding:10px 14px"><b style="font-size:15px">Journal of Marketing</b><span style="display:flex;gap:6px"><span class="tag indigo" style="padding:4px 10px;font-size:12px">A* ABDC</span><span class="tag" style="padding:4px 10px;font-size:12px;background:var(--mint);color:var(--mint-fg)">Q1</span></span></div>
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--bg);border-radius:12px;padding:10px 14px"><b style="font-size:15px">Journal of Business Research</b><span style="display:flex;gap:6px"><span class="tag indigo" style="padding:4px 10px;font-size:12px">A ABDC</span><span class="tag" style="padding:4px 10px;font-size:12px;background:var(--mint);color:var(--mint-fg)">Q1</span></span></div>
-          </div>
-          <a class="btn btn-ink" href="/journals/" style="align-self:flex-start">Open Journal Finder {I["arrow"]}</a>
-        </div>
-      </details>
-      <details class="acc-item rv"><summary><span class="ico i-sun">{I["calendar"]}</span><span>Live Webinars</span></summary>
-        <div class="acc-body">
-          <p>Expert-led sessions on research methods, doctoral studies, publishing, career growth and AI in research.</p>
-          <div style="display:flex;flex-wrap:wrap;gap:8px"><span class="tag indigo">Research methods</span><span class="tag">Doctoral studies</span><span class="tag sky">Publishing</span><span class="tag indigo">AI in research</span></div>
-          <a class="btn btn-ink" href="/webinars/" style="align-self:flex-start">See upcoming webinars {I["arrow"]}</a>
-        </div>
-      </details>
-    </div>
-  </div>
-</section>
 <section class="white">
   <div class="wrap">
     {sec_head("Who uses LearnX?", "", "Audience")}
@@ -337,8 +314,8 @@ moved("/skillx/", "SkillX", "https://aijuggernauts.com/skillx/", "SkillX builds 
 
 # ---------------- WEBINARS ----------------
 wb = head("Live Expert-Led Webinars | AIStudyTools",
-          "Learn directly from international experts in live webinars on research, doctoral studies and career growth.", "/webinars/") + header("learnx")
-wb += hero("LearnX webinars", 'Live, <span class="hl">expert-led</span> webinars.',
+          "Learn directly from international experts in live webinars on research, doctoral studies and career growth.", "/webinars/") + header("webinars")
+wb += hero("Live webinars", 'Live, <span class="hl">expert-led</span> webinars.',
            "Learn directly from international experts. Join upcoming sessions on research, doctoral studies and career growth.",
            [("Get notified", "#demo:Webinars", "btn-ink"), ("Ask on WhatsApp", "https://wa.me/917303559258?text=" + "Hi%2C%20please%20share%20upcoming%20AIStudyTools%20webinars.", "btn-soft")],
            mindmap("Live webinar", ["Research methods", "Doctoral studies", "Publishing", "Career growth", "AI in research"], "Webinar topics: research methods, doctoral studies, publishing, career growth and AI in research"))
@@ -423,6 +400,7 @@ tl += f'''<section class="white">
         ("puzzle", "Simulation Creator", "Fill in a concept and scenario, get a role-play prompt your students paste into ChatGPT or Gemini to play a live simulation.", "/tools/simulation-creator.html", "No API key needed"),
         ("doc", "Quick Case Generator", "Turn today's news into a Harvard-style, classroom-ready quick case plus a separate faculty teaching note.", "/tools/quick-case-generator.html", "Needs a Gemini key"),
         ("spark", "Interactive Game Creator", "Upload your lesson and get drag-and-drop quiz games your students play from one link.", "/tools/create-game.html", "Needs a Gemini key"),
+        ("search", "Journal Finder", "Search journals by name or ISSN and filter by ABDC rating, SJR quartile and Web of Science index, all in one place.", "/journals/", "No API key needed"),
         ("layers", "AI Presentation Creator", "Paste your content, pick a style and download a designed PowerPoint with real charts.", "/tools/ai-presentation-creator.html", "Needs a Gemini key"),
     ])}
   </div>
