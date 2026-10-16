@@ -4,7 +4,7 @@ import os, html, re, glob
 import markdown
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "20"  # cache-buster for css/js
+V = "21"  # cache-buster for css/js
 
 def svg(paths, extra=""):
     return f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"{extra}>{paths}</svg>'
@@ -498,6 +498,10 @@ cs += f'''<section class="white" id="available">
     <div class="card rv" style="display:flex;flex-direction:row;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:2px solid var(--accent);margin-top:18px">
       <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-sky" style="flex:none">{I["search"]}</div><div><span class="tag indigo">Free · Self-paced · Certificate</span><h3 style="margin-top:8px">SEO to GEO: Optimize Content for AI Search</h3><p>Two modules: How AI Search Works (SEO foundations, how Google AI Overviews, ChatGPT search and Perplexity find and cite content, what GEO is) and Optimizing Content for AI Search (answer-first writing, AI crawlers and structured data, measuring AI visibility). Interactive tools, quick checks and a final test.</p></div></div>
       <a class="btn btn-accent" href="/courses/seo-to-geo/" style="flex:none">Start the course {I["arrow"]}</a>
+    </div>
+    <div class="card rv" style="display:flex;flex-direction:row;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:2px solid var(--accent);margin-top:18px">
+      <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-indigo" style="flex:none">{I["bot"]}</div><div><span class="tag indigo">Free · Self-paced · Certificate</span><h3 style="margin-top:8px">Building AI Agents</h3><p>Two modules: Agent Foundations (what agents are, the agent loop, tools, MCP and RAG) and Designing and Deploying Agents (agent briefs, no-code build patterns, testing, safety and ROI). Interactive design tools, quick checks and a final test. No coding needed.</p></div></div>
+      <a class="btn btn-accent" href="/courses/building-ai-agents/" style="flex:none">Start the course {I["arrow"]}</a>
     </div>
   </div>
 </section>
