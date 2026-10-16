@@ -36,7 +36,7 @@ p{margin:0}
 .nav a.on{color:var(--accent);background:var(--soft)}
 .hdr-cta{display:flex;align-items:center;gap:10px}
 .menu-btn{display:none;width:46px;height:46px;border-radius:12px;border:1px solid var(--border);background:#fff;cursor:pointer;align-items:center;justify-content:center}
-@media (max-width:1300px){
+@media (max-width:1023px){
   .nav{position:fixed;inset:76px 0 auto 0;background:#fff;flex-direction:column;align-items:stretch;padding:12px 16px 20px;border-bottom:1px solid var(--border);box-shadow:var(--shadow);display:none}
   .nav.open{display:flex}
   .nav a{padding:14px 12px;font-size:17px}
@@ -272,3 +272,6 @@ section{padding:88px 0}
 .gate .gate-points{list-style:none;padding:0;margin:0 0 18px;display:grid;gap:8px}
 .gate .gate-points li{display:flex;gap:10px;align-items:center;font-weight:600}
 .gate .gate-points li span{flex:none;background:var(--sun);color:var(--sun-fg);font-weight:800;border-radius:999px;padding:3px 10px;font-size:13px}
+/* keep all tabs visible on laptops: progressively compact the header */
+@media (max-width:1300px) and (min-width:1024px){.hdr .wrap{gap:12px}.nav{gap:2px}.nav a{padding:8px 7px;font-size:14px}.logo b{font-size:19px}.logo-mark{width:32px;height:32px}.hdr-cta .btn{padding:9px 14px;font-size:14px;min-height:40px}}
+@media (max-width:1120px) and (min-width:1024px){.nav a{padding:7px 5px;font-size:13px}.logo b{font-size:17px}.hdr-cta .btn{padding:8px 11px;font-size:13px}.hdr .wrap{gap:8px}}
