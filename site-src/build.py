@@ -4,7 +4,8 @@ import os, html, re, glob
 import markdown
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "23"  # cache-buster for css/js
+V = "24"  # cache-buster for css/js
+PAY_API = ""  # payment server (Cloudflare Worker) URL; empty = paid-course enrolment shows "opens soon"
 
 def svg(paths, extra=""):
     return f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"{extra}>{paths}</svg>'
@@ -105,7 +106,7 @@ FOOT = f'''</main>
       <div><h4>Contact</h4><a href="mailto:intelliqueresearchschool@gmail.com">intelliqueresearchschool@gmail.com</a><a href="https://wa.me/917303559258" target="_blank" rel="noopener">WhatsApp +91 73035 59258</a><a href="tel:+917303559258">Call +91 73035 59258</a></div>
       <div><h4>Sister sites</h4><a href="https://www.theresearchschool.com/">The Research School</a><a href="https://aijuggernauts.com/">AIjuggernauts</a><a href="https://intelliqueresearchschool.com/">Intellique Research School</a></div>
     </div>
-    <div class="copy"><span>© <span id="yr">2026</span> AIStudyTools. All rights reserved.</span><span>Made for teachers, learners and institutions.</span></div>
+    <div class="copy"><span>© <span id="yr">2026</span> AIStudyTools. All rights reserved.</span><span>Made for teachers, learners and institutions. · <a href="/terms/" style="display:inline">Terms</a> · <a href="/privacy/" style="display:inline">Privacy</a> · <a href="/refund-policy/" style="display:inline">Refunds</a></span></div>
   </div>
 </footer>
 <script src="/static/site.js?v={V}" defer></script>
@@ -546,7 +547,7 @@ cs += f'''<section class="white" id="available">
   <div class="wrap">
     {sec_head("Launching soon", "The first cohorts are being scheduled. Leave your details and we'll tell you when enrolment opens.", "Upcoming")}
     <div class="grid g4">
-      <div class="card rv"><div class="ico i-indigo">{I["bot"]}</div><span class="tag sky" style="align-self:flex-start">New</span><h3>Agentic AI</h3><p>Understand AI agents and build simple ones that plan, use tools and finish multi-step tasks for you.</p><a class="btn btn-accent btn-sm" href="#demo:Courses" style="align-self:flex-start;margin-top:auto">Register interest</a></div>
+      <div class="card rv"><div class="ico i-indigo">{I["bot"]}</div><span class="tag indigo" style="align-self:flex-start">Paid · ₹499</span><h3>Agentic AI</h3><p>Go beyond single agents: multi-agent systems, MCP, evaluation, guardrails and deployment.</p><a class="btn btn-accent btn-sm" href="/courses/agentic-ai/" style="align-self:flex-start;margin-top:auto">View course</a></div>
       <div class="card rv"><div class="ico i-mint">{I["bars"]}</div><span class="tag sky" style="align-self:flex-start">Data skills</span><h3>Data Analysis and Visualisation</h3><p>Clean data, find patterns and make clear charts and dashboards with AI and spreadsheet tools.</p><a class="btn btn-accent btn-sm" href="#demo:Courses" style="align-self:flex-start;margin-top:auto">Register interest</a></div>
       <div class="card rv"><div class="ico i-sky">{I["search"]}</div><span class="tag sky" style="align-self:flex-start">For researchers</span><h3>AI for Research and Literature Review</h3><p>Find, read and summarise papers faster, and use AI responsibly in writing and publishing.</p><a class="btn btn-accent btn-sm" href="#demo:Courses" style="align-self:flex-start;margin-top:auto">Register interest</a></div>
       <div class="card rv"><div class="ico i-indigo">{I["brief"]}</div><span class="tag" style="align-self:flex-start">For professionals</span><h3>Generative AI for Work and Productivity</h3><p>Use AI for emails, reports, presentations and meetings, and set up simple workflow automations.</p><a class="btn btn-accent btn-sm" href="#demo:Courses" style="align-self:flex-start;margin-top:auto">Register interest</a></div>
@@ -711,6 +712,9 @@ Presentation | 30</textarea></div>
 ev += cta("Want AI-assisted evaluation for your institution?", "LearnX adds AI-assisted evaluation, question generation and AI tutors on your own system.", "Explore LearnX", "/learnx/")
 ev = ev + FOOT.replace("</body>", "<script>" + EVAL_JS + "</script>\n</body>")
 write("/ai-evaluator/", ev)
+
+# ---------------- PAID COURSES + POLICIES ----------------
+exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "paid.py"), encoding="utf-8").read())
 
 # ---------------- 404 ----------------
 nf = head("Page not found | AIStudyTools", "The page you are looking for could not be found.", "/404.html") + header("")
