@@ -4,7 +4,7 @@ import os, html, re, glob
 import markdown
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "21"  # cache-buster for css/js
+V = "22"  # cache-buster for css/js
 
 def svg(paths, extra=""):
     return f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"{extra}>{paths}</svg>'
@@ -49,9 +49,9 @@ I = {
  "arrow": svg('<path d="M5 12h14M13 6l6 6-6 6"/>', ' width="18" height="18"'),
 }
 
-NAV = [("/", "Home", "home"), ("/learnx/", "Transform content", "learnx"), ("/tools/", "Faculty Tools", "tools"),
-       ("/practice/", "Student Practice", "practice"), ("/courses/", "Courses", "courses"), ("/webinars/", "Webinars", "webinars"),
-       ("/newsletter/", "Newsletter", "newsletter"), ("/contact/", "Contact", "contact")]
+NAV = [("/", "Home", "home"), ("/learnx/", "Transform content", "learnx"), ("/tools/", "Faculty Corner", "tools"),
+       ("/practice/", "Student Corner", "practice"), ("/ai-evaluator/", "AI evaluator", "evaluator"), ("/courses/", "Courses", "courses"),
+       ("/webinars/", "Webinars", "webinars"), ("/use-cases/", "Use cases", "usecases"), ("/contact/", "Contact", "contact")]
 
 def head(title, desc, path):
     return f'''<!doctype html>
@@ -101,7 +101,7 @@ FOOT = f'''</main>
         <a class="logo" href="/"><span class="logo-mark"></span><span><b>AIStudyTools</b></span></a>
         <p style="margin-top:14px;max-width:340px">AI tools and courses for teaching and learning. A platform of Intellique Research School Pvt Ltd.</p>
       </div>
-      <div><h4>Explore</h4><a href="/learnx/">Transform content</a><a href="/tools/">Faculty Tools</a><a href="/practice/">Student Practice</a><a href="/courses/">Courses</a><a href="/webinars/">Webinars</a><a href="/journals/">Journal Finder</a><a href="/newsletter/">Newsletter</a></div>
+      <div><h4>Explore</h4><a href="/learnx/">Transform content</a><a href="/tools/">Faculty Corner</a><a href="/practice/">Student Corner</a><a href="/courses/">Courses</a><a href="/webinars/">Webinars</a><a href="/journals/">Journal Finder</a><a href="/ai-evaluator/">AI evaluator</a><a href="/use-cases/">Use cases</a></div>
       <div><h4>Contact</h4><a href="mailto:intelliqueresearchschool@gmail.com">intelliqueresearchschool@gmail.com</a><a href="https://wa.me/917303559258" target="_blank" rel="noopener">WhatsApp +91 73035 59258</a><a href="tel:+917303559258">Call +91 73035 59258</a></div>
       <div><h4>Sister sites</h4><a href="https://www.theresearchschool.com/">The Research School</a><a href="https://aijuggernauts.com/">AIjuggernauts</a><a href="https://intelliqueresearchschool.com/">Intellique Research School</a></div>
     </div>
@@ -185,22 +185,43 @@ def write(path, content):
     open(p, "w", encoding="utf-8").write(content)
 
 # ---------------- HOME ----------------
-home = head("AIStudyTools | AI Tools and Courses for Teaching and Learning",
-            "Free AI tools that turn lessons into simulations, cases and games, LearnX for institutions, and courses on using AI well in teaching and learning.", "/") + header("home")
-home += hero("",
-             'AI tools and courses for <span class="hl">teaching</span> and learning.',
-             "Free tools that turn your lessons into simulations, cases and games. LearnX for institutions. Courses that show faculty and students how to use AI well.",
-             [("Try the faculty tools", "/tools/", "btn-ink"), ("Watch how LearnX works", "video:/videos/aistudytools-explainer.mp4?v=1", "btn-soft")],
-             mindmap("Your lesson", ["Simulation", "Quick case", "Quiz game", "Slide deck", "AI evaluation"], "A lesson becomes a simulation, quick case, quiz game, slide deck and AI evaluation"))
+COURSES = [
+    ("bars", "Basics of Statistics", "Averages and spread, with calculators and teaching videos.", "/courses/basics-of-statistics/"),
+    ("chat", "Prompt Engineering", "Write prompts that get reliable answers, and use AI responsibly.", "/courses/prompt-engineering/"),
+    ("target", "Product Management", "From customer discovery and market sizing to RICE, MVPs and A/B tests.", "/courses/product-management/"),
+    ("users", "HR Analytics", "HR metrics, Power BI dashboards, workforce planning and talent management.", "/courses/hr-analytics/"),
+    ("search", "SEO to GEO", "Make your content easy for AI search engines to find, trust and cite.", "/courses/seo-to-geo/"),
+    ("bot", "Building AI Agents", "Design, build and test your first AI agent, no coding needed.", "/courses/building-ai-agents/"),
+]
+def course_cards(items):
+    pal = ["i-indigo", "i-sun", "i-sky", "i-pink", "i-mint"]
+    return '<div class="grid g3">' + "".join(f'<a class="card tool rv" href="{h}"><div class="ico {pal[n % 5]}">{I[ic]}</div><h3>{t}</h3><p>{d}</p><span class="tag indigo" style="align-self:flex-start;font-size:13px;padding:5px 12px">Free · Certificate</span><span class="go">Start the course {I["arrow"]}</span></a>' for n, (ic, t, d, h) in enumerate(items)) + "</div>"
+
+home = head("AIStudyTools | Free AI Courses and Tools for Teaching and Learning",
+            "Free self-paced courses with certificates, AI tools for faculty and students, an AI evaluator for rubric-based feedback, webinars, and LearnX for institutions.", "/") + header("home")
+home += hero("Free courses · Tools · LearnX",
+             'AI courses and tools for <span class="hl">teaching</span> and learning.',
+             "Free self-paced courses with certificates, tools that turn lessons into simulations, cases and games, an AI evaluator for fair, rubric-based feedback, and LearnX for institutions.",
+             [("Explore free courses", "/courses/", "btn-ink"), ("Open the Faculty Corner", "/tools/", "btn-soft"), ("Watch how LearnX works", "video:/videos/aistudytools-explainer.mp4?v=1", "btn-soft")],
+             mindmap("You", ["Free courses", "Faculty Corner", "Student Corner", "AI evaluator", "LearnX"], "Free courses, Faculty Corner, Student Corner, AI evaluator and LearnX"))
 home += f'''<section id="products" class="white">
   <div class="wrap">
-    {sec_head("", "For faculty who want livelier classes, students who want to practise, and institutions that want it at scale.", "What we offer")}
+    {sec_head("Everything in one place", "For faculty who want livelier classes, students who want to practise, professionals who want new skills, and institutions that want it at scale.", "What we offer")}
     <div class="grid g2">
-      <a class="prod p-skill rv" href="/tools/"><span class="kicker">Free for faculty</span><div class="ico i-sun" style="background:#fff">{I["teacher"]}</div><h3>Faculty Tools</h3><p>Turn a concept or chapter into something students do, not just read.</p><ul><li>Simulation Creator</li><li>Quick Case Generator</li><li>Interactive Game Creator</li><li>AI Presentation Creator</li></ul><span class="go">Open the tools {I["arrow"]}</span></a>
-      <a class="prod p-health rv" href="/practice/"><span class="kicker">Free for students</span><div class="ico i-sky" style="background:#fff">{I["student"]}</div><h3>Student Practice</h3><p>Make decisions, see consequences, get feedback and try again.</p><ul><li>Branching simulations</li><li>Learning games</li><li>Course comparison</li></ul><span class="go">Start practising {I["arrow"]}</span></a>
-      <a class="prod p-learn rv" href="/learnx/"><span class="kicker">For institutions</span><div class="ico i-indigo" style="background:#fff">{I["cap"]}</div><h3>LearnX</h3><p>Your lectures and PDFs become games, mind maps, AI video chat and AI-assisted evaluation, on your own system.</p><ul><li>AI tutor</li><li>Question generator</li><li>Mind maps</li><li>Games &amp; simulations</li><li>AI-assisted evaluation</li></ul><span class="go">Explore LearnX {I["arrow"]}</span></a>
-      <a class="prod p-course rv" href="/courses/"><span class="kicker">Learn with us</span><div class="ico i-pink" style="background:#fff">{I["calendar"]}</div><h3>Courses</h3><p>Short, practical courses on using AI in teaching, research and study.</p><ul><li>For faculty</li><li>For students</li><li>Live online</li></ul><span class="go">See courses {I["arrow"]}</span></a>
+      <a class="prod p-course rv" href="/courses/"><span class="kicker">Free · with certificate</span><div class="ico i-pink" style="background:#fff">{I["calendar"]}</div><h3>Courses</h3><p>Six self-paced courses with interactive tools, quick checks, a final test and a certificate.</p><ul><li>Statistics</li><li>Prompt Engineering</li><li>Product Management</li><li>HR Analytics</li><li>SEO to GEO</li><li>Building AI Agents</li></ul><span class="go">See all courses {I["arrow"]}</span></a>
+      <a class="prod p-skill rv" href="/tools/"><span class="kicker">Free for faculty</span><div class="ico i-sun" style="background:#fff">{I["teacher"]}</div><h3>Faculty Corner</h3><p>Turn a concept or chapter into something students do, not just read.</p><ul><li>Simulation Creator</li><li>Quick Case Generator</li><li>Interactive Game Creator</li><li>AI Presentation Creator</li><li>Journal Finder</li></ul><span class="go">Open the Faculty Corner {I["arrow"]}</span></a>
+      <a class="prod p-health rv" href="/practice/"><span class="kicker">Free for students</span><div class="ico i-sky" style="background:#fff">{I["student"]}</div><h3>Student Corner</h3><p>Make decisions, see consequences, get feedback and try again.</p><ul><li>Branching simulations</li><li>Learning games</li><li>Course comparison</li></ul><span class="go">Start practising {I["arrow"]}</span></a>
+      <a class="prod p-learn rv" href="/ai-evaluator/"><span class="kicker">New · free</span><div class="ico i-indigo" style="background:#fff">{I["clip"]}</div><h3>AI evaluator</h3><p>Score student answers or AI-generated text against a rubric, check key points and claims, and copy ready-to-share feedback.</p><ul><li>Rubric presets</li><li>Key-point check</li><li>Claims to verify</li><li>Feedback in one click</li></ul><span class="go">Evaluate a response {I["arrow"]}</span></a>
+      <a class="prod p-learn rv" href="/learnx/"><span class="kicker">For institutions</span><div class="ico i-indigo" style="background:#fff">{I["cap"]}</div><h3>LearnX: Transform content</h3><p>Your lectures and PDFs become games, mind maps, AI video chat and AI-assisted evaluation, on your own system.</p><ul><li>AI tutor</li><li>Question generator</li><li>Mind maps</li><li>Games &amp; simulations</li></ul><span class="go">Explore LearnX {I["arrow"]}</span></a>
+      <a class="prod p-course rv" href="/webinars/"><span class="kicker">Live and on demand</span><div class="ico i-pink" style="background:#fff">{I["play"]}</div><h3>Webinars and use cases</h3><p>Live sessions on AI in teaching and research, plus real ways faculty, students and institutions use these tools.</p><ul><li>Live webinars</li><li>Use cases</li><li>Newsletter</li></ul><span class="go">See webinars {I["arrow"]}</span></a>
     </div>
+  </div>
+</section>
+<section id="courses-home">
+  <div class="wrap">
+    {sec_head("Free courses, with certificates", "Learn at your own pace. Every lesson has a walkthrough, clear notes, a worked example and an interactive tool. Pass the final test to download your certificate.", "Start learning today")}
+    {course_cards(COURSES)}
+    <p class="rv" style="text-align:center;margin-top:22px"><a class="btn btn-ink" href="/courses/">See all courses and upcoming ones {I["arrow"]}</a></p>
   </div>
 </section>
 <section id="gamification" class="tint">
@@ -214,16 +235,26 @@ home += f'''<section id="products" class="white">
     <p class="rv" style="text-align:center;color:var(--muted);font-size:15px;margin-top:14px">Source: Sailer &amp; Homner (2020), <i>The gamification of learning: a meta-analysis</i>, Educational Psychology Review. Positive effects were found on all three types of outcome. <a href="https://link.springer.com/article/10.1007/s10648-019-09498-w" target="_blank" rel="noopener">Read the study</a></p>
     <div style="margin-top:36px">{cards([("chat", "Instant feedback", "Students know straight away what they got right and what to fix, while the idea is still fresh."), ("spark", "Recall, not re-reading", "Quizzes and challenges make students pull ideas from memory, which strengthens long-term learning."), ("trend", "Visible progress", "Points, levels and progress bars turn a long syllabus into small, achievable goals."), ("users", "Story and teamwork", "A game story and team challenges that mix competition with collaboration keep learners involved.")], "g4", "rotate")}</div>
     <div class="note rv" style="margin-top:22px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:#fff;color:var(--ink);border:2px solid var(--border)">
-      <span><b style="color:var(--ink)">How we use it:</b> our Faculty Tools and LearnX turn your lessons into simulations, quiz games and quick cases, with instant feedback built in.</span>
-      <a class="btn btn-ink btn-sm" href="/tools/">Try the faculty tools {I["arrow"]}</a>
+      <span><b style="color:var(--ink)">How we use it:</b> the Faculty Corner, our courses and LearnX turn lessons into simulations, quiz games and quick cases, with instant feedback built in.</span>
+      <a class="btn btn-ink btn-sm" href="/tools/">Open the Faculty Corner {I["arrow"]}</a>
+    </div>
+  </div>
+</section>
+<section class="white">
+  <div class="wrap">
+    {sec_head("See it in action", "A few of the ways educators, students and professionals use AIStudyTools.", "Use cases")}
+    <div class="grid g3">
+      <a class="card tool rv" href="/use-cases/#faculty"><div class="ico i-sun">{I["teacher"]}</div><h3>Turn a lecture into a role-play</h3><p>A marketing professor uses the Simulation Creator to let students negotiate with an AI client, then debriefs in class.</p><span class="go">Faculty use cases {I["arrow"]}</span></a>
+      <a class="card tool rv" href="/use-cases/#students"><div class="ico i-sky">{I["student"]}</div><h3>Check a draft before submitting</h3><p>A student runs an AI-assisted draft through the AI evaluator to find missing points and claims that need a source.</p><span class="go">Student use cases {I["arrow"]}</span></a>
+      <a class="card tool rv" href="/use-cases/#institutions"><div class="ico i-indigo">{I["building"]}</div><h3>Bring AI to a whole department</h3><p>A business school uses LearnX and our courses to train faculty and turn course content into games and AI tutors.</p><span class="go">Institution use cases {I["arrow"]}</span></a>
     </div>
   </div>
 </section>
 <section>
   <div class="wrap">
     {sec_head("Why AIStudyTools?", "", "Why us")}
-    {cards([("puzzle", "Practice over memory", "Students apply concepts to realistic decisions and see the consequences."), ("teacher", "Built by educators", "Designed by faculty who use these tools in their own classrooms."), ("target", "Ready in minutes", "Paste a topic or upload a chapter and get something you can use in class today."), ("lock", "Private by design", "Free tools keep your API key in your own browser. LearnX can run on your own system.")])}
-    <div style="margin-top:28px">{stats([("100K+", "Learning interactions"), ("50K+", "Research queries"), ("10K+", "AI simulations"), ("500+", "Subjects covered")])}</div>
+    {cards([("puzzle", "Practice over memory", "Students apply concepts to realistic decisions and see the consequences."), ("teacher", "Built by educators", "Designed by faculty who use these tools in their own classrooms."), ("target", "Free to start", "Courses, certificates and most tools are free. Paste a topic and get something you can use in class today."), ("lock", "Private by design", "Tools run in your browser and keep any API key on your device. LearnX can run on your own system.")])}
+    <div style="margin-top:28px">{stats([("6", "Free courses with certificates"), ("100K+", "Learning interactions"), ("10K+", "AI simulations"), ("500+", "Subjects covered")])}</div>
   </div>
 </section>
 '''
@@ -401,6 +432,7 @@ tl += f'''<section class="white">
         ("doc", "Quick Case Generator", "Turn today's news into a Harvard-style, classroom-ready quick case plus a separate faculty teaching note.", "/tools/quick-case-generator.html", "Needs a Gemini key"),
         ("spark", "Interactive Game Creator", "Upload your lesson and get drag-and-drop quiz games your students play from one link.", "/tools/create-game.html", "Needs a Gemini key"),
         ("search", "Journal Finder", "Search journals by name or ISSN and filter by ABDC rating, SJR quartile and Web of Science index, all in one place.", "/journals/", "No API key needed"),
+        ("clip", "AI Evaluator", "Score student answers or AI-generated text against a rubric, check key points and claims, and get ready-to-share feedback.", "/ai-evaluator/", "No API key needed"),
         ("layers", "AI Presentation Creator", "Paste your content, pick a style and download a designed PowerPoint with real charts.", "/tools/ai-presentation-creator.html", "Needs a Gemini key"),
     ])}
   </div>
@@ -429,7 +461,7 @@ tl += FOOT
 write("/tools/", tl)
 
 # ---------------- STUDENT PRACTICE (hub) ----------------
-pr = head("Student Practice: Simulations and Learning Games | AIStudyTools",
+pr = head("Student Corner: Simulations and Learning Games | AIStudyTools",
           "Free practice for students: branching simulations, learning games and a course comparison helper.", "/practice/").replace("<body>", f"<body{GATE}>") + header("practice")
 pr += hero("Free for students", 'Stop memorising. Start <span class="hl">practising</span>.',
            "Apply what you learn to realistic situations. Make decisions with incomplete information, see the consequences, get feedback and try again.",
@@ -553,7 +585,7 @@ def nice_date(d):
 ISSUES = sorted((read_issue(p) for p in glob.glob(os.path.join(os.path.dirname(os.path.abspath(__file__)), "newsletter", "*.md"))),
                 key=lambda x: x["date"], reverse=True)
 for it in ISSUES:
-    pg = head(f'{it["title"]} | AIStudyTools Newsletter', it["description"] or it["title"], f'/newsletter/{it["slug"]}/') + header("newsletter")
+    pg = head(f'{it["title"]} | AIStudyTools Newsletter', it["description"] or it["title"], f'/newsletter/{it["slug"]}/') + header("usecases")
     pg += f'''<section class="hero" style="padding-bottom:12px"><div class="wrap" style="display:block;max-width:780px">
   <a href="/newsletter/" style="font-weight:700;text-decoration:none">← All issues</a>
   <h1 style="margin-top:18px;font-size:clamp(32px,4.6vw,48px)">{html.escape(it["title"])}</h1>
@@ -563,7 +595,7 @@ for it in ISSUES:
 ''' + FOOT
     write(f'/newsletter/{it["slug"]}/', pg)
 
-nl = head("AI Newsletter for Educators | AIStudyTools", "Practical AI updates for educators and trainers: simulations, cases, gamification and AI in the classroom.", "/newsletter/") + header("newsletter")
+nl = head("AI Newsletter for Educators | AIStudyTools", "Practical AI updates for educators and trainers: simulations, cases, gamification and AI in the classroom.", "/newsletter/") + header("usecases")
 nl += f'''<section class="hero" style="padding-bottom:16px"><div class="wrap" style="display:block;max-width:820px">
   <span class="tag">Newsletter</span>
   <h1 style="margin-top:16px;font-size:clamp(34px,5vw,56px)">AI for the classroom, one issue at a time.</h1>
@@ -574,6 +606,107 @@ nl += f'''<section class="hero" style="padding-bottom:16px"><div class="wrap" st
 ''' for it in ISSUES) + '''</div></section>
 ''' + FOOT
 write("/newsletter/", nl)
+
+# ---------------- USE CASES ----------------
+USE_CASES = [
+    ("faculty", "Faculty", "Turn a lecture into a role-play", "Students read about negotiation but rarely practise it.", "Simulation Creator", "/tools/simulation-creator.html", "A ready-to-paste role-play prompt with a client persona and debrief questions, in about ten minutes."),
+    ("faculty", "Faculty", "Discuss this week's news as a case", "Textbook cases feel dated and students disengage.", "Quick Case Generator", "/tools/quick-case-generator.html", "A short, classroom-ready case from a current news story, plus a separate teaching note."),
+    ("faculty", "Faculty", "Revise a chapter with a quiz game", "Revision classes turn into a lecture repeat.", "Interactive Game Creator", "/tools/create-game.html", "Drag-and-drop quiz games from your lesson, shared with the class as one link."),
+    ("faculty", "Faculty", "Mark answer scripts more consistently", "Feedback on 60 short answers takes hours and varies from script to script.", "AI evaluator", "/ai-evaluator/", "A rubric score, key-point check and feedback draft for each answer. You review and decide every grade."),
+    ("faculty", "Faculty", "Choose a journal for a paper", "Checking ABDC, Scopus quartile and Web of Science status for each journal is slow.", "Journal Finder", "/journals/", "All three ratings in one search, filterable by field."),
+    ("faculty", "Faculty", "Make slides from your notes", "Building a deck from scratch eats preparation time.", "AI Presentation Creator", "/tools/ai-presentation-creator.html", "A designed PowerPoint with charts, ready to edit."),
+    ("students", "Students", "Check a draft before submitting", "An AI-assisted draft may miss key points or contain unsupported claims.", "AI evaluator (AI-output preset)", "/ai-evaluator/", "A list of missing points and claims that need a source. Always follow your institution's AI-use policy."),
+    ("students", "Students", "Learn to prompt before an internship", "Generic prompts give generic, unreliable answers.", "Prompt Engineering course", "/courses/prompt-engineering/", "A free certificate and reusable prompt templates for study and work."),
+    ("students", "Students", "Prepare for a statistics test", "Formulas are easy to forget without practice.", "Basics of Statistics course", "/courses/basics-of-statistics/", "Calculators that show every step, quick checks and a certificate."),
+    ("students", "Students", "Practise decisions, not just theory", "Exams test recall; jobs need judgement.", "Student Corner simulations and games", "/practice/", "Branching simulations with instant feedback, and games for quick revision."),
+    ("professionals", "Professionals", "Get found in AI search", "Customers now ask ChatGPT and Google's AI answers instead of browsing.", "SEO to GEO course", "/courses/seo-to-geo/", "A checklist for answer-first, citable content, robots.txt rules and a way to track AI visibility."),
+    ("professionals", "Professionals", "Automate routine enquiries", "Staff answer the same admissions or HR questions every day.", "Building AI Agents course", "/courses/building-ai-agents/", "An agent brief, instructions and a tested flow with human checkpoints, built without code."),
+    ("professionals", "Professionals", "Plan hiring with data", "Hiring plans are guesses that ignore attrition.", "HR Analytics course", "/courses/hr-analytics/", "Workforce plans, HR metrics and a Power BI dashboard approach you can reuse."),
+    ("professionals", "Professionals", "Prioritise a product backlog", "Every stakeholder says their feature is urgent.", "Product Management course", "/courses/product-management/", "RICE scoring, market sizing and A/B test checks with interactive calculators."),
+    ("institutions", "Institutions", "Bring AI to a whole department", "Faculty want to use AI but need training and the right tools.", "LearnX and our courses", "/learnx/", "Course content turned into games, mind maps and AI tutors on your own system, with faculty trained to use them."),
+    ("institutions", "Institutions", "Run a faculty development programme", "One-off AI talks rarely change teaching practice.", "Webinars and courses", "/webinars/", "Live sessions plus self-paced courses with certificates that faculty finish at their own pace."),
+]
+UC_GROUPS = [("faculty", "For faculty", "teacher"), ("students", "For students", "student"), ("professionals", "For professionals", "brief"), ("institutions", "For institutions", "building")]
+def uc_card(c):
+    return (f'<div class="card rv uc" data-aud="{c[0]}"><span class="tag indigo" style="align-self:flex-start">{c[1]}</span><h3>{c[2]}</h3>'
+            f'<p><b>The challenge:</b> {c[3]}</p><p><b>Use:</b> <a href="{c[5]}">{c[4]}</a></p><p><b>What you get:</b> {c[6]}</p></div>')
+
+uc = head("AI Use Cases for Teaching, Learning and Work | AIStudyTools", "Practical ways faculty, students, professionals and institutions use AIStudyTools courses and tools, plus our newsletter for educators.", "/use-cases/") + header("usecases")
+uc += hero("Use cases", 'Real ways to use <span class="hl">AI</span> in class and at work.',
+           "Pick your role and see which course or tool solves a common problem, and what you will have at the end.",
+           [("For faculty", "#faculty", "btn-ink"), ("For students", "#students", "btn-soft"), ("For professionals", "#professionals", "btn-soft")],
+           mindmap("Your goal", ["Faculty", "Students", "Professionals", "Institutions", "Newsletter"], "Use cases for faculty, students, professionals and institutions"))
+uc += '<section class="white"><div class="wrap">' + "".join(
+    f'<div id="{k}" style="scroll-margin-top:90px;margin-bottom:34px">{sec_head(t, "", "Use cases")}<div class="grid g3">' + "".join(uc_card(c) for c in USE_CASES if c[0] == k) + '</div></div>'
+    for k, t, ic in UC_GROUPS) + '<p class="small rv" style="text-align:center;color:var(--muted)">These are typical scenarios showing how each tool or course is meant to be used.</p></div></section>'
+uc += f'''<section>
+  <div class="wrap">
+    {sec_head("From the newsletter", "Practical notes for educators and trainers on simulations, cases, gamification and teaching with AI.", "Newsletter")}
+    <div style="display:grid;gap:14px;max-width:820px;margin:0 auto">
+''' + "".join(f'''      <a class="card issue rv" href="/newsletter/{it["slug"]}/"><span class="date">{nice_date(it["date"])}</span><h3>{html.escape(it["title"])}</h3><p>{html.escape(it["description"])}</p></a>
+''' for it in ISSUES[:3]) + f'''    </div>
+    <p class="rv" style="text-align:center;margin-top:22px"><a class="btn btn-soft" href="/newsletter/">All newsletter issues {I["arrow"]}</a></p>
+  </div>
+</section>
+'''
+uc += cta("Have a use case to share?", "Tell us how you use AI in your teaching or work, or ask us how to solve a problem in your classroom.", "Talk to us", "/contact/")
+uc += FOOT
+write("/use-cases/", uc)
+
+# ---------------- AI EVALUATOR ----------------
+EVAL_JS = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "evaluator.js"), encoding="utf-8").read()
+EVAL_CSS = """<style>
+.ev-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+@media (max-width:860px){.ev-grid{grid-template-columns:1fr}}
+.ev-card{background:#fff;border:2px solid var(--border);border-radius:22px;padding:22px}
+.ev-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.ev-score{display:flex;gap:20px;align-items:center;flex-wrap:wrap;background:var(--soft,#EEF0FF);border-radius:18px;padding:16px 18px;margin-bottom:14px}
+.ev-bar{height:16px;border-radius:999px;background:#fff;overflow:hidden}.ev-bar i{display:block;height:100%;border-radius:999px}
+.ev-table{overflow-x:auto;margin:10px 0}.ev-table table{width:100%;border-collapse:collapse;min-width:520px}
+.ev-table th,.ev-table td{text-align:left;padding:10px;border-bottom:1px solid var(--border);vertical-align:top;font-size:15px}
+.ev-table select{font:inherit;font-size:15px;padding:7px 10px;border:2px solid var(--border);border-radius:10px;background:#fff}
+.ev-h{margin:20px 0 8px;font-size:20px}.ev-list{padding-left:20px;display:grid;gap:6px}
+.ev-pre{white-space:pre-wrap;font:inherit;font-size:15.5px;background:#F4FFF7;border:2px solid #86EFAC;border-radius:14px;padding:14px;margin:0}
+.ev-out:empty{display:none}
+</style>"""
+ev = head("AI Evaluator: Rubric-Based Feedback on Student Answers and AI Text | AIStudyTools",
+          "Free AI evaluator for faculty and students: score answers or AI-generated text against a rubric, check key points and unsupported claims, and copy feedback. Runs in your browser.", "/ai-evaluator/") + header("evaluator")
+ev = ev.replace("</head>", EVAL_CSS + "</head>")
+ev += hero("Free · runs in your browser", 'Evaluate answers with a <span class="hl">clear rubric</span>.',
+           "Score a student answer or an AI-generated text against a rubric, check which key points are covered, flag claims that need a source, and copy feedback you can share. Nothing you paste leaves your device.",
+           [("Start evaluating", "#evaluator", "btn-ink"), ("Try an example", "#evaluator", "btn-soft")],
+           mindmap("Response", ["Rubric", "Key points", "Evidence", "Feedback", "Second opinion"], "A response is checked against a rubric, key points and evidence, then feedback and a second opinion"))
+ev += f'''<section class="white" id="evaluator" style="scroll-margin-top:80px">
+  <div class="wrap">
+    {sec_head("AI evaluator", "Fill in the task and key points once, then paste each response. Change any suggested level to apply your own judgement.", "Evaluate")}
+    <div class="ev-grid">
+      <div class="ev-card form">
+        <div class="field"><label for="ev_preset">Rubric</label><select id="ev_preset"><option value="essay">Short answer or essay</option><option value="case">Case analysis</option><option value="aiout">Checking AI-generated output</option><option value="custom">My own criteria</option></select></div>
+        <div class="field" id="ev_customwrap" style="margin-top:12px"><label for="ev_custom">Your criteria (one per line: name | weight %)</label><textarea id="ev_custom" style="min-height:90px">Understanding of concepts | 40
+Application to the case | 30
+Presentation | 30</textarea></div>
+        <div class="field" style="margin-top:12px"><label for="ev_task">Task or question</label><textarea id="ev_task" style="min-height:80px" placeholder="e.g. Explain why a company might choose penetration pricing. Use one example."></textarea></div>
+        <div class="field" style="margin-top:12px"><label for="ev_keys">Key points expected (one per line)</label><textarea id="ev_keys" style="min-height:110px" placeholder="Low initial price to gain market share&#10;Discourages competitors&#10;Risk of low margins"></textarea></div>
+        <div class="row2" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px"><div class="field"><label for="ev_min">Min words</label><input id="ev_min" inputmode="numeric" placeholder="optional"></div><div class="field"><label for="ev_max">Max words</label><input id="ev_max" inputmode="numeric" placeholder="optional"></div></div>
+      </div>
+      <div class="ev-card form">
+        <div class="field"><label for="ev_resp">Response to evaluate (student answer or AI output)</label><textarea id="ev_resp" style="min-height:330px" placeholder="Paste the answer here. Remove names and personal details first."></textarea></div>
+        <div class="ev-row"><button class="btn btn-ink" type="button" id="ev_go">Evaluate</button><button class="btn btn-soft btn-sm" type="button" id="ev_sample">Load an example</button><button class="btn btn-soft btn-sm" type="button" id="ev_clear">Clear</button></div>
+      </div>
+    </div>
+    <div class="ev-card ev-out" id="ev_out" aria-live="polite" style="margin-top:18px"></div>
+  </div>
+</section>
+<section>
+  <div class="wrap">
+    {sec_head("How it works, and its limits", "", "Good to know")}
+    {cards([("target", "Rubric first", "Choose a preset or write your own criteria and weights. The tool suggests a level from 1 to 4 for each criterion."), ("search", "Key points and evidence", "It checks which expected points appear, counts examples, figures and sources, and looks for reasoning words."), ("shield", "Claims to verify", "Sentences with figures or absolute words but no source are flagged so you can check them."), ("lock", "Private and in your hands", "Everything runs in your browser. The tool cannot judge truth or detect AI authorship; your judgement decides the grade.")], "g4", "rotate")}
+  </div>
+</section>
+'''
+ev += cta("Want AI-assisted evaluation for your institution?", "LearnX adds AI-assisted evaluation, question generation and AI tutors on your own system.", "Explore LearnX", "/learnx/")
+ev = ev + FOOT.replace("</body>", "<script>" + EVAL_JS + "</script>\n</body>")
+write("/ai-evaluator/", ev)
 
 # ---------------- 404 ----------------
 nf = head("Page not found | AIStudyTools", "The page you are looking for could not be found.", "/404.html") + header("")
