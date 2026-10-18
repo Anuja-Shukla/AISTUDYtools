@@ -30,3 +30,7 @@
 .asx-ftr a:hover{color:#fff}
 .asx-ftr .asx-copy{border-top:1px solid rgba(255,255,255,.12);margin-top:28px;padding-top:18px;font-size:13px}
 @media (max-width:760px){.asx-ftr .asx-cols{grid-template-columns:1fr}}
+/* nine tabs on one row on laptops (Oct 2026) */
+@media (min-width:1001px){.asx-nav{flex-wrap:nowrap;gap:0}.asx-nav a{padding:8px 7px;font-size:14px}.asx-hdr .asx-wrap{gap:10px}}
+@media (min-width:1001px) and (max-width:1250px){.asx-nav a{padding:6px 4px;font-size:13px}}
+@media (min-width:1001px) and (max-width:1100px){.asx-nav a{padding:6px 3px;font-size:12.5px}}
