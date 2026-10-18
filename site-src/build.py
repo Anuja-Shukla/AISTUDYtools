@@ -4,7 +4,7 @@ import os, html, re, glob
 import markdown
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "22"  # cache-buster for css/js
+V = "23"  # cache-buster for css/js
 
 def svg(paths, extra=""):
     return f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"{extra}>{paths}</svg>'
@@ -192,6 +192,7 @@ COURSES = [
     ("users", "HR Analytics", "HR metrics, Power BI dashboards, workforce planning and talent management.", "/courses/hr-analytics/"),
     ("search", "SEO to GEO", "Make your content easy for AI search engines to find, trust and cite.", "/courses/seo-to-geo/"),
     ("bot", "Building AI Agents", "Design, build and test your first AI agent, no coding needed.", "/courses/building-ai-agents/"),
+    ("puzzle", "Coding for Non-Coders", "Think like a programmer and build real tools with AI, no experience needed.", "/courses/coding-for-non-coders/"),
 ]
 def course_cards(items):
     pal = ["i-indigo", "i-sun", "i-sky", "i-pink", "i-mint"]
@@ -208,7 +209,7 @@ home += f'''<section id="products" class="white">
   <div class="wrap">
     {sec_head("Everything in one place", "For faculty who want livelier classes, students who want to practise, professionals who want new skills, and institutions that want it at scale.", "What we offer")}
     <div class="grid g2">
-      <a class="prod p-course rv" href="/courses/"><span class="kicker">Free · with certificate</span><div class="ico i-pink" style="background:#fff">{I["calendar"]}</div><h3>Courses</h3><p>Six self-paced courses with interactive tools, quick checks, a final test and a certificate.</p><ul><li>Statistics</li><li>Prompt Engineering</li><li>Product Management</li><li>HR Analytics</li><li>SEO to GEO</li><li>Building AI Agents</li></ul><span class="go">See all courses {I["arrow"]}</span></a>
+      <a class="prod p-course rv" href="/courses/"><span class="kicker">Free · with certificate</span><div class="ico i-pink" style="background:#fff">{I["calendar"]}</div><h3>Courses</h3><p>Seven self-paced courses with interactive tools, quick checks, a final test and a certificate.</p><ul><li>Statistics</li><li>Prompt Engineering</li><li>Product Management</li><li>HR Analytics</li><li>SEO to GEO</li><li>Building AI Agents</li><li>Coding for Non-Coders</li></ul><span class="go">See all courses {I["arrow"]}</span></a>
       <a class="prod p-skill rv" href="/tools/"><span class="kicker">Free for faculty</span><div class="ico i-sun" style="background:#fff">{I["teacher"]}</div><h3>Faculty Corner</h3><p>Turn a concept or chapter into something students do, not just read.</p><ul><li>Simulation Creator</li><li>Quick Case Generator</li><li>Interactive Game Creator</li><li>AI Presentation Creator</li><li>Journal Finder</li></ul><span class="go">Open the Faculty Corner {I["arrow"]}</span></a>
       <a class="prod p-health rv" href="/practice/"><span class="kicker">Free for students</span><div class="ico i-sky" style="background:#fff">{I["student"]}</div><h3>Student Corner</h3><p>Make decisions, see consequences, get feedback and try again.</p><ul><li>Branching simulations</li><li>Learning games</li><li>Course comparison</li></ul><span class="go">Start practising {I["arrow"]}</span></a>
       <a class="prod p-learn rv" href="/ai-evaluator/"><span class="kicker">New · free</span><div class="ico i-indigo" style="background:#fff">{I["clip"]}</div><h3>AI evaluator</h3><p>Score student answers or AI-generated text against a rubric, check key points and claims, and copy ready-to-share feedback.</p><ul><li>Rubric presets</li><li>Key-point check</li><li>Claims to verify</li><li>Feedback in one click</li></ul><span class="go">Evaluate a response {I["arrow"]}</span></a>
@@ -254,7 +255,7 @@ home += f'''<section id="products" class="white">
   <div class="wrap">
     {sec_head("Why AIStudyTools?", "", "Why us")}
     {cards([("puzzle", "Practice over memory", "Students apply concepts to realistic decisions and see the consequences."), ("teacher", "Built by educators", "Designed by faculty who use these tools in their own classrooms."), ("target", "Free to start", "Courses, certificates and most tools are free. Paste a topic and get something you can use in class today."), ("lock", "Private by design", "Tools run in your browser and keep any API key on your device. LearnX can run on your own system.")])}
-    <div style="margin-top:28px">{stats([("6", "Free courses with certificates"), ("100K+", "Learning interactions"), ("10K+", "AI simulations"), ("500+", "Subjects covered")])}</div>
+    <div style="margin-top:28px">{stats([("7", "Free courses with certificates"), ("100K+", "Learning interactions"), ("10K+", "AI simulations"), ("500+", "Subjects covered")])}</div>
   </div>
 </section>
 '''
@@ -535,6 +536,10 @@ cs += f'''<section class="white" id="available">
       <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-indigo" style="flex:none">{I["bot"]}</div><div><span class="tag indigo">Free · Self-paced · Certificate</span><h3 style="margin-top:8px">Building AI Agents</h3><p>Two modules: Agent Foundations (what agents are, the agent loop, tools, MCP and RAG) and Designing and Deploying Agents (agent briefs, no-code build patterns, testing, safety and ROI). Interactive design tools, quick checks and a final test. No coding needed.</p></div></div>
       <a class="btn btn-accent" href="/courses/building-ai-agents/" style="flex:none">Start the course {I["arrow"]}</a>
     </div>
+    <div class="card rv" style="display:flex;flex-direction:row;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:2px solid var(--accent);margin-top:18px">
+      <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-sun" style="flex:none">{I["puzzle"]}</div><div><span class="tag indigo">Free · Self-paced · Certificate</span><h3 style="margin-top:8px">Coding for Non-Coders</h3><p>Two modules: Thinking Like a Programmer (steps and algorithms, variables, conditions and loops, tables, CSV and JSON) and Building with AI (asking AI to write code, reading errors and debugging, building and sharing a mini app). Interactive tools, quick checks and a final test. No experience needed.</p></div></div>
+      <a class="btn btn-accent" href="/courses/coding-for-non-coders/" style="flex:none">Start the course {I["arrow"]}</a>
+    </div>
   </div>
 </section>
 <section>
@@ -542,7 +547,6 @@ cs += f'''<section class="white" id="available">
     {sec_head("Launching soon", "The first cohorts are being scheduled. Leave your details and we'll tell you when enrolment opens.", "Upcoming")}
     <div class="grid g4">
       <div class="card rv"><div class="ico i-indigo">{I["bot"]}</div><span class="tag sky" style="align-self:flex-start">New</span><h3>Agentic AI</h3><p>Understand AI agents and build simple ones that plan, use tools and finish multi-step tasks for you.</p><a class="btn btn-accent btn-sm" href="#demo:Courses" style="align-self:flex-start;margin-top:auto">Register interest</a></div>
-      <div class="card rv"><div class="ico i-sun">{I["puzzle"]}</div><span class="tag" style="align-self:flex-start">No coding needed</span><h3>Coding for Non-Coders</h3><p>Build small apps, scripts and automations by describing what you want to AI, with no programming background.</p><a class="btn btn-accent btn-sm" href="#demo:Courses" style="align-self:flex-start;margin-top:auto">Register interest</a></div>
       <div class="card rv"><div class="ico i-mint">{I["bars"]}</div><span class="tag sky" style="align-self:flex-start">Data skills</span><h3>Data Analysis and Visualisation</h3><p>Clean data, find patterns and make clear charts and dashboards with AI and spreadsheet tools.</p><a class="btn btn-accent btn-sm" href="#demo:Courses" style="align-self:flex-start;margin-top:auto">Register interest</a></div>
       <div class="card rv"><div class="ico i-sky">{I["search"]}</div><span class="tag sky" style="align-self:flex-start">For researchers</span><h3>AI for Research and Literature Review</h3><p>Find, read and summarise papers faster, and use AI responsibly in writing and publishing.</p><a class="btn btn-accent btn-sm" href="#demo:Courses" style="align-self:flex-start;margin-top:auto">Register interest</a></div>
       <div class="card rv"><div class="ico i-indigo">{I["brief"]}</div><span class="tag" style="align-self:flex-start">For professionals</span><h3>Generative AI for Work and Productivity</h3><p>Use AI for emails, reports, presentations and meetings, and set up simple workflow automations.</p><a class="btn btn-accent btn-sm" href="#demo:Courses" style="align-self:flex-start;margin-top:auto">Register interest</a></div>
