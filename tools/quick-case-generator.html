@@ -85,6 +85,11 @@
     .key-row input { flex: 1; min-width: 220px; }
     .key-status { font-size: 0.85rem; color: var(--accent-strong); font-weight: 600; }
     .key-status.missing { color: var(--accent-3); }
+    .free-box { background: rgba(79, 70, 229, 0.06); border: 1px solid rgba(79, 70, 229, 0.25); border-radius: 14px; padding: 16px 20px; margin-bottom: 14px; }
+    .free-box h4 { margin: 0 0 4px; font-size: 1rem; color: var(--accent-strong); }
+    .free-box p { margin: 0; font-size: 0.88rem; color: var(--muted); }
+    details.key-box summary { cursor: pointer; font-weight: 700; color: var(--accent-strong); font-size: 0.92rem; }
+    details.key-box[open] summary { margin-bottom: 10px; }
 
     .btn-row { display: flex; gap: 10px; margin-top: 24px; flex-wrap: wrap; align-items: center; }
     button {
@@ -167,8 +172,13 @@
   <h2>Quick Case Generator</h2>
   <h5>Built for faculty use. Fill in your teaching requirements below and the AI will generate a full Harvard-style, classroom-ready case study plus a separate faculty teaching note, right here on this page.</h5>
 
-  <div class="key-box">
-    <h4>Your Google Gemini API Key</h4>
+  <div class="free-box" id="freeBox">
+    <h4>Free: 1 case per day, no API key needed</h4>
+    <p id="freeStatus">Fill in the form and click Generate Case Study. Each faculty member gets one free case per day. Please do not paste confidential material.</p>
+  </div>
+
+  <details class="key-box" id="keyDetails">
+    <summary>Need more cases? Use your own free Gemini API key (unlimited)</summary>
     <p>
       This tool uses your own free Google Gemini API key — no cost, no credit card, ever. Get a key at
       <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a>
@@ -181,7 +191,7 @@
       <button class="small secondary" onclick="clearKey()">Clear</button>
       <span class="key-status" id="keyStatus"></span>
     </div>
-  </div>
+  </details>
 
   <label for="subject">Subject / Course</label>
   <div class="hint">e.g. Marketing Management, Strategic Management, Entrepreneurship, Operations, AI &amp; Business</div>
@@ -215,6 +225,7 @@
   <div class="btn-row">
     <button id="generateBtn" onclick="generateCase()">Generate Case Study</button>
     <button class="secondary" id="copyBtn" onclick="copyResult()" style="display:none;">Copy Result</button>
+    <button class="secondary" id="copyPromptBtn" onclick="copyPrompt()" style="display:none;">Copy the prompt</button>
     <span id="status"></span>
   </div>
 
@@ -251,6 +262,7 @@
   }
 
   function saveKey() {
+    setTimeout(() => { if (typeof setFree === "function") setFree(1); }, 0);
     const input = document.getElementById('apiKeyInput');
     const value = input.value.trim();
     if (value.length < 20) {
@@ -418,6 +430,7 @@ Goal: Produce a 5-10 minute quick case that a faculty member can use immediately
 
     const apiKey = localStorage.getItem(STORAGE_KEY);
     if (!apiKey) {
+      if (AI_API) return generateFree();
       status.className = 'error';
       status.innerText = 'Please add your Gemini API key above first.';
       return;
@@ -467,6 +480,65 @@ Goal: Produce a 5-10 minute quick case that a faculty member can use immediately
 
     btn.disabled = false;
   }
+
+  /* ---- free cases through the AIStudyTools server (no key in this page) ---- */
+  const AI_API = "";
+  function deviceId() {
+    try {
+      let d = localStorage.getItem("ast_device");
+      if (!d || !/^[A-Za-z0-9_-]{16,64}$/.test(d)) {
+        d = ((window.crypto && crypto.randomUUID) ? crypto.randomUUID() : (Math.random().toString(36) + Math.random().toString(36) + Date.now().toString(36))).replace(/[^A-Za-z0-9]/g, "").slice(0, 40);
+        while (d.length < 16) d += "0";
+        localStorage.setItem("ast_device", d);
+      }
+      return d;
+    } catch (e) { return ("nostore" + Date.now().toString(36) + "0000000000").slice(0, 20); }
+  }
+  function setFree(remaining) {
+    const fs = document.getElementById("freeStatus");
+    if (!fs) return;
+    if (localStorage.getItem(STORAGE_KEY)) fs.innerText = "You have saved your own Gemini key below, so your cases are unlimited and use your key.";
+    else if (remaining) fs.innerText = "Your free case for today is available. Fill in the form and click Generate Case Study. Please do not paste confidential material.";
+    else fs.innerText = "You have used today's free case. Come back tomorrow, add your own free Gemini key below for unlimited cases, or use Copy the prompt and paste it into ChatGPT or Gemini.";
+  }
+  function showLimit() {
+    document.getElementById("keyDetails").open = true;
+    document.getElementById("copyPromptBtn").style.display = "inline-block";
+    setFree(0);
+  }
+  async function generateFree() {
+    const btn = document.getElementById("generateBtn"), status = document.getElementById("status"), result = document.getElementById("result"), copyBtn = document.getElementById("copyBtn");
+    const v = id => document.getElementById(id).value.trim();
+    const f = { subject: v("subject"), newsLink: v("newsLink"), subtopic: v("subtopic"), level: v("level"), length: v("length"), device: deviceId() };
+    if (!f.subject && !f.subtopic) { status.className = "error"; status.innerText = "Please enter at least the subject or the theory to be taught."; return; }
+    btn.disabled = true; status.className = ""; result.style.display = "none"; copyBtn.style.display = "none";
+    status.innerText = "Generating your free case study. This can take 20-40 seconds...";
+    try {
+      const r = await fetch(AI_API + "/api/case", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(f) });
+      const d = await r.json().catch(() => ({}));
+      if (!r.ok) {
+        status.className = "error";
+        status.innerText = (d.error || ("Request failed (" + r.status + ")")) + (d.limit ? " Come back tomorrow, add your own free Gemini key below for unlimited cases, or copy the prompt into ChatGPT or Gemini." : "");
+        if (d.limit) showLimit();
+      } else {
+        generatedText = d.text; result.innerText = d.text; result.style.display = "block"; copyBtn.style.display = "inline-block";
+        status.innerText = "Done. This was your free case for today."; setFree(0);
+      }
+    } catch (e) {
+      status.className = "error"; status.innerText = "Could not reach the case generator. Please check your connection and try again.";
+    }
+    btn.disabled = false;
+  }
+  function copyPrompt() {
+    navigator.clipboard.writeText(buildPrompt()).then(() => { const b = document.getElementById("copyPromptBtn"); b.innerText = "Prompt copied! Paste it into ChatGPT or Gemini"; setTimeout(() => b.innerText = "Copy the prompt", 2500); });
+  }
+  (function initFree() {
+    const box = document.getElementById("freeBox"), det = document.getElementById("keyDetails");
+    if (!AI_API) { box.style.display = "none"; det.open = true; return; }
+    setFree(1);
+    if (localStorage.getItem(STORAGE_KEY)) return;
+    fetch(AI_API + "/api/case/quota?device=" + encodeURIComponent(deviceId())).then(r => r.json()).then(d => { if (typeof d.remaining === "number") { setFree(d.remaining); if (!d.remaining) showLimit(); } }).catch(() => {});
+  })();
 
   function copyResult() {
     navigator.clipboard.writeText(generatedText).then(() => {
