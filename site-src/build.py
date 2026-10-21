@@ -4,7 +4,7 @@ import os, html, re, glob
 import markdown
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "24"  # cache-buster for css/js
+V = "25"  # cache-buster for css/js
 PAY_API = ""  # payment server (Cloudflare Worker) URL; empty = paid-course enrolment shows "opens soon"
 
 def svg(paths, extra=""):
@@ -102,7 +102,7 @@ FOOT = f'''</main>
         <a class="logo" href="/"><span class="logo-mark"></span><span><b>AIStudyTools</b></span></a>
         <p style="margin-top:14px;max-width:340px">AI tools and courses for teaching and learning. A platform of Intellique Research School Pvt Ltd.</p>
       </div>
-      <div><h4>Explore</h4><a href="/learnx/">Transform content</a><a href="/tools/">Faculty Corner</a><a href="/practice/">Student Corner</a><a href="/courses/">Courses</a><a href="/webinars/">Webinars</a><a href="/journals/">Journal Finder</a><a href="/ai-evaluator/">AI evaluator</a><a href="/use-cases/">Use cases</a></div>
+      <div><h4>Explore</h4><a href="/learnx/">Transform content</a><a href="/tools/">Faculty Corner</a><a href="/practice/">Student Corner</a><a href="/courses/">Courses</a><a href="/webinars/">Webinars</a><a href="/journals/">Journal Finder</a><a href="/ai-evaluator/">AI evaluator</a><a href="/faculty-award/">Faculty Innovation Award</a><a href="/use-cases/">Use cases</a></div>
       <div><h4>Contact</h4><a href="mailto:intelliqueresearchschool@gmail.com">intelliqueresearchschool@gmail.com</a><a href="https://wa.me/917303559258" target="_blank" rel="noopener">WhatsApp +91 73035 59258</a><a href="tel:+917303559258">Call +91 73035 59258</a></div>
       <div><h4>Sister sites</h4><a href="https://www.theresearchschool.com/">The Research School</a><a href="https://aijuggernauts.com/">AIjuggernauts</a><a href="https://intelliqueresearchschool.com/">Intellique Research School</a></div>
     </div>
@@ -441,6 +441,11 @@ tl += f'''<section class="white">
 </section>
 <section>
   <div class="wrap">
+    <div class="cta rv" style="background:linear-gradient(135deg,#1E1B4B,#4F46E5)"><div><span class="tag" style="background:#FEF3C7;color:#92400E">🏆 Faculty Innovation Award</span><h2 style="margin-top:10px">Made something great with these tools? Get published.</h2><p>Submit your simulation, case, game or rubric. Approved entries are published with your name and a certificate, and one each month is featured in our webinar.</p></div><a class="btn btn-sun" href="/faculty-award/">Submit your entry {I["arrow"]}</a></div>
+  </div>
+</section>
+<section>
+  <div class="wrap">
     {sec_head("How it works in class", "", "The loop")}
     <ol class="steps rv" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
       <li><div><b>Create</b><span>Turn concepts, cases and classroom material into realistic practice scenarios.</span></div></li>
@@ -715,6 +720,8 @@ write("/ai-evaluator/", ev)
 
 # ---------------- PAID COURSES + POLICIES ----------------
 exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "paid.py"), encoding="utf-8").read())
+# ---------------- FACULTY INNOVATION AWARD ----------------
+exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "award.py"), encoding="utf-8").read())
 
 # ---------------- 404 ----------------
 nf = head("Page not found | AIStudyTools", "The page you are looking for could not be found.", "/404.html") + header("")
