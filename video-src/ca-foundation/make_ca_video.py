@@ -16,7 +16,7 @@ if "--stills" in sys.argv:
     stills = [float(x) for x in sys.argv[sys.argv.index("--stills") + 1].split(",")]
 
 work = os.path.join(lesson, "_work"); shutil.rmtree(work, ignore_errors=True); os.makedirs(os.path.join(work, "frames"))
-for f in ("base.html",): shutil.copy(os.path.join(HERE, f), work)
+for f in ("base.html", "lib.js"): shutil.copy(os.path.join(HERE, f), work)
 shutil.copytree(os.path.join(HERE, "package"), os.path.join(work, "package"))
 shutil.copy(os.path.join(lesson, "scenes.js"), work)
 
@@ -28,7 +28,7 @@ for l in raw:
     caps.append(c); spoken.append(s)
 
 def chunks(text, maxc=118):
-    parts = re.split(r"(?<=[.!?])\s+", text)
+    parts = re.split(r"(?<=[a-z0-9%)₹”'][.?])\s+(?=[A-Z0-9₹“(])", text)
     outp = []
     for p in parts:
         while len(p) > maxc:
@@ -55,7 +55,11 @@ k = LazyK()
 auds, D = [], []
 import hashlib
 cache = os.path.join(lesson, "_tts"); os.makedirs(cache, exist_ok=True)
+DRY = "--dry" in sys.argv
 for i, s in enumerate(spoken):
+    if DRY:
+        sr = 24000; a = np.zeros(int(sr * (len(s.split()) / 2.55)), dtype=np.float32); auds.append(a)
+        D.append(round(0.35 + len(a) / sr + 0.75, 3)); continue
     cf = os.path.join(cache, hashlib.sha1(s.encode()).hexdigest()[:16] + ".wav")
     if os.path.exists(cf): a, sr = sf.read(cf, dtype="float32")
     else:
@@ -78,6 +82,10 @@ open(os.path.join(work, "data.js"), "w").write(
     "var LINES=" + json.dumps(caps) + ";var D=" + json.dumps(D) + ";var MOUTH=" + json.dumps([round(float(x), 3) for x in m]) +
     ";var CHUNKS=" + json.dumps([chunks(c) for c in caps]) + ";")
 
+if "--sheet" in sys.argv:
+    st0 = [sum(D[:i]) for i in range(len(D))]
+    stills = [round(st0[i] + 0.9 * D[i], 2) for i in range(len(D))]
+
 async def frames():
     async with async_playwright() as p:
         b = await p.chromium.launch()
@@ -90,6 +98,13 @@ async def frames():
             for t in stills:
                 await pg.evaluate(f"render({t})")
                 await pg.screenshot(path=out.replace(".mp4", f"_t{int(t):03d}.png"))
+            if "--sheet" in sys.argv:
+                from PIL import Image
+                ims = [Image.open(out.replace(".mp4", f"_t{int(t):03d}.png")).resize((640, 360)) for t in stills]
+                cols = 3; rows = (len(ims) + cols - 1) // cols; g = Image.new("RGB", (640 * cols, 360 * rows), "white")
+                for i, im in enumerate(ims): g.paste(im, ((i % cols) * 640, (i // cols) * 360))
+                g.save(out.replace(".mp4", "_sheet.png"))
+                for t in stills: os.remove(out.replace(".mp4", f"_t{int(t):03d}.png"))
         else:
             n = int(TOTAL * FPS)
             for i in range(n):
