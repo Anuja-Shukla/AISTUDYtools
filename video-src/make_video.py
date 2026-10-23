@@ -12,6 +12,8 @@ VIDEOS = [  # (animation html, voiceover lines, output name)
     ("skillx.html", "skillx-lines.txt", "skillx-explainer"),
     ("overview.html", "overview-lines.txt", "aistudytools-overview"),
     ("manual.html", "manual-lines.txt", "skillx-manual-to-simulation"),
+    ("transform.html", "transform-lines.txt", "transform-content-service"),
+    ("evaluator.html", "evaluator-lines.txt", "ai-evaluator-service"),
 ]
 HERE = os.path.dirname(os.path.abspath(__file__))
 voice_dir, font, out_dir = sys.argv[1], sys.argv[2], sys.argv[3]

@@ -1,0 +1,184 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Outfit;src:url(package/files/outfit-latin-wght-normal.woff2) format('woff2');font-weight:100 900}
+:root{--bg:#FAFAFF;--ink:#1E1B4B;--muted:#4A4878;--accent:#4F46E5;--dk:#3730A3;--soft:#EEF0FF;--line:#C9CCF7;--border:#E4E5F5;--sun:#FEF3C7;--sunfg:#854D0E;--sunS:#FBBF24;--sky:#E0F2FE;--skyfg:#075985;--pink:#FCE7F3;--pinkfg:#9D174D;--mint:#DCFCE7;--mintfg:#166534}
+*{box-sizing:border-box;margin:0}
+html,body{width:1280px;height:720px;overflow:hidden;background:var(--bg);font-family:Outfit,sans-serif;color:var(--ink)}
+#stage{position:absolute;inset:0;overflow:hidden}
+.sc{position:absolute;inset:0;opacity:0}
+.abs{position:absolute}
+.chip{position:absolute;padding:12px 20px;border-radius:16px;font-weight:700;font-size:22px;white-space:nowrap;box-shadow:0 10px 24px -14px rgba(30,27,75,.45)}
+.c-indigo{background:var(--soft);color:var(--dk)}.c-sun{background:var(--sun);color:var(--sunfg)}.c-sky{background:var(--sky);color:var(--skyfg)}.c-pink{background:var(--pink);color:var(--pinkfg)}.c-mint{background:var(--mint);color:var(--mintfg)}
+.tag{position:absolute;left:80px;top:70px;padding:9px 18px;border-radius:999px;background:var(--sun);color:var(--sunfg);font-weight:700;font-size:20px}
+.h{position:absolute;left:80px;top:122px;font-size:54px;font-weight:800;letter-spacing:-.02em;line-height:1.05;width:440px}
+.card{position:absolute;background:#fff;border:2px solid var(--border);border-radius:26px;box-shadow:0 30px 60px -30px rgba(30,27,75,.35)}
+.lbl{font-size:16px;font-weight:700;color:#6E6C94;letter-spacing:.06em}
+.row{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:21px;margin-top:14px}
+.bar{height:14px;border-radius:7px;background:var(--soft);overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;border-radius:7px;width:0}
+.kp{display:flex;gap:12px;align-items:center;font-size:21px;font-weight:600;margin-top:14px;opacity:0}
+.ck{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:18px;font-weight:800;flex:none;background:var(--soft);color:var(--dk)}
+.ans{font-size:22px;line-height:1.6;font-weight:500}
+.ans span{border-radius:6px;padding:1px 2px}
+.lv{display:flex;justify-content:space-between;align-items:center;font-size:20px;font-weight:700;padding:11px 0;border-bottom:1px solid var(--border)}
+.sel{border:2px solid var(--line);border-radius:10px;padding:5px 12px;font-size:18px;background:#fff;color:var(--dk)}
+#cap{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);max-width:1040px;text-align:center;background:rgba(30,27,75,.88);color:#fff;font-size:25px;font-weight:600;padding:10px 22px;border-radius:14px;line-height:1.3}
+</style></head>
+<body><div id="stage">
+
+<!-- S1 the marking pile -->
+<div class="sc" id="s1" style="background:#EDEDF2">
+  <div id="pile"></div>
+  <div class="abs" id="cnt" style="left:150px;top:520px;font-size:40px;font-weight:800;color:#555">0 scripts</div>
+  <div class="abs" id="clock" style="left:640px;top:120px;width:170px;height:170px;border-radius:50%;background:#fff;border:6px solid #CFCFDA">
+    <div class="abs" id="hh" style="left:75px;top:33px;width:8px;height:46px;background:#555;border-radius:4px;transform-origin:4px 46px"></div>
+    <div class="abs" id="mh" style="left:76px;top:15px;width:6px;height:64px;background:#888;border-radius:3px;transform-origin:3px 64px"></div><div class="abs" style="left:72px;top:72px;width:14px;height:14px;border-radius:50%;background:#555"></div>
+  </div>
+  <div class="abs" id="hrs" style="left:840px;top:170px;font-size:44px;font-weight:800;color:#555">0 hours</div>
+  <div class="chip" id="g1" style="left:640px;top:360px;background:#fff;color:#555">Script 12 · 7/10</div>
+  <div class="chip" id="g2" style="left:880px;top:420px;background:#fff;color:#555">Script 37 · 5/10</div>
+  <div class="chip" id="g3" style="left:700px;top:480px;background:#FEE2E2;color:#991B1B">Same answer, different marks? 🤔</div>
+</div>
+
+<!-- S2 rubric + key points -->
+<div class="sc" id="s2">
+  <div class="abs" id="t2" style="left:0;width:1280px;top:40px;text-align:center;font-size:44px;font-weight:800;letter-spacing:-.02em">Set your rubric <span style="color:var(--accent)">once</span></div>
+  <div class="card" id="rub" style="left:110px;top:130px;width:500px;padding:24px 30px">
+    <div class="lbl">RUBRIC</div>
+    <div id="rr"></div>
+  </div>
+  <div class="card" id="kpc" style="left:670px;top:130px;width:500px;padding:24px 30px">
+    <div class="lbl">KEY POINTS EXPECTED</div>
+    <div class="kp" id="k1"><span class="ck">1</span>Low price to gain market share</div>
+    <div class="kp" id="k2"><span class="ck">2</span>Discourages competitors</div>
+    <div class="kp" id="k3"><span class="ck">3</span>Risk of low margins</div>
+    <div class="kp" id="k4"><span class="ck">4</span>A real company example</div>
+  </div>
+</div>
+
+<!-- S3 scan for key points -->
+<div class="sc" id="s3">
+  <div class="card" id="ansc" style="left:70px;top:60px;width:640px;height:450px;padding:26px 30px;overflow:hidden">
+    <div class="lbl">STUDENT ANSWER · Q2</div>
+    <div class="ans" style="margin-top:12px"><span id="a1">Penetration pricing means launching at a low price to win market share quickly.</span> <span id="a2">It can discourage competitors from entering.</span> <span id="a3">For example, Jio gained 100 million users in 170 days with free data.</span> <span id="a4">Penetration pricing always works for new products.</span></div>
+    <div class="abs" id="beam" style="left:0;width:640px;height:70px;background:linear-gradient(180deg,rgba(79,70,229,0),rgba(79,70,229,.18),rgba(79,70,229,0))"></div>
+  </div>
+  <div class="card" id="kps" style="left:750px;top:60px;width:460px;padding:24px 28px">
+    <div class="lbl">KEY POINTS</div>
+    <div class="kp" style="opacity:1" id="x1"><span class="ck" id="c1">…</span>Low price, market share</div>
+    <div class="kp" style="opacity:1" id="x2"><span class="ck" id="c2">…</span>Discourages competitors</div>
+    <div class="kp" style="opacity:1" id="x3"><span class="ck" id="c3">…</span>Risk of low margins</div>
+    <div class="kp" style="opacity:1" id="x4"><span class="ck" id="c4">…</span>Real company example</div>
+    <div id="cov" style="margin-top:20px;display:inline-block;background:var(--mint);color:var(--mintfg);font-weight:800;font-size:22px;padding:10px 16px;border-radius:14px;opacity:0">3 of 4 key points covered</div>
+  </div>
+</div>
+
+<!-- S4 claims -->
+<div class="sc" id="s4">
+  <div class="tag">Claims to verify</div>
+  <div class="h" style="width:380px">No more <span style="color:var(--accent)">confident</span> mistakes</div>
+  <div class="card" style="left:560px;top:60px;width:640px;height:450px;padding:26px 30px">
+    <div class="lbl">STUDENT ANSWER · Q2</div>
+    <div class="ans" style="margin-top:12px">Penetration pricing means launching at a low price to win market share quickly. It can discourage competitors from entering. <span id="h1">For example, Jio gained 100 million users in 170 days with free data.</span> <span id="h2">Penetration pricing always works for new products.</span></div>
+  </div>
+  <div class="chip c-sun" id="w1" style="left:640px;top:400px;font-size:20px">⚠️ Figure without a source</div>
+  <div class="chip" id="w2" style="left:920px;top:440px;font-size:20px;background:#FEE2E2;color:#991B1B">⚠️ “Always”: is it true?</div>
+</div>
+
+<!-- S5 score + teacher override -->
+<div class="sc" id="s5">
+  <div class="tag">Weighted score</div>
+  <div class="h" style="width:430px">AI suggests. <span style="color:var(--accent)">You decide.</span></div>
+  <svg class="abs" style="left:150px;top:290px" width="260" height="260"><circle cx="130" cy="130" r="105" stroke="#EEF0FF" stroke-width="26" fill="none"/><circle id="ring" cx="130" cy="130" r="105" stroke="#4F46E5" stroke-width="26" fill="none" stroke-linecap="round" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" transform="rotate(-90 130 130)"/></svg>
+  <div class="abs" style="left:150px;top:370px;width:260px;text-align:center"><div id="pct" style="font-size:58px;font-weight:800">0%</div><div id="band" style="font-size:22px;font-weight:700;color:var(--muted)">…</div></div>
+  <div class="card" id="lvc" style="left:600px;top:70px;width:600px;padding:20px 30px">
+    <div class="lbl">LEVELS (YOU CAN CHANGE ANY)</div>
+    <div class="lv"><span>Accuracy &amp; key points · 40%</span><span class="sel">3 · Proficient</span></div>
+    <div class="lv"><span>Evidence &amp; examples · 20%</span><span class="sel" id="sel2">3 · Proficient</span></div>
+    <div class="lv"><span>Critical thinking · 20%</span><span class="sel">3 · Proficient</span></div>
+    <div class="lv" style="border:0"><span>Clarity · 20%</span><span class="sel">4 · Excellent</span></div>
+  </div>
+  <div class="abs" id="cur" style="font-size:44px">👆</div>
+</div>
+
+<!-- S6 feedback -->
+<div class="sc" id="s6">
+  <div class="tag">Feedback in one click</div>
+  <div class="h" style="width:420px">Feedback that <span style="color:var(--accent)">teaches</span></div>
+  <div class="card" id="fbc" style="left:600px;top:70px;width:600px;padding:26px 30px;background:#F4FFF7;border-color:#86EFAC">
+    <div class="lbl" style="color:#15803D">FEEDBACK FOR THE STUDENT</div>
+    <div id="fb" style="font-size:22px;line-height:1.5;font-weight:500;margin-top:10px;min-height:200px"></div>
+    <div id="cpy" style="display:inline-block;margin-top:14px;background:var(--ink);color:#fff;font-weight:800;font-size:21px;padding:12px 22px;border-radius:14px">Copy feedback</div>
+  </div>
+  <div class="abs" id="cur2" style="font-size:44px">👆</div>
+</div>
+
+<!-- S7 end -->
+<div class="sc" id="s7" style="background:var(--ink);color:#fff">
+  <div class="abs" id="b1" style="right:-90px;top:-90px;width:340px;height:340px;border-radius:50%;background:var(--sunS)"></div>
+  <div class="abs" id="b2" style="left:-80px;bottom:-110px;width:300px;height:300px;border-radius:50%;background:var(--accent)"></div>
+  <div class="abs" id="endc" style="left:0;width:1280px;top:150px;text-align:center">
+    <div style="display:inline-flex;align-items:center;gap:16px"><span style="position:relative;width:62px;height:62px;border-radius:50%;background:var(--accent);display:inline-block"><span style="position:absolute;right:-6px;top:-6px;width:24px;height:24px;border-radius:50%;background:var(--sunS);border:5px solid var(--ink)"></span></span><span style="font-size:48px;font-weight:800">AI evaluator</span><span style="font-size:24px;color:#C9C8EA;font-weight:600;align-self:flex-end;margin-bottom:8px">by AIStudyTools</span></div>
+    <div style="font-size:62px;font-weight:800;margin-top:26px;letter-spacing:-.02em">Grade fairly. <span style="color:var(--sunS)">Feedback that teaches.</span></div>
+    <div id="btn" style="display:inline-block;margin-top:34px;background:var(--sunS);color:var(--ink);font-weight:800;font-size:28px;padding:16px 34px;border-radius:18px">Try it free</div>
+    <div style="margin-top:22px;font-size:26px;color:#C9C8EA;font-weight:600">www.aistudytools.com/ai-evaluator</div>
+  </div>
+</div>
+
+<div id="cap"></div>
+</div>
+<script>
+const D=[6.7,7.4,8.9,6.0,8.0,5.0,8.4];
+const CAP=["Sixty answer scripts. Hours of marking. And feedback that changes from one script to the next.","With the AI evaluator, set a clear rubric with weights, and the key points you expect in a good answer.","Paste a student answer, or any AI-generated text. In seconds, it checks which key points are covered, and which are missing.","It flags claims that need a source, so confident-sounding AI mistakes don't slip through.","You get a weighted score for every criterion. And you stay in charge: change any level, and the score updates instantly.","Then copy clear, specific feedback for your student, in one click.",""];
+const START=[];let acc=0;for(const d of D){START.push(acc);acc+=d}
+window.TOTAL=acc;window.START=START;window.D=D;
+const $=id=>document.getElementById(id);
+const cl=x=>Math.max(0,Math.min(1,x));
+const seg=(t,a,b)=>cl((t-a)/(b-a));
+const eo=x=>1-Math.pow(1-x,3);
+const eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const back=x=>{const c=1.7;x=x-1;return 1+x*x*((c+1)*x+c)};
+function pop(el,p){p=cl(p);el.style.opacity=Math.min(1,p*2.5);el.style.transform='scale('+(0.4+0.6*back(p))+')';}
+function rise(el,p){p=eo(cl(p));el.style.opacity=p;el.style.transform='translateY('+((1-p)*30)+'px)';}
+function place(el,x,y){el.style.left=x+'px';el.style.top=y+'px'}
+let P='';for(let i=0;i<14;i++){P+='<div class="abs pg" id="p'+i+'" style="left:'+(150+(i%2)*14)+'px;width:340px;height:420px;background:#fff;border:2px solid #DDD;border-radius:8px;box-shadow:0 6px 14px -8px rgba(0,0,0,.3);padding:26px"><div style="height:10px;width:60%;background:#D4D4DC;border-radius:5px;margin-bottom:16px"></div><div style="height:9px;width:92%;background:#E2E2E8;border-radius:5px;margin-bottom:10px"></div><div style="height:9px;width:84%;background:#E2E2E8;border-radius:5px;margin-bottom:10px"></div><div style="height:9px;width:88%;background:#E2E2E8;border-radius:5px"></div></div>'}$('pile').innerHTML=P;
+let R='';[['Accuracy & key points',40,'#4F46E5'],['Evidence & examples',20,'#F59E0B'],['Critical thinking',20,'#0EA5E9'],['Clarity',20,'#22C55E']].forEach(([n,w,c],i)=>{R+='<div id="r'+i+'" style="opacity:0"><div class="row"><span>'+n.replace('&','&amp;')+'</span><span id="rw'+i+'">0%</span></div><div class="bar"><i id="rb'+i+'" style="background:'+c+'"></i></div></div>'});$('rr').innerHTML=R;
+const FB="Good explanation of penetration pricing, with a relevant example (Jio). To improve: discuss the risk of low margins, add a source for the 100 million figure, and avoid absolute words like “always”.";
+
+window.render=function(t){
+  let si=0;for(let i=0;i<D.length;i++){if(t>=START[i])si=i}
+  for(let i=0;i<D.length;i++){
+    const el=$('s'+(i+1));const lt=t-START[i];
+    let o=0;if(lt>=-0.001&&lt<D[i]){o=i===0?1:seg(lt,0,.35);if(i<D.length-1)o*=1-seg(lt,D[i]-.3,D[i])}
+    if(i===D.length-1&&lt>=D[i])o=1;
+    el.style.opacity=o;el.style.display=o>0?'block':'none';
+  }
+  const lt=t-START[si];
+  $('cap').textContent=CAP[si];$('cap').style.opacity=CAP[si]?seg(lt,.15,.45):0;
+  if(si===0){for(let i=0;i<14;i++){const p=eo(seg(lt,.1+i*.22,.45+i*.22));const e=$('p'+i);e.style.top=(80-i*3+(1-p)*-560)+'px';e.style.opacity=p>0?1:0;e.style.transform='rotate('+((i%3-1)*2.2)+'deg)'}
+    const n=Math.round(seg(lt,.1,3.4)*60);$('cnt').textContent=n+' scripts';
+    rise($('clock'),seg(lt,.6,1.1));const sp=seg(lt,1,5.5);$('mh').style.transform='rotate('+(sp*360*6)+'deg)';$('hh').style.transform='rotate('+(sp*180)+'deg)';$('hrs').textContent=Math.round(sp*6)+' hours';rise($('hrs'),seg(lt,1,1.4));
+    pop($('g1'),seg(lt,3.0,3.4));pop($('g2'),seg(lt,3.5,3.9));pop($('g3'),seg(lt,4.2,4.7));}
+  if(si===1){rise($('t2'),seg(lt,0,.5));rise($('rub'),seg(lt,.2,.7));rise($('kpc'),seg(lt,.5,1.0));
+    [40,20,20,20].forEach((w,i)=>{const p=seg(lt,.8+i*.4,1.2+i*.4);$('r'+i).style.opacity=p;const b=eo(seg(lt,1.0+i*.4,1.7+i*.4));$('rb'+i).style.width=(w*2.2*b)+'%';$('rw'+i).textContent=Math.round(w*b)+'%'});
+    ['k1','k2','k3','k4'].forEach((id,i)=>{const p=seg(lt,2.4+i*.45,2.8+i*.45);const e=$(id);e.style.opacity=p;e.style.transform='translateX('+((1-eo(p))*30)+'px)'});}
+  if(si===2){rise($('ansc'),seg(lt,0,.5));rise($('kps'),seg(lt,.3,.8));
+    const b=seg(lt,.9,5.6);$('beam').style.top=(40+b*360)+'px';$('beam').style.opacity=b>0&&b<1?1:0;
+    const hit=[['a1','c1',1.6,true],['a2','c2',2.7,true],['a4','c3',5.3,false],['a3','c4',3.9,true]];
+    hit.forEach(([a,c,at,ok])=>{const on=lt>at;$(a).style.background=on&&ok?'#DCFCE7':'transparent';const e=$(c);e.textContent=on?(ok?'✓':'✗'):'…';e.style.background=on?(ok?'#22C55E':'#F87171'):'#EEF0FF';e.style.color=on?'#fff':'#3730A3';e.style.transform='scale('+(on?back(seg(lt,at,at+.35)):1)+')'});
+    pop($('cov'),seg(lt,5.9,6.4));}
+  if(si===3){const h1=seg(lt,.8,1.4),h2=seg(lt,2.0,2.6);$('h1').style.background='rgba(251,191,36,'+(h1*.45)+')';$('h2').style.background='rgba(248,113,113,'+(h2*.35)+')';
+    pop($('w1'),seg(lt,1.2,1.7));pop($('w2'),seg(lt,2.4,2.9));}
+  if(si===4){rise($('lvc'),seg(lt,.1,.6));const a=eo(seg(lt,.4,1.8));const ch=lt>5.0;const target=ch?86:78;const v=ch?78+8*eo(seg(lt,5.0,5.7)):78*a;
+    $('ring').setAttribute('stroke-dashoffset',100-v);$('ring').setAttribute('stroke',v>=85?'#22C55E':'#4F46E5');$('pct').textContent=Math.round(v)+'%';$('band').textContent=lt<.4?'…':(v>=85?'Excellent':'Proficient');
+    const c=eio(seg(lt,3.7,4.7));place($('cur'),1150+(1080-1150)*c,640+(178-640)*c);$('cur').style.opacity=seg(lt,3.5,3.7)*(1-seg(lt,6.6,6.9));
+    const s=$('sel2');s.textContent=ch?'4 · Excellent':'3 · Proficient';s.style.background=ch?'#DCFCE7':'#fff';s.style.borderColor=ch?'#22C55E':'#C9CCF7';s.style.transform='scale('+(lt>4.8&&lt<5.1?0.92:1)+')';}
+  if(si===5){rise($('fbc'),seg(lt,.1,.6));const n=Math.floor(seg(lt,.5,3.0)*FB.length);$('fb').textContent=FB.slice(0,n)+(n<FB.length&&lt>.5?'▍':'');
+    const c=eio(seg(lt,3.0,3.7));place($('cur2'),1150+(760-1150)*c,640+(395-640)*c);$('cur2').style.opacity=seg(lt,2.9,3.1)*(1-seg(lt,4.5,4.8));
+    const done=lt>3.85;$('cpy').textContent=done?'Copied ✓':'Copy feedback';$('cpy').style.background=done?'#15803D':'#1E1B4B';$('cpy').style.transform='scale('+(lt>3.7&&lt<3.9?0.92:1)+')';}
+  if(si===6){rise($('endc'),seg(lt,.2,1.0));pop($('b1'),seg(lt,0,.8));pop($('b2'),seg(lt,.2,1.0));$('btn').style.transform='scale('+(1+Math.max(0,Math.sin((lt-1.6)*3.2))*.05*seg(lt,1.4,1.8))+')';}
+};
+render(0);
+</script>
+</body></html>

@@ -1,0 +1,7 @@
+Sixty answer scripts. Hours of marking. And feedback that changes from one script to the next.
+With the AI evaluator, you set a clear rubric, with weights, and the key points you expect in a good answer.
+Then paste a student answer, or any AI-generated text. In seconds, it checks which key points are covered, and which are missing.
+It flags claims that need a source, so confident-sounding AI mistakes don't slip through.
+You get a weighted score for every criterion. And you stay in charge. Change any level, and the score updates instantly.
+Then copy clear, specific feedback for your student, in just one click.
+The AI evaluator, by AI Study Tools. Grade fairly, and give feedback that teaches. Try it free today.

@@ -1,0 +1,190 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Outfit;src:url(package/files/outfit-latin-wght-normal.woff2) format('woff2');font-weight:100 900}
+:root{--bg:#FAFAFF;--ink:#1E1B4B;--muted:#4A4878;--accent:#4F46E5;--dk:#3730A3;--soft:#EEF0FF;--line:#C9CCF7;--border:#E4E5F5;--sun:#FEF3C7;--sunfg:#854D0E;--sunS:#FBBF24;--sky:#E0F2FE;--skyfg:#075985;--pink:#FCE7F3;--pinkfg:#9D174D;--mint:#DCFCE7;--mintfg:#166534}
+*{box-sizing:border-box;margin:0}
+html,body{width:1280px;height:720px;overflow:hidden;background:var(--bg);font-family:Outfit,sans-serif;color:var(--ink)}
+#stage{position:absolute;inset:0;overflow:hidden}
+.sc{position:absolute;inset:0;opacity:0}
+.abs{position:absolute}
+.chip{position:absolute;padding:14px 22px;border-radius:18px;font-weight:700;font-size:24px;white-space:nowrap;box-shadow:0 10px 24px -14px rgba(30,27,75,.45)}
+.c-indigo{background:var(--soft);color:var(--dk)}.c-sun{background:var(--sun);color:var(--sunfg)}.c-sky{background:var(--sky);color:var(--skyfg)}.c-pink{background:var(--pink);color:var(--pinkfg)}.c-mint{background:var(--mint);color:var(--mintfg)}
+.tag{position:absolute;left:80px;top:70px;padding:9px 18px;border-radius:999px;background:var(--sun);color:var(--sunfg);font-weight:700;font-size:20px}
+.h{position:absolute;left:80px;top:122px;font-size:54px;font-weight:800;letter-spacing:-.02em;line-height:1.05;width:460px}
+.card{position:absolute;background:#fff;border:2px solid var(--border);border-radius:26px;box-shadow:0 30px 60px -30px rgba(30,27,75,.35)}
+.node{position:absolute;padding:14px 20px;border-radius:18px;font-weight:700;font-size:22px;text-align:center;white-space:nowrap;box-shadow:0 10px 24px -14px rgba(30,27,75,.45)}
+.bar{height:16px;border-radius:8px;background:var(--soft);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:8px;width:0}
+.bub{position:absolute;padding:14px 18px;border-radius:20px;font-size:21px;line-height:1.35;font-weight:500}
+.dot{position:absolute;width:12px;height:12px;border-radius:3px}
+#cap{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);max-width:1040px;text-align:center;background:rgba(30,27,75,.88);color:#fff;font-size:25px;font-weight:600;padding:10px 22px;border-radius:14px;line-height:1.3}
+</style></head>
+<body><div id="stage">
+
+<!-- S1 the problem -->
+<div class="sc" id="s1" style="background:#EDEDF2">
+  <div class="card" id="pdf" style="left:150px;top:70px;width:440px;height:470px;border-radius:12px;border-color:#DDD;padding:30px 34px;overflow:hidden">
+    <div style="display:flex;gap:12px;align-items:center"><span style="background:#EF4444;color:#fff;font-weight:800;font-size:15px;padding:5px 9px;border-radius:6px">PDF</span><span style="font-weight:700;color:#555;font-size:20px">Lecture_7_final.pdf</span></div>
+    <div style="font-size:15px;color:#999;font-weight:600;margin-top:6px">Page <span id="pg">1</span> of 86</div>
+    <div style="position:absolute;left:34px;right:34px;top:110px;bottom:24px;overflow:hidden"><div id="lines"></div></div>
+  </div>
+  <div class="card" style="left:690px;top:110px;width:440px;padding:26px 30px">
+    <div style="font-weight:700;color:var(--muted);font-size:19px">Class attention</div>
+    <div style="display:flex;align-items:center;gap:12px;margin-top:10px"><span id="face" style="font-size:44px">🙂</span><div class="bar" style="flex:1;height:20px"><i id="att" style="width:90%;background:#22C55E"></i></div><b id="attv" style="font-size:24px;width:62px;text-align:right">90%</b></div>
+  </div>
+  <div class="abs" id="phone" style="left:760px;top:300px;font-size:96px">📱</div>
+  <div class="abs" id="zz" style="left:930px;top:300px;font-size:84px">😴</div>
+</div>
+
+<!-- S2 upload -> AI -->
+<div class="sc" id="s2">
+  <svg class="abs" style="left:0;top:0" width="1280" height="720"><g id="s2lines" stroke="#F6D88A" stroke-width="4" fill="none" stroke-linecap="round"></g></svg>
+  <div class="abs" style="left:0;width:1280px;top:56px;text-align:center;font-size:46px;font-weight:800;letter-spacing:-.02em" id="up">Upload once. <span style="color:var(--accent)">AI does the rest.</span></div>
+  <div class="chip c-pink" id="f1">📄 PDF notes</div>
+  <div class="chip c-sun" id="f2">📊 Slides</div>
+  <div class="chip c-sky" id="f3">🎥 Lecture video</div>
+  <div class="abs" id="orb" style="left:540px;top:250px;width:200px;height:200px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:800;font-size:46px">AI</div>
+  <div class="abs" id="sunDot" style="left:700px;top:245px;width:46px;height:46px;border-radius:50%;background:var(--sunS);border:6px solid var(--bg)"></div>
+  <div class="chip c-indigo" id="o1" style="left:900px;top:190px">🎬 Videos</div>
+  <div class="chip c-mint" id="o2" style="left:960px;top:310px">🧠 Mind maps</div>
+  <div class="chip c-sun" id="o3" style="left:900px;top:430px">🎮 Games</div>
+</div>
+
+<!-- S3 animated video -->
+<div class="sc" id="s3">
+  <div class="tag">Animated videos</div>
+  <div class="h">Every idea, explained in <span style="color:var(--accent)">minutes</span></div>
+  <div class="card" id="player" style="left:600px;top:70px;width:600px;height:440px;overflow:hidden;padding:0">
+    <div style="height:350px;background:linear-gradient(160deg,#EEF0FF,#FFF7E0);position:relative">
+      <div class="abs" style="left:28px;top:22px;font-weight:800;font-size:26px">Supply &amp; demand</div>
+      <svg class="abs" style="left:60px;top:70px" width="480" height="250"><g stroke="#C9CCF7" stroke-width="3"><path d="M20 230 H460 M20 230 V10"/></g><path id="dem" d="M40 30 L440 220" stroke="#4F46E5" stroke-width="7" fill="none" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/><path id="sup" d="M40 220 L440 30" stroke="#F59E0B" stroke-width="7" fill="none" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/><circle id="eq" cx="240" cy="125" r="0" fill="#1E1B4B"/></svg>
+      <div class="chip c-mint" id="eqt" style="left:330px;top:150px;font-size:19px;padding:8px 14px">Equilibrium price</div>
+      <div class="abs" id="vcap" style="left:50%;bottom:14px;transform:translateX(-50%);background:rgba(30,27,75,.82);color:#fff;font-size:17px;font-weight:600;padding:6px 14px;border-radius:10px;white-space:nowrap">Where the two curves meet, the market clears.</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px;padding:22px 24px">
+      <span style="width:42px;height:42px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:18px">▶</span>
+      <div class="bar" style="flex:1;height:10px"><i id="prog" style="background:var(--accent)"></i></div>
+      <b id="tm" style="font-size:18px;color:var(--muted)">0:00 / 2:30</b>
+    </div>
+  </div>
+</div>
+
+<!-- S4 mind map -->
+<div class="sc" id="s4">
+  <div class="tag">Mind maps</div>
+  <div class="h" style="width:400px">See how it all <span style="color:var(--accent)">connects</span></div>
+  <svg class="abs" style="left:0;top:0" width="1280" height="720"><g id="mmL" stroke="#A5A9F0" stroke-width="5" fill="none" stroke-linecap="round"></g></svg>
+  <div class="node" id="mc" style="left:760px;top:270px;background:var(--ink);color:#fff;font-size:26px;padding:18px 26px">Marketing mix</div>
+  <div class="node c-indigo" id="m1" style="left:640px;top:110px">Product</div>
+  <div class="node c-sun" id="m2" style="left:1010px;top:120px">Price</div>
+  <div class="node c-sky" id="m3" style="left:610px;top:450px">Place</div>
+  <div class="node c-pink" id="m4" style="left:990px;top:450px">Promotion</div>
+  <div class="node c-sun" id="m5" style="left:1040px;top:20px;font-size:17px;padding:8px 14px">Skimming</div>
+  <div class="node c-pink" id="m6" style="left:1040px;top:555px;font-size:17px;padding:8px 14px">Social media</div>
+</div>
+
+<!-- S5 quiz game -->
+<div class="sc" id="s5">
+  <div class="tag">Quiz games</div>
+  <div class="h" style="width:420px">Practice that feels like <span style="color:var(--accent)">play</span></div>
+  <div class="card" style="left:560px;top:60px;width:640px;height:470px;background:#F6F7FF"></div>
+  <div class="abs" style="left:590px;top:80px;font-weight:700;color:var(--muted);font-size:18px">Drag each strategy to its definition</div>
+  <div class="card" id="bk1" style="left:590px;top:330px;width:280px;height:110px;padding:14px;border-style:dashed;text-align:center;font-weight:700;font-size:19px;color:var(--muted)">Low price to win share</div>
+  <div class="card" id="bk2" style="left:890px;top:330px;width:280px;height:110px;padding:14px;border-style:dashed;text-align:center;font-weight:700;font-size:19px;color:var(--muted)">High price at launch</div>
+  <div class="chip c-indigo" id="d1" style="font-size:21px">Penetration pricing</div>
+  <div class="chip c-sun" id="d2" style="font-size:21px">Price skimming</div>
+  <div class="abs" id="board" style="left:590px;top:460px;display:flex;gap:16px;font-weight:700;font-size:20px"><span>🏆 You <b id="sc1">0</b></span><span style="color:var(--muted)">Aarav <b>120</b></span><span style="color:var(--muted)">Diya <b>95</b></span></div>
+  <div id="conf"></div>
+</div>
+
+<!-- S6 chat + languages -->
+<div class="sc" id="s6">
+  <div class="tag">Chat with your content</div>
+  <div class="h" style="width:440px">Ask anything, in <span style="color:var(--accent)">your language</span></div>
+  <div class="card" style="left:600px;top:60px;width:600px;height:400px;background:#F6F7FF"></div>
+  <div class="bub" id="q1" style="left:780px;top:90px;background:var(--accent);color:#fff;border-top-right-radius:6px;width:390px">Why does the price fall when supply rises?</div>
+  <div class="bub" id="a1" style="left:630px;top:190px;background:#fff;border:2px solid var(--border);border-top-left-radius:6px;width:470px">More sellers compete for the same buyers, so they lower prices until demand catches up. <span style="color:var(--muted);font-size:17px">(from Lecture 7, 12:40)</span></div>
+  <div class="abs" id="typing" style="left:640px;top:200px;font-size:34px;letter-spacing:6px;color:var(--muted)">•••</div>
+  <div class="abs" id="langs" style="left:620px;top:480px;display:flex;gap:10px;flex-wrap:wrap;width:600px"></div>
+</div>
+
+<!-- S7 end -->
+<div class="sc" id="s7" style="background:var(--ink);color:#fff">
+  <div class="abs" id="b1" style="right:-90px;top:-90px;width:340px;height:340px;border-radius:50%;background:var(--sunS)"></div>
+  <div class="abs" id="b2" style="left:-80px;bottom:-110px;width:300px;height:300px;border-radius:50%;background:var(--accent)"></div>
+  <div class="abs" id="endc" style="left:0;width:1280px;top:150px;text-align:center">
+    <div style="display:inline-flex;align-items:center;gap:16px"><span style="position:relative;width:62px;height:62px;border-radius:50%;background:var(--accent);display:inline-block"><span style="position:absolute;right:-6px;top:-6px;width:24px;height:24px;border-radius:50%;background:var(--sunS);border:5px solid var(--ink)"></span></span><span style="font-size:48px;font-weight:800">Transform content</span><span style="font-size:24px;color:#C9C8EA;font-weight:600;align-self:flex-end;margin-bottom:8px">by AIStudyTools</span></div>
+    <div style="font-size:62px;font-weight:800;margin-top:26px;letter-spacing:-.02em">Dull lectures → <span style="color:var(--sunS)">dynamic learning</span></div>
+    <div id="btn" style="display:inline-block;margin-top:34px;background:var(--sunS);color:var(--ink);font-weight:800;font-size:28px;padding:16px 34px;border-radius:18px">Book a free demo</div>
+    <div style="margin-top:22px;font-size:26px;color:#C9C8EA;font-weight:600">www.aistudytools.com</div>
+  </div>
+</div>
+
+<div id="cap"></div>
+</div>
+<script>
+const D=[7.9,7.7,6.4,6.2,5.6,6.5,8.6];
+const CAP=["Your lectures and PDFs are full of great ideas. But students skim, scroll and forget most of it.","Upload a PDF, slides or a lecture recording, and AIStudyTools transforms it automatically…","…into short animated videos that explain every idea in minutes,","…into mind maps that show how every concept connects,","…and into quiz games with scoreboards, so revision feels like play.","Learners can chat with your content, in English, Hindi or their own language.",""];
+const START=[];let acc=0;for(const d of D){START.push(acc);acc+=d}
+window.TOTAL=acc;window.START=START;window.D=D;
+const $=id=>document.getElementById(id);
+const cl=x=>Math.max(0,Math.min(1,x));
+const seg=(t,a,b)=>cl((t-a)/(b-a));
+const eo=x=>1-Math.pow(1-x,3);
+const eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const back=x=>{const c=1.7;x=x-1;return 1+x*x*((c+1)*x+c)};
+function pop(el,p){p=cl(p);el.style.opacity=Math.min(1,p*2.5);el.style.transform='scale('+(0.4+0.6*back(p))+')';}
+function rise(el,p){p=eo(cl(p));el.style.opacity=p;el.style.transform='translateY('+((1-p)*30)+'px)';}
+function curve(x1,y1,x2,y2){const mx=(x1+x2)/2,my=(y1+y2)/2;return 'M'+x1+' '+y1+' Q '+(mx+(y2-y1)*.15)+' '+(my-(x2-x1)*.15)+' '+x2+' '+y2}
+function center(el){return [el.offsetLeft+el.offsetWidth/2,el.offsetTop+el.offsetHeight/2]}
+function path(d,p,extra){return '<path d="'+d+'" pathLength="1" stroke-dasharray="1" stroke-dashoffset="'+(1-eo(p))+'"'+(extra||'')+'/>'}
+function place(el,x,y){el.style.left=x+'px';el.style.top=y+'px'}
+let L='';for(let i=0;i<26;i++){const w=[96,88,100,74,92,84,60,97,81][i%9];L+='<div style="height:11px;border-radius:6px;background:#D4D4DC;width:'+w+'%;margin-bottom:'+(i%5===4?24:12)+'px"></div>'}$('lines').innerHTML=L;
+let G='';['English','Hindi','Tamil','Bengali','Marathi','Telugu','Gujarati'].forEach((l,i)=>{G+='<span class="lg" id="lg'+i+'" style="padding:9px 16px;border-radius:999px;font-weight:700;font-size:19px;background:'+(i===0?'#4F46E5':'#fff')+';color:'+(i===0?'#fff':'#3730A3')+';border:2px solid #C9CCF7;opacity:0">'+l+'</span>'});$('langs').innerHTML=G;
+let C='';const CC=['#4F46E5','#FBBF24','#22C55E','#EC4899','#0EA5E9'];for(let i=0;i<40;i++){C+='<div class="dot" id="cf'+i+'" style="background:'+CC[i%5]+'"></div>'}$('conf').innerHTML=C;
+
+window.render=function(t){
+  let si=0;for(let i=0;i<D.length;i++){if(t>=START[i])si=i}
+  for(let i=0;i<D.length;i++){
+    const el=$('s'+(i+1));const lt=t-START[i];
+    let o=0;if(lt>=-0.001&&lt<D[i]){o=i===0?1:seg(lt,0,.35);if(i<D.length-1)o*=1-seg(lt,D[i]-.3,D[i])}
+    if(i===D.length-1&&lt>=D[i])o=1;
+    el.style.opacity=o;el.style.display=o>0?'block':'none';
+  }
+  const lt=t-START[si];
+  $('cap').textContent=CAP[si];$('cap').style.opacity=CAP[si]?seg(lt,.15,.45):0;
+  if(si===0){const p=eo(seg(lt,0,.8));$('pdf').style.opacity=p;$('pdf').style.transform='translateY('+((1-p)*40)+'px) rotate(-1.5deg)';
+    const sc=seg(lt,.8,5.5);$('lines').style.transform='translateY('+(-sc*260)+'px)';$('pg').textContent=1+Math.floor(sc*61);
+    const a=seg(lt,1.2,5.2);const v=Math.round(90-a*72);$('att').style.width=v+'%';$('attv').textContent=v+'%';$('att').style.background=v>60?'#22C55E':v>35?'#F59E0B':'#EF4444';$('face').textContent=v>60?'🙂':v>35?'😐':'😩';
+    pop($('phone'),seg(lt,2.0,2.5));$('phone').style.transform+=' translateY('+(Math.sin(lt*9)*6*seg(lt,2.5,2.8))+'px)';
+    pop($('zz'),seg(lt,3.8,4.3));}
+  if(si===1){rise($('up'),seg(lt,0,.6));
+    const srcs=[['f1',90,180],['f2',60,330],['f3',90,480]];
+    srcs.forEach(([id,x,y],k)=>{const a=seg(lt,.3+k*.25,.7+k*.25),m=eio(seg(lt,1.4+k*.35,2.3+k*.35));const el=$(id);
+      place(el,x+(560-x)*m,y+(320-y)*m);el.style.opacity=Math.min(a*2,1)*(1-seg(m,.8,1));el.style.transform='scale('+((0.5+0.5*back(a))*(1-m*.6))+')'});
+    pop($('orb'),seg(lt,.5,1.1));const pulse=seg(lt,2.4,3.6);$('orb').style.boxShadow='0 0 0 '+(18+Math.sin(lt*5)*6+pulse*10)+'px rgba(251,191,36,.22),0 0 0 '+(44+Math.sin(lt*5)*8+pulse*14)+'px rgba(251,191,36,.09)';
+    pop($('sunDot'),seg(lt,.9,1.4));
+    let d='';['o1','o2','o3'].forEach((id,k)=>{const p=seg(lt,3.4+k*.35,3.9+k*.35);pop($(id),p);if(p>0){const c=center($(id));d+=path(curve(700,350,c[0]-60,c[1]),p)}});$('s2lines').innerHTML=d;}
+  if(si===2){rise($('player'),seg(lt,.1,.6));$('dem').setAttribute('stroke-dashoffset',1-eo(seg(lt,.7,1.8)));$('sup').setAttribute('stroke-dashoffset',1-eo(seg(lt,1.3,2.4)));
+    $('eq').setAttribute('r',12*back(seg(lt,2.4,2.9)));pop($('eqt'),seg(lt,2.7,3.2));rise($('vcap'),seg(lt,3.0,3.4));$('vcap').style.transform='translateX(-50%)';
+    const pr=seg(lt,.6,4.6);$('prog').style.width=(pr*100)+'%';const s=Math.floor(pr*150);$('tm').textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0')+' / 2:30';}
+  if(si===3){pop($('mc'),seg(lt,.1,.6));const c0=center($('mc'));let d='';
+    ['m1','m2','m3','m4'].forEach((id,k)=>{const p=seg(lt,.6+k*.35,1.1+k*.35);pop($(id),p);if(p>0){const c=center($(id));d+=path(curve(c0[0],c0[1],c[0],c[1]),p)}});
+    [['m5','m2'],['m6','m4']].forEach(([id,par],k)=>{const p=seg(lt,2.3+k*.4,2.8+k*.4);pop($(id),p);if(p>0){const a=center($(par)),c=center($(id));d+=path(curve(a[0],a[1],c[0],c[1]),p,' stroke="#F6D88A"')}});
+    $('mmL').innerHTML=d;$('mc').style.boxShadow='0 0 0 '+(8+Math.sin(lt*4)*5)+'px rgba(79,70,229,.15)';}
+  if(si===4){const it=[['d1',640,170,612,385,'bk1'],['d2',900,170,935,385,'bk2']];
+    it.forEach(([id,x,y,x2,y2,bk],k)=>{const a=seg(lt,.2+k*.2,.6+k*.2),m=eio(seg(lt,1.0+k*1.1,1.8+k*1.1));const el=$(id);place(el,x+(x2-x)*m,y+(y2-y)*m);
+      el.style.opacity=Math.min(1,a*2);el.style.transform='scale('+(0.6+0.4*back(a))+') rotate('+(Math.sin(m*Math.PI)*-6)+'deg)';
+      const ok=m>=1;$(bk).style.borderColor=ok?'#22C55E':'#E4E5F5';$(bk).style.background=ok?'#F0FDF4':'#fff';$(bk).style.borderStyle=ok?'solid':'dashed'});
+    const s1=Math.round(75*seg(lt,1.8,2.2)+75*seg(lt,2.9,3.3));$('sc1').textContent=s1;rise($('board'),seg(lt,.4,.8));
+    const cf=seg(lt,3.3,5.0);for(let i=0;i<40;i++){const e=$('cf'+i);const ang=(i/40)*Math.PI*2+i;const sp=180+(i*37)%200;e.style.left=(880+Math.cos(ang)*sp*cf)+'px';e.style.top=(300+Math.sin(ang)*sp*cf+cf*cf*260)+'px';e.style.opacity=cf>0?1-cf:0;e.style.transform='rotate('+(cf*720+i*20)+'deg)'}}
+  if(si===5){rise($('q1'),seg(lt,.2,.6));const ty=seg(lt,.8,1.0)*(1-seg(lt,1.8,1.9));$('typing').style.opacity=ty;$('typing').style.transform='translateY('+(Math.sin(lt*10)*3)+'px)';
+    rise($('a1'),seg(lt,1.9,2.4));
+    for(let i=0;i<7;i++){const p=seg(lt,2.6+i*.22,2.9+i*.22);const e=$('lg'+i);e.style.opacity=p;e.style.transform='scale('+(0.5+0.5*back(p))+')'}
+    const hl=Math.floor(seg(lt,4.2,5.3)*3.99);for(let i=0;i<7;i++){const on=lt>4.2?i===hl:i===0;const e=$('lg'+i);e.style.background=on?'#4F46E5':'#fff';e.style.color=on?'#fff':'#3730A3'}}
+  if(si===6){rise($('endc'),seg(lt,.2,1.0));pop($('b1'),seg(lt,0,.8));pop($('b2'),seg(lt,.2,1.0));$('btn').style.transform='scale('+(1+Math.max(0,Math.sin((lt-1.6)*3.2))*.05*seg(lt,1.4,1.8))+')';}
+};
+render(0);
+</script>
+</body></html>
