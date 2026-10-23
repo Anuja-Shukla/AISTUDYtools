@@ -8,6 +8,7 @@
   var cfg = null;
 
   function $(id) { return document.getElementById(id); }
+  function track(name, params) { try { if (window.gtag) window.gtag("event", name, params); } catch (e) {} }
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
   function getPass() { try { return JSON.parse(localStorage.getItem(PASS) || "null"); } catch (e) { return null; } }
   function setPass(p) { try { localStorage.setItem(PASS, JSON.stringify(p)); } catch (e) {} }
@@ -65,6 +66,7 @@
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return msg("pay_msg", "Please enter a valid email address.");
     if (!$("pay_agree").checked) return msg("pay_msg", "Please accept the Terms and Refund policy.");
     var btn = $("pay_go"); btn.disabled = true; msg("pay_msg", "Opening the payment window…", true);
+    track("begin_checkout", { currency: "INR", value: cfg ? cfg.amount / 100 : 0, items: [{ item_id: COURSE, item_name: cfg ? cfg.title : COURSE }] });
     Promise.all([post("/api/order", { course: COURSE, name: name, email: email, phone: phone }), loadCheckout()])
       .then(function (r) {
         var o = r[0];
@@ -77,7 +79,7 @@
           handler: function (resp) {
             msg("pay_msg", "Payment received. Confirming…", true);
             post("/api/verify", { order_id: resp.razorpay_order_id, payment_id: resp.razorpay_payment_id, signature: resp.razorpay_signature })
-              .then(function (v) { var p = { token: v.token, email: v.email, payment_id: v.payment_id }; setPass(p); enrolled(p); })
+              .then(function (v) { var p = { token: v.token, email: v.email, payment_id: v.payment_id }; setPass(p); track("purchase", { transaction_id: v.payment_id, currency: "INR", value: cfg ? cfg.amount / 100 : 0, items: [{ item_id: COURSE, item_name: cfg ? cfg.title : COURSE }] }); enrolled(p); })
               .catch(function () { btn.disabled = false; msg("pay_msg", "Your payment went through but we could not confirm it yet. Use Restore access below with your email and payment ID " + resp.razorpay_payment_id + ", or contact us."); });
           },
           modal: { ondismiss: function () { btn.disabled = false; msg("pay_msg", "Payment window closed. No money was taken unless you completed the payment."); } }
