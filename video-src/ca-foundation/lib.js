@@ -38,7 +38,7 @@ function hbars(rows, max, at, step, width, valFmt) {
 /* vertical bars (histogram / pmf): vals, labels; gap 0 = touching */
 function vbars(labels, vals, at, opts) {
   opts = opts || {}; var W = opts.w || 640, H = opts.h || 240, max = opts.max || Math.max.apply(null, vals), n = vals.length, bw = W / n, gap = opts.gap === undefined ? 0.2 : opts.gap, g = ease((LT - at * LD) / 1.0), s = "";
-  vals.forEach(function (v, i) { var h = (H - 30) * v / max * g, x = i * bw + bw * gap / 2; s += '<rect x="' + x + '" y="' + (H - 26 - h) + '" width="' + (bw * (1 - gap)) + '" height="' + h + '" rx="' + (gap ? 5 : 0) + '" fill="' + (opts.hl === i ? "#F28C28" : (opts.col || "#1F9A94")) + '" stroke="#fff" stroke-width="' + (gap ? 0 : 2) + '"/>' + '<text x="' + (i * bw + bw / 2) + '" y="' + (H - 6) + '" text-anchor="middle" font-size="16" font-weight="600" fill="#6B7590" font-family="Outfit">' + labels[i] + "</text>" + (opts.vals ? '<text x="' + (i * bw + bw / 2) + '" y="' + (H - 32 - h) + '" text-anchor="middle" font-size="17" font-weight="700" fill="#1E2A47" font-family="Outfit" opacity="' + g + '">' + opts.vals[i] + "</text>" : ""); });
+  vals.forEach(function (v, i) { var h = (H - (opts.vals ? 56 : 30)) * v / max * g, x = i * bw + bw * gap / 2; s += '<rect x="' + x + '" y="' + (H - 26 - h) + '" width="' + (bw * (1 - gap)) + '" height="' + h + '" rx="' + (gap ? 5 : 0) + '" fill="' + (opts.hl === i ? "#F28C28" : (opts.col || "#1F9A94")) + '" stroke="#fff" stroke-width="' + (gap ? 0 : 2) + '"/>' + '<text x="' + (i * bw + bw / 2) + '" y="' + (H - 6) + '" text-anchor="middle" font-size="16" font-weight="600" fill="#6B7590" font-family="Outfit">' + labels[i] + "</text>" + (opts.vals ? '<text x="' + (i * bw + bw / 2) + '" y="' + (H - 32 - h) + '" text-anchor="middle" font-size="17" font-weight="700" fill="#1E2A47" font-family="Outfit" opacity="' + g + '">' + opts.vals[i] + "</text>" : ""); });
   return '<svg ' + rv(at, 0) + ' width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + " " + H + '"><line x1="0" x2="' + W + '" y1="' + (H - 26) + '" y2="' + (H - 26) + '" stroke="#1E2A47" stroke-width="2"/>' + s + "</svg>";
 }
 function introScene(title, sub, pills) {
@@ -63,3 +63,7 @@ function mcqScene(q, opts, ans, why) {
 /* text column on the left, picture on the right (never wraps) */
 function side(left, right, lw) { return '<div style="display:flex;gap:26px;align-items:center;justify-content:center;flex-wrap:nowrap;margin-top:6px"><div style="width:' + (lw || 330) + 'px;flex:none;display:flex;flex-direction:column;align-items:center">' + left + '</div><div style="flex:none">' + right + "</div></div>"; }
 function T2(title, at) { return '<h2 ' + rv(at || 0) + ' style="font-size:32px;line-height:1.15">' + title + "</h2>"; }
+/* small grey caption line under a visual */
+function SMALL(text, at) { return '<div class="m" ' + rv(at) + ' style="font-size:21px;font-weight:600;margin-top:8px">' + text + "</div>"; }
+/* 0..1 growth of an animated element starting at fraction `at`, over `dur` seconds */
+function grow(at, dur) { return ease((LT - at * LD) / (dur || 1.2)); }
