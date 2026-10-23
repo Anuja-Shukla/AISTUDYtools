@@ -10,5 +10,5 @@ window.BOS_VIDEOS = {
   "1.3": "videos/Mode_MBA_Microlecture.mp4",
   "2.1": "videos/IQR_MBA_Microlecture.mp4",
   "2.2": "videos/SD_MBA_Microlecture.mp4",
-  "2.3": ""
+  "2.3": "videos/MeanDeviation_MBA_Microlecture.mp4"
 };
