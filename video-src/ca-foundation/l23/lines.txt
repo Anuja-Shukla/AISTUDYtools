@@ -1,0 +1,14 @@
+# Lesson 2.3 — Seating Arrangements
+Welcome! This lesson is about seating arrangements: people in rows and around tables.
+In a row, people face North or South. If they face North, their left is your left. If they face South, towards you, their left is your right.
+Read the words carefully. “Immediately left” means the very next seat. “Left of” alone means anywhere on that side. “Second to the left” means one person sits in between. || Read the words carefully. Immediately left means the very next seat. Left of, on its own, means anywhere on that side. And second to the left means one person sits in between.
+In a row of n people, the person kth from the left is (n − k + 1)th from the right. So 3rd from the left in a row of 7 is 5th from the right. || In a row of n people, the person k-th from the left is n minus k plus one-th from the right. So third from the left in a row of seven is fifth from the right.
+Five friends A, B, C, D and E sit in a row facing North. C is in the middle. B sits at the right end. A is immediately left of C. E is not at either end. Find the order.
+Start with definite clues. C is in the middle, so C takes seat 3. B is at the right end, so B takes seat 5. || Start with the definite clues. C is in the middle, so C takes seat three. B is at the right end, so B takes seat five.
+Next, the neighbour clues. A is immediately left of C, so A takes seat 2. || Next, the neighbour clues. A is immediately left of C, so A takes seat two.
+Seats 1 and 4 are left for D and E. E is not at an end, so E sits in seat 4 and D in seat 1. The order is D, A, C, E, B. || Seats one and four are left for D and E. E is not at an end, so E sits in seat four, and D in seat one. The order is D, A, C, E, B.
+Round a table, facing the centre, a person's left is clockwise and their right is anticlockwise. If everyone faces outward, this reverses.
+With an even number of people spaced evenly, the person opposite is halfway round, n/2 seats away. With 6 people, that is 3 seats away. || With an even number of people spaced evenly, the person opposite is halfway round, n over two seats away. With six people, that is three seats away.
+When a clue allows two positions, draw both cases. Then use the other clues, especially the negative ones, to rule one out. Finally, re-check every clue.
+Try this: in the row D A C E B facing North, who sits second to the right of A? Facing North, right is your right: skip C, and it is E. || Try this. In the row D, A, C, E, B, facing North, who sits second to the right of A? Facing North, their right is your right. Skip C, and you reach E. The answer is A.
+Remember: check which way people face, place definite clues first, then neighbours, then use negative clues to eliminate. Now try the tool below. || To recap. Check which way people are facing. Place the definite clues first, then the neighbours, then use the negative clues to eliminate. Now try the interactive tool below this video.
