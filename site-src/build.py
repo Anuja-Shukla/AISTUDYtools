@@ -4,7 +4,7 @@ import os, html, re, glob
 import markdown
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "25"  # cache-buster for css/js
+V = "26"  # cache-buster for css/js
 PAY_API = ""  # payment server (Cloudflare Worker) URL; empty = paid-course enrolment shows "opens soon"
 
 def svg(paths, extra=""):
@@ -50,9 +50,10 @@ I = {
  "arrow": svg('<path d="M5 12h14M13 6l6 6-6 6"/>', ' width="18" height="18"'),
 }
 
-NAV = [("/", "Home", "home"), ("/learnx/", "Transform content", "learnx"), ("/tools/", "Faculty Corner", "tools"),
-       ("/practice/", "Student Corner", "practice"), ("/ai-evaluator/", "AI evaluator", "evaluator"), ("/courses/", "Courses", "courses"),
-       ("/webinars/", "Webinars", "webinars"), ("/use-cases/", "Use cases", "usecases"), ("/contact/", "Contact", "contact")]
+NAV = [("/", "Home", "home"), ("/services/", "Services", "services"), ("/tools/", "Faculty Corner", "tools"),
+       ("/practice/", "Student Corner", "practice"), ("/courses/", "Courses", "courses"),
+       ("/webinars/", "Webinars", "webinars"), ("/contact/", "Contact", "contact")]
+NAV_PARENT = {"learnx": "services", "evaluator": "services", "usecases": "tools"}
 
 def head(title, desc, path):
     return f'''<!doctype html>
@@ -79,7 +80,7 @@ def head(title, desc, path):
 
 def header(active):
     ON = ' class="on" aria-current="page"'
-    links = "".join(f'<a href="{h}"{ON if k == active else ""}>{t}</a>' for h, t, k in NAV)
+    links = "".join(f'<a href="{h}"{ON if k == NAV_PARENT.get(active, active) else ""}>{t}</a>' for h, t, k in NAV)
     demo_btn = '<a class="btn btn-accent btn-sm" href="#demo">Get a free demo</a>' if active == "learnx" else ""
     return f'''<header class="hdr">
   <div class="wrap">
@@ -102,7 +103,7 @@ FOOT = f'''</main>
         <a class="logo" href="/"><span class="logo-mark"></span><span><b>AIStudyTools</b></span></a>
         <p style="margin-top:14px;max-width:340px">AI tools and courses for teaching and learning. A platform of Intellique Research School Pvt Ltd.</p>
       </div>
-      <div><h4>Explore</h4><a href="/learnx/">Transform content</a><a href="/tools/">Faculty Corner</a><a href="/practice/">Student Corner</a><a href="/courses/">Courses</a><a href="/webinars/">Webinars</a><a href="/journals/">Journal Finder</a><a href="/ai-evaluator/">AI evaluator</a><a href="/faculty-award/">Faculty Innovation Award</a><a href="/use-cases/">Use cases</a></div>
+      <div><h4>Explore</h4><a href="/services/">Services</a><a href="/learnx/">Transform content</a><a href="/tools/">Faculty Corner</a><a href="/practice/">Student Corner</a><a href="/courses/">Courses</a><a href="/webinars/">Webinars</a><a href="/journals/">Journal Finder</a><a href="/ai-evaluator/">AI evaluator</a><a href="/faculty-award/">Faculty Innovation Award</a><a href="/newsletter/">Newsletter</a></div>
       <div><h4>Contact</h4><a href="mailto:intelliqueresearchschool@gmail.com">intelliqueresearchschool@gmail.com</a><a href="https://wa.me/917303559258" target="_blank" rel="noopener">WhatsApp +91 73035 59258</a><a href="tel:+917303559258">Call +91 73035 59258</a></div>
       <div><h4>Sister sites</h4><a href="https://www.theresearchschool.com/">The Research School</a><a href="https://aijuggernauts.com/">AIjuggernauts</a><a href="https://intelliqueresearchschool.com/">Intellique Research School</a></div>
     </div>
@@ -246,9 +247,9 @@ home += f'''<section id="products" class="white">
   <div class="wrap">
     {sec_head("See it in action", "A few of the ways educators, students and professionals use AIStudyTools.", "Use cases")}
     <div class="grid g3">
-      <a class="card tool rv" href="/use-cases/#faculty"><div class="ico i-sun">{I["teacher"]}</div><h3>Turn a lecture into a role-play</h3><p>A marketing professor uses the Simulation Creator to let students negotiate with an AI client, then debriefs in class.</p><span class="go">Faculty use cases {I["arrow"]}</span></a>
-      <a class="card tool rv" href="/use-cases/#students"><div class="ico i-sky">{I["student"]}</div><h3>Check a draft before submitting</h3><p>A student runs an AI-assisted draft through the AI evaluator to find missing points and claims that need a source.</p><span class="go">Student use cases {I["arrow"]}</span></a>
-      <a class="card tool rv" href="/use-cases/#institutions"><div class="ico i-indigo">{I["building"]}</div><h3>Bring AI to a whole department</h3><p>A business school uses LearnX and our courses to train faculty and turn course content into games and AI tutors.</p><span class="go">Institution use cases {I["arrow"]}</span></a>
+      <a class="card tool rv" href="/tools/#use-cases"><div class="ico i-sun">{I["teacher"]}</div><h3>Turn a lecture into a role-play</h3><p>A marketing professor uses the Simulation Creator to let students negotiate with an AI client, then debriefs in class.</p><span class="go">Faculty use cases {I["arrow"]}</span></a>
+      <a class="card tool rv" href="/practice/#use-cases"><div class="ico i-sky">{I["student"]}</div><h3>Check a draft before submitting</h3><p>A student runs an AI-assisted draft through the AI evaluator to find missing points and claims that need a source.</p><span class="go">Student use cases {I["arrow"]}</span></a>
+      <a class="card tool rv" href="/services/#institutions"><div class="ico i-indigo">{I["building"]}</div><h3>Bring AI to a whole department</h3><p>A business school uses LearnX and our courses to train faculty and turn course content into games and AI tutors.</p><span class="go">Institution use cases {I["arrow"]}</span></a>
     </div>
   </div>
 </section>
@@ -463,6 +464,7 @@ tl += f'''<section class="white">
   </div>
 </section>
 '''
+tl += "<!--FACULTY-USES-->"
 tl += cta("Want these tools for your whole department?", "LearnX brings simulations, games and AI-assisted evaluation to your institution, on your own system.", "Explore LearnX", "/learnx/")
 tl += FOOT
 write("/tools/", tl)
@@ -486,6 +488,7 @@ pr += f'''<section class="white">
   </div>
 </section>
 '''
+pr += "<!--STUDENT-USES-->"
 pr += FOOT
 write("/practice/", pr)
 
@@ -662,6 +665,9 @@ uc += f'''<section>
 uc += cta("Have a use case to share?", "Tell us how you use AI in your teaching or work, or ask us how to solve a problem in your classroom.", "Talk to us", "/contact/")
 uc += FOOT
 write("/use-cases/", uc)
+
+# ---------------- SERVICES + USE CASES IN THE CORNERS ----------------
+exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "services.py"), encoding="utf-8").read())
 
 # ---------------- AI EVALUATOR ----------------
 EVAL_JS = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "evaluator.js"), encoding="utf-8").read()
