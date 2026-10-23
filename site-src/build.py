@@ -4,7 +4,7 @@ import os, html, re, glob
 import markdown
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "26"  # cache-buster for css/js
+V = "27"  # cache-buster for css/js
 PAY_API = ""  # payment server (Cloudflare Worker) URL; empty = paid-course enrolment shows "opens soon"
 
 def svg(paths, extra=""):
@@ -195,6 +195,7 @@ COURSES = [
     ("search", "SEO to GEO", "Make your content easy for AI search engines to find, trust and cite.", "/courses/seo-to-geo/"),
     ("bot", "Building AI Agents", "Design, build and test your first AI agent, no coding needed.", "/courses/building-ai-agents/"),
     ("puzzle", "Coding for Non-Coders", "Think like a programmer and build real tools with AI, no experience needed.", "/courses/coding-for-non-coders/"),
+    ("cap", "CA Foundation: Quantitative Aptitude", "Business Maths, Logical Reasoning and Statistics for CA Foundation Paper 3.", "/courses/ca-foundation-quantitative-aptitude/"),
 ]
 def course_cards(items):
     pal = ["i-indigo", "i-sun", "i-sky", "i-pink", "i-mint"]
@@ -211,7 +212,7 @@ home += f'''<section id="products" class="white">
   <div class="wrap">
     {sec_head("Everything in one place", "For faculty who want livelier classes, students who want to practise, professionals who want new skills, and institutions that want it at scale.", "What we offer")}
     <div class="grid g2">
-      <a class="prod p-course rv" href="/courses/"><span class="kicker">Free · with certificate</span><div class="ico i-pink" style="background:#fff">{I["calendar"]}</div><h3>Courses</h3><p>Seven self-paced courses with interactive tools, quick checks, a final test and a certificate.</p><ul><li>Statistics</li><li>Prompt Engineering</li><li>Product Management</li><li>HR Analytics</li><li>SEO to GEO</li><li>Building AI Agents</li><li>Coding for Non-Coders</li></ul><span class="go">See all courses {I["arrow"]}</span></a>
+      <a class="prod p-course rv" href="/courses/"><span class="kicker">Free · with certificate</span><div class="ico i-pink" style="background:#fff">{I["calendar"]}</div><h3>Courses</h3><p>Eight self-paced courses with interactive tools, quick checks, a final test and a certificate.</p><ul><li>Statistics</li><li>Prompt Engineering</li><li>Product Management</li><li>HR Analytics</li><li>SEO to GEO</li><li>Building AI Agents</li><li>Coding for Non-Coders</li><li>CA Foundation: Quantitative Aptitude</li></ul><span class="go">See all courses {I["arrow"]}</span></a>
       <a class="prod p-skill rv" href="/tools/"><span class="kicker">Free for faculty</span><div class="ico i-sun" style="background:#fff">{I["teacher"]}</div><h3>Faculty Corner</h3><p>Turn a concept or chapter into something students do, not just read.</p><ul><li>Simulation Creator</li><li>Quick Case Generator</li><li>Interactive Game Creator</li><li>AI Presentation Creator</li><li>Journal Finder</li></ul><span class="go">Open the Faculty Corner {I["arrow"]}</span></a>
       <a class="prod p-health rv" href="/practice/"><span class="kicker">Free for students</span><div class="ico i-sky" style="background:#fff">{I["student"]}</div><h3>Student Corner</h3><p>Make decisions, see consequences, get feedback and try again.</p><ul><li>Branching simulations</li><li>Learning games</li><li>Course comparison</li></ul><span class="go">Start practising {I["arrow"]}</span></a>
       <a class="prod p-learn rv" href="/ai-evaluator/"><span class="kicker">New · free</span><div class="ico i-indigo" style="background:#fff">{I["clip"]}</div><h3>AI evaluator</h3><p>Score student answers or AI-generated text against a rubric, check key points and claims, and copy ready-to-share feedback.</p><ul><li>Rubric presets</li><li>Key-point check</li><li>Claims to verify</li><li>Feedback in one click</li></ul><span class="go">Evaluate a response {I["arrow"]}</span></a>
@@ -548,6 +549,10 @@ cs += f'''<section class="white" id="available">
     <div class="card rv" style="display:flex;flex-direction:row;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:2px solid var(--accent);margin-top:18px">
       <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-sun" style="flex:none">{I["puzzle"]}</div><div><span class="tag indigo">Free · Self-paced · Certificate</span><h3 style="margin-top:8px">Coding for Non-Coders</h3><p>Two modules: Thinking Like a Programmer (steps and algorithms, variables, conditions and loops, tables, CSV and JSON) and Building with AI (asking AI to write code, reading errors and debugging, building and sharing a mini app). Interactive tools, quick checks and a final test. No experience needed.</p></div></div>
       <a class="btn btn-accent" href="/courses/coding-for-non-coders/" style="flex:none">Start the course {I["arrow"]}</a>
+    </div>
+    <div class="card rv" style="display:flex;flex-direction:row;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:2px solid var(--accent);margin-top:18px">
+      <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-mint" style="flex:none">{I["cap"]}</div><div><span class="tag indigo">Free · Self-paced · Certificate</span><h3 style="margin-top:8px">CA Foundation: Quantitative Aptitude</h3><p>Three modules following the CA Foundation Paper 3 syllabus: Business Mathematics (ratios and logs, equations, linear programming, finance, permutations and combinations, AP and GP, sets and functions, calculus), Logical Reasoning (series and coding, directions, seating, blood relations) and Statistics (data and sampling, averages, dispersion, probability, distributions, correlation and regression, index numbers). 19 lessons with step-by-step solvers, quick checks and a 30-question final test.</p></div></div>
+      <a class="btn btn-accent" href="/courses/ca-foundation-quantitative-aptitude/" style="flex:none">Start the course {I["arrow"]}</a>
     </div>
   </div>
 </section>
