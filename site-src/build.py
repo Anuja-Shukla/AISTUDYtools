@@ -52,7 +52,7 @@ I = {
 
 NAV = [("/", "Home", "home"), ("/services/", "Services", "services"), ("/tools/", "Faculty Corner", "tools"),
        ("/practice/", "Student Corner", "practice"), ("/courses/", "Courses", "courses"),
-       ("/webinars/", "Webinars", "webinars"), ("/contact/", "Contact", "contact")]
+       ("/instructors/", "Instructors", "instructors"), ("/webinars/", "Webinars", "webinars"), ("/contact/", "Contact", "contact")]
 NAV_PARENT = {"learnx": "services", "evaluator": "services", "usecases": "tools"}
 
 def head(title, desc, path):
@@ -106,7 +106,7 @@ FOOT = f'''</main>
         <a class="logo" href="/"><span class="logo-mark"></span><span><b>AIStudyTools</b></span></a>
         <p style="margin-top:14px;max-width:340px">AI tools and courses for teaching and learning. A platform of Intellique Research School Pvt Ltd.</p>
       </div>
-      <div><h4>Explore</h4><a href="/services/">Services</a><a href="/learnx/">Transform content</a><a href="/tools/">Faculty Corner</a><a href="/practice/">Student Corner</a><a href="/courses/">Courses</a><a href="/webinars/">Webinars</a><a href="/journals/">Journal Finder</a><a href="/ai-evaluator/">AI evaluator</a><a href="/faculty-award/">Faculty Innovation Award</a><a href="/newsletter/">Newsletter</a></div>
+      <div><h4>Explore</h4><a href="/services/">Services</a><a href="/learnx/">Transform content</a><a href="/tools/">Faculty Corner</a><a href="/practice/">Student Corner</a><a href="/courses/">Courses</a><a href="/instructors/">Find a tutor</a><a href="/instructors/join/">Teach with us</a><a href="/webinars/">Webinars</a><a href="/journals/">Journal Finder</a><a href="/ai-evaluator/">AI evaluator</a><a href="/faculty-award/">Faculty Innovation Award</a><a href="/newsletter/">Newsletter</a></div>
       <div><h4>Contact</h4><a href="mailto:intelliqueresearchschool@gmail.com">intelliqueresearchschool@gmail.com</a><a href="https://wa.me/917303559258" target="_blank" rel="noopener">WhatsApp +91 73035 59258</a><a href="tel:+917303559258">Call +91 73035 59258</a></div>
       <div><h4>Sister sites</h4><a href="https://www.theresearchschool.com/">The Research School</a><a href="https://aijuggernauts.com/">AIjuggernauts</a><a href="https://intelliqueresearchschool.com/">Intellique Research School</a></div>
     </div>
@@ -559,6 +559,11 @@ cs += f'''<section class="white" id="available">
     </div>
   </div>
 </section>
+<section class="white" style="padding-top:0">
+  <div class="wrap">
+    <div class="cta rv" style="background:linear-gradient(135deg,#1E1B4B,#0F766E)"><div><span class="tag" style="background:#DCFCE7;color:#166534">New · Instructors</span><h2 style="margin-top:10px">Want a tutor alongside your course?</h2><p>Find an approved instructor for any course, online or in person, and we will introduce you. Teachers can list themselves for free.</p></div><div class="row" style="gap:10px;flex-wrap:wrap"><a class="btn btn-sun" href="/instructors/">Find a tutor {I["arrow"]}</a><a class="btn btn-soft" href="/instructors/join/">Teach with us</a></div></div>
+  </div>
+</section>
 <section>
   <div class="wrap">
     {sec_head("Launching soon", "The first cohorts are being scheduled. Leave your details and we'll tell you when enrolment opens.", "Upcoming")}
@@ -736,6 +741,7 @@ write("/ai-evaluator/", ev)
 exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "paid.py"), encoding="utf-8").read())
 # ---------------- FACULTY INNOVATION AWARD ----------------
 exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "award.py"), encoding="utf-8").read())
+exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "instructors.py"), encoding="utf-8").read())
 
 # ---------------- 404 ----------------
 nf = head("Page not found | AIStudyTools", "The page you are looking for could not be found.", "/404.html") + header("")

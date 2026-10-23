@@ -71,7 +71,8 @@ def paid_page(c):
   </div>
 </section>
 '''
-    return p + FOOT.replace("</body>", "<script>" + PAY_JS + "</script>\n</body>")
+    p += f'<section id="tutor-box" data-course="{c["id"]}"></section>'
+    return p + FOOT.replace("</body>", "<script>" + PAY_JS + '</script>\n<script src="/static/tutors.js?v=1" defer></script>\n</body>')
 
 for _c in PAID_COURSES:
     write(f"/courses/{_c['id']}/", paid_page(_c))
@@ -87,7 +88,7 @@ LEGAL = {
         ("Changes and law", ["We may update these terms; the date below shows the latest version. These terms are governed by the laws of India."]),
     ]),
     "/privacy/": ("Privacy Policy", "How AIStudyTools collects and uses personal data for courses, enrolments and enquiries.", [
-        ("What we collect", ["Enquiry and demo forms: the name, email, phone and message you send.", "Paid enrolment: your name, email and (optionally) mobile number, the payment ID and order ID. Razorpay processes the payment itself under its own privacy policy; we never receive your card, UPI or bank details.", "Course progress and certificates are saved in your own browser (local storage) and are not sent to us.", "Website usage: we use Google Analytics, which sets cookies to count visits and show us which pages are used, from which country and on which kind of device. It does not tell us who you are. You can block these cookies in your browser or with Google's opt-out add-on."]),
+        ("What we collect", ["Enquiry and demo forms: the name, email, phone and message you send.", "Paid enrolment: your name, email and (optionally) mobile number, the payment ID and order ID. Razorpay processes the payment itself under its own privacy policy; we never receive your card, UPI or bank details.", "Course progress and certificates are saved in your own browser (local storage) and are not sent to us.", "Instructor applications: the details you send in the form. If you are approved, we publish only the profile details you agreed to; your email, phone and fee stay private.", "Tutor requests: your name, email, optional phone and city, and your message. We share them only with the instructor you choose (or one we match you with), so they can reply.", "Website usage: we use Google Analytics, which sets cookies to count visits and show us which pages are used, from which country and on which kind of device. It does not tell us who you are. You can block these cookies in your browser or with Google's opt-out add-on."]),
         ("How we use it", ["To reply to enquiries, give you access to courses you buy, restore access when you ask, issue receipts and handle refunds or support.", "We do not sell your personal data. We do not send marketing emails unless you ask for updates."]),
         ("Where it is stored", ["Enrolment records are stored with our payment service provider and our hosting provider (MilesWeb, India), and kept for as long as you have access to a course and as required by tax and accounting law."]),
         ("Your choices", ["You can ask us to see, correct or delete your personal data by emailing intelliqueresearchschool@gmail.com. Deleting enrolment data may end your access to a paid course."]),
