@@ -1,0 +1,110 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Outfit;src:url(package/files/outfit-latin-wght-normal.woff2) format("woff2");font-weight:100 900}
+:root{--bg:#F3F5F9;--navy:#1E2A47;--ink:#24304F;--muted:#6B7590;--teal:#1F9A94;--teal-dk:#17716D;--teal-soft:#DDF1EF;--orange:#F28C28;--orange-soft:#FDEBD8;--card:#FFFFFF;--line:#E3E7EF}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1280px;height:720px;overflow:hidden;background:var(--bg);font-family:Outfit,sans-serif;color:var(--ink)}
+#bar{position:absolute;left:0;top:0;height:4px;background:var(--teal)}
+#tag{position:absolute;left:22px;top:16px;background:var(--teal-soft);color:var(--teal-dk);font-weight:700;font-size:15px;padding:6px 14px;border-radius:999px}
+#crumb{position:absolute;right:26px;top:22px;font-size:13px;color:var(--muted);font-weight:500}
+#crumb b{font-weight:600;color:#4A5370}
+#stage{position:absolute;left:250px;right:24px;top:58px;height:520px;zoom:1.16;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center}
+#cap{position:absolute;left:300px;right:70px;bottom:22px;display:flex;justify-content:center}
+#cap span{background:#2E3A58;color:#fff;font-size:21px;line-height:1.36;font-weight:500;padding:9px 18px;border-radius:9px;max-width:860px}
+#av{position:absolute;left:30px;bottom:44px;width:200px;height:200px}
+#avlab{position:absolute;left:62px;bottom:30px;width:136px;text-align:center}
+#avlab span{background:var(--navy);color:#fff;font-size:13.5px;font-weight:600;padding:5px 12px;border-radius:999px;white-space:nowrap}
+h1{font-size:50px;font-weight:800;color:var(--navy);letter-spacing:-.5px;line-height:1.08}
+h2{font-size:38px;font-weight:800;color:var(--navy);letter-spacing:-.3px}
+.sub{font-size:26px;color:var(--teal);font-weight:600;margin-top:8px}
+.big{font-size:54px;font-weight:800;color:var(--navy)}
+.mid{font-size:36px;font-weight:700;color:var(--ink)}
+.t{color:var(--teal)} .o{color:var(--orange)} .n{color:var(--navy)} .m{color:var(--muted)}
+.pill{display:inline-block;background:var(--teal);color:#fff;font-weight:700;font-size:24px;padding:8px 20px;border-radius:999px}
+.pill.o{background:var(--orange)} .pill.n{background:var(--navy)} .pill.l{background:var(--teal-soft);color:var(--teal-dk)}
+.row{display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap}
+.card{background:var(--card);border-radius:16px;box-shadow:0 6px 22px -10px rgba(30,42,71,.25);padding:18px 24px}
+.box{display:inline-block;background:var(--navy);color:#fff;font-weight:800;font-size:34px;padding:12px 28px;border-radius:14px;box-shadow:0 0 0 6px rgba(242,140,40,.12)}
+.chip{display:inline-flex;align-items:center;justify-content:center;min-width:64px;height:64px;padding:0 14px;border-radius:12px;background:#fff;border-top:5px solid var(--navy);box-shadow:0 4px 14px -8px rgba(30,42,71,.35);font-size:30px;font-weight:700;color:var(--navy)}
+.note{display:inline-block;background:var(--orange-soft);color:#B4570E;font-weight:600;font-size:21px;padding:10px 18px;border-radius:12px}
+.list{display:flex;flex-direction:column;gap:14px;align-items:stretch;width:620px}
+.li{display:flex;align-items:center;gap:16px;background:#fff;border-radius:14px;padding:14px 20px;box-shadow:0 4px 16px -10px rgba(30,42,71,.3);font-size:25px;font-weight:600;color:var(--navy);text-align:left}
+.num{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;font-size:20px;background:var(--teal)}
+.eq{font-size:40px;font-weight:700;color:var(--ink);line-height:1.5}
+sup{font-size:.6em;vertical-align:.7em;line-height:0}
+sub{font-size:.6em;vertical-align:-.25em;line-height:0}
+.strike{position:relative}.strike:after{content:"";position:absolute;left:-6px;right:-6px;top:52%;height:5px;background:#E0483D;border-radius:3px;transform:rotate(-6deg)}
+</style></head>
+<body>
+<div id="bar"></div><div id="tag"></div><div id="crumb"></div>
+<div id="stage"></div>
+<svg id="av" viewBox="0 0 200 200"></svg><div id="avlab"><span>Your instructor</span></div>
+<div id="cap"></div>
+<script src="data.js"></script>
+<script src="scenes.js"></script>
+<script>
+/* DATA (data.js): LINES, D (seconds per line), MOUTH (0..1 per frame at 30fps), CHUNKS[i] = [[text, startFraction], ...]
+   SCENES (scenes.js): META = {crumb}, SCENES[i] = {tag, draw: function(){ return html }} — helpers below use globals P (0..1 within the line) and LT (seconds into the line). */
+var TOTAL = D.reduce(function (a, b) { return a + b; }, 0), P = 0, LT = 0, LD = 1, LI = 0;
+function clamp(x) { return x < 0 ? 0 : x > 1 ? 1 : x; }
+function ease(x) { x = clamp(x); return x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; }
+/* k(at): reveal progress of an element that appears at fraction `at` of the line (fade over ~0.45 s) */
+function k(at) { return ease((LT - at * LD) / 0.45); }
+function rv(at, dy) { var q = k(at); dy = dy === undefined ? 16 : dy; return 'style="opacity:' + q.toFixed(3) + ';transform:translateY(' + ((1 - q) * dy).toFixed(1) + 'px)"'; }
+function rvs(at, extra) { var q = k(at); return 'style="opacity:' + q.toFixed(3) + ';transform:scale(' + (0.85 + 0.15 * q).toFixed(3) + ');' + (extra || "") + '"'; }
+function hl(at) { return k(at) > 0.5; }
+function count(a, b, at, dur) { return a + (b - a) * ease((LT - at * LD) / (dur || 0.8)); }
+function inr(x) { return "₹" + Math.round(x).toLocaleString("en-IN"); }
+
+/* ---------- instructor (SVG, lip-synced from MOUTH) ---------- */
+function avatar(m, blink, bob) {
+  var mo = Math.max(0, Math.min(1, m)), h = 2 + mo * 15, w = 17 - mo * 3, eyeH = blink ? 0.6 : 5.2;
+  var mouth = mo < 0.08 ? '<path d="M90 121 Q100 125.5 110 121" stroke="#9C3F4B" stroke-width="3.2" fill="none" stroke-linecap="round"/>' :
+    '<ellipse cx="100" cy="' + (121 + h / 4) + '" rx="' + (w / 2 + 1) + '" ry="' + (h / 2 + 1.3) + '" fill="#A8505A"/>' +
+    '<ellipse cx="100" cy="' + (121 + h / 4) + '" rx="' + (w / 2 - 0.6) + '" ry="' + (h / 2) + '" fill="#5B1E2A"/>' +
+    '<rect x="' + (100 - w / 2 + 1.5) + '" y="' + (121 + h / 4 - h / 2) + '" width="' + (w - 3) + '" height="' + Math.min(4, h / 3) + '" rx="1.5" fill="#fff"/>' +
+    (h > 8 ? '<ellipse cx="100" cy="' + (121 + h / 4 + h / 3) + '" rx="' + (w / 3) + '" ry="' + (h / 6) + '" fill="#D86A79"/>' : "");
+  return '<defs><clipPath id="cc"><circle cx="100" cy="100" r="93"/></clipPath></defs>' +
+    '<circle cx="100" cy="100" r="97" fill="#1F9A94"/><circle cx="100" cy="100" r="93" fill="#E3F2F1"/>' +
+    '<g clip-path="url(#cc)"><circle cx="150" cy="38" r="52" fill="#fff" opacity=".45"/>' +
+    '<g transform="translate(0,' + bob.toFixed(2) + ')">' +
+    '<path d="M28 205 Q32 160 66 150 L100 168 L134 150 Q168 160 172 205 Z" fill="#1C2B52"/>' +
+    '<path d="M80 150 L100 186 L120 150 Z" fill="#19918D"/>' +
+    '<path d="M66 150 L84 147 L100 178 L84 196 Z M134 150 L116 147 L100 178 L116 196 Z" fill="#24366A"/>' +
+    '<rect x="90" y="128" width="20" height="26" rx="6" fill="#B67652"/>' +
+    '<ellipse cx="100" cy="94" rx="40" ry="47" fill="#26170F"/>' +
+    '<circle cx="104" cy="40" r="17" fill="#26170F"/>' +
+    '<ellipse cx="62" cy="99" rx="7" ry="10" fill="#C2835C"/><ellipse cx="138" cy="99" rx="7" ry="10" fill="#C2835C"/>' +
+    '<circle cx="62" cy="111" r="3.4" fill="#E2A92B"/><circle cx="138" cy="111" r="3.4" fill="#E2A92B"/>' +
+    '<ellipse cx="100" cy="100" rx="35" ry="40" fill="#CB8D63"/>' +
+    '<path d="M64 92 Q66 58 100 56 Q134 58 136 92 Q128 70 106 68 Q92 74 64 92 Z" fill="#26170F"/>' +
+    '<ellipse cx="82" cy="112" rx="7" ry="4" fill="#E2786F" opacity=".25"/><ellipse cx="118" cy="112" rx="7" ry="4" fill="#E2786F" opacity=".25"/>' +
+    '<path d="M77 88 Q85 83 92 87" stroke="#26170F" stroke-width="2.8" fill="none" stroke-linecap="round"/><path d="M108 87 Q115 83 123 88" stroke="#26170F" stroke-width="2.8" fill="none" stroke-linecap="round"/>' +
+    '<ellipse cx="85" cy="97" rx="4.4" ry="' + eyeH + '" fill="#1B110C"/><ellipse cx="115" cy="97" rx="4.4" ry="' + eyeH + '" fill="#1B110C"/>' +
+    (blink ? "" : '<circle cx="86.5" cy="95" r="1.4" fill="#fff"/><circle cx="116.5" cy="95" r="1.4" fill="#fff"/>') +
+    '<path d="M100 101 L97 111 Q100 113 103 111" stroke="#A86A47" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+    mouth + "</g></g>";
+}
+
+/* merge two style="" attributes on one tag (a reveal style plus a layout style) */
+function mergeStyles(h) { var re = /<([a-z0-9]+)([^>]*?)style="([^"]*)"([^>]*?)style="([^"]*)"/g, prev; do { prev = h; h = h.replace(re, '<$1$2style="$3;$5"$4'); } while (h !== prev); return h; }
+function render(t) {
+  var s = 0, i = 0; while (i < D.length - 1 && t >= s + D[i]) { s += D[i]; i++; }
+  LI = i; LT = t - s; LD = D[i]; P = clamp(LT / LD);
+  var sc = SCENES[i];
+  document.getElementById("bar").style.width = (t / TOTAL * 100).toFixed(2) + "%";
+  document.getElementById("tag").textContent = sc.tag;
+  document.getElementById("crumb").innerHTML = META.crumb;
+  var fade = Math.min(clamp(LT / 0.3), i === D.length - 1 ? 1 : clamp((LD - LT) / 0.25 + (sc.keep ? 1 : 0)));
+  var st = document.getElementById("stage"); st.innerHTML = mergeStyles(sc.draw()); st.style.opacity = fade.toFixed(3);
+  /* captions */
+  var ch = CHUNKS[i], c = ch[0][0]; for (var j = 0; j < ch.length; j++) if (P >= ch[j][1]) c = ch[j][0];
+  document.getElementById("cap").innerHTML = LT < 0.15 ? "" : "<span>" + c + "</span>";
+  /* instructor */
+  var f = Math.min(MOUTH.length - 1, Math.round(t * 30)), m = MOUTH[f] || 0;
+  var blink = (t % 4.3) < 0.13, bob = Math.sin(t * 1.6) * 1.2;
+  document.getElementById("av").innerHTML = avatar(m, blink, bob);
+}
+</script>
+</body></html>
