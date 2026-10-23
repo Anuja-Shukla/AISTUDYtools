@@ -37,7 +37,7 @@ sv += f'''<section class="white" id="transform" style="scroll-margin-top:80px">
         <li><b>4</b><span><strong>Chat with your content</strong>, in English, Hindi or the learner's own language.</span></li>
         <li><b>5</b><span><strong>Private by design:</strong> on your own system, cloud or on-premise.</span></li>
       </ul>
-      <div class="hero-btns" style="margin-top:6px"><a class="btn btn-ink" href="/learnx/">Explore Transform content {I["arrow"]}</a><a class="btn btn-soft" href="#demo:LearnX%20Studio">Book a free demo</a></div>
+      <div class="hero-btns" style="margin-top:6px"><a class="btn btn-ink" href="/tools/simulation-creator.html">Try the Transform content free {I["arrow"]}</a><a class="btn btn-soft" href="#demo:LearnX%20Studio">Book a free demo</a></div>
     </div>
     {svc_video("transform-content-service", "Video: how Transform content turns lectures into videos, mind maps, games and chat")}
   </div>
@@ -60,7 +60,7 @@ sv += f'''<section class="white" id="transform" style="scroll-margin-top:80px">
     {svc_video("ai-evaluator-service", "Video: how the AI evaluator scores answers against a rubric and writes feedback")}
   </div>
 </section>
-<section class="white">
+<section class="white" id="institutions" style="scroll-margin-top:80px">
   <div class="wrap">
     {sec_head("How we work with institutions", "", "Four steps")}
     <ol class="steps rv" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
@@ -69,12 +69,6 @@ sv += f'''<section class="white" id="transform" style="scroll-margin-top:80px">
       <li><div><b>Pilot</b><span>Try it with one class and see engagement and marking time change.</span></div></li>
       <li><div><b>Scale</b><span>Roll out across departments, with faculty training from our team.</span></div></li>
     </ol>
-  </div>
-</section>
-<section id="institutions" style="scroll-margin-top:80px">
-  <div class="wrap">
-    {sec_head("Use cases for institutions", "", "Use cases")}
-    <div class="grid g2">{"".join(uc_card(c) for c in USE_CASES if c[0] == "institutions")}</div>
   </div>
 </section>
 '''
