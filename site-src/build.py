@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Builds the AIStudyTools static site (Learning Lab · Indigo & Sunshine) into ./out"""
-import os, html, re, glob
+import os, html, re, glob, json
 import markdown
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "31"  # cache-buster for css/js
+V = "32"  # cache-buster for css/js
 PAY_API = ""  # payment server (Cloudflare Worker) URL; empty = paid-course enrolment shows "opens soon"
 
 def svg(paths, extra=""):
@@ -521,59 +521,72 @@ write("/practice/prompt-engineering-basics/", sm)
 # ---------------- COURSES ----------------
 cs = head("AI Courses for Faculty and Students | AIStudyTools",
           "Short, practical courses on using AI in teaching, research and study, from AIStudyTools.", "/courses/") + header("courses")
+# filterable course catalogue: subject tabs + "I am a…" audience chips
+SUBJ = [("all", "All"), ("ai", "AI Skills"), ("data", "Data & Analytics"), ("biz", "Business & Management"), ("tech", "Tech for Beginners"), ("exam", "Professional Exams"), ("edu", "For Educators & Researchers")]
+AUD = [("everyone", "Everyone"), ("student", "Student"), ("faculty", "Faculty / Researcher"), ("pro", "Working Professional"), ("exam", "Exam Aspirant")]
+AUDL = {"student": "students", "faculty": "faculty", "pro": "professionals", "exam": "exam aspirants"}
+CATALOG = [
+    # icon, colour, title, description, link, subject, audiences ("all" = everyone), badge, button, status
+    ("bars", "i-indigo", "Basics of Statistics", "Central tendency and dispersion with teaching videos, calculators, quick checks and a final test.", "/courses/basics-of-statistics/", "data", ["student", "faculty", "pro"], "Free · Videos", "Start the course", "live"),
+    ("users", "i-sun", "HR Analytics", "HR metrics, Power BI dashboards, workforce planning and talent analytics.", "/courses/hr-analytics/", "data", ["pro", "student"], "Free", "Start the course", "live"),
+    ("bars", "i-mint", "Data Analysis and Visualisation", "Clean data, find patterns and make clear charts and dashboards with AI and spreadsheet tools.", "#demo:Courses", "data", ["student", "pro"], "Coming soon", "Register interest", "soon"),
+    ("chat", "i-pink", "Prompt Engineering", "Write prompts that get reliable answers, and use AI responsibly.", "/courses/prompt-engineering/", "ai", ["all"], "Free", "Start the course", "live"),
+    ("bot", "i-indigo", "Building AI Agents", "Design, build and test your first AI agent, no coding needed.", "/courses/building-ai-agents/", "ai", ["pro", "faculty", "student"], "Free", "Start the course", "live"),
+    ("bot", "i-sky", "Agentic AI", "Multi-agent systems, MCP, evaluation, guardrails and deployment.", "/courses/agentic-ai/", "ai", ["pro"], "Paid · ₹499", "View course", "live"),
+    ("brief", "i-indigo", "Generative AI for Work and Productivity", "Use AI for emails, reports, presentations and meetings, and set up simple automations.", "#demo:Courses", "ai", ["pro"], "Coming soon", "Register interest", "soon"),
+    ("student", "i-mint", "Study and Practise with AI", "Use AI as a tutor and practice partner without letting it do the thinking for you.", "#demo:Courses", "ai", ["student"], "Coming soon", "Register interest", "soon"),
+    ("target", "i-sky", "Product Management", "From customer discovery and market sizing to RICE, MVPs and A/B tests.", "/courses/product-management/", "biz", ["student", "pro"], "Free", "Start the course", "live"),
+    ("search", "i-sky", "SEO to GEO", "Make your content easy for AI search engines to find, trust and cite.", "/courses/seo-to-geo/", "biz", ["pro"], "Free", "Start the course", "live"),
+    ("puzzle", "i-sun", "Coding for Non-Coders", "Think like a programmer and build real tools with AI, no experience needed.", "/courses/coding-for-non-coders/", "tech", ["all"], "Free", "Start the course", "live"),
+    ("cap", "i-mint", "CA Foundation Course", "All four papers (May 2027 onwards): Accounting, Business Laws, Quantitative Aptitude and Business Economics.", "/courses/ca-foundation/", "exam", ["exam", "student"], "Free · 4 papers", "Open the course", "live"),
+    ("teacher", "i-sun", "AI in Teaching and Research", "Build simulations, quick cases and quiz games for your own course, and use AI responsibly in assessment.", "#demo:Courses", "edu", ["faculty"], "Coming soon", "Register interest", "soon"),
+    ("search", "i-indigo", "AI for Research and Literature Review", "Find, read and summarise papers faster, and use AI responsibly in writing and publishing.", "#demo:Courses", "edu", ["faculty"], "Coming soon", "Register interest", "soon"),
+]
+def catalog_html():
+    tabs = "".join(f'<button type="button" class="ftab{" on" if k == "all" else ""}" data-s="{k}" aria-pressed="{"true" if k == "all" else "false"}">{html.escape(t)}</button>' for k, t in SUBJ)
+    auds = "".join(f'<button type="button" class="faud{" on" if k == "everyone" else ""}" data-a="{k}" aria-pressed="{"true" if k == "everyone" else "false"}">{html.escape(t)}</button>' for k, t in AUD)
+    cards_ = ""
+    for ic, col, t, d, h, sj, au, badge, btn, st in CATALOG:
+        who = "Everyone" if "all" in au else "For " + " · ".join(AUDL[x] for x in au)
+        tagc = "tag" if st == "soon" else "tag indigo"
+        cards_ += f'<div class="card ccard" data-s="{sj}" data-a="{" ".join(au)}"><div class="ico {col}">{I[ic]}</div><div style="display:flex;gap:6px;flex-wrap:wrap"><span class="{tagc}">{badge}</span><span class="tag sky">{dict(SUBJ)[sj]}</span></div><h3>{t}</h3><p>{d}</p><p class="cwho">{who}</p><a class="btn {"btn-soft" if st == "soon" else "btn-accent"} btn-sm" href="{h}" style="align-self:flex-start;margin-top:auto">{btn}</a></div>'
+    return f"""<style>
+.fwrap{{margin-bottom:22px;text-align:left}}#fcount{{text-align:left}}.flab{{font-weight:700;color:var(--muted);font-size:14px;margin:0 0 8px}}
+.frow{{display:flex;gap:8px;flex-wrap:wrap;padding-bottom:6px}}@media(max-width:700px){{.frow{{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin}}}}
+.ftab,.faud{{flex:none;font:inherit;font-weight:700;font-size:15px;border-radius:999px;padding:9px 16px;cursor:pointer;border:2px solid var(--border);background:#fff;color:var(--ink)}}
+.faud{{font-size:16px;padding:11px 18px}}
+.ftab.on{{background:var(--accent);border-color:var(--accent);color:#fff}}.faud.on{{background:var(--ink);border-color:var(--ink);color:#fff}}
+.ccard{{display:flex;flex-direction:column;gap:10px;text-align:left;align-items:flex-start}}.ccard .ico{{margin:0}}.ccard h3{{margin-top:2px}}.cwho{{font-size:14px;color:var(--muted);font-weight:600}}
+#fcount{{font-weight:600;color:var(--muted);margin:4px 0 16px}}#fcount a{{margin-left:8px}}
+#fnone{{display:none;text-align:center;padding:30px}}
+</style>
+<div class="fwrap"><p class="flab">I am a…</p><div class="frow" role="group" aria-label="Audience">{auds}</div></div>
+<div class="fwrap"><p class="flab">Subject</p><div class="frow" role="group" aria-label="Subject">{tabs}</div></div>
+<p id="fcount" aria-live="polite"></p>
+<div class="grid g3" id="cgrid">{cards_}</div>
+<div class="card" id="fnone"><h3>Nothing here yet</h3><p style="margin:8px 0 14px">We are adding courses all the time. Tell us what you would like to learn.</p><a class="btn btn-accent" href="#demo:Courses">Notify me</a></div>
+<script>
+(function(){{var S="all",A="everyone",N={json.dumps(dict(SUBJ))},M={json.dumps(dict(AUD))};
+function apply(push){{var n=0;document.querySelectorAll(".ccard").forEach(function(c){{var aa=c.dataset.a.split(" "),ok=(S==="all"||c.dataset.s===S)&&(A==="everyone"||aa.indexOf("all")>=0||aa.indexOf(A)>=0);c.style.display=ok?"":"none";if(ok){{n++;c.classList.add("in");}}}});
+document.querySelectorAll(".ftab").forEach(function(b){{var on=b.dataset.s===S;b.classList.toggle("on",on);b.setAttribute("aria-pressed",on);}});
+document.querySelectorAll(".faud").forEach(function(b){{var on=b.dataset.a===A;b.classList.toggle("on",on);b.setAttribute("aria-pressed",on);}});
+var f=S!=="all"||A!=="everyone";document.getElementById("fcount").innerHTML="Showing "+n+" course"+(n===1?"":"s")+(A!=="everyone"?" for <b>"+M[A]+"</b>":"")+(S!=="all"?" in <b>"+N[S]+"</b>":"")+(f?' <a href="#" id="fclear">Clear</a>':"");
+document.getElementById("fnone").style.display=n?"none":"block";var cl=document.getElementById("fclear");if(cl)cl.onclick=function(e){{e.preventDefault();S="all";A="everyone";apply(true);}};
+if(push)try{{history.replaceState(null,"",f?"#for:"+A+":"+S:location.pathname);}}catch(e){{}}}}
+document.querySelectorAll(".ftab").forEach(function(b){{b.onclick=function(){{S=b.dataset.s;apply(true);}};}});
+document.querySelectorAll(".faud").forEach(function(b){{b.onclick=function(){{A=b.dataset.a;apply(true);}};}});
+var m=location.hash.match(/^#for:([a-z]+):([a-z]+)$/);if(m){{if(M[m[1]])A=m[1];if(N[m[2]])S=m[2];}}apply(false);}})();
+</script>"""
+
 cs += f'''<section class="white" id="available">
   <div class="wrap">
-    {sec_head("Available now", "Start today. Free, self-paced and open to everyone.", "Open for all")}
-    <div class="card rv" style="display:flex;flex-direction:row;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:2px solid var(--accent)">
-      <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-indigo" style="flex:none">{I["bars"]}</div><div><span class="tag indigo">Free · Self-paced · Certificate</span><h3 style="margin-top:8px">Basics of Statistics</h3><p>Two modules: Measures of Central Tendency (mean, median, mode) and Measures of Dispersion (IQR, standard deviation, mean deviation). Teaching videos, calculators, quick checks and a final test.</p></div></div>
-      <a class="btn btn-accent" href="/courses/basics-of-statistics/" style="flex:none">Start the course {I["arrow"]}</a>
-    </div>
-    <div class="card rv" style="display:flex;flex-direction:row;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:2px solid var(--accent);margin-top:18px">
-      <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-sky" style="flex:none">{I["target"]}</div><div><span class="tag indigo">Free · Self-paced · Certificate</span><h3 style="margin-top:8px">Product Management</h3><p>Two modules: Discovery and Strategy (the PM role, customer discovery and jobs to be done, market sizing) and Delivery and Growth (RICE prioritisation, MVPs and retention, funnels and A/B testing). Interactive tools, quick checks and a final test.</p></div></div>
-      <a class="btn btn-accent" href="/courses/product-management/" style="flex:none">Start the course {I["arrow"]}</a>
-    </div>
-    <div class="card rv" style="display:flex;flex-direction:row;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:2px solid var(--accent);margin-top:18px">
-      <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-pink" style="flex:none">{I["chat"]}</div><div><span class="tag indigo">Free · Self-paced · Certificate</span><h3 style="margin-top:8px">Prompt Engineering</h3><p>Two modules: Prompting Fundamentals (how AI assistants work, the anatomy of a good prompt, examples and reasoning) and Prompting in Practice (iterating and chaining, real-world tasks, responsible use). Interactive prompt tools, quick checks and a final test.</p></div></div>
-      <a class="btn btn-accent" href="/courses/prompt-engineering/" style="flex:none">Start the course {I["arrow"]}</a>
-    </div>
-    <div class="card rv" style="display:flex;flex-direction:row;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:2px solid var(--accent);margin-top:18px">
-      <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-sun" style="flex:none">{I["brief"]}</div><div><span class="tag indigo">Free · Self-paced · Certificate</span><h3 style="margin-top:8px">HR Analytics</h3><p>Two modules: Foundations of HR Analytics (strategic HR, LAMP and the HR value chain, descriptive to prescriptive analytics, HR metrics) and HR Data, Tools and Applications (data collection, Power BI dashboards, workforce planning, talent management). Interactive tools, quick checks and a final test.</p></div></div>
-      <a class="btn btn-accent" href="/courses/hr-analytics/" style="flex:none">Start the course {I["arrow"]}</a>
-    </div>
-    <div class="card rv" style="display:flex;flex-direction:row;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:2px solid var(--accent);margin-top:18px">
-      <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-sky" style="flex:none">{I["search"]}</div><div><span class="tag indigo">Free · Self-paced · Certificate</span><h3 style="margin-top:8px">SEO to GEO: Optimize Content for AI Search</h3><p>Two modules: How AI Search Works (SEO foundations, how Google AI Overviews, ChatGPT search and Perplexity find and cite content, what GEO is) and Optimizing Content for AI Search (answer-first writing, AI crawlers and structured data, measuring AI visibility). Interactive tools, quick checks and a final test.</p></div></div>
-      <a class="btn btn-accent" href="/courses/seo-to-geo/" style="flex:none">Start the course {I["arrow"]}</a>
-    </div>
-    <div class="card rv" style="display:flex;flex-direction:row;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:2px solid var(--accent);margin-top:18px">
-      <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-indigo" style="flex:none">{I["bot"]}</div><div><span class="tag indigo">Free · Self-paced · Certificate</span><h3 style="margin-top:8px">Building AI Agents</h3><p>Two modules: Agent Foundations (what agents are, the agent loop, tools, MCP and RAG) and Designing and Deploying Agents (agent briefs, no-code build patterns, testing, safety and ROI). Interactive design tools, quick checks and a final test. No coding needed.</p></div></div>
-      <a class="btn btn-accent" href="/courses/building-ai-agents/" style="flex:none">Start the course {I["arrow"]}</a>
-    </div>
-    <div class="card rv" style="display:flex;flex-direction:row;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:2px solid var(--accent);margin-top:18px">
-      <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-sun" style="flex:none">{I["puzzle"]}</div><div><span class="tag indigo">Free · Self-paced · Certificate</span><h3 style="margin-top:8px">Coding for Non-Coders</h3><p>Two modules: Thinking Like a Programmer (steps and algorithms, variables, conditions and loops, tables, CSV and JSON) and Building with AI (asking AI to write code, reading errors and debugging, building and sharing a mini app). Interactive tools, quick checks and a final test. No experience needed.</p></div></div>
-      <a class="btn btn-accent" href="/courses/coding-for-non-coders/" style="flex:none">Start the course {I["arrow"]}</a>
-    </div>
-    <div class="card rv" style="display:flex;flex-direction:row;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:2px solid var(--accent);margin-top:18px">
-      <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-mint" style="flex:none">{I["cap"]}</div><div><span class="tag indigo">Free · Self-paced · Certificate · New scheme, May 2027 onwards</span><h3 style="margin-top:8px">CA Foundation Course</h3><p>All four papers of the CA Foundation syllabus, one lesson per ICAI unit, each with notes, worked examples, interactive tools, quick checks, a final test and a certificate.</p><ul style="margin:10px 0 0;padding-left:20px;line-height:1.8"><li><a href="/courses/ca-foundation-accounting/">Paper 1: Accounting</a> (33 lessons)</li><li><a href="/courses/ca-foundation-business-laws/">Paper 2: Business Laws</a> (20 lessons)</li><li><a href="/courses/ca-foundation-quantitative-aptitude/">Paper 3: Quantitative Aptitude</a> (19 lessons, with videos)</li><li><a href="/courses/ca-foundation-business-economics/">Paper 4: Business Economics</a> (26 lessons)</li></ul></div></div>
-      <a class="btn btn-accent" href="/courses/ca-foundation/" style="flex:none">Open the CA Foundation Course {I["arrow"]}</a>
-    </div>
+    {sec_head("Find your course", "Choose who you are and a subject. Most courses are free, self-paced and come with a certificate.", "Courses")}
+    {catalog_html()}
   </div>
 </section>
 <section class="white" style="padding-top:0">
   <div class="wrap">
     <div class="cta rv" style="background:linear-gradient(135deg,#1E1B4B,#0F766E)"><div><span class="tag" style="background:#DCFCE7;color:#166534">New · Instructors</span><h2 style="margin-top:10px">Want a tutor alongside your course?</h2><p>Find an approved instructor for any course, online or in person, and we will introduce you. Teachers can list themselves for free.</p></div><div class="row" style="gap:10px;flex-wrap:wrap"><a class="btn btn-sun" href="/instructors/">Find a tutor {I["arrow"]}</a><a class="btn btn-soft" href="/instructors/join/">Teach with us</a></div></div>
-  </div>
-</section>
-<section>
-  <div class="wrap">
-    {sec_head("Launching soon", "The first cohorts are being scheduled. Leave your details and we'll tell you when enrolment opens.", "Upcoming")}
-    <div class="grid g4">
-      <div class="card rv"><div class="ico i-indigo">{I["bot"]}</div><span class="tag indigo" style="align-self:flex-start">Paid · ₹499</span><h3>Agentic AI</h3><p>Go beyond single agents: multi-agent systems, MCP, evaluation, guardrails and deployment.</p><a class="btn btn-accent btn-sm" href="/courses/agentic-ai/" style="align-self:flex-start;margin-top:auto">View course</a></div>
-      <div class="card rv"><div class="ico i-mint">{I["bars"]}</div><span class="tag sky" style="align-self:flex-start">Data skills</span><h3>Data Analysis and Visualisation</h3><p>Clean data, find patterns and make clear charts and dashboards with AI and spreadsheet tools.</p><a class="btn btn-accent btn-sm" href="#demo:Courses" style="align-self:flex-start;margin-top:auto">Register interest</a></div>
-      <div class="card rv"><div class="ico i-sky">{I["search"]}</div><span class="tag sky" style="align-self:flex-start">For researchers</span><h3>AI for Research and Literature Review</h3><p>Find, read and summarise papers faster, and use AI responsibly in writing and publishing.</p><a class="btn btn-accent btn-sm" href="#demo:Courses" style="align-self:flex-start;margin-top:auto">Register interest</a></div>
-      <div class="card rv"><div class="ico i-indigo">{I["brief"]}</div><span class="tag" style="align-self:flex-start">For professionals</span><h3>Generative AI for Work and Productivity</h3><p>Use AI for emails, reports, presentations and meetings, and set up simple workflow automations.</p><a class="btn btn-accent btn-sm" href="#demo:Courses" style="align-self:flex-start;margin-top:auto">Register interest</a></div>
-      <div class="card rv"><div class="ico i-sun">{I["teacher"]}</div><span class="tag sky" style="align-self:flex-start">For faculty</span><h3>AI in Teaching and Research</h3><p>Build simulations, quick cases and quiz games for your own course, and use AI responsibly in research and assessment.</p><a class="btn btn-accent btn-sm" href="#demo:Courses" style="align-self:flex-start;margin-top:auto">Register interest</a></div>
-      <div class="card rv"><div class="ico i-mint">{I["student"]}</div><span class="tag" style="align-self:flex-start">For students</span><h3>Study and Practise with AI</h3><p>Use AI as a tutor and practice partner without letting it do the thinking for you.</p><a class="btn btn-accent btn-sm" href="#demo:Courses" style="align-self:flex-start;margin-top:auto">Register interest</a></div>
-    </div>
   </div>
 </section>
 '''
