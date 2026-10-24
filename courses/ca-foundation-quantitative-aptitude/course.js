@@ -23,7 +23,7 @@
   function tbl(head, rows) { return '<div class="tscroll"><table><tr>' + head.map(function (h) { return "<th>" + h + "</th>"; }).join("") + "</tr>" + rows.map(function (r) { return "<tr>" + r.map(function (c) { return "<td>" + c + "</td>"; }).join("") + "</tr>"; }).join("") + "</table></div>"; }
   function steps(arr) { return '<ol class="steps">' + arr.map(function (s) { return "<li>" + s + "</li>"; }).join("") + "</ol>"; }
 
-  var ICAI_URL = "https://www.icai.org/post/19139";
+  var ICAI_URL = "https://www.icai.org/post/sm-foundation-p3-may2027";
 
   /* ================= LESSONS =================
      Running example: Riya (fictional), a CA Foundation student who also helps at Kiran Traders (fictional), a small furniture business.
