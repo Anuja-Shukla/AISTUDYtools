@@ -1,0 +1,12 @@
+# Business Economics Lesson 1.3 — Law of Demand and Elasticity of Demand
+Welcome! This lesson is about the law of demand and the elasticity of demand: how much buyers respond when price changes.
+Demand depends on many things: the good's own price, the prices of related goods, income, tastes, expectations, and the size of the population.
+The law of demand: other things being equal, when price falls, quantity demanded rises. So the demand curve slopes downward.
+A change in the good's own price moves us along the curve. A change in anything else, such as income, shifts the whole curve.
+Price elasticity measures how strongly quantity responds: the percentage change in quantity demanded, divided by the percentage change in price.
+Chai Point cuts the price of tea from ₹20 to ₹16, and daily sales rise from 500 to 700 cups. || Chai Point cuts the price of a cup of tea from twenty rupees to sixteen, and daily sales rise from five hundred to seven hundred cups.
+Quantity rose 40% and price fell 20%, so elasticity is 40 ÷ 20 = 2. Demand is elastic. The arc method, using averages, gives 1.5. || Quantity rose by forty percent, and price fell by twenty percent. So elasticity is forty divided by twenty, which is two. Demand is elastic. The arc method, which uses averages, gives one point five.
+Check with total spending: ₹10,000 before, ₹11,200 after. Spending rose when price fell, so demand is elastic. || Check with total spending. Ten thousand rupees before, eleven thousand two hundred after. Spending rose when the price fell, so demand is elastic.
+The sign of other elasticities tells you the type of good. Income elasticity is positive for normal goods and negative for inferior goods. Cross elasticity is positive for substitutes and negative for complements.
+Try this: if a fall in price leaves total spending unchanged, price elasticity is… Unitary, equal to one. || Try this. If a fall in price leaves total spending unchanged, what is the price elasticity of demand? The answer is A. It is unitary, equal to one.
+Remember: demand slopes down; own price moves along the curve, other factors shift it; elasticity is the percentage change in quantity over the percentage change in price. Now try the calculator below. || To recap. Demand slopes downward. A change in own price moves along the curve, and other factors shift it. And elasticity is the percentage change in quantity, divided by the percentage change in price. Now try the calculator below this video.
