@@ -4,7 +4,7 @@ import os, html, re, glob
 import markdown
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "30"  # cache-buster for css/js
+V = "31"  # cache-buster for css/js
 PAY_API = ""  # payment server (Cloudflare Worker) URL; empty = paid-course enrolment shows "opens soon"
 
 def svg(paths, extra=""):
@@ -218,7 +218,7 @@ home += f'''<section id="products" class="white">
   <div class="wrap">
     {sec_head("Everything in one place", "For faculty who want livelier classes, students who want to practise, professionals who want new skills, and institutions that want it at scale.", "What we offer")}
     <div class="grid g2">
-      <a class="prod p-course rv" href="/courses/"><span class="kicker">Free · with certificate</span><div class="ico i-pink" style="background:#fff">{I["calendar"]}</div><h3>Courses</h3><p>Eleven self-paced courses, including all four CA Foundation papers, with interactive tools, quick checks, a final test and a certificate.</p><ul><li>Statistics</li><li>Prompt Engineering</li><li>Product Management</li><li>HR Analytics</li><li>SEO to GEO</li><li>Building AI Agents</li><li>Coding for Non-Coders</li><li>CA Foundation: Accounting</li><li>CA Foundation: Business Laws</li><li>CA Foundation: Quantitative Aptitude</li><li>CA Foundation: Business Economics</li></ul><span class="go">See all courses {I["arrow"]}</span></a>
+      <a class="prod p-course rv" href="/courses/"><span class="kicker">Free · with certificate</span><div class="ico i-pink" style="background:#fff">{I["calendar"]}</div><h3>Courses</h3><p>Self-paced courses with interactive tools, quick checks, a final test and a certificate.</p><ul><li>Statistics</li><li>Prompt Engineering</li><li>Product Management</li><li>HR Analytics</li><li>SEO to GEO</li><li>Building AI Agents</li><li>Coding for Non-Coders</li><li>CA Foundation Course</li></ul><span class="go">See all courses {I["arrow"]}</span></a>
       <a class="prod p-skill rv" href="/tools/"><span class="kicker">Free for faculty</span><div class="ico i-sun" style="background:#fff">{I["teacher"]}</div><h3>Faculty Corner</h3><p>Turn a concept or chapter into something students do, not just read.</p><ul><li>Simulation Creator</li><li>Quick Case Generator</li><li>Interactive Game Creator</li><li>AI Presentation Creator</li><li>Journal Finder</li></ul><span class="go">Open the Faculty Corner {I["arrow"]}</span></a>
       <a class="prod p-health rv" href="/practice/"><span class="kicker">Free for students</span><div class="ico i-sky" style="background:#fff">{I["student"]}</div><h3>Student Corner</h3><p>Make decisions, see consequences, get feedback and try again.</p><ul><li>Branching simulations</li><li>Learning games</li><li>Course comparison</li></ul><span class="go">Start practising {I["arrow"]}</span></a>
       <a class="prod p-learn rv" href="/ai-evaluator/"><span class="kicker">New · free</span><div class="ico i-indigo" style="background:#fff">{I["clip"]}</div><h3>AI evaluator</h3><p>Score student answers or AI-generated text against a rubric, check key points and claims, and copy ready-to-share feedback.</p><ul><li>Rubric presets</li><li>Key-point check</li><li>Claims to verify</li><li>Feedback in one click</li></ul><span class="go">Evaluate a response {I["arrow"]}</span></a>
@@ -230,7 +230,7 @@ home += f'''<section id="products" class="white">
 <section id="courses-home">
   <div class="wrap">
     {sec_head("Free courses, with certificates", "Learn at your own pace. Every lesson has a walkthrough, clear notes, a worked example and an interactive tool. Pass the final test to download your certificate.", "Start learning today")}
-    {course_cards(COURSES)}
+    {course_cards([c for c in COURSES if not c[3].startswith("/courses/ca-foundation")] + [("cap", "CA Foundation Course", "All four CA Foundation papers (May 2027 onwards): Accounting, Business Laws, Quantitative Aptitude and Business Economics.", "/courses/ca-foundation/")])}
     <p class="rv" style="text-align:center;margin-top:22px"><a class="btn btn-ink" href="/courses/">See all courses and upcoming ones {I["arrow"]}</a></p>
   </div>
 </section>
@@ -521,10 +521,6 @@ write("/practice/prompt-engineering-basics/", sm)
 # ---------------- COURSES ----------------
 cs = head("AI Courses for Faculty and Students | AIStudyTools",
           "Short, practical courses on using AI in teaching, research and study, from AIStudyTools.", "/courses/") + header("courses")
-cs += hero("Courses", 'Learn to use AI <span class="hl">well</span>.',
-           "Short, practical courses on using AI in teaching, research and study. Live online, with hands-on work on your own material.",
-           [("Notify me when enrolment opens", "#demo:Courses", "btn-ink"), ("Host a course for your institution", "#demo:Courses", "btn-soft")],
-           mindmap("Courses", ["AI in teaching", "AI in research", "Prompting", "Assessment", "Responsible AI"], "Course topics: AI in teaching, AI in research, prompting, assessment and responsible AI"))
 cs += f'''<section class="white" id="available">
   <div class="wrap">
     {sec_head("Available now", "Start today. Free, self-paced and open to everyone.", "Open for all")}
@@ -556,25 +552,9 @@ cs += f'''<section class="white" id="available">
       <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-sun" style="flex:none">{I["puzzle"]}</div><div><span class="tag indigo">Free · Self-paced · Certificate</span><h3 style="margin-top:8px">Coding for Non-Coders</h3><p>Two modules: Thinking Like a Programmer (steps and algorithms, variables, conditions and loops, tables, CSV and JSON) and Building with AI (asking AI to write code, reading errors and debugging, building and sharing a mini app). Interactive tools, quick checks and a final test. No experience needed.</p></div></div>
       <a class="btn btn-accent" href="/courses/coding-for-non-coders/" style="flex:none">Start the course {I["arrow"]}</a>
     </div>
-    <div class="card rv" style="display:flex;flex-direction:row;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--soft);margin-top:18px">
-      <div style="flex:1 1 420px"><span class="tag indigo">New scheme · May 2027 onwards</span><h3 style="margin-top:8px">CA Foundation: all four papers, free</h3><p>Accounting, Business Laws, Quantitative Aptitude and Business Economics, one lesson per ICAI unit, with tools, tests and certificates.</p></div>
-      <a class="btn btn-accent" href="/courses/ca-foundation/" style="flex:none">See all four papers {I["arrow"]}</a>
-    </div>
     <div class="card rv" style="display:flex;flex-direction:row;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:2px solid var(--accent);margin-top:18px">
-      <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-sky" style="flex:none">{I["clip"]}</div><div><span class="tag indigo">Free · Self-paced · Certificate</span><h3 style="margin-top:8px">CA Foundation: Accounting</h3><p>Four modules following the CA Foundation Paper 1 syllabus (May 2027 onwards): Theoretical Framework (concepts, policies, measurement and accounting standards), the Accounting Process (journal to trial balance, cash book, rectification, BRS, inventories, depreciation, bills of exchange), Final Accounts (sole proprietors, manufacturers, not-for-profit organisations, incomplete records) and Partnership, LLP and Company Accounts. 33 lessons with interactive accounting tools, original worked examples, quick checks and a 30-question final test.</p></div></div>
-      <a class="btn btn-accent" href="/courses/ca-foundation-accounting/" style="flex:none">Start the course {I["arrow"]}</a>
-    </div>
-    <div class="card rv" style="display:flex;flex-direction:row;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:2px solid var(--accent);margin-top:18px">
-      <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-pink" style="flex:none">{I["brief"]}</div><div><span class="tag indigo">Free · Self-paced · Certificate</span><h3 style="margin-top:8px">CA Foundation: Business Laws</h3><p>Five modules following the CA Foundation Paper 2 syllabus (May 2027 onwards): the Indian regulatory framework and formation of contracts; performance, breach and special contracts (indemnity, guarantee, bailment, pledge, agency); the Sale of Goods Act; partnership and LLP; and the Companies Act and Negotiable Instruments Act. 20 lessons with exam-style worked problems, case trainers, legal tools such as a contract validity checker and a cheque-dishonour timeline, quick checks and a 30-question final test.</p></div></div>
-      <a class="btn btn-accent" href="/courses/ca-foundation-business-laws/" style="flex:none">Start the course {I["arrow"]}</a>
-    </div>
-    <div class="card rv" style="display:flex;flex-direction:row;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:2px solid var(--accent);margin-top:18px">
-      <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-mint" style="flex:none">{I["cap"]}</div><div><span class="tag indigo">Free · Self-paced · Certificate</span><h3 style="margin-top:8px">CA Foundation: Quantitative Aptitude</h3><p>Three modules following the CA Foundation Paper 3 syllabus: Business Mathematics (ratios and logs, equations, linear programming, finance, permutations and combinations, AP and GP, sets and functions, calculus), Logical Reasoning (series and coding, directions, seating, blood relations) and Statistics (data and sampling, averages, dispersion, probability, distributions, correlation and regression, index numbers). 19 lessons with step-by-step solvers, quick checks and a 30-question final test.</p></div></div>
-      <a class="btn btn-accent" href="/courses/ca-foundation-quantitative-aptitude/" style="flex:none">Start the course {I["arrow"]}</a>
-    </div>
-    <div class="card rv" style="display:flex;flex-direction:row;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:2px solid var(--accent);margin-top:18px">
-      <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-sun" style="flex:none">{I["trend"]}</div><div><span class="tag indigo">Free · Self-paced · Certificate</span><h3 style="margin-top:8px">CA Foundation: Business Economics</h3><p>Five modules following the CA Foundation Paper 4 syllabus (May 2027 onwards): demand, supply and consumer behaviour; production, cost and market forms; national income, the Keynesian model and business cycles; public finance, money and monetary policy; and international trade, exchange rates, capital flows and the Indian economy. 26 lessons with step-by-step calculators (elasticity, cost curves, equilibrium, the multiplier, deficits, the money multiplier, comparative advantage, exchange rates), quick checks and a 30-question final test.</p></div></div>
-      <a class="btn btn-accent" href="/courses/ca-foundation-business-economics/" style="flex:none">Start the course {I["arrow"]}</a>
+      <div style="display:flex;gap:18px;align-items:flex-start;flex:1 1 420px"><div class="ico i-mint" style="flex:none">{I["cap"]}</div><div><span class="tag indigo">Free · Self-paced · Certificate · New scheme, May 2027 onwards</span><h3 style="margin-top:8px">CA Foundation Course</h3><p>All four papers of the CA Foundation syllabus, one lesson per ICAI unit, each with notes, worked examples, interactive tools, quick checks, a final test and a certificate.</p><ul style="margin:10px 0 0;padding-left:20px;line-height:1.8"><li><a href="/courses/ca-foundation-accounting/">Paper 1: Accounting</a> (33 lessons)</li><li><a href="/courses/ca-foundation-business-laws/">Paper 2: Business Laws</a> (20 lessons)</li><li><a href="/courses/ca-foundation-quantitative-aptitude/">Paper 3: Quantitative Aptitude</a> (19 lessons, with videos)</li><li><a href="/courses/ca-foundation-business-economics/">Paper 4: Business Economics</a> (26 lessons)</li></ul></div></div>
+      <a class="btn btn-accent" href="/courses/ca-foundation/" style="flex:none">Open the CA Foundation Course {I["arrow"]}</a>
     </div>
   </div>
 </section>
@@ -594,12 +574,6 @@ cs += f'''<section class="white" id="available">
       <div class="card rv"><div class="ico i-sun">{I["teacher"]}</div><span class="tag sky" style="align-self:flex-start">For faculty</span><h3>AI in Teaching and Research</h3><p>Build simulations, quick cases and quiz games for your own course, and use AI responsibly in research and assessment.</p><a class="btn btn-accent btn-sm" href="#demo:Courses" style="align-self:flex-start;margin-top:auto">Register interest</a></div>
       <div class="card rv"><div class="ico i-mint">{I["student"]}</div><span class="tag" style="align-self:flex-start">For students</span><h3>Study and Practise with AI</h3><p>Use AI as a tutor and practice partner without letting it do the thinking for you.</p><a class="btn btn-accent btn-sm" href="#demo:Courses" style="align-self:flex-start;margin-top:auto">Register interest</a></div>
     </div>
-  </div>
-</section>
-<section class="white">
-  <div class="wrap">
-    {sec_head("How the courses run", "", "Format")}
-    {cards([("calendar", "Live online", "Short live sessions you can fit around teaching or classes."), ("pencil", "Hands-on", "You build something with your own material in every session."), ("school", "For your institution", "Any course can run as a faculty development programme for your team.")], cols="g3", color="rotate")}
   </div>
 </section>
 '''
