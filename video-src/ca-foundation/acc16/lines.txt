@@ -1,0 +1,8 @@
+# Accounting Lesson 1.6 — Measurement Bases
+Welcome! This lesson is about measurement bases.
+One machine, four values: historical cost, current cost, realisable value and present value.
+Realisable value is what the asset would fetch now, less selling costs: 60,000 minus 2,000 gives 58,000. || Realisable value is what the asset would fetch now, less the costs of selling. Sixty thousand minus two thousand gives fifty eight thousand.
+Present value discounts future cash flows: 30,000 a year for three years at 10 percent is worth about 74,606 today. || Present value discounts future cash flows. Thirty thousand a year for three years, at ten percent, is worth about seventy four thousand six hundred today.
+Historical cost is the main base because it is objective and verifiable; the others are used alongside it, such as realisable value for inventory.
+Try this: discounted future cash flows give the present value. || Try this. The discounted value of future cash flows is called what? The answer is A, present value.
+Remember the four bases and that historical cost is the main one. Now try the calculator below. || To recap. Remember the four measurement bases, and that historical cost is the main one. Now try the calculator below this video.

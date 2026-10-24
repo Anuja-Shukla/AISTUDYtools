@@ -1,0 +1,9 @@
+# Accounting Lesson 2.7 — Bank Reconciliation Statement
+Welcome! This lesson is about the bank reconciliation statement.
+The bank column of your cash book and the bank's pass book record the same account, but rarely match on any given day.
+Differences come from timing: cheques not yet presented or cleared, and items the bank has recorded but you have not, such as charges, interest and direct deposits.
+Starting from 45,000 in the cash book, add items that raise the bank's figure and subtract those that lower it, to reach 50,500 in the pass book. || Starting from forty five thousand in the cash book, add the items that raise the bank's figure, and subtract those that lower it. You reach fifty thousand five hundred in the pass book.
+Ask: does this item make the bank's balance higher than mine? If yes, add it; if no, subtract it.
+With an overdraft, treat the starting balance as negative and apply the same logic; adding reduces the overdraft.
+Try this: cheques issued but not presented are added. || Try this. Starting from the cash book balance, what do you do with cheques issued but not yet presented? The answer is A. Add them.
+Remember: differences come from timing and unrecorded items; adjust one balance to reach the other. Now try the BRS tool below. || To recap. Differences come from timing and unrecorded items. Adjust one balance to reach the other. Now try the BRS tool below this video.

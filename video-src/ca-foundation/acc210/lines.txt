@@ -1,0 +1,9 @@
+# Accounting Lesson 2.10 — Bills of Exchange
+Welcome! This lesson is about bills of exchange.
+A bill of exchange has three parties: the drawer who writes it, the drawee who accepts it, and the payee who is paid.
+A bill drawn on 10 January for three months is nominally due on 10 April; adding three days of grace makes it due on 13 April. || A bill drawn on the tenth of January, for three months, is nominally due on the tenth of April. Add three days of grace, and it is due on the thirteenth of April.
+If the due date is a public holiday, the bill is payable on the preceding business day.
+Discounting a 60,000 bill at 12 percent with 62 days to run costs about 1,223. || Discounting a sixty thousand rupee bill at twelve percent, with sixty two days to run, costs about one thousand two hundred and twenty three rupees.
+When the drawer receives an accepted bill, debit bills receivable. If it is dishonoured, the drawee becomes a debtor again.
+Try this: three days of grace are allowed. || Try this. How many days of grace are allowed on a time bill? The answer is A, three days.
+Remember the parties, add three days of grace, move back for a holiday, and compute discount for the days remaining. Now try the bills tool below. || To recap. Remember the three parties. Add three days of grace. Move back a day for a holiday. And compute discount for the days remaining. Now try the bills tool below this video.

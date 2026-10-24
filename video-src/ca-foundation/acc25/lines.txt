@@ -1,0 +1,9 @@
+# Accounting Lesson 2.5 — Cash Book
+Welcome! This lesson is about the cash book.
+A cash book may be simple, with cash and bank columns, with a discount column too, or a petty cash book for small expenses.
+Cash discount allowed to customers is on the debit side; discount received from suppliers is on the credit side. Trade discount is never recorded.
+When cash moves between the office and the bank, both sides are in the cash book. These contra entries are marked C and not posted to the ledger.
+Starting with 20,000 cash and 40,000 in the bank, after the week's entries Meera has 4,000 cash and 60,200 in the bank. || Starting with twenty thousand in cash and forty thousand in the bank, after the week's entries Meera has four thousand in cash and sixty thousand two hundred in the bank.
+The cash column can never show a credit balance; a credit in the bank column is an overdraft; and discount columns are only totalled.
+Try this: a credit balance in the cash column means there is an error. || Try this. What does a credit balance in the cash column show? The answer is A, an error, because you cannot pay out more cash than you have.
+Remember the three columns, contra entries, and that cash can never be in credit. Now try the cash book tool below. || To recap. Remember the three columns and contra entries. And the cash column can never be in credit. Now try the cash book tool below this video.

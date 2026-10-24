@@ -1,0 +1,9 @@
+# Accounting Lesson 4.7 — Issue of Shares
+Welcome! This lesson is about the issue of shares.
+Share capital comes in layers: authorised, issued, subscribed, called up and paid up.
+Sunrise Textiles has 10 lakh authorised capital. Of 60,000 shares issued, 8 rupees are called; with 4,000 in arrears, paid-up capital is 4,76,000. || Sunrise Textiles has ten lakh of authorised capital. Of sixty thousand shares issued, eight rupees per share are called. With four thousand in arrears, paid-up capital is four lakh seventy six thousand.
+Money comes in stages: application, allotment and calls, each recorded first as due and then as received.
+A premium goes to securities premium, whose uses are limited by section 52. Shares cannot be issued at a discount, except sweat equity.
+When a public issue is over-subscribed, some applications are rejected and others get a pro-rata allotment, with excess money adjusted against allotment.
+Try this: calls in arrears are deducted from called-up capital. || Try this. How are calls in arrears shown? The answer is A, deducted from called-up capital.
+Remember the layers of capital, the stages of issue, and the rules on premium and discount. Now try the share capital tool below. || To recap. Remember the layers of capital, the stages of issue, and the rules on premium and discount. Now try the share capital tool below this video.

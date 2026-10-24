@@ -1,0 +1,8 @@
+# Accounting Lesson 3.4 — Accounts from Incomplete Records
+Welcome! This lesson is about accounts from incomplete records.
+Small traders often keep only cash and personal accounts. We can still find profit by comparing capital.
+A statement of affairs lists assets and liabilities to find capital: 85,000 at the start and 1,05,000 at the end. || A statement of affairs lists assets and liabilities to find capital. Eighty five thousand at the start, and one lakh five thousand at the end.
+Profit is closing capital plus drawings minus fresh capital minus opening capital: 34,000. || Profit is closing capital, plus drawings, minus fresh capital, minus opening capital. That gives thirty four thousand.
+A total debtors account finds the missing credit sales: 1,38,000. || A total debtors account finds the missing credit sales. They come to one lakh thirty eight thousand.
+Try this: drawings are added to closing capital. || Try this. Under the statement of affairs method, what do you do with drawings? The answer is A. Add them to closing capital.
+Remember the profit formula and use total accounts to find missing figures. Now try the incomplete records tool below. || To recap. Use the statement of affairs to find capital and the profit formula to find profit. Use total accounts to find missing figures. Now try the incomplete records tool below this video.

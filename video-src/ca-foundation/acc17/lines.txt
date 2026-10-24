@@ -1,0 +1,8 @@
+# Accounting Lesson 1.7 — Accounting Standards
+Welcome! This lesson is about accounting standards.
+Standards make accounts comparable and reliable by reducing the choice of methods, so users can trust them.
+ICAI's Accounting Standards Board drafts a standard, issues an exposure draft, considers comments, and the Council approves it. For companies, standards are notified by the government.
+Large and listed companies follow Ind AS, converged with IFRS; other entities follow AS. Company standards are notified under section 133.
+In this course you meet AS 1, AS 2, AS 9, AS 10 and AS 29.
+Try this: company accounting standards are prescribed under section 133. || Try this. Under which section are accounting standards prescribed for companies? The answer is A, section one thirty three.
+Remember why standards exist, how they are made, who follows Ind AS, and the key standards. Now try the case trainer below. || To recap. Remember why standards exist, how they are made, who follows Ind AS, and the key standards in this course. Now try the case trainer below this video.

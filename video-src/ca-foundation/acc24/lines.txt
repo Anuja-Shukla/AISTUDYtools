@@ -1,0 +1,9 @@
+# Accounting Lesson 2.4 — Subsidiary Books
+Welcome! This lesson is about subsidiary books.
+Subsidiary books split the journal by type of transaction, dividing the work and saving postings.
+Credit purchases and sales of goods go to the purchases and sales books, returns to the returns books, cash and bank to the cash book, and the rest to the journal proper.
+Only goods for resale go to the purchases book. A computer bought on credit for office use goes to the journal proper.
+Individual suppliers and customers are posted one by one; the book's total goes to the purchases or sales account at the end of the period.
+The journal proper handles opening and closing entries, adjustments, rectifications, credit dealings in assets, and transfers.
+Try this: machinery bought on credit goes to the journal proper. || Try this. Where is machinery bought on credit recorded? The answer is A, the journal proper.
+Remember which book records which transaction, and that only goods for resale go to the purchases and sales books. Now try the sorter below. || To recap. Remember which book records which transaction. And only goods for resale go to the purchases and sales books. Now try the sorter below this video.

@@ -1,0 +1,10 @@
+# Accounting Lesson 2.1 — Journal Entries
+Welcome! This lesson is about journal entries.
+There are five types of accounts. Assets and expenses increase with a debit; liabilities, capital and income increase with a credit.
+So: debit what increases assets and expenses, credit what increases liabilities, capital and income.
+Meera starts her business with 2 lakh in cash: debit Cash, credit Capital. || Meera starts her business with two lakh rupees in cash. Debit cash, because the asset increases, and credit capital.
+She buys goods on credit from Kapoor Paper Co for 50,000: debit Purchases, credit Kapoor Paper Co. || She buys goods on credit from Kapoor Paper Company for fifty thousand rupees. Debit purchases, and credit Kapoor Paper Company, the creditor.
+Cash sales: debit cash, credit sales. Rent by cheque: debit rent, credit bank. Goods taken for personal use: debit drawings, credit purchases.
+Each entry has a date, the account debited, the account credited with 'To', the amounts, and a short narration.
+Try this: goods sold on credit to Sita. Debit Sita, because she becomes a debtor. || Try this. Goods are sold on credit to Sita. Which account is debited? The answer is A, Sita, because she becomes a debtor.
+Remember: debit assets and expenses to increase them, credit liabilities, capital and income, and debits always equal credits. Now try the journal trainer below. || To recap. Debit assets and expenses to increase them. Credit liabilities, capital and income. And debits always equal credits. Now try the journal trainer below this video.

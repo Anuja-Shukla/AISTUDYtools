@@ -1,0 +1,8 @@
+# Accounting Lesson 4.6 — Dissolution of a Partnership Firm
+Welcome! This lesson is about the dissolution of a partnership firm.
+The realisation account takes assets at book value on the debit side and liabilities on the credit side, then records what is actually realised and paid.
+Assets of 1.5 lakh realise 1.3 lakh, creditors of 40,000 are settled for 38,000, and expenses are 2,000. || Assets of one lakh fifty thousand realise one lakh thirty thousand. Creditors of forty thousand are settled for thirty eight thousand. Expenses are two thousand.
+Debits total 1.9 lakh and credits 1.7 lakh: a loss on realisation of 20,000, shared 12,000 and 8,000. || Debits total one lakh ninety thousand and credits one lakh seventy thousand. That is a loss on realisation of twenty thousand, shared twelve thousand and eight thousand.
+Assets go first to outside creditors, then partners' loans, then capitals, and any surplus in the profit ratio.
+Try this: assets go to the realisation account at book value. || Try this. At what value are assets transferred to the realisation account? The answer is A, book value.
+Remember how the realisation account works and the order of payment. Now try the realisation tool below. || To recap. Remember how the realisation account works, and the order of payment. Now try the realisation tool below this video.

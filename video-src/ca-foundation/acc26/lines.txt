@@ -1,0 +1,9 @@
+# Accounting Lesson 2.6 — Rectification of Errors
+Welcome! This lesson is about rectification of errors.
+Errors are of omission, commission, principle, or compensating errors that cancel each other.
+Furniture of 8,000 wrongly debited to purchases is corrected by debiting furniture and crediting purchases. || Furniture worth eight thousand was wrongly debited to purchases. Correct it by debiting furniture, and crediting purchases.
+To rectify, ask what was done, what should have been done, and pass the entry that moves from one to the other.
+If an error affects only one side, the other side of the correcting entry goes to suspense. For example, sales overcast by 1,000: debit sales, credit suspense. || If an error affects only one side, the other side of the correcting entry goes to suspense. For example, if sales were overcast by one thousand, debit sales and credit suspense.
+Errors found after closing the books affect nominal accounts through a profit and loss adjustment account.
+Try this: debit furniture, credit purchases, for 8,000. || Try this. Furniture was debited to purchases. What is the rectifying entry? The answer is A. Debit furniture, and credit purchases.
+Remember the types of errors, the three-step method, and when to use suspense. Now try the case trainer below. || To recap. Remember the types of errors, the three-step method, and when to use suspense. Now try the case trainer below this video.

@@ -1,0 +1,9 @@
+# Accounting Lesson 2.3 — Trial Balance
+Welcome! This lesson is about the trial balance.
+A trial balance lists all ledger balances on one date in debit and credit columns. If the books are arithmetically correct, the totals agree.
+Meera's balances total 2,68,000 on each side, so the trial balance agrees. || Meera's balances total two lakh sixty eight thousand on each side, so the trial balance agrees.
+A trial balance can agree even with errors: a transaction omitted altogether, errors that cancel each other, errors of principle, or posting to the wrong account of the same side.
+It reveals one-sided postings, wrong totals, wrong amounts on one side, and balances placed on the wrong side.
+If the totals differ, the difference is put in a suspense account temporarily, and cleared as the errors are located. || If the totals differ, the difference goes to a suspense account for the time being, and is cleared as the errors are found.
+Try this: a completely omitted transaction does not upset the trial balance. || Try this. Which error leaves the trial balance agreeing? The answer is A, a transaction completely omitted.
+Remember: a trial balance checks arithmetic, not every error, and any difference goes to suspense. Now try the trial balance tool below. || To recap. A trial balance checks the arithmetic, not every error. And any difference goes to a suspense account. Now try the trial balance tool below this video.

@@ -1,0 +1,8 @@
+# Accounting Lesson 1.5 — Accounting Policies
+Welcome! This lesson is about accounting policies.
+Accounting policies are the specific principles and methods a business chooses, such as FIFO for inventory or straight line depreciation.
+Policies are chosen with prudence, substance over form and materiality in mind, and significant policies are disclosed together.
+Switching from FIFO to weighted average is a change in policy. Revising a machine's useful life is a change in estimate.
+A policy may change only if a statute or standard requires it, or if it gives a more appropriate presentation.
+Try this: under AS 10, changing the depreciation method is a change in accounting estimate. || Try this. Under AS 10, changing the method of depreciation is a change in what? The answer is A, an accounting estimate.
+Remember: policies are chosen methods, changed only for good reason, and estimates are revised going forward. Now try the case trainer below. || To recap. Policies are the methods a business chooses. They change only for good reason. And estimates are revised going forward. Now try the case trainer below this video.

@@ -1,0 +1,9 @@
+# Accounting Lesson 2.2 — Ledger Posting and Balancing
+Welcome! This lesson is about ledger posting and balancing.
+The journal records transactions in date order. The ledger collects them account by account.
+To post, write the amount on the debit side of the account debited, naming the other account with 'To', and on the credit side of the other with 'By'. || To post an entry, write the amount on the debit side of the account debited, naming the other account with To. Then write it on the credit side of the other account, with By.
+Total both sides. Debits are 2.4 lakh, credits 1.37 lakh, so the balance carried down is 1,03,000, a debit balance. || Total both sides. Debits come to two lakh forty thousand, credits to one lakh thirty seven thousand. So the balance carried down is one lakh three thousand, a debit balance.
+Each account ends with a balance: assets and expenses usually debit, liabilities, capital and income usually credit.
+Add the heavier side, put the difference on the lighter side as balance carried down, and bring it down as balance brought down.
+Try this: a debit balance in a customer's account means the customer owes the business money. || Try this. What does a debit balance in a customer's account mean? The answer is A. The customer owes money to the business.
+Remember: post every entry to two accounts, balance by the difference, and carry it forward. Now try the ledger tool below. || To recap. Post every entry to two accounts. Balance each account by the difference. And carry the balance forward. Now try the ledger tool below this video.

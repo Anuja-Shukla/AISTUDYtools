@@ -1,0 +1,9 @@
+# Accounting Lesson 2.8 — Inventories
+Welcome! This lesson is about inventories.
+Under AS 2, inventory is valued at the lower of cost and net realisable value.
+Opening stock 100 units at 20, purchases of 200 at 22 and 150 at 25, and issues of 180 and 170 units. || Opening stock is one hundred units at twenty rupees. There are purchases of two hundred at twenty two and one fifty at twenty five, and issues of one eighty and one seventy units.
+Under FIFO, issues come from the oldest stock first, so the 100 units left are from the latest lot at 25: closing stock is 2,500. || Under FIFO, issues come from the oldest stock first. So the hundred units left are from the latest lot at twenty five rupees. Closing stock is two thousand five hundred.
+Under the weighted average method, total cost of 10,150 over 450 units gives 22.56 a unit, so closing stock is about 2,256. || Under the weighted average method, total cost of ten thousand one hundred fifty, over four hundred fifty units, gives twenty two rupees fifty six a unit. Closing stock is about two thousand two hundred fifty six.
+If the realisable value is only 24 a unit, NRV is 2,400, which is lower than FIFO cost, so stock is shown at 2,400. || If the realisable value is only twenty four rupees a unit, NRV is two thousand four hundred. That is lower than FIFO cost, so stock is shown at two thousand four hundred.
+Try this: LIFO is not permitted under AS 2. || Try this. Which method is not permitted under AS 2? The answer is A, LIFO.
+Remember: lower of cost and NRV, FIFO leaves the latest prices in stock, and LIFO is not allowed. Now try the inventory tool below. || To recap. Use the lower of cost and NRV. FIFO leaves the latest prices in stock. And LIFO is not allowed. Now try the inventory tool below this video.

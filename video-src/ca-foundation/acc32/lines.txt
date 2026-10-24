@@ -1,0 +1,8 @@
+# Accounting Lesson 3.2 — Manufacturing Accounts
+Welcome! This lesson is about manufacturing accounts.
+Materials consumed plus direct wages and expenses give prime cost; add factory overheads, adjust for work-in-progress and scrap, and you get the cost of production.
+Materials consumed: opening 30,000 plus purchases 2 lakh minus closing 40,000, equals 1,90,000. || Materials consumed are opening stock of thirty thousand, plus purchases of two lakh, minus closing stock of forty thousand. That is one lakh ninety thousand.
+Prime cost is 2,80,000. Adding overheads and adjusting for work-in-progress and scrap gives a cost of production of 3,30,000. || Prime cost is two lakh eighty thousand. Adding overheads, and adjusting for work-in-progress and scrap, gives a cost of production of three lakh thirty thousand.
+The cost of production moves to the trading account. With finished goods adjusted, cost of goods sold is 3.2 lakh and gross profit is 1,30,000. || The cost of production moves to the trading account. After adjusting finished goods, cost of goods sold is three lakh twenty thousand, and gross profit is one lakh thirty thousand.
+Try this: prime cost is materials consumed plus direct wages plus direct expenses. || Try this. What is prime cost? The answer is A. Materials consumed, plus direct wages, plus direct expenses.
+Remember the cost build-up from materials to prime cost to cost of production. Now try the manufacturing account tool below. || To recap. Build cost up from materials, to prime cost, to cost of production, and carry it into the trading account. Now try the manufacturing tool below this video.

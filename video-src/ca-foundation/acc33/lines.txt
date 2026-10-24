@@ -1,0 +1,8 @@
+# Accounting Lesson 3.3 — Accounts of Not-for-Profit Organisations
+Welcome! This lesson is about accounts of not-for-profit organisations.
+A club prepares a receipts and payments account, a summary of cash, and an income and expenditure account, which works like a profit and loss account.
+An excess of income is a surplus; an excess of expenditure is a deficit. It goes to the capital fund.
+Green Valley Sports Club received 2.4 lakh. Adjusting for outstanding and advance subscriptions gives income of 2,36,000. || Green Valley Sports Club received two lakh forty thousand in subscriptions. Adjusting for outstanding and advance amounts gives income of two lakh thirty six thousand.
+Entrance fees, legacies, specific donations and life membership fees each need careful treatment, often as capital receipts.
+Try this: subscriptions received in advance are a liability. || Try this. How are subscriptions received in advance shown? The answer is A, as a liability in the balance sheet.
+Remember the two statements, adjust subscriptions carefully, and carry the surplus to the capital fund. Now try the subscriptions tool below. || To recap. Remember the two statements. Adjust subscriptions for outstanding and advance amounts. And carry the surplus to the capital fund. Now try the subscriptions tool below this video.

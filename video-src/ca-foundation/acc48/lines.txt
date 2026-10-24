@@ -1,0 +1,8 @@
+# Accounting Lesson 4.8 — Forfeiture and Re-issue of Shares
+Welcome! This lesson is about forfeiture and re-issue of shares.
+If a shareholder does not pay a call, the board may forfeit the shares; money already paid is kept in a share forfeiture account.
+On 100 shares where only 3 rupees was paid, debit capital 1,000 and premium 200, credit unpaid calls 900 and forfeiture 300. || On a hundred shares where only three rupees was paid, debit share capital one thousand and securities premium two hundred, and credit unpaid calls nine hundred and share forfeiture three hundred.
+Re-issued at 8 rupees as fully paid, the 2-rupee discount comes out of the forfeiture account. || Re-issued at eight rupees as fully paid, the two-rupee discount per share comes out of the forfeiture account.
+The balance of 100 left in forfeiture on the re-issued shares is a capital profit, transferred to capital reserve. || The balance of one hundred left in forfeiture on the re-issued shares is a capital profit, transferred to capital reserve.
+Try this: the discount on re-issue cannot exceed the amount forfeited. || Try this. What is the maximum discount on re-issue of forfeited shares? The answer is A, the amount forfeited on those shares.
+Remember the forfeiture entry, the discount limit on re-issue, and the transfer to capital reserve. Now try the forfeiture tool below. || To recap. Remember the forfeiture entry, the discount limit on re-issue, and the transfer to capital reserve. Now try the forfeiture tool below this video.

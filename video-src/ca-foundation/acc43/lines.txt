@@ -1,0 +1,8 @@
+# Accounting Lesson 4.3 — Admission of a Partner
+Welcome! This lesson is about the admission of a partner.
+Arun and Bina share 3 to 2. Chetan takes a fifth from both in their old ratio, so the new ratio is 12 to 8 to 5. || Arun and Bina share three to two. Chetan takes one fifth, from both in their old ratio. So the new ratio is twelve to eight to five.
+The sacrificing ratio is old share minus new share: here 3 to 2. || The sacrificing ratio is old share minus new share. Here it is three to two.
+Chetan brings his share of goodwill, 60,000, which is credited to Arun and Bina in the sacrificing ratio: 36,000 and 24,000. || Chetan brings his share of goodwill, sixty thousand, which is credited to Arun and Bina in the sacrificing ratio. Thirty six thousand and twenty four thousand.
+Revaluation profit or loss and old reserves belong to the old partners in their old ratio.
+Try this: the new ratio is 9 to 6 to 5. || Try this. X and Y share three to two, and Z joins for one quarter. The answer is A, nine to six to five.
+Remember: compute the new and sacrificing ratios, credit goodwill to the sacrificers, and share old reserves in the old ratio. Now try the admission tool below. || To recap. Compute the new and sacrificing ratios. Credit the goodwill premium to the sacrificers. And share old reserves in the old ratio. Now try the admission tool below this video.

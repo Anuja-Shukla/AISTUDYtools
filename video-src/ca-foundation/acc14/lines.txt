@@ -1,0 +1,8 @@
+# Accounting Lesson 1.4 — Contingent Assets and Liabilities
+Welcome! This lesson is about contingent assets and liabilities.
+Under AS 29: a probable, measurable obligation is a provision; a possible one is a disclosed contingent liability; a remote one is ignored; and a contingent asset is not recognised.
+If the company will probably lose a lawsuit and can estimate the loss, it makes a provision. If it only might lose, it discloses a contingent liability.
+Common contingent liabilities: claims not acknowledged as debts, guarantees given, bills discounted but not matured, and disputed tax demands.
+This is prudence: probable losses are provided for, but gains are recognised only when virtually certain.
+Try this: a contingent liability is disclosed in notes unless remote. || Try this. How is a contingent liability treated? The answer is A. It is disclosed in the notes, unless the outflow is remote.
+Remember the AS 29 ladder: provision, disclose, ignore; and never recognise contingent assets. Now try the case trainer below. || To recap. Remember the AS 29 ladder. Provide, disclose, or ignore. And never recognise a contingent asset. Now try the case trainer below this video.

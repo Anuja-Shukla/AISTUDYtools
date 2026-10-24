@@ -1,0 +1,10 @@
+# Accounting Lesson 1.2 — Accounting Concepts and Conventions
+Welcome! This lesson is about accounting concepts and conventions.
+AS 1 names three fundamental assumptions: going concern, consistency and accrual. If any is not followed, that fact must be disclosed.
+The key concepts: business entity, money measurement, dual aspect, realisation and matching.
+Because the business is separate from its owner, the owner's personal rent paid from the shop is drawings, not an expense.
+Every transaction keeps assets equal to liabilities plus capital. After three transactions, assets of 2.6 lakh equal liabilities of 50,000 plus capital of 2.1 lakh. || Every transaction keeps assets equal to liabilities plus capital. After these three transactions, assets of two lakh sixty thousand equal liabilities of fifty thousand plus capital of two lakh ten thousand.
+Conventions guide judgement: prudence, materiality, full disclosure and consistency.
+Substance over form: an asset on hire purchase is shown as the buyer's asset, because economically the buyer controls it.
+Try this: valuing stock at the lower of cost and realisable value follows which convention? Prudence. || Try this. Valuing stock at the lower of cost and net realisable value follows which convention? The answer is A, prudence.
+Remember the three assumptions, keep owner and business separate, use A equals L plus C, and be prudent. Now try the case trainer below. || To recap. Remember the three fundamental assumptions. Keep the owner and the business separate. Use assets equal liabilities plus capital. And be prudent. Now try the case trainer below this video.

@@ -1,0 +1,8 @@
+# Accounting Lesson 4.9 — Issue of Debentures
+Welcome! This lesson is about the issue of debentures.
+Shareholders own the company and get dividends if declared; debenture holders are lenders who receive fixed interest.
+Debentures can be issued at par, discount or premium, and redeemed at par or at a premium.
+Issued at 95 and redeemable at 110, the loss on issue is 25,000 discount plus 50,000 premium: 75,000, written off over the life. || Issued at ninety five and redeemable at one hundred ten, the loss on issue is twenty five thousand discount plus fifty thousand premium. Seventy five thousand, written off over the life of the debentures.
+Interest is a charge against profit, payable even in a loss year, after deducting tax at source.
+Try this: loss on issue is written off over the life of the debentures. || Try this. How is loss on issue of debentures treated? The answer is A. It is written off over the life of the debentures.
+Remember what debentures are, the loss on issue, and that interest is a charge against profit. Now try the debentures tool below. || To recap. Debentures are borrowing at fixed interest. Loss on issue is the discount plus the redemption premium. And interest is a charge against profit. Now try the tool below this video.
