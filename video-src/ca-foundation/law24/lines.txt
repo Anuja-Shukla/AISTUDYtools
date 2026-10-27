@@ -1,0 +1,8 @@
+# Business Laws Lesson 2.4 — Indemnity and Guarantee
+Welcome! This lesson is about indemnity and guarantee.
+Indemnity is a promise to save another from loss, with two parties. A guarantee secures a third person's debt, with three parties.
+The creditor, the principal debtor and the surety. The surety's liability is co-extensive with the debtor's, so the creditor may sue the surety directly.
+The surety is discharged by changes made without his consent, release of the debtor, giving the debtor time, or impairing his remedy.
+On a default of 4.5 lakh, co-sureties share equally within their limits: Ravi pays his limit of 1 lakh, and the others pay 1.75 lakh each. || On a default of four lakh fifty thousand, co-sureties share equally within their limits. Ravi pays his limit of one lakh, and the others pay one lakh seventy five thousand each.
+Try this: the surety is discharged. || Try this. The creditor gives the debtor extra time without the surety's consent. The answer is A. The surety is discharged.
+Remember the difference, the surety's liability, how he is discharged, and how co-sureties share. Now try the co-surety tool below. || To recap. Remember the difference between indemnity and guarantee, the surety's liability, how he is discharged, and how co-sureties share. Now try the co-surety tool below this video.

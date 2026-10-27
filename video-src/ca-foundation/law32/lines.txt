@@ -1,0 +1,9 @@
+# Business Laws Lesson 3.2 — Conditions and Warranties
+Welcome! This lesson is about conditions and warranties.
+A condition is essential: breach lets the buyer reject the goods. A warranty is collateral: breach gives damages only.
+Implied conditions: title, description, fitness for a disclosed purpose, merchantable quality, and correspondence with sample.
+Implied warranties: quiet possession, freedom from encumbrances, and disclosure of dangerous goods.
+Caveat emptor means the buyer must take care, except where he relied on the seller's skill, bought by description or sample, or was defrauded.
+The cafe told the seller it needed 300 cups a day and relied on his advice; the machine fails at 50. The fitness condition is broken, so the cafe may reject it. || The cafe told the seller it needed three hundred cups a day, and relied on his advice. The machine fails at fifty cups. The fitness condition is broken, so the cafe may reject it.
+Try this: quiet possession is a warranty. || Try this. Which is an implied warranty, not a condition? The answer is A, quiet possession.
+Remember the difference, the implied terms and the exceptions to caveat emptor. Now try the case trainer below. || To recap. Remember the difference between conditions and warranties, the implied terms, and the exceptions to caveat emptor. Now try the case trainer below this video.

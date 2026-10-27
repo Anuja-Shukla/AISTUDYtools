@@ -1,0 +1,9 @@
+# Business Laws Lesson 3.3 — Transfer of Ownership and Delivery
+Welcome! This lesson is about the transfer of ownership and delivery of goods.
+Risk follows ownership, so whoever owns the goods bears the loss, whether or not they have been delivered.
+Specific goods pass at the contract; goods to be made deliverable or weighed, once done and notified; unascertained goods on appropriation; and sale or return goods on approval or keeping them too long.
+Ravi buys the wheat in bin 4, to be weighed to fix the price. It is ruined before weighing, so property had not passed and the seller bears the loss. || Ravi buys the wheat in bin four, which the seller must weigh to fix the price. It is ruined before weighing, so property had not passed, and the seller bears the loss.
+No one gives a better title than he has, except for good-faith buyers from a mercantile agent, under estoppel, from a joint owner, under a voidable contract, or from a seller or buyer in possession.
+Delivery can be actual, symbolic, or constructive.
+Try this: property passes when the contract is made. || Try this. When does property pass in specific goods in a deliverable state? The answer is A, when the contract is made.
+Remember when property passes, that risk follows it, and the exceptions to nemo dat. Now try the passing-of-property tool below. || To recap. Remember when property passes, that risk follows it, and the exceptions to nemo dat. Now try the passing of property tool below this video.

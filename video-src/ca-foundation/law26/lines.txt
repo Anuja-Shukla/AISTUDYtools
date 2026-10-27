@@ -1,0 +1,9 @@
+# Business Laws Lesson 2.6 — Agency
+Welcome! This lesson is about agency.
+A principal authorises an agent, who makes contracts that bind the principal to third parties. No consideration is needed.
+Agency can be express, implied, by estoppel, of necessity, or by ratification.
+Ratification is approval later, with full knowledge. It relates back to the act, but cannot harm a third party.
+An agent is usually not personally liable, except for a foreign or undisclosed principal, or by agreement.
+Agency ends on revocation, renunciation, death, insanity or insolvency, but an agency coupled with interest is irrevocable.
+Try this: any person, even a minor, may be an agent. || Try this. Who may be an agent? The answer is A, any person, even a minor.
+Remember how agency arises, ratification, the agent's liability and termination. Now try the case trainer below. || To recap. Remember how agency arises, ratification, the agent's liability, and termination. Now try the case trainer below this video.
