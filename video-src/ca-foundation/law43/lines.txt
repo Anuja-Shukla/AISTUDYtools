@@ -1,0 +1,8 @@
+# Business Laws Lesson 4.3 — Registration and Dissolution of a Firm
+Welcome! This lesson is about registration and dissolution of a firm.
+Registration is optional, but an unregistered firm loses important rights.
+An unregistered firm cannot sue third parties, and partners cannot sue it, but third parties can sue it, and a suit for dissolution is allowed.
+A firm may be dissolved by agreement, compulsorily, on contingencies, by notice, or by the court.
+On dissolution, assets pay outside debts first, then partners' advances, then capital, and any surplus in the profit ratio.
+Try this: third-party debts are paid first. || Try this. What is paid first on dissolution? The answer is A, debts to third parties.
+Remember the effects of non-registration, the modes of dissolution, and the order of payment. Now try the case trainer below. || To recap. Remember the effects of non-registration, the modes of dissolution, and the order of payment. Now try the case trainer below this video.

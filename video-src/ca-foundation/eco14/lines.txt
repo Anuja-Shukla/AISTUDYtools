@@ -1,0 +1,9 @@
+# Business Economics Lesson 1.4 — Theory of Consumer Behaviour
+Welcome! This lesson is about the theory of consumer behaviour.
+Each extra samosa gives Isha less satisfaction: 30, 24, 18, 12, then 6 rupees' worth.
+At 15 rupees each, she buys while marginal utility is at least the price: three samosas. || At fifteen rupees each, she buys while marginal utility is at least the price. That is three samosas.
+She would pay 72 but pays 45: her consumer surplus is 27. || She would be willing to pay seventy two rupees, but pays forty five. Her consumer surplus is twenty seven.
+With several goods, the consumer is in equilibrium when marginal utility per rupee is equal across them.
+Indifference curves show equal satisfaction, slope down, are convex, never cross, and higher is better. Equilibrium is where MRS equals the price ratio.
+Try this: zero. || Try this. When is total utility at its maximum? The answer is A, when marginal utility is zero.
+Remember diminishing marginal utility, consumer surplus and the indifference curve equilibrium. Now try the utility tool below. || To recap. Remember diminishing marginal utility, consumer surplus, and the indifference curve equilibrium. Now try the utility tool below this video.

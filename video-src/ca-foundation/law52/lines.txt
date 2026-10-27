@@ -1,0 +1,9 @@
+# Business Laws Lesson 5.2 — The Negotiable Instruments Act, 1881
+Welcome! This lesson is about the Negotiable Instruments Act, 1881.
+A promissory note is a promise to pay, a bill of exchange is an order to pay, and a cheque is an order on a banker payable on demand.
+A holder in due course takes the instrument for value, before maturity and in good faith, and gets a title free from earlier defects.
+A crossing tells the bank to pay only through a bank: general, special, account payee, or not negotiable.
+Under section 138, present the cheque within three months, send notice within 30 days of learning of the dishonour, give the drawer 15 days to pay, and file within a month after that.
+Kabir's cheque was presented in time; notice reached him on 10 June, so he had until 25 June to pay, and a complaint must be filed by 25 July. || Kabir's cheque was presented in time. Notice reached him on the tenth of June, so he had until the twenty fifth to pay. A complaint must be filed by the twenty fifth of July.
+Try this: within 30 days of learning of the dishonour. || Try this. Within how long must the notice be sent? The answer is A, thirty days of learning of the dishonour.
+Remember the three instruments, the holder in due course, crossings and the section 138 timeline. Now try the cheque tool below. || To recap. Remember the three instruments, the holder in due course, crossings, and the section one thirty eight timeline. Now try the cheque tool below this video.
