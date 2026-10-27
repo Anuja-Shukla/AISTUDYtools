@@ -1,0 +1,9 @@
+# Business Economics Lesson 3.1 — National Income Accounting
+Welcome! This lesson is about national income accounting.
+Income flows between households and firms. Saving, taxes and imports leak out; investment, government spending and exports are injected.
+Add net factor income from abroad to go from domestic to national; subtract depreciation for net; subtract net indirect taxes for factor cost.
+From spending, GDP is 9,300 crore. Adjusting for factor income, depreciation and net indirect taxes gives national income of 7,800 crore. || From spending, GDP is nine thousand three hundred crore. Adjusting for factor income, depreciation and net indirect taxes gives national income of seven thousand eight hundred crore.
+National income can be measured by value added, by incomes, or by expenditure.
+Transfers, second-hand sales, financial transactions and household work are not included.
+Try this: national income. || Try this. What is NNP at factor cost also called? The answer is A, national income.
+Remember the three adjustments, the three methods and what is excluded. Now try the national income tool below. || To recap. Remember the three adjustments, the three methods, and what is excluded. Now try the national income tool below this video.

@@ -1,0 +1,9 @@
+# Business Economics Lesson 1.5 — Supply
+Welcome! This lesson is about supply.
+When price rises, quantity supplied rises, because production becomes more profitable.
+Supply shifts with input prices, technology, taxes and subsidies, prices of related goods, and the number of firms.
+When the price of bread rises from 40 to 50, supply rises from 300 to 420 loaves: elasticity of supply is 1.6. || When the price of bread rises from forty to fifty, supply rises from three hundred to four hundred twenty loaves. Elasticity of supply is one point six.
+A straight supply line through the origin has elasticity one; one meeting the price axis is elastic; one meeting the quantity axis is inelastic.
+Supply is more elastic the more time producers have to adjust.
+Try this: an increase in supply. || Try this. What does a subsidy to producers cause? The answer is A, an increase in supply, a shift to the right.
+Remember the law of supply, what shifts it, and how to measure its elasticity. Now try the calculator below. || To recap. Remember the law of supply, what shifts it, and how to measure its elasticity. Now try the calculator below this video.

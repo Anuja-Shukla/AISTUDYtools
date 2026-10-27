@@ -1,0 +1,9 @@
+# Business Economics Lesson 3.2 — The Keynesian Theory of Income
+Welcome! This lesson is about the Keynesian theory of income determination.
+Keynes argued that in the short run, aggregate demand, made of consumption, investment, government spending and net exports, sets output.
+Consumption is autonomous spending plus the marginal propensity to consume times income. MPC plus MPS equals one.
+With consumption 200 plus 0.8 Y and investment 300, equilibrium income is 2,500 crore. || With consumption of two hundred plus zero point eight Y, and investment of three hundred, equilibrium income is two thousand five hundred crore.
+The multiplier is one over MPS: 5. An extra 100 of investment raises income by 500. || The multiplier is one over the marginal propensity to save, which is five. An extra hundred of investment raises income by five hundred.
+Too little demand gives a deflationary gap and unemployment; too much gives an inflationary gap.
+Try this: 4. || Try this. If MPC is zero point seven five, what is the multiplier? The answer is A, four.
+Remember aggregate demand, the equilibrium formula and the multiplier. Now try the multiplier tool below. || To recap. Remember aggregate demand, the equilibrium formula, and the multiplier. Now try the multiplier tool below this video.

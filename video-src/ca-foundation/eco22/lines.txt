@@ -1,0 +1,8 @@
+# Business Economics Lesson 2.2 — Theory of Cost
+Welcome! This lesson is about the theory of cost.
+Explicit costs are paid to others; implicit costs are the value of the owner's own resources. Economic profit deducts both.
+With fixed cost of 600, average fixed cost keeps falling, while average variable and total costs fall and then rise.
+Average fixed cost always falls, average variable and total cost are U-shaped, and marginal cost cuts both at their lowest points.
+In the long run, economies of scale lower average cost, until diseconomies push it up again.
+Try this: average fixed cost. || Try this. Which cost curve is a rectangular hyperbola? The answer is A, average fixed cost.
+Remember the cost concepts, the shapes of the curves and where marginal cost cuts them. Now try the cost tool below. || To recap. Remember the cost concepts, the shapes of the curves, and where marginal cost cuts them. Now try the cost tool below this video.

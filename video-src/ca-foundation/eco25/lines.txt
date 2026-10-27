@@ -1,0 +1,8 @@
+# Business Economics Lesson 2.5 — Price-Output under Market Forms
+Welcome! This lesson is about price and output under different market forms.
+Every firm maximises profit where marginal revenue equals marginal cost, with marginal cost rising.
+A competitive firm sets price equal to marginal cost, shuts down below minimum average variable cost, and earns normal profit in the long run.
+With demand P equals 100 minus 2Q and marginal cost 20, the monopolist makes 20 units at 60 rupees, earning 600. || With demand P equals one hundred minus two Q, and marginal cost twenty, the monopolist makes twenty units at sixty rupees, and earns six hundred.
+A discriminating monopolist charges more where demand is less elastic.
+Try this: minimum average variable cost. || Try this. When should a competitive firm shut down? The answer is A, when price is below minimum average variable cost.
+Remember the MR equals MC rule, the shut-down point, and how monopoly differs. Now try the equilibrium tool below. || To recap. Remember the MR equals MC rule, the shut-down point, and how monopoly differs. Now try the tool below this video.

@@ -1,0 +1,8 @@
+# Business Economics Lesson 2.1 — Theory of Production
+Welcome! This lesson is about the theory of production.
+Land earns rent, labour wages, capital interest, and the entrepreneur profit.
+With one oven, adding bakers raises output at first, then by less and less, and finally output falls.
+Stage one runs to maximum average product, stage two to zero marginal product, and stage three has negative marginal product. Producers operate in stage two.
+When all inputs rise together, returns to scale can be increasing, constant or decreasing.
+Try this: where marginal product is zero. || Try this. Where does stage two end? The answer is A, where marginal product is zero.
+Remember average and marginal product, the three stages, and returns to scale. Now try the production tool below. || To recap. Remember average and marginal product, the three stages, and returns to scale. Now try the production tool below this video.
