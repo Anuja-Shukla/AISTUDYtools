@@ -1,0 +1,9 @@
+# Business Laws Lesson 1.3 — Consideration
+Welcome! This lesson is about consideration.
+Under section 2(d), consideration is an act, abstinence or promise, done at the desire of the promisor, by the promisee or any other person.
+It must move at the promisor's desire, may come from anyone, need not be adequate, but must be real and lawful.
+In India a stranger to consideration can sue, but a stranger to the contract generally cannot.
+Section 25 saves three agreements without consideration: love and affection in a registered writing, compensating past voluntary service, and a written promise to pay a time-barred debt.
+Dev repaired the cafe's pipe at the owner's request, and the owner later promised 3,000. Because the service was at the promisor's desire, it is valid past consideration, and Dev can recover. || Dev repaired the cafe's pipe at the owner's request, and the owner later promised to pay three thousand rupees. Because the service was done at the promisor's desire, it is valid past consideration, and Dev can recover the money.
+Try this: consideration may move from the promisee or any other person. || Try this. From whom may consideration move? The answer is A, the promisee or any other person.
+Remember the definition, the rules, privity and the section 25 exceptions. Now try the case trainer below. || To recap. Remember the definition, the rules, privity, and the three section twenty five exceptions. Now try the case trainer below this video.

@@ -1,0 +1,8 @@
+# Business Laws Lesson 1.1 — The Indian Regulatory Framework
+Welcome! This lesson is about the Indian regulatory framework.
+Indian law comes from the Constitution, Acts of Parliament and State Legislatures, rules made under them, judicial precedent, and custom.
+A Bill is passed by both Houses of Parliament and becomes an Act on the President's assent; the details are then filled in by rules.
+Each regulator has its own field: RBI for banks, SEBI for securities markets, MCA for companies and LLPs, IRDAI for insurance, ICAI for chartered accountants, and PFRDA for pensions.
+The Supreme Court's decisions bind all courts in India. Tribunals like the NCLT and NCLAT handle company and insolvency matters.
+Try this: SEBI regulates the securities market. || Try this. Which body regulates the securities market? The answer is A, SEBI.
+Remember the sources of law, how a Bill becomes an Act, and which regulator oversees what. Now try the sorter below. || To recap. Remember the sources of law, how a Bill becomes an Act, and which regulator oversees what. Now try the sorter below this video.

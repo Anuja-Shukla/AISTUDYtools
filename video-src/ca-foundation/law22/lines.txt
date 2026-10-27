@@ -1,0 +1,9 @@
+# Business Laws Lesson 2.2 — Breach of Contract and Remedies
+Welcome! This lesson is about breach of contract and its remedies.
+Breach may be actual, on the due date, or anticipatory, when a party refuses in advance.
+Damages cover losses that arise naturally, and special losses only if both parties knew of them. Remote losses are excluded, and the victim must mitigate.
+A supplier fails to deliver 200 kg of beans contracted at 800 when the market is 950: damages are 30,000. An undisclosed catering loss is remote. || A supplier fails to deliver two hundred kilos of beans contracted at eight hundred rupees, when the market is nine hundred fifty. Damages are thirty thousand. The undisclosed catering loss is remote.
+Under section 74, a sum named for breach is a ceiling: the court awards reasonable compensation up to it.
+Other remedies include rescission, quantum meruit for work done, specific performance and injunction.
+Try this: reasonable compensation up to the named sum. || Try this. Under section seventy four, what does the injured party get? The answer is A, reasonable compensation not exceeding the named sum.
+Remember the damages rules, the penalty ceiling and the other remedies. Now try the damages calculator below. || To recap. Remember the damages rules, the penalty ceiling, and the other remedies. Now try the damages calculator below this video.

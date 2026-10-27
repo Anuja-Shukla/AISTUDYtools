@@ -1,0 +1,9 @@
+# Business Laws Lesson 2.1 — Performance of Contract
+Welcome! This lesson is about performance of contract.
+A valid offer to perform must be unconditional, at the right time and place, for the whole obligation, with a chance to inspect. If refused, the promisor is discharged.
+With joint promisors, the promisee can make any one pay the whole, and that person claims equal contribution from the rest.
+If time is of the essence and missed, the contract is voidable; if not, only compensation is due.
+The debtor may direct which debt a payment is for; if he does not, the creditor chooses, even a time-barred debt; if neither does, payments go in order of time.
+Kabir pays 30,000 without direction. The creditor may choose; if not, the oldest debt, even time-barred, is cleared first, and 10,000 goes to the next. || Kabir pays thirty thousand without saying which debt. The creditor may choose. If not, the oldest debt, even though time-barred, is cleared first, and ten thousand goes to the next debt.
+Try this: that is supervening impossibility under section 56. || Try this. What is it when a contract becomes void because the subject matter is destroyed? The answer is A, supervening impossibility.
+Remember tender, joint promises, time of essence and the order of appropriation. Now try the appropriation tool below. || To recap. Remember tender, joint promises, time of essence, and the order of appropriation. Now try the appropriation tool below this video.

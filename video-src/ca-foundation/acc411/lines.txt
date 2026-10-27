@@ -1,0 +1,8 @@
+# Accounting Lesson 4.11 — Redemption of Preference Shares
+Welcome! This lesson is about the redemption of preference shares.
+Preference shares may be redeemed only when fully paid, out of profits or a fresh issue of shares. Profits used must be transferred to a capital redemption reserve.
+Sunrise redeems 10 lakh of preference shares. A fresh issue covers 4 lakh, so 6 lakh comes from profits and goes to capital redemption reserve. || Sunrise redeems ten lakh of preference shares. A fresh issue covers four lakh, so six lakh comes from profits, and goes to capital redemption reserve.
+The 50,000 premium on redemption is met from securities premium or profits. || The fifty thousand premium on redemption is met from securities premium, or from profits.
+Only the nominal value of new shares counts towards redemption; debenture money never does.
+Try this: profits used for redemption go to the capital redemption reserve. || Try this. Preference shares redeemed out of profits need a transfer to which reserve? The answer is A, the capital redemption reserve.
+Remember the conditions, the CRR transfer and how premium is met. Now try the redemption tool below. || To recap. Remember the conditions, the transfer to capital redemption reserve, and how the premium is met. Now try the redemption tool below this video.

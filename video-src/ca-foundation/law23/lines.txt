@@ -1,0 +1,8 @@
+# Business Laws Lesson 2.3 — Contingent and Quasi Contracts
+Welcome! This lesson is about contingent and quasi contracts.
+A contingent contract depends on an uncertain event collateral to the contract, as in insurance.
+If the event must happen, enforce when it does; if it must not happen, enforce when it becomes impossible; time limits and impossible events follow sections 35 and 36.
+Quasi contracts stop unjust enrichment: necessaries, an interested payer, non-gratuitous acts, the finder of goods, and money paid by mistake.
+A contingent contract is valid; a wager is void.
+Try this: section 72. || Try this. Under which section must money paid by mistake be repaid? The answer is A, section seventy two.
+Remember the contingent contract rules and the five quasi contracts. Now try the sorter below. || To recap. Remember the contingent contract rules and the five quasi contracts. Now try the sorter below this video.

@@ -1,0 +1,9 @@
+# Accounting Lesson 4.12 — Redemption of Debentures
+Welcome! This lesson is about the redemption of debentures.
+Debentures can be redeemed in a lump sum, in instalments, by buying them in the open market, or by conversion into shares.
+Under the current rules, an unlisted company creates a debenture redemption reserve of 10 percent of debentures outstanding: 60,000 here. || Under the current rules, an unlisted company creates a debenture redemption reserve of ten percent of debentures outstanding. Sixty thousand here.
+It must also invest or deposit 15 percent of the amount maturing in the year, by 30 April: 90,000. || It must also invest or deposit fifteen percent of the amount maturing in the year, by the thirtieth of April. Ninety thousand here.
+If the company buys back 1 lakh of its own debentures for 96,000 and cancels them, the 4,000 profit goes to capital reserve. || If the company buys back one lakh of its own debentures for ninety six thousand and cancels them, the four thousand profit goes to capital reserve.
+Once the debentures are redeemed, the DRR is transferred to general reserve.
+Try this: DRR goes to general reserve after redemption. || Try this. After redemption, where is the DRR transferred? The answer is A, general reserve.
+Remember the methods, the DRR and investment rules, and the treatment of profit on own debentures. Now try the DRR tool below. || To recap. Remember the methods of redemption, the DRR and investment rules, and the treatment of profit on own debentures. Now try the DRR tool below this video.
