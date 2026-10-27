@@ -4,7 +4,7 @@ import os, html, re, glob, json
 import markdown
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "33"  # cache-buster for css/js
+V = "34"  # cache-buster for css/js
 PAY_API = ""  # payment server (Cloudflare Worker) URL; empty = paid-course enrolment shows "opens soon"
 
 def svg(paths, extra=""):
@@ -106,7 +106,7 @@ FOOT = f'''</main>
         <a class="logo" href="/"><span class="logo-mark"></span><span><b>AIStudyTools</b></span></a>
         <p style="margin-top:10px;max-width:300px;font-size:15px">AI tools and courses for teaching and learning. A platform of Intellique Research School Pvt Ltd.</p>
       </div>
-      <div class="fx"><h4>Explore</h4><div class="links"><a href="/services/">Services</a><a href="/learnx/">Transform content</a><a href="/tools/">Faculty Corner</a><a href="/practice/">Student Corner</a><a href="/courses/">Courses</a><a href="/instructors/">Find a tutor</a><a href="/instructors/join/">Teach with us</a><a href="/webinars/">Webinars</a><a href="/journals/">Journal Finder</a><a href="/ai-evaluator/">AI evaluator</a><a href="/faculty-award/">Faculty Innovation Award</a><a href="/newsletter/">Newsletter</a></div></div>
+      
       <div><h4>Contact</h4><a href="mailto:intelliqueresearchschool@gmail.com">intelliqueresearchschool@gmail.com</a><a href="https://wa.me/917303559258" target="_blank" rel="noopener">WhatsApp +91 73035 59258</a><a href="tel:+917303559258">Call +91 73035 59258</a></div>
       <div><h4>Sister sites</h4><a href="https://www.theresearchschool.com/">The Research School</a><a href="https://aijuggernauts.com/">AIjuggernauts</a><a href="https://intelliqueresearchschool.com/">Intellique Research School</a></div>
     </div>
