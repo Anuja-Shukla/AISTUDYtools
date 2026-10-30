@@ -1,0 +1,9 @@
+# Business Economics Lesson 4.2 — Market Failure and Government Intervention
+Welcome! This lesson is about market failure and government intervention.
+Markets fail through market power, externalities, public goods, and asymmetric information.
+A negative externality like pollution leads to over-production; a positive one like vaccination leads to under-production.
+A pure public good is non-rival and non-excludable, so free riders leave it under-supplied by the market.
+Adverse selection happens before a deal; moral hazard happens after it.
+Each tonne costs the firm 8,000 but causes 2,000 of damage. A Pigovian tax of 2,000 makes it face the full social cost. || Each tonne costs the firm eight thousand rupees, but causes two thousand rupees of pollution damage. A Pigovian tax of two thousand rupees a tonne makes the firm face the full social cost.
+Try this: a pure public good. || Try this. A good that is non-rival and non-excludable is called what? The answer is A, a pure public good.
+Remember the four sources and the matching remedies. Now try the sorter below. || To recap. Remember the four sources of market failure, and the remedy that fits each. Now try the sorter below this video.

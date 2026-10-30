@@ -1,0 +1,9 @@
+# Business Economics Lesson 4.7 — Monetary Policy
+Welcome! This lesson is about monetary policy.
+Since 2016, India targets CPI inflation of 4 percent, plus or minus 2 points. The six-member MPC sets the repo rate. || Since twenty sixteen, India has followed flexible inflation targeting: CPI inflation of four percent, plus or minus two percentage points. The six-member Monetary Policy Committee sets the repo rate.
+The repo rate sits in a corridor, with the Standing Deposit Facility rate as the floor and the MSF rate as the ceiling.
+Quantitative tools are rates, reserve ratios and open market operations; qualitative tools are selective credit controls.
+If inflation reaches 6.8 percent, the MPC raises the repo rate; lending rates rise, demand cools, and inflation eases toward 4. || If inflation reaches six point eight percent, above the six percent limit, the MPC raises the repo rate. Lending rates rise, demand cools, and inflation eases back toward four percent.
+Raising rates or ratios and selling securities tightens policy; the reverse eases it.
+Try this: raise the repo rate. || Try this. To control inflation, what would the RBI most likely do? The answer is A, raise the repo rate.
+Remember the target, the corridor and the direction of each tool. Now try the sorter below. || To recap. Remember the inflation target, the rate corridor, and which way each tool moves. Now try the sorter below this video.

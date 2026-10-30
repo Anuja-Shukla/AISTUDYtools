@@ -1,0 +1,9 @@
+# Business Economics Lesson 4.5 — The Demand for Money: Important Theories
+Welcome! This lesson is about the demand for money and its important theories.
+Money's primary functions are exchange and measuring value; it also stores value and settles future payments.
+Fisher's equation is MV equals PT. Here prices are 2, and if money doubles with V and T fixed, prices double to 4. || Fisher's equation is M V equals P T. With money of five thousand crore, velocity four, and transactions of ten thousand, the price level is two. If money doubles, with velocity and transactions fixed, prices double to four.
+The Cambridge version says people hold a fraction k of money income: k is one over V, so 0.25 here. || The Cambridge version says people hold a fraction k of money income as cash. K is one over velocity, so zero point two five here, and money demand equals five thousand crore.
+Keynes added three motives: transactions and precautionary depend on income; speculative depends inversely on the interest rate.
+At very low interest rates, money demand becomes infinite: the liquidity trap. Baumol, Tobin and Friedman refined the theory.
+Try this: the interest rate. || Try this. In Keynes' theory, what does the speculative demand for money depend on? The answer is A, the rate of interest, inversely.
+Remember Fisher, Cambridge, Keynes' motives and the liquidity trap. Now try the quantity theory tool below. || To recap. Remember Fisher's equation, the Cambridge equation, Keynes' three motives, and the liquidity trap. Now try the quantity theory tool below this video.

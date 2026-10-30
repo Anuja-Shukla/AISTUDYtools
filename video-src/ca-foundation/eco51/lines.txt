@@ -1,0 +1,9 @@
+# Business Economics Lesson 5.1 — Theories of International Trade
+Welcome! This lesson is about the theories of international trade.
+Mercantilists saw trade as a way to pile up gold. Adam Smith showed both countries gain from absolute advantage.
+Here Indus needs fewer hours for both cloth and wheat. Should it still trade with Delta?
+Yes. Cloth costs Indus only half a unit of wheat, so Indus has the comparative advantage in cloth, and Delta in wheat. || Yes. One unit of cloth costs Indus only half a unit of wheat, compared with zero point seven five in Delta. So Indus has the comparative advantage in cloth, and Delta in wheat.
+Both gain if one wheat trades for between 1.33 and 2 cloth, say 1.6. || Both countries gain if one unit of wheat trades for between one point three three and two units of cloth, for example one point six.
+Heckscher and Ohlin linked trade to factor endowments; Leontief found a paradox; Krugman added economies of scale.
+Try this: David Ricardo. || Try this. Which economist is associated with comparative advantage? The answer is A, David Ricardo.
+Remember to compare opportunity costs, not hours. Now try the comparative advantage tool below. || To recap. Always compare opportunity costs, not just labour hours. Now try the comparative advantage tool below this video.

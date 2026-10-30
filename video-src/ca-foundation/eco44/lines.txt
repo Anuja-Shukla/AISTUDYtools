@@ -1,0 +1,9 @@
+# Business Economics Lesson 4.4 — Fiscal Policy
+Welcome! This lesson is about fiscal policy.
+Fiscal policy aims at full employment, stable prices, growth, fairer incomes and external stability.
+Expansionary policy raises spending or cuts taxes in a recession; contractionary policy does the reverse to fight inflation.
+Discretionary changes need a decision; automatic stabilisers, like progressive taxes, work by themselves.
+A gap of 400 crore with MPC 0.75 needs only 100 crore of extra spending, because the multiplier is 4. || To close a gap of four hundred crore when the MPC is zero point seven five, the multiplier is four, so only one hundred crore of extra spending is needed.
+Fiscal policy is limited by time lags, crowding out, forecasting problems and rising debt.
+Try this: the repo rate. || Try this. Which of these is not a fiscal policy tool? The answer is A, the repo rate, which belongs to monetary policy.
+Remember the two directions, the stabilisers and the limits. Now try the cases below. || To recap. Remember expansionary and contractionary policy, automatic stabilisers, and the limits of fiscal policy. Now try the cases below this video.

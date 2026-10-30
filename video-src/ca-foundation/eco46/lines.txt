@@ -1,0 +1,9 @@
+# Business Economics Lesson 4.6 — The Concept of Money Supply
+Welcome! This lesson is about the concept of money supply.
+The RBI measures money from M0 to M4. Narrow money is M1; broad money, M3, adds time deposits. || The RBI measures money from M zero to M four. Narrow money is M one. Broad money, M three, adds time deposits with banks.
+Banks keep only a fraction of each deposit as reserves and lend the rest, which is redeposited and lent again.
+With c of 0.2 and r of 0.1, the multiplier is 4, so 2,000 crore of high-powered money supports 8,000 crore. || With a currency-deposit ratio of zero point two, and a reserve ratio of zero point one, the multiplier is four. So two thousand crore of high-powered money supports eight thousand crore of money supply.
+If the reserve ratio falls to 0.05, the multiplier rises to 4.8 and money supply to 9,600 crore. || If the reserve ratio falls to zero point zero five, the multiplier rises to four point eight, and money supply to nine thousand six hundred crore.
+Money supply depends on the monetary base, reserve requirements, the public's preference for currency, and the demand for credit.
+Try this: M1 plus time deposits. || Try this. What is broad money, M three? The answer is A, M one plus time deposits with banks.
+Remember the measures and the multiplier formula. Now try the multiplier tool below. || To recap. Remember the measures of money, and the money multiplier formula. Now try the multiplier tool below this video.
