@@ -4,7 +4,7 @@ import os, html, re, glob, json
 import markdown
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "34"  # cache-buster for css/js
+V = "35"  # cache-buster for css/js
 PAY_API = ""  # payment server (Cloudflare Worker) URL; empty = paid-course enrolment shows "opens soon"
 
 def svg(paths, extra=""):
