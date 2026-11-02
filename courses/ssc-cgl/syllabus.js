@@ -29,7 +29,7 @@ window.SSC = {
       blurb: "Arithmetic, algebra, geometry, mensuration, trigonometry and data interpretation.",
       units: [
         ["number-system", "Number system", "live"],
-        ["simplification", "Simplification & BODMAS", "soon"],
+        ["simplification", "Simplification & BODMAS", "live"],
         ["percentages", "Percentages", "live"],
         ["ratio", "Ratio & proportion", "soon"],
         ["averages", "Averages", "soon"],
