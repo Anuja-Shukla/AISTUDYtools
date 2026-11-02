@@ -28,7 +28,7 @@ window.SSC = {
       id: "quant", name: "Quantitative Aptitude", short: "Quant", color: "#4F46E5", soft: "#EEF0FF", t1: 25, t2: 30,
       blurb: "Arithmetic, algebra, geometry, mensuration, trigonometry and data interpretation.",
       units: [
-        ["number-system", "Number system", "soon"],
+        ["number-system", "Number system", "live"],
         ["simplification", "Simplification & BODMAS", "soon"],
         ["percentages", "Percentages", "live"],
         ["ratio", "Ratio & proportion", "soon"],
