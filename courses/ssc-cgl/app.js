@@ -316,6 +316,123 @@
         }
         $$("input", el).forEach(function (i) { i.oninput = up; }); up();
       }
+    }    ,
+    bodmas: {
+      title: "BODMAS step-by-step solver", html: '<p class="small muted">Type an expression with + − × ÷ ( ) { } [ ] and “of”. You can use * and / too. Each step shows which rule is used.</p><div class="field"><label for="be">Expression</label><input type="text" id="be" value="20 - [12 - {8 - (6 - 3)}] + 3/4 of 8 ÷ 2"></div><div class="row small"><span class="muted">Try:</span><button class="btn btn-sm btn-line" data-x="18 ÷ 3 × 2 + 4 − 6">18 ÷ 3 × 2 + 4 − 6</button><button class="btn btn-sm btn-line" data-x="1001 ÷ 11 of 13">1001 ÷ 11 of 13</button><button class="btn btn-sm btn-line" data-x="1/2 + 1/3 ÷ 1/4 × 1/5">fractions</button></div><ol class="steps" id="bs"></ol><div class="out" id="bout"></div>',
+      init: function (el) {
+        function g(a, b) { a = Math.abs(a); b = Math.abs(b); while (b) { var t = a % b; a = b; b = t; } return a || 1; }
+        function Fr(n, d) { if (d < 0) { n = -n; d = -d; } var k = g(n, d); return { n: n / k, d: d / k }; }
+        function fromDec(s) { var p = s.split("."), dp = p[1] ? p[1].length : 0; return Fr(Math.round(parseFloat(s) * Math.pow(10, dp)), Math.pow(10, dp)); }
+        function num(v) { if (v.indexOf("⁄") > 0) { var q = v.split("⁄"); if (+q[1] === 0) throw new Error("A fraction cannot have 0 below the line"); return Fr(+q[0], +q[1]); } return fromDec(v); }
+        function op(a, o, b) { if (o === "+") return Fr(a.n * b.d + b.n * a.d, a.d * b.d); if (o === "−") return Fr(a.n * b.d - b.n * a.d, a.d * b.d); if (o === "×" || o === "of") return Fr(a.n * b.n, a.d * b.d); if (b.n === 0) throw new Error("Division by zero"); return Fr(a.n * b.d, a.d * b.n); }
+        function show(f) { return f.d === 1 ? String(f.n).replace("-", "−") : (f.n < 0 ? "−" : "") + Math.abs(f.n) + "/" + f.d; }
+        function txt(t) { return t.map(function (x) { return x.v !== undefined ? (x.v.n < 0 && x.v.d === 1 ? "(" + show(x.v) + ")" : show(x.v)) : x.o === "of" ? " of " : "([{".indexOf(x.o) >= 0 ? x.o : ")]}".indexOf(x.o) >= 0 ? x.o : " " + x.o + " "; }).join("").replace(/\s+/g, " ").trim(); }
+        function lex(s) {
+          s = s.replace(/(\d)\/(\d)/g, "$1⁄$2").replace(/\*/g, "×").replace(/[\/:]/g, "÷").replace(/-/g, "−").replace(/x(?=\s*[\d(\[{])/gi, "×");
+          var t = [], m, re = /\s*(\d+⁄\d+|\d+(?:\.\d+)?|of|[+−×÷()\[\]{}])/gy, i = 0;
+          while (i < s.length) { re.lastIndex = i; m = re.exec(s); if (!m) { if (/\s/.test(s.slice(i))) break; throw new Error("I can't read “" + s.slice(i, i + 6) + "”"); } i = re.lastIndex; var v = m[1];
+            if (/^\d/.test(v)) { var prev = t[t.length - 1], prev2 = t[t.length - 2]; if (prev && prev.o === "−" && (!prev2 || (prev2.o && ")]}".indexOf(prev2.o) < 0))) { t.pop(); t.push({ v: op(Fr(0, 1), "−", num(v)) }); } else t.push({ v: num(v) }); }
+            else t.push({ o: v }); }
+          if (t.length > 60) throw new Error("Please keep it shorter");
+          return t;
+        }
+        function step(t) {
+          var open = -1, close = t.length;
+          for (var i = 0; i < t.length; i++) { if (t[i].o && "([{".indexOf(t[i].o) >= 0) open = i; if (t[i].o && ")]}".indexOf(t[i].o) >= 0) { close = i; break; } }
+          if (close < t.length && open < 0) throw new Error("A closing bracket has no opening bracket");
+          if (open >= 0 && close === t.length) throw new Error("A bracket is not closed");
+          var lo = open + 1, hi = close;
+          if (hi - lo === 1 && open >= 0) { t.splice(close, 1); t.splice(open, 1); return "Remove the bracket around " + show(t[open].v); }
+          var seg = t.slice(lo, hi);
+          for (var k = 0; k < seg.length; k++) if ((k % 2 === 0) !== (seg[k].v !== undefined)) throw new Error("Check the expression near “" + txt(seg) + "”");
+          var rules = [["of"], ["÷", "×"], ["+", "−"]], names = ["“Of” first", "÷ and × from left to right", "+ and − from left to right"];
+          for (var r = 0; r < 3; r++) for (var j = lo + 1; j < hi; j += 2) if (rules[r].indexOf(t[j].o) >= 0) {
+            var res = op(t[j - 1].v, t[j].o, t[j + 1].v), d = show(t[j - 1].v) + (t[j].o === "of" ? " of " : " " + t[j].o + " ") + show(t[j + 1].v) + " = " + show(res);
+            t.splice(j - 1, 3, { v: res });
+            return (open >= 0 ? "Inside " + t[open].o + " " + ")]}"["([{".indexOf(t[open].o)] + ": " : "") + names[r] + ": " + d;
+          }
+          throw new Error("Check the expression");
+        }
+        function up() {
+          var s = $("#be", el).value, ol = $("#bs", el), out = $("#bout", el);
+          try {
+            var t = lex(s); if (!t.length) { ol.innerHTML = ""; out.textContent = "Type an expression"; return; }
+            var h = "<li><b>Start</b> " + esc(txt(t)) + "</li>", n = 0;
+            while (t.length > 1 && n++ < 40) { var why = step(t); h += "<li><span>" + esc(why) + "</span><b>→ " + esc(txt(t)) + "</b></li>"; }
+            if (t.length !== 1 || t[0].v === undefined) throw new Error("Check the expression");
+            ol.innerHTML = h; var f = t[0].v;
+            out.innerHTML = "Answer: " + show(f) + (f.d !== 1 ? "<small>= " + fmtN(f.n / f.d) + " (decimal)</small>" : "");
+          } catch (e) { ol.innerHTML = ""; out.textContent = e.message; }
+        }
+        $("#be", el).oninput = up;
+        $$("[data-x]", el).forEach(function (b) { b.onclick = function () { $("#be", el).value = b.getAttribute("data-x"); up(); }; });
+        up();
+      }
+    },
+    recur: {
+      title: "Recurring decimal to fraction", html: '<div class="grid g3"><div class="field"><label for="rw">Whole part</label><input type="text" id="rw" inputmode="numeric" value="0"></div><div class="field"><label for="rn">Digits that do not repeat</label><input type="text" id="rn" inputmode="numeric" value="1"></div><div class="field"><label for="rr">Digits that repeat</label><input type="text" id="rr" inputmode="numeric" value="6"></div></div><div class="big rd" id="rdec"></div><div class="out" id="rout"></div>',
+      init: function (el) {
+        function g(a, b) { while (b) { var t = a % b; a = b; b = t; } return a; }
+        function up() {
+          var w = $("#rw", el).value.replace(/\D/g, "") || "0", nr = $("#rn", el).value.replace(/\D/g, "").slice(0, 5), rp = $("#rr", el).value.replace(/\D/g, "").slice(0, 5);
+          if (!rp) { $("#rdec", el).textContent = ""; $("#rout", el).textContent = "Enter the digits that repeat"; return; }
+          var all = +(nr + rp), head = nr ? +nr : 0, den = +(new Array(rp.length + 1).join("9") + new Array(nr.length + 1).join("0")), num = all - head, k = g(num, den) || 1;
+          var W = +w, n2 = num / k, d2 = den / k;
+          $("#rdec", el).innerHTML = w + "." + nr + '<span style="text-decoration:overline">' + rp + "</span> = " + w + "." + nr + rp + rp + rp + "…";
+          $("#rout", el).innerHTML = (W ? W + " + " : "") + n2 + "/" + d2 + (W ? " = " + (W * d2 + n2) + "/" + d2 : "") + "<small>" + (nr ? "(" + nr + rp + " − " + nr + ")" : rp) + " ÷ " + den + " = " + num + "/" + den + (k > 1 ? " = " + n2 + "/" + d2 + " in lowest terms" : "") + ". One 9 for each repeating digit" + (nr ? ", one 0 for each digit that does not repeat" : "") + ".</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
+    },
+    speedx: {
+      title: "Speed multiplication coach", html: '<p class="small muted">Enter two whole numbers. The coach picks the fastest exam trick.</p><div class="grid g2"><div class="field"><label for="sa">First number</label><input type="number" id="sa" value="47"></div><div class="field"><label for="sb">Second number</label><input type="number" id="sb" value="53"></div></div><div class="row small"><span class="muted">Try:</span><button class="btn btn-sm btn-line" data-p="98,102">98 × 102</button><button class="btn btn-sm btn-line" data-p="104,107">104 × 107</button><button class="btn btn-sm btn-line" data-p="64,66">64 × 66</button><button class="btn btn-sm btn-line" data-p="48,25">48 × 25</button><button class="btn btn-sm btn-line" data-p="47,999">47 × 999</button></div><div class="out" id="sxo"></div>',
+      init: function (el) {
+        function N(x) { return x.toLocaleString("en-IN"); }
+        function up() {
+          var a = Math.floor(+$("#sa", el).value), b = Math.floor(+$("#sb", el).value), o = $("#sxo", el);
+          if (!(a > 0 && b > 0 && a < 100000 && b < 100000)) { o.textContent = "Enter two whole numbers below 1,00,000"; return; }
+          var p = a * b, t, nines = [9, 99, 999, 9999], x = Math.max(a, b), y = Math.min(a, b);
+          if (a <= 12 && b <= 12) t = ["Times table", "Learn tables up to 20 × 20 by heart"];
+          else if (nines.indexOf(b) >= 0 || nines.indexOf(a) >= 0) { var n9 = nines.indexOf(b) >= 0 ? b : a, other = n9 === b ? a : b; t = ["Multiply by " + (n9 + 1) + " and subtract once", N(other) + " × " + N(n9 + 1) + " − " + N(other) + " = " + N(other * (n9 + 1)) + " − " + N(other)]; }
+          else if (a === 25 || b === 25) { var o25 = a === 25 ? b : a; t = ["× 25 = × 100 ÷ 4", N(o25) + " × 100 ÷ 4 = " + N(o25 * 100) + " ÷ 4"]; }
+          else if (a === 125 || b === 125) { var o125 = a === 125 ? b : a; t = ["× 125 = × 1000 ÷ 8", N(o125) + " × 1000 ÷ 8 = " + N(o125 * 1000) + " ÷ 8"]; }
+          else if ((a + b) % 2 === 0 && a !== b && ((a + b) / 2) % 5 === 0 && Math.abs(a - b) / 2 <= 12) { var m = (a + b) / 2, h = Math.abs(a - b) / 2; t = ["a² − b²: both are " + h + " away from " + m, m + "² − " + h + "² = " + N(m * m) + " − " + N(h * h)]; }
+          else if (a >= 10 && b >= 10 && Math.floor(a / 10) === Math.floor(b / 10) && a % 10 + b % 10 === 10) { var tn = Math.floor(a / 10); t = ["Same tens, units add to 10", tn + " × " + (tn + 1) + " = " + N(tn * (tn + 1)) + ", then " + (a % 10) + " × " + (b % 10) + " = " + ("0" + (a % 10) * (b % 10)).slice(-2) + " → write them side by side"]; }
+          else { var base = [10, 100, 1000, 10000].filter(function (B) { return Math.abs(a - B) <= B * 0.15 && Math.abs(b - B) <= B * 0.15; })[0];
+            if (base) { var da = a - base, db = b - base; t = ["Base " + N(base) + ": deviations " + (da >= 0 ? "+" : "−") + Math.abs(da) + " and " + (db >= 0 ? "+" : "−") + Math.abs(db), "(" + N(a) + (db >= 0 ? " + " : " − ") + Math.abs(db) + ") × " + N(base) + (da * db >= 0 ? " + " : " − ") + N(Math.abs(da * db)) + " = " + N((a + db) * base) + (da * db >= 0 ? " + " : " − ") + N(Math.abs(da * db))]; }
+            else { var r = Math.round(y / 10) * 10 || 10, dd = y - r; t = ["Split into an easy part", N(x) + " × " + r + (dd >= 0 ? " + " : " − ") + N(x) + " × " + Math.abs(dd) + " = " + N(x * r) + (dd >= 0 ? " + " : " − ") + N(x * Math.abs(dd))]; } }
+          o.innerHTML = N(a) + " × " + N(b) + " = " + N(p) + "<small><b>" + esc(t[0]) + "</b><br>" + esc(t[1]) + " = " + N(p) + "</small>";
+        }
+        $("#sa", el).oninput = up; $("#sb", el).oninput = up;
+        $$("[data-p]", el).forEach(function (b) { b.onclick = function () { var v = b.getAttribute("data-p").split(","); $("#sa", el).value = v[0]; $("#sb", el).value = v[1]; up(); }; });
+        up();
+      }
+    },
+    sqsprint: {
+      title: "60-second squares, cubes and roots sprint", html: '<div class="flash"><p class="small muted">Squares to 30², cubes to 15³ and square roots. Answer as many as you can.</p><div class="big" id="qq">Ready?</div><div class="opts" id="qo" style="max-width:420px;margin:0 auto;width:100%"></div><div class="row" style="justify-content:center"><span class="tag indigo">Score: <b id="qs">0</b></span><span class="tag">Time: <b id="qt">60</b>s</span><span class="tag live">Best: <b id="qb">0</b></span></div><button class="btn btn-accent" id="qgo" style="justify-self:center">Start sprint</button></div>',
+      init: function (el, T) {
+        var timer = null, score = 0, left = 60;
+        $("#qb", el).textContent = store.get(T.id).sprint || 0;
+        function rnd(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
+        function ask() {
+          var kind = rnd(0, 2), n, q, ans, opts;
+          if (kind === 0) { n = rnd(11, 30); q = n + "²"; ans = n * n; opts = [ans, (n + 1) * (n + 1), (n - 1) * (n - 1), ans + 10]; }
+          else if (kind === 1) { n = rnd(2, 15); q = n + "³"; ans = n * n * n; opts = [ans, (n + 1) * (n + 1) * (n + 1), (n - 1) * (n - 1) * (n - 1), n * n * 3]; }
+          else { n = rnd(11, 30); q = "√" + (n * n); ans = n; opts = [n, n + 1, n - 1, n + 2]; }
+          opts = opts.filter(function (v, i) { return opts.indexOf(v) === i; });
+          var ord = shuffle(opts.length);
+          $("#qq", el).textContent = q;
+          $("#qo", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-ok="' + (opts[k] === ans ? 1 : 0) + '">' + opts[k].toLocaleString("en-IN") + "</button>"; }).join("");
+          $$("#qo .opt", el).forEach(function (b) { b.onclick = function () { if (!timer) return; if (b.getAttribute("data-ok") === "1") { score++; $("#qs", el).textContent = score; ask(); } else { b.classList.add("wrong"); score = Math.max(0, score - 1); $("#qs", el).textContent = score; } }; });
+        }
+        function stop() {
+          clearInterval(timer); timer = null; $("#qo", el).innerHTML = "";
+          var best = store.get(T.id).sprint || 0; if (score > best) { store.set(T.id, "sprint", score); $("#qb", el).textContent = score; }
+          $("#qq", el).textContent = score + " correct!"; $("#qgo", el).hidden = false; $("#qgo", el).textContent = "Play again";
+        }
+        $("#qgo", el).onclick = function () { score = 0; left = 60; $("#qs", el).textContent = 0; $("#qt", el).textContent = 60; this.hidden = true; ask(); timer = setInterval(function () { left--; $("#qt", el).textContent = left; if (left <= 0) stop(); }, 1000); };
+        var prev = cleanup; cleanup = function () { if (timer) clearInterval(timer); if (prev) prev(); };
+      }
     }
   };
   function tryIt(T, pane) {
@@ -440,7 +557,7 @@
     var h = '<h1>My progress</h1><p class="muted" style="margin:8px 0 18px">Saved in this browser only.</p><div class="grid g2">';
     Object.keys(TOP).forEach(function (k) {
       var T = TOP[k], p = store.get(k), d = topicDone(k);
-      h += '<div class="card stack"><div class="row" style="justify-content:space-between"><h3>' + esc(T.title) + '</h3><a class="btn btn-soft btn-sm" href="#/t/' + k + '">Open</a></div><div class="progress"><i style="width:' + d * 20 + '%"></i></div><p class="small muted">' + d + ' of 5 steps · practice best ' + (p.practiceBest || 0) + '/' + T.practice.length + ' · test best ' + (p.test ? p.test.best + '/' + p.test.max : "—") + (T.tools.indexOf("flash") >= 0 ? ' · fraction sprint best ' + (p.flash || 0) : '') + '</p></div>';
+      h += '<div class="card stack"><div class="row" style="justify-content:space-between"><h3>' + esc(T.title) + '</h3><a class="btn btn-soft btn-sm" href="#/t/' + k + '">Open</a></div><div class="progress"><i style="width:' + d * 20 + '%"></i></div><p class="small muted">' + d + ' of 5 steps · practice best ' + (p.practiceBest || 0) + '/' + T.practice.length + ' · test best ' + (p.test ? p.test.best + '/' + p.test.max : "—") + (T.tools.indexOf("flash") >= 0 ? ' · fraction sprint best ' + (p.flash || 0) : '') + (T.tools.indexOf("sqsprint") >= 0 ? ' · squares sprint best ' + (p.sprint || 0) : '') + '</p></div>';
     });
     h += '</div><div style="margin-top:20px" id="rs"><button class="btn btn-line btn-sm" id="reset">Reset my progress</button></div>';
     app.innerHTML = h;

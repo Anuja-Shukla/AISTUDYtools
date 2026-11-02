@@ -170,3 +170,8 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 .chain .v.hit{background:var(--accent,#4F46E5);color:#fff}
 @media(max-width:560px){.chk div{grid-template-columns:44px 36px 1fr}}
 .tool{align-content:start}.fl{align-items:flex-start}
+/* simplification tools */
+.steps{margin:0;padding-left:22px;display:grid;gap:6px;font-size:14.5px}
+.steps li span{display:block;color:var(--muted);font-size:13.5px}
+.steps li b{font-weight:700;color:var(--ink);word-break:break-word}
+.rd{font-size:22px;font-weight:800;color:var(--accent-dk);text-align:center}
