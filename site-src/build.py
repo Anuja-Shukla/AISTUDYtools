@@ -4,7 +4,7 @@ import os, html, re, glob, json
 import markdown
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "35"  # cache-buster for css/js
+V = "36"  # cache-buster for css/js
 PAY_API = ""  # payment server (Cloudflare Worker) URL; empty = paid-course enrolment shows "opens soon"
 
 def svg(paths, extra=""):
@@ -51,7 +51,7 @@ I = {
 }
 
 NAV = [("/", "Home", "home"), ("/services/", "Services", "services"), ("/tools/", "Faculty Corner", "tools"),
-       ("/practice/", "Student Corner", "practice"), ("/courses/", "Courses", "courses"),
+       ("/practice/", "Student Corner", "practice"), ("/research/", "Researcher", "research"), ("/courses/", "Courses", "courses"),
        ("/instructors/", "Instructors", "instructors"), ("/webinars/", "Webinars", "webinars"), ("/contact/", "Contact", "contact")]
 NAV_PARENT = {"learnx": "services", "evaluator": "services", "usecases": "tools"}
 
@@ -219,8 +219,9 @@ home += f'''<section id="products" class="white">
     {sec_head("Everything in one place", "For faculty who want livelier classes, students who want to practise, professionals who want new skills, and institutions that want it at scale.", "What we offer")}
     <div class="grid g2">
       <a class="prod p-course rv" href="/courses/"><span class="kicker">Free · with certificate</span><div class="ico i-pink" style="background:#fff">{I["calendar"]}</div><h3>Courses</h3><p>Self-paced courses with interactive tools, quick checks, a final test and a certificate.</p><ul><li>Statistics</li><li>Prompt Engineering</li><li>Product Management</li><li>HR Analytics</li><li>SEO to GEO</li><li>Building AI Agents</li><li>Coding for Non-Coders</li><li>CA Foundation Course</li></ul><span class="go">See all courses {I["arrow"]}</span></a>
-      <a class="prod p-skill rv" href="/tools/"><span class="kicker">Free for faculty</span><div class="ico i-sun" style="background:#fff">{I["teacher"]}</div><h3>Faculty Corner</h3><p>Turn a concept or chapter into something students do, not just read.</p><ul><li>Simulation Creator</li><li>Quick Case Generator</li><li>Interactive Game Creator</li><li>AI Presentation Creator</li><li>Journal Finder</li></ul><span class="go">Open the Faculty Corner {I["arrow"]}</span></a>
+      <a class="prod p-skill rv" href="/tools/"><span class="kicker">Free for faculty</span><div class="ico i-sun" style="background:#fff">{I["teacher"]}</div><h3>Faculty Corner</h3><p>Turn a concept or chapter into something students do, not just read.</p><ul><li>Simulation Creator</li><li>Quick Case Generator</li><li>Interactive Game Creator</li><li>AI Presentation Creator</li></ul><span class="go">Open the Faculty Corner {I["arrow"]}</span></a>
       <a class="prod p-health rv" href="/practice/"><span class="kicker">Free for students</span><div class="ico i-sky" style="background:#fff">{I["student"]}</div><h3>Student Corner</h3><p>Make decisions, see consequences, get feedback and try again.</p><ul><li>Branching simulations</li><li>Learning games</li><li>Course comparison</li></ul><span class="go">Start practising {I["arrow"]}</span></a>
+      <a class="prod p-learn rv" href="/research/"><span class="kicker">New · free for researchers</span><div class="ico i-mint" style="background:#fff">{I["search"]}</div><h3>Researcher</h3><p>Map every citation to its reference, fix gaps and switch styles in one click. Then pick the right journal.</p><ul><li>Reference Mapper</li><li>APA, Harvard, MLA, IEEE</li><li>Journal Finder</li></ul><span class="go">Open Researcher tools {I["arrow"]}</span></a>
       <a class="prod p-learn rv" href="/ai-evaluator/"><span class="kicker">New · free</span><div class="ico i-indigo" style="background:#fff">{I["clip"]}</div><h3>AI evaluator</h3><p>Score student answers or AI-generated text against a rubric, check key points and claims, and copy ready-to-share feedback.</p><ul><li>Rubric presets</li><li>Key-point check</li><li>Claims to verify</li><li>Feedback in one click</li></ul><span class="go">Evaluate a response {I["arrow"]}</span></a>
       <a class="prod p-learn rv" href="/learnx/"><span class="kicker">For institutions</span><div class="ico i-indigo" style="background:#fff">{I["cap"]}</div><h3>LearnX: Transform content</h3><p>Your lectures and PDFs become games, mind maps, AI video chat and AI-assisted evaluation, on your own system.</p><ul><li>AI tutor</li><li>Question generator</li><li>Mind maps</li><li>Games &amp; simulations</li></ul><span class="go">Explore LearnX {I["arrow"]}</span></a>
       <a class="prod p-course rv" href="/webinars/"><span class="kicker">Live and on demand</span><div class="ico i-pink" style="background:#fff">{I["play"]}</div><h3>Webinars and use cases</h3><p>Live sessions on AI in teaching and research, plus real ways faculty, students and institutions use these tools.</p><ul><li>Live webinars</li><li>Use cases</li><li>Newsletter</li></ul><span class="go">See webinars {I["arrow"]}</span></a>
@@ -441,7 +442,6 @@ tl += f'''<section class="white">
         ("puzzle", "Simulation Creator", "Fill in a concept and scenario, get a role-play prompt your students paste into ChatGPT or Gemini to play a live simulation.", "/tools/simulation-creator.html", "No API key needed"),
         ("doc", "Quick Case Generator", "Turn today's news into a Harvard-style, classroom-ready quick case plus a separate faculty teaching note.", "/tools/quick-case-generator.html", "Needs a Gemini key"),
         ("spark", "Interactive Game Creator", "Upload your lesson and get drag-and-drop quiz games your students play from one link.", "/tools/create-game.html", "Needs a Gemini key"),
-        ("search", "Journal Finder", "Search journals by name or ISSN and filter by ABDC rating, SJR quartile and Web of Science index, all in one place.", "/journals/", "No API key needed"),
         ("clip", "AI Evaluator", "Score student answers or AI-generated text against a rubric, check key points and claims, and get ready-to-share feedback.", "/ai-evaluator/", "No API key needed"),
         ("layers", "AI Presentation Creator", "Paste your content, pick a style and download a designed PowerPoint with real charts.", "/tools/ai-presentation-creator.html", "Needs a Gemini key"),
     ])}
@@ -749,6 +749,7 @@ exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "paid.py"), e
 # ---------------- FACULTY INNOVATION AWARD ----------------
 exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "award.py"), encoding="utf-8").read())
 exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "instructors.py"), encoding="utf-8").read())
+exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "research.py"), encoding="utf-8").read())
 
 # ---------------- 404 ----------------
 nf = head("Page not found | AIStudyTools", "The page you are looking for could not be found.", "/404.html") + header("")
