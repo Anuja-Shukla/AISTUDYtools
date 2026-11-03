@@ -552,6 +552,68 @@
         }
         $$("input", el).forEach(function (i) { i.oninput = up; }); up();
       }
+    }    ,
+    siSolve: {
+      title: "Simple interest solver", html: '<div class="field"><label for="sq">Find the…</label><select id="sq"><option value="si">Interest (SI)</option><option value="p">Principal (P)</option><option value="r">Rate (R %)</option><option value="t">Time (T years)</option></select></div><div class="grid g4"><div class="field" data-f="p"><label for="sp2">Principal ₹</label><input type="number" id="sp2" value="5000"></div><div class="field" data-f="r"><label for="sr">Rate % per year</label><input type="number" id="sr" value="8"></div><div class="field" data-f="t"><label for="st">Time (years)</label><input type="number" id="st" value="3"></div><div class="field" data-f="si"><label for="ss">Interest ₹</label><input type="number" id="ss" value="1200"></div></div><div class="yrs" id="syr"></div><div class="out" id="sio"></div>',
+      init: function (el) {
+        function up() {
+          var q = $("#sq", el).value, P = parseFloat($("#sp2", el).value), R = parseFloat($("#sr", el).value), T = parseFloat($("#st", el).value), I = parseFloat($("#ss", el).value), o = $("#sio", el);
+          $$("[data-f]", el).forEach(function (f) { f.hidden = f.getAttribute("data-f") === q; });
+          var how;
+          if (q === "si") { if (!(P > 0 && R > 0 && T > 0)) { o.textContent = "Enter P, R and T"; return; } I = P * R * T / 100; how = fmtN(P) + " × " + fmtN(R) + " × " + fmtN(T) + " ÷ 100"; o.innerHTML = "SI = ₹" + fmtN(I) + "<small>" + how + ". Amount = ₹" + fmtN(P + I) + ".</small>"; }
+          else if (q === "p") { if (!(I > 0 && R > 0 && T > 0)) { o.textContent = "Enter SI, R and T"; return; } P = I * 100 / (R * T); o.innerHTML = "Principal = ₹" + fmtN(P) + "<small>P = SI × 100 ÷ (R × T) = " + fmtN(I) + " × 100 ÷ (" + fmtN(R) + " × " + fmtN(T) + ")</small>"; }
+          else if (q === "r") { if (!(I > 0 && P > 0 && T > 0)) { o.textContent = "Enter SI, P and T"; return; } R = I * 100 / (P * T); o.innerHTML = "Rate = " + fmtN(R) + "% per year<small>R = SI × 100 ÷ (P × T) = " + fmtN(I) + " × 100 ÷ (" + fmtN(P) + " × " + fmtN(T) + ")</small>"; }
+          else { if (!(I > 0 && P > 0 && R > 0)) { o.textContent = "Enter SI, P and R"; return; } T = I * 100 / (P * R); o.innerHTML = "Time = " + fmtN(T) + " years<small>T = SI × 100 ÷ (P × R) = " + fmtN(I) + " × 100 ÷ (" + fmtN(P) + " × " + fmtN(R) + ")</small>"; }
+          var n = Math.min(Math.ceil(T), 15), per = P * R / 100, h = "";
+          for (var k = 1; k <= n; k++) h += '<span title="Year ' + k + '">Yr ' + k + "<b>₹" + fmtN(per * Math.min(1, T - k + 1)) + "</b></span>";
+          $("#syr", el).innerHTML = isFinite(per) && n > 0 ? h : "";
+        }
+        $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
+      }
+    },
+    sivsci: {
+      title: "SI vs CI, year by year", html: '<div class="grid g4"><div class="field"><label for="vp">Principal ₹</label><input type="number" id="vp" value="10000"></div><div class="field"><label for="vr">Rate % per year</label><input type="number" id="vr" value="10"></div><div class="field"><label for="vn">Years</label><input type="number" id="vn" value="5" min="1" max="20"></div><div class="field"><label for="vf">Compounded</label><select id="vf"><option value="1">Yearly</option><option value="2">Half-yearly</option><option value="4">Quarterly</option></select></div></div><div class="chart" id="vch"></div><div class="tscroll"><table class="pt" id="vtb"></table></div><div class="out" id="vo"></div>',
+      init: function (el) {
+        function up() {
+          var P = parseFloat($("#vp", el).value), R = parseFloat($("#vr", el).value), N = Math.round(+$("#vn", el).value), f = +$("#vf", el).value, o = $("#vo", el);
+          if (!(P > 0 && R > 0 && N >= 1 && N <= 20)) { o.textContent = "Enter P, R and 1–20 years"; $("#vch", el).innerHTML = $("#vtb", el).innerHTML = ""; return; }
+          var rows = [], mx = 0;
+          for (var y = 1; y <= N; y++) { var si = P * (1 + R * y / 100), ci = P * Math.pow(1 + R / 100 / f, f * y); rows.push([y, si, ci]); mx = Math.max(mx, ci, si); }
+          var W = 100 / N;
+          $("#vch", el).innerHTML = rows.map(function (r) { return '<div class="col" style="width:' + W + '%"><i class="s" style="height:' + (r[1] / mx * 100) + '%"></i><i class="c" style="height:' + (r[2] / mx * 100) + '%"></i><small>' + r[0] + "</small></div>"; }).join("") + '<div class="lg"><span class="s">SI amount</span><span class="c">CI amount</span></div>';
+          $("#vtb", el).innerHTML = "<tr><th>Year</th><th>SI amount</th><th>CI amount</th><th>CI − SI</th></tr>" + rows.map(function (r) { return "<tr><td>" + r[0] + "</td><td>₹" + fmtN(r[1]) + "</td><td>₹" + fmtN(r[2]) + "</td><td>₹" + fmtN(r[2] - r[1]) + "</td></tr>"; }).join("");
+          var last = rows[N - 1];
+          o.innerHTML = "After " + N + " year" + (N > 1 ? "s" : "") + ": SI ₹" + fmtN(last[1] - P) + " · CI ₹" + fmtN(last[2] - P) + "<small>CI: " + fmtN(P) + " × (1 + " + fmtN(R / f) + "/100)^" + f * N + (f > 1 ? " (rate ÷ " + f + ", periods × " + f + ")" : "") + ". The gap grows because CI earns interest on interest.</small>";
+        }
+        $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
+      }
+    },
+    cidiff: {
+      title: "CI − SI shortcut", html: '<div class="grid g3"><div class="field"><label for="dp">Principal ₹</label><input type="number" id="dp" value="10000"></div><div class="field"><label for="dr">Rate %</label><input type="number" id="dr" value="10"></div><div class="field"><label for="dn2">Years</label><select id="dn2"><option>2</option><option>3</option></select></div></div><div class="field"><label for="dd">…or enter the difference to find the principal</label><input type="number" id="dd" placeholder="e.g. 25"></div><div class="out" id="do2"></div>',
+      init: function (el) {
+        function up() {
+          var P = parseFloat($("#dp", el).value), R = parseFloat($("#dr", el).value), n = +$("#dn2", el).value, D = parseFloat($("#dd", el).value), o = $("#do2", el), k = R / 100;
+          if (!(R > 0)) { o.textContent = "Enter a rate"; return; }
+          var fac = n === 2 ? k * k : k * k * (3 + k), fs = n === 2 ? "(" + fmtN(R) + "/100)²" : "(" + fmtN(R) + "/100)² × (3 + " + fmtN(R) + "/100)";
+          if (D > 0) { o.innerHTML = "Principal = ₹" + fmtN(D / fac) + "<small>Difference ÷ " + fs + " = " + fmtN(D) + " ÷ " + (+fac.toPrecision(6)) + "</small>"; return; }
+          if (!(P > 0)) { o.textContent = "Enter a principal"; return; }
+          var ci = P * Math.pow(1 + k, n) - P, si = P * k * n;
+          o.innerHTML = "CI − SI = ₹" + fmtN(P * fac) + "<small>Shortcut: " + fmtN(P) + " × " + fs + ". Check: CI ₹" + fmtN(ci) + " − SI ₹" + fmtN(si) + " = ₹" + fmtN(ci - si) + ".</small>";
+        }
+        $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
+      }
+    },
+    multiply: {
+      title: "Money multiplier: doubling and n times", html: '<div class="grid g4"><div class="field"><label for="mt">Interest type</label><select id="mt"><option value="si">Simple</option><option value="ci">Compound</option></select></div><div class="field"><label for="mx">Becomes … times</label><input type="number" id="mx" value="2"></div><div class="field"><label for="my">in … years</label><input type="number" id="my" value="8"></div><div class="field"><label for="mz">When will it be … times?</label><input type="number" id="mz" value="3"></div></div><div class="out" id="mo2"></div>',
+      init: function (el) {
+        function up() {
+          var t = $("#mt", el).value, n = parseFloat($("#mx", el).value), T = parseFloat($("#my", el).value), m = parseFloat($("#mz", el).value), o = $("#mo2", el);
+          if (!(n > 1 && T > 0 && m > 1)) { o.textContent = "Times must be more than 1 and years more than 0"; return; }
+          if (t === "si") { var R = 100 * (n - 1) / T, T2 = 100 * (m - 1) / R; o.innerHTML = "Rate " + fmtN(R) + "% · " + fmtN(m) + " times in " + fmtN(T2) + " years<small>SI: R × T = 100 × (n − 1). R = 100 × " + fmtN(n - 1) + " ÷ " + fmtN(T) + ". For " + fmtN(m) + " times: T = 100 × " + fmtN(m - 1) + " ÷ " + fmtN(R) + ".</small>"; }
+          else { var Rc = (Math.pow(n, 1 / T) - 1) * 100, T3 = T * Math.log(m) / Math.log(n), k = Math.log(m) / Math.log(n), whole = Math.abs(k - Math.round(k)) < 1e-9; o.innerHTML = "Rate ≈ " + fmtN(Rc) + "% · " + fmtN(m) + " times in " + fmtN(T3) + " years<small>CI multiplies: " + (whole ? fmtN(m) + " = " + fmtN(n) + "^" + Math.round(k) + ", so " + Math.round(k) + " × " + fmtN(T) + " years. " : "") + "Rate = (" + fmtN(n) + "^(1/" + fmtN(T) + ") − 1) × 100.</small>"; }
+        }
+        $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
+      }
     }
   };
   function tryIt(T, pane) {
