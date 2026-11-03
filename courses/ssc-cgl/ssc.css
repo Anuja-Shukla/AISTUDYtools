@@ -175,3 +175,8 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 .steps li span{display:block;color:var(--muted);font-size:13.5px}
 .steps li b{font-weight:700;color:var(--ink);word-break:break-word}
 .rd{font-size:22px;font-weight:800;color:var(--accent-dk);text-align:center}
+/* ratio tools */
+.sb{display:flex;gap:3px;border-radius:12px;overflow:hidden;min-height:58px;margin:6px 0}
+.sb i{display:flex;flex-direction:column;justify-content:center;align-items:center;color:#fff;font-style:normal;padding:6px 4px;min-width:0;text-align:center}
+.sb b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}.sb small{font-size:15px;font-weight:800}
+.field select{font:inherit;padding:10px 12px;border:1.5px solid var(--border);border-radius:12px;background:#fff;width:100%}

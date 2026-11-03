@@ -11,7 +11,7 @@
   function $(sel, root) { return (root || app).querySelector(sel); }
   function $$(sel, root) { return Array.prototype.slice.call((root || app).querySelectorAll(sel)); }
   function r2(x) { return Math.round(x * 100) / 100; }
-  function fmtN(x) { return isFinite(x) ? r2(x).toLocaleString("en-IN") : "—"; }
+  function fmtN(x) { return isFinite(x) ? r2(x).toLocaleString("en-IN").replace("-", "−") : "—"; }
   function shuffle(n) { var a = []; for (var i = 0; i < n; i++) a.push(i); for (var j = n - 1; j > 0; j--) { var k = Math.floor(Math.random() * (j + 1)), t = a[j]; a[j] = a[k]; a[k] = t; } return a; }
   function mmss(s) { s = Math.max(0, Math.round(s)); return (s / 60 | 0) + ":" + ("0" + s % 60).slice(-2); }
   function track(name, p) { try { if (window.gtag) gtag("event", name, p || {}); } catch (e) {} }
@@ -129,8 +129,14 @@
     $("#mk", pane).onclick = function () { done(T, "watch"); this.textContent = "Watched ✓"; };
   }
 
+  var SHC = ["#4F46E5", "#F59E0B", "#10B981", "#EC4899", "#0EA5E9", "#8B5CF6"];
+  function shareBar(r, S, labels) {
+    var t = r.reduce(function (a, b) { return a + b; }, 0);
+    return '<div class="sb">' + r.map(function (x, i) { return '<i style="flex:' + x + ';background:' + SHC[i % 6] + '"><b>' + (labels ? labels[i] : fmtN(x) + (x === 1 ? " part" : " parts")) + '</b><small>' + fmtN(S * x / t) + '</small></i>'; }).join("") + '</div>';
+  }
   function viz(x) {
     if (!x) return "";
+    if (x.type === "share") return shareBar(x.r, x.total);
     if (x.type === "grid") { var g = '<div class="g100" data-n="' + x.n + '">'; for (var i = 0; i < 100; i++) g += "<i></i>"; return g + '</div><input type="range" min="0" max="100" value="' + x.n + '" aria-label="Per cent" class="gr" style="max-width:260px"><p class="small muted gl"></p>'; }
     if (x.type === "fractions") return '<div class="ftab">' + FR.slice(0, 15).map(function (f) { return "<div>" + f[0] + "<small>" + f[1] + "</small></div>"; }).join("") + '</div>';
     return "";
@@ -432,6 +438,63 @@
         }
         $("#qgo", el).onclick = function () { score = 0; left = 60; $("#qs", el).textContent = 0; $("#qt", el).textContent = 60; this.hidden = true; ask(); timer = setInterval(function () { left--; $("#qt", el).textContent = left; if (left <= 0) stop(); }, 1000); };
         var prev = cleanup; cleanup = function () { if (timer) clearInterval(timer); if (prev) prev(); };
+      }
+    }    ,
+    share: {
+      title: "Share an amount in a ratio", html: '<div class="grid g2"><div class="field"><label for="ha2">Amount</label><input type="number" id="ha2" value="1800"></div><div class="field"><label for="hr2">Ratio (e.g. 2:3:4)</label><input type="text" id="hr2" value="2:3:4"></div></div><div class="sbar" id="hb2"></div><div class="out" id="ho2"></div>',
+      init: function (el) {
+        function up() {
+          var S = parseFloat($("#ha2", el).value), r = $("#hr2", el).value.split(/[:,\s]+/).filter(Boolean).map(Number);
+          if (!(S > 0) || r.length < 2 || r.length > 6 || r.some(function (x) { return !(x > 0); })) { $("#hb2", el).innerHTML = ""; $("#ho2", el).textContent = "Enter an amount and 2 to 6 positive ratio terms, like 2:3:4"; return; }
+          $("#hb2", el).innerHTML = shareBar(r, S);
+          var t = r.reduce(function (a, b) { return a + b; }, 0), one = S / t;
+          $("#ho2", el).innerHTML = r.map(function (x) { return fmtN(one * x); }).join(" : ") + "<small>" + fmtN(t) + " parts in all, so 1 part = " + fmtN(S) + " ÷ " + fmtN(t) + " = " + fmtN(one) + ". Each share = its parts × " + fmtN(one) + ".</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
+    },
+    chain: {
+      title: "Join two ratios", html: '<p class="small muted">A : B and B : C → A : B : C, by making B the same.</p><div class="grid g2"><div class="field"><label>A : B</label><div class="row"><input type="number" id="ca" value="2" style="width:80px"><b>:</b><input type="number" id="cb" value="3" style="width:80px"></div></div><div class="field"><label>B : C</label><div class="row"><input type="number" id="cb2" value="4" style="width:80px"><b>:</b><input type="number" id="cc" value="5" style="width:80px"></div></div></div><div class="out" id="cho"></div>',
+      init: function (el) {
+        function g(a, b) { while (b) { var t = a % b; a = b; b = t; } return a; }
+        function up() {
+          var a = Math.round(+$("#ca", el).value), b = Math.round(+$("#cb", el).value), b2 = Math.round(+$("#cb2", el).value), c = Math.round(+$("#cc", el).value);
+          if (![a, b, b2, c].every(function (x) { return x > 0 && x < 10000; })) { $("#cho", el).textContent = "Enter four positive whole numbers"; return; }
+          var L = b * b2 / g(b, b2), m1 = L / b, m2 = L / b2, A = a * m1, B = L, C = c * m2, k = g(g(A, B), C);
+          A /= k; B /= k; C /= k; var k2 = g(A, C);
+          $("#cho", el).innerHTML = "A : B : C = " + A + " : " + B + " : " + C + "<small>B is " + b + " and " + b2 + "; LCM = " + L + ". Multiply A : B by " + m1 + " → " + a * m1 + " : " + L + ", and B : C by " + m2 + " → " + L + " : " + c * m2 + (k > 1 ? ", then divide all by " + k : "") + ". So A : C = " + A / k2 + " : " + C / k2 + ".</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
+    },
+    propn: {
+      title: "Proportion finder", html: '<div class="field"><label for="pk">Find the…</label><select id="pk"><option value="4">Fourth proportional to a, b, c</option><option value="3">Third proportional to a, b</option><option value="m">Mean proportional of a, b</option><option value="t">Are a, b, c, d in proportion?</option></select></div><div class="grid g4"><div class="field"><label for="pa">a</label><input type="number" id="pa" value="4"></div><div class="field"><label for="pb">b</label><input type="number" id="pb" value="6"></div><div class="field"><label for="pc">c</label><input type="number" id="pc" value="10"></div><div class="field"><label for="pd">d</label><input type="number" id="pd" value="15"></div></div><div class="out" id="po2"></div>',
+      init: function (el) {
+        function up() {
+          var k = $("#pk", el).value, a = parseFloat($("#pa", el).value), b = parseFloat($("#pb", el).value), c = parseFloat($("#pc", el).value), d = parseFloat($("#pd", el).value), o = $("#po2", el);
+          $("#pc", el).parentNode.hidden = k === "3" || k === "m"; $("#pd", el).parentNode.hidden = k !== "t";
+          if (!(a > 0 && b > 0) || ((k === "4" || k === "t") && !(c > 0)) || (k === "t" && !(d > 0))) { o.textContent = "Enter positive numbers"; return; }
+          if (k === "4") o.innerHTML = "Fourth proportional = " + fmtN(b * c / a) + "<small>" + fmtN(a) + " : " + fmtN(b) + " :: " + fmtN(c) + " : x → x = " + fmtN(b) + " × " + fmtN(c) + " ÷ " + fmtN(a) + "</small>";
+          else if (k === "3") o.innerHTML = "Third proportional = " + fmtN(b * b / a) + "<small>" + fmtN(a) + " : " + fmtN(b) + " :: " + fmtN(b) + " : x → x = " + fmtN(b) + "² ÷ " + fmtN(a) + "</small>";
+          else if (k === "m") o.innerHTML = "Mean proportional = " + fmtN(Math.sqrt(a * b)) + "<small>" + fmtN(a) + " : x :: x : " + fmtN(b) + " → x = √(" + fmtN(a) + " × " + fmtN(b) + ") = √" + fmtN(a * b) + "</small>";
+          else { var e = a * d, m = b * c; o.innerHTML = (Math.abs(e - m) < 1e-9 ? "Yes, they are in proportion" : "No, they are not in proportion") + "<small>Extremes: " + fmtN(a) + " × " + fmtN(d) + " = " + fmtN(e) + ". Means: " + fmtN(b) + " × " + fmtN(c) + " = " + fmtN(m) + ".</small>"; }
+        }
+        $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
+      }
+    },
+    makeratio: {
+      title: "Add or subtract to reach a ratio", html: '<p class="small muted">What number added to (or taken from) both a and b turns their ratio into p : q?</p><div class="grid g4"><div class="field"><label for="ma">a</label><input type="number" id="ma" value="7"></div><div class="field"><label for="mb">b</label><input type="number" id="mb" value="11"></div><div class="field"><label for="mp">p</label><input type="number" id="mp" value="3"></div><div class="field"><label for="mq">q</label><input type="number" id="mq" value="4"></div></div><div class="sbar" id="mbar"></div><div class="out" id="mo"></div>',
+      init: function (el) {
+        function up() {
+          var a = parseFloat($("#ma", el).value), b = parseFloat($("#mb", el).value), p = parseFloat($("#mp", el).value), q = parseFloat($("#mq", el).value), o = $("#mo", el);
+          if (![a, b, p, q].every(isFinite) || !(p > 0 && q > 0)) { o.textContent = "Enter four numbers"; $("#mbar", el).innerHTML = ""; return; }
+          if (p === q) { o.textContent = "p and q must be different"; $("#mbar", el).innerHTML = ""; return; }
+          if (Math.abs(a * q - b * p) < 1e-9) { o.innerHTML = "Already in the ratio " + p + " : " + q; $("#mbar", el).innerHTML = ""; return; }
+          var x = (p * b - q * a) / (q - p), na = a + x, nb = b + x;
+          $("#mbar", el).innerHTML = na > 0 && nb > 0 ? shareBar([na, nb], na + nb, ["a + x", "b + x"]) : "";
+          o.innerHTML = (x >= 0 ? "Add " + fmtN(x) : "Subtract " + fmtN(-x)) + "<small>(" + fmtN(a) + " + x) ÷ (" + fmtN(b) + " + x) = " + p + " ÷ " + q + " → x = (" + p + " × " + fmtN(b) + " − " + q + " × " + fmtN(a) + ") ÷ (" + q + " − " + p + ") = " + fmtN(x) + ". Check: " + fmtN(na) + " : " + fmtN(nb) + (na > 0 && nb > 0 ? "" : " (not possible with positive numbers)") + ".</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
       }
     }
   };
