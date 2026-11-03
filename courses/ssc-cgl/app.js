@@ -496,6 +496,62 @@
         }
         $$("input", el).forEach(function (i) { i.oninput = up; }); up();
       }
+    }    ,
+    devavg: {
+      title: "Deviation method, visually", html: '<p class="small muted">Enter numbers and a base. Bars show how far each number is from the base; the average is where they balance.</p><div class="grid g2"><div class="field"><label for="dvn">Numbers (comma separated)</label><input type="text" id="dvn" value="72, 75, 78, 81, 74"></div><div class="field"><label for="dvb">Base (assumed average)</label><input type="number" id="dvb" value="75"></div></div><div class="dev" id="dvc"></div><div class="out" id="dvo"></div>',
+      init: function (el) {
+        function up() {
+          var xs = $("#dvn", el).value.split(/[,\s;]+/).filter(Boolean).map(Number).filter(isFinite).slice(0, 20), b = parseFloat($("#dvb", el).value);
+          if (xs.length < 2 || !isFinite(b)) { $("#dvc", el).innerHTML = ""; $("#dvo", el).textContent = "Enter at least two numbers and a base"; return; }
+          var d = xs.map(function (x) { return x - b; }), s = d.reduce(function (a, c) { return a + c; }, 0), avg = b + s / xs.length, m = Math.max.apply(null, d.map(Math.abs).concat([Math.abs(avg - b), 1]));
+          $("#dvc", el).innerHTML = '<div class="dvrow base"><span>base ' + fmtN(b) + '</span><i></i></div>' + xs.map(function (x, i) { var w = Math.abs(d[i]) / m * 50; return '<div class="dvrow"><span>' + fmtN(x) + '</span><i><b class="' + (d[i] >= 0 ? "p" : "n") + '" style="width:' + w + '%;' + (d[i] >= 0 ? "left:50%" : "right:50%") + '"></b><em style="' + (d[i] >= 0 ? "left:calc(50% + " + w + "% + 4px)" : "right:calc(50% + " + w + "% + 4px)") + '">' + (d[i] >= 0 ? "+" : "−") + fmtN(Math.abs(d[i])) + '</em></i></div>'; }).join("") + '<div class="dvrow avg"><span>average</span><i><b style="left:calc(50% + ' + ((avg - b) / m * 50) + '% - 1px)"></b></i></div>';
+          $("#dvo", el).innerHTML = "Average = " + fmtN(avg) + "<small>Differences add up to " + (s >= 0 ? "+" : "−") + fmtN(Math.abs(s)) + "; ÷ " + xs.length + " = " + (s >= 0 ? "+" : "−") + fmtN(Math.abs(s / xs.length)) + ". So " + fmtN(b) + (s >= 0 ? " + " : " − ") + fmtN(Math.abs(s / xs.length)) + " = " + fmtN(avg) + ". Check: total " + fmtN(avg * xs.length) + " ÷ " + xs.length + ".</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
+    },
+    joinleave: {
+      title: "Join, leave or replace", html: '<div class="field"><label for="jm">What happens?</label><select id="jm"><option value="join">Someone joins the group</option><option value="leave">Someone leaves the group</option><option value="replace">Someone is replaced</option></select></div><div class="grid g4"><div class="field"><label for="jn">People now</label><input type="number" id="jn" value="10"></div><div class="field"><label for="ja">Average now</label><input type="number" id="ja" value="15"></div><div class="field"><label for="jb">New average</label><input type="number" id="jb" value="16"></div><div class="field" id="jow"><label for="jo">Value of the one replaced</label><input type="number" id="jo" value="52"></div></div><div class="out" id="jout"></div>',
+      init: function (el) {
+        function up() {
+          var mo = $("#jm", el).value, n = Math.round(+$("#jn", el).value), a = parseFloat($("#ja", el).value), b = parseFloat($("#jb", el).value), o = parseFloat($("#jo", el).value), out = $("#jout", el);
+          $("#jow", el).hidden = mo !== "replace";
+          if (!(n >= (mo === "leave" ? 2 : 1)) || !isFinite(a) || !isFinite(b) || (mo === "replace" && !isFinite(o))) { out.textContent = "Fill in all the boxes" + (mo === "leave" ? " (at least 2 people)" : ""); return; }
+          var T = n * a, v, how;
+          if (mo === "join") { v = b * (n + 1) - T; how = "New total " + fmtN(b) + " × " + (n + 1) + " = " + fmtN(b * (n + 1)) + " minus old total " + fmtN(a) + " × " + n + " = " + fmtN(T) + ". Shortcut: new avg + " + n + " × (" + fmtN(b) + " − " + fmtN(a) + ")."; out.innerHTML = "The person who joined = " + fmtN(v) + "<small>" + how + "</small>"; }
+          else if (mo === "leave") { v = T - b * (n - 1); how = "Old total " + fmtN(T) + " minus new total " + fmtN(b) + " × " + (n - 1) + " = " + fmtN(b * (n - 1)) + ". Shortcut: new avg − " + n + " × (" + fmtN(b) + " − " + fmtN(a) + ")."; out.innerHTML = "The person who left = " + fmtN(v) + "<small>" + how + "</small>"; }
+          else { v = o + n * (b - a); out.innerHTML = "The new person = " + fmtN(v) + "<small>The count stays " + n + ", so the total changes by " + n + " × (" + fmtN(b) + " − " + fmtN(a) + ") = " + fmtN(n * (b - a)) + ". New person = " + fmtN(o) + (b - a >= 0 ? " + " : " − ") + fmtN(Math.abs(n * (b - a))) + ".</small>"; }
+        }
+        $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
+      }
+    },
+    combavg: {
+      title: "Combined average of groups", html: '<p class="small muted">Add up to four groups. The bigger group pulls the combined average towards its own.</p><table class="pt" id="cgt"><tr><th>Group</th><th>Count</th><th>Average</th></tr>' + [["A", 30, 60], ["B", 20, 70], ["C", "", ""], ["D", "", ""]].map(function (g, i) { return "<tr><td><b>" + g[0] + '</b></td><td><input type="number" class="cgn" data-i="' + i + '" value="' + g[1] + '" style="width:90px"></td><td><input type="number" class="cga" data-i="' + i + '" value="' + g[2] + '" style="width:90px"></td></tr>'; }).join("") + '</table><div class="scale" id="cgs"></div><div class="out" id="cgo"></div>',
+      init: function (el) {
+        function up() {
+          var G = [];
+          $$(".cgn", el).forEach(function (inp, i) { var n = parseFloat(inp.value), a = parseFloat($$(".cga", el)[i].value); if (n > 0 && isFinite(a)) G.push({ l: "ABCD"[i], n: n, a: a }); });
+          if (!G.length) { $("#cgs", el).innerHTML = ""; $("#cgo", el).textContent = "Enter a count and an average for at least one group"; return; }
+          var N = G.reduce(function (s, g) { return s + g.n; }, 0), T = G.reduce(function (s, g) { return s + g.n * g.a; }, 0), c = T / N;
+          var lo = Math.min.apply(null, G.map(function (g) { return g.a; }).concat([c])), hi = Math.max.apply(null, G.map(function (g) { return g.a; }).concat([c])), span = hi - lo || 1;
+          $("#cgs", el).innerHTML = '<div class="sl"></div>' + G.map(function (g, i) { return '<span class="sw" style="left:' + ((g.a - lo) / span * 90 + 5) + '%;width:' + (14 + 30 * g.n / N) + 'px;height:' + (14 + 30 * g.n / N) + 'px;background:' + SHC[i] + '" title="' + g.l + '">' + g.l + "</span>"; }).join("") + '<span class="sc" style="left:' + ((c - lo) / span * 90 + 5) + '%">▲ ' + fmtN(c) + "</span>";
+          $("#cgo", el).innerHTML = "Combined average = " + fmtN(c) + "<small>(" + G.map(function (g) { return fmtN(g.n) + " × " + fmtN(g.a); }).join(" + ") + ") ÷ " + fmtN(N) + " = " + fmtN(T) + " ÷ " + fmtN(N) + "</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
+    },
+    avgspeed: {
+      title: "Average speed trap", html: '<div class="grid g3"><div class="field"><label for="sx">Speed going (km/h)</label><input type="number" id="sx" value="40"></div><div class="field"><label for="sy">Speed returning (km/h)</label><input type="number" id="sy" value="60"></div><div class="field"><label for="sd">One-way distance (km)</label><input type="number" id="sd" value="120"></div></div><div class="bars" id="sbars"></div><div class="out" id="sout2"></div>',
+      init: function (el) {
+        function up() {
+          var x = parseFloat($("#sx", el).value), y = parseFloat($("#sy", el).value), d = parseFloat($("#sd", el).value), o = $("#sout2", el);
+          if (!(x > 0 && y > 0 && d > 0)) { o.textContent = "Enter positive speeds and a distance"; $("#sbars", el).innerHTML = ""; return; }
+          var t1 = d / x, t2 = d / y, av = 2 * d / (t1 + t2), am = (x + y) / 2, m = Math.max(t1, t2);
+          $("#sbars", el).innerHTML = '<div class="b"><b>Going</b><span class="bar" style="width:' + (t1 / m * 100) + '%"></span><span>' + fmtN(t1) + ' h</span></div><div class="b"><b>Return</b><span class="bar n" style="width:' + (t2 / m * 100) + '%"></span><span>' + fmtN(t2) + " h</span></div>";
+          o.innerHTML = "Average speed = " + fmtN(av) + " km/h<small>Total distance " + fmtN(2 * d) + " km ÷ total time " + fmtN(t1 + t2) + " h. Formula: 2 × " + fmtN(x) + " × " + fmtN(y) + " ÷ (" + fmtN(x) + " + " + fmtN(y) + ") = " + fmtN(2 * x * y / (x + y)) + ". Adding and halving gives " + fmtN(am) + (Math.abs(am - av) > 1e-9 ? ", which is wrong: you spend longer at the slower speed." : ", correct only because the speeds are equal.") + "</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
     }
   };
   function tryIt(T, pane) {
