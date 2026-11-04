@@ -2153,6 +2153,59 @@
         $("#vgg", el).onclick = round; round();
       }
     }
+    ,
+    strongword: {
+      title: "Strong-word spotter", html: '<div class="field"><label for="swt">Statement</label><input type="text" id="swt" value="Most students failed the maths test."></div><div class="field"><label for="swc">Conclusion</label><input type="text" id="swc" value="No student passed the test."></div><div class="out" id="swo"></div>',
+      init: function (el) {
+        var STRONG = ["all", "only", "always", "never", "must", "none", "no one", "every", "everyone", "no", "forever", "definitely", "certainly", "entire", "completely"], SOFT = ["may", "might", "some", "probably", "likely", "can", "could", "most", "many", "few", "sometimes", "possibly"];
+        function q(a) { return a.map(function (w) { return "“" + w + "”"; }).join(", "); }
+        function hits(s, L) { s = " " + s.toLowerCase().replace(/[^a-z ]/g, " ") + " "; return L.filter(function (w) { return s.indexOf(" " + w + " ") >= 0; }); }
+        function up() {
+          var t = $("#swt", el).value, c = $("#swc", el).value, cs = hits(c, STRONG), ts = hits(t, STRONG), cf = hits(c, SOFT), o = $("#swo", el);
+          var newStrong = cs.filter(function (w) { return ts.indexOf(w) < 0; });
+          o.innerHTML = (newStrong.length ? "Careful: the conclusion is stronger than the statement" : cs.length ? "Strong words match the statement" : "No extreme words in the conclusion") + "<small>Strong words in the conclusion: " + (q(cs) || "none") + ". In the statement: " + (q(ts) || "none") + ". Soft words in the conclusion: " + (q(cf) || "none") + ". A conclusion stronger than its statement usually does not follow.</small>";
+        }
+        $$("input", el).forEach(function (x) { x.oninput = up; }); up();
+      }
+    },
+    coacheck: {
+      title: "Course-of-action checklist", html: '<div class="field"><label for="cat">Proposed action</label><input type="text" id="cat" value="Install traffic lights at the crossing."></div><div id="caq"></div><div class="out" id="cao"></div>',
+      init: function (el) {
+        var Q = ["Is it practical (can it really be done)?", "Does it solve or reduce the problem?", "Is it free of extreme steps (shutting down, banning everything, punishing everyone)?", "Does it deal with this problem, not a different one?"];
+        $("#caq", el).innerHTML = Q.map(function (q, i) { return '<label class="row" style="gap:8px;flex-wrap:nowrap;margin:6px 0"><input type="checkbox" id="caq' + i + '" checked> <span>' + q + "</span></label>"; }).join("");
+        function up() {
+          var n = Q.filter(function (_, i) { return $("#caq" + i, el).checked; }).length, o = $("#cao", el);
+          o.innerHTML = (n === Q.length ? "Follows" : "Does not follow") + "<small>The action passes " + n + " of " + Q.length + " checks. A course of action should pass all four.</small>";
+        }
+        $$("input", el).forEach(function (x) { x.oninput = up; x.onchange = up; }); up();
+      }
+    },
+    stmtgame: {
+      title: "Follows or not?", html: '<div id="sgq2" style="font-weight:700;line-height:1.5">…</div><div class="opts" id="sgo2"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="sgs2">0</b> / <b id="sgn2">0</b></span><button class="btn btn-accent btn-sm" id="sgg2">Next</button></div><div class="why" id="sgw2" hidden></div>',
+      init: function (el) {
+        var P = [
+          ["All members get a free cap. Rohit is a member.", "Rohit gets a free cap.", 1, "It follows directly."],
+          ["All members get a free cap. Rohit is a member.", "Only members like caps.", 0, "Feelings are not in the statement."],
+          ["The museum is closed on Mondays.", "The museum is open on all other days.", 0, "The statement says nothing about other days."],
+          ["The museum is closed on Mondays.", "You cannot visit the museum on a Monday.", 1, "It follows directly."],
+          ["Most shops in the market sell clothes.", "Some shops in the market sell clothes.", 1, "‘Most’ includes ‘some’."],
+          ["Most shops in the market sell clothes.", "All shops in the market sell clothes.", 0, "‘Most’ is weaker than ‘all’."],
+          ["Smoking is banned inside the office.", "Smoking is allowed everywhere outside the office.", 0, "Outside is not covered."],
+          ["Smoking is banned inside the office.", "A person smoking inside the office breaks the rule.", 1, "It follows directly."],
+          ["Some birds cannot fly.", "Every bird can fly.", 0, "It contradicts the statement."],
+          ["Prices of vegetables rose after heavy rain.", "The rain may have damaged crops.", 1, "A fair, soft inference."],
+          ["Prices of vegetables rose after heavy rain.", "Vegetables will never be cheap again.", 0, "Extreme claim."],
+          ["Only students with an ID can use the library.", "Neha used the library, so she has an ID.", 1, "‘Only’ makes the ID necessary."]
+        ], sc = 0, n = 0;
+        function round() {
+          var p = P[Math.floor(Math.random() * P.length)], done = false;
+          $("#sgq2", el).innerHTML = "Statement: " + esc(p[0]) + "<br>Conclusion: " + esc(p[1]); $("#sgw2", el).hidden = true;
+          $("#sgo2", el).innerHTML = '<button class="opt" data-ok="' + p[2] + '">Follows</button><button class="opt" data-ok="' + (1 - p[2]) + '">Does not follow</button>';
+          $$("#sgo2 .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#sgo2 .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#sgs2", el).textContent = sc; $("#sgn2", el).textContent = n; $("#sgw2", el).hidden = false; $("#sgw2", el).textContent = p[3]; }; });
+        }
+        $("#sgg2", el).onclick = round; round();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
