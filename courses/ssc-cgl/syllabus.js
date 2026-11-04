@@ -43,7 +43,7 @@ window.SSC = {
         ["geometry", "Geometry", "live"],
         ["mensuration", "Mensuration", "live"],
         ["trigonometry", "Trigonometry, heights & distances", "live"],
-        ["di", "Data interpretation", "soon"],
+        ["di", "Data interpretation", "live"],
         ["stats-prob", "Statistics & probability (Tier 2)", "soon"]
       ]
     },
