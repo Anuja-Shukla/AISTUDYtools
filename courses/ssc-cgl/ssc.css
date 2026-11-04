@@ -274,4 +274,6 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 /* series */
 .altv{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.altv span{padding:6px 12px;border-radius:10px;font-weight:800}.altv .o{background:var(--soft);color:var(--accent-dk)}.altv .e{background:var(--sun);color:var(--sun-fg);transform:translateY(10px)}.altv .q{background:var(--ink);color:#fff}
 /* coding */
-.alv{display:grid;grid-template-columns:repeat(13,1fr);gap:3px;margin:8px 0}.alv span{display:flex;flex-direction:column;align-items:center;padding:3px 0;border-radius:6px;background:var(--soft);font-size:11px;color:var(--muted)}.alv b{font-size:14px;color:var(--ink)}.alv .k{background:var(--sun)}.field textarea{width:100%;font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:10px;box-sizing:border-box}
+.alv{display:grid;grid-template-columns:repeat(13,1fr);gap:3px;margin:8px 0}.alv span{display:flex;flex-direction:column;align-items:center;padding:3px 0;border-radius:6px;background:var(--soft);font-size:11px;color:var(--muted)}.alv b{font-size:14px;color:var(--ink)}.alv .k{background:var(--sun)}.field textarea{width:100%;font:inherit;padding:8px 10px;border:1px solid var(--border);border-radius:10px;box-sizing:border-box}
+/* blood relations */
+.chip{border:1px solid var(--border);background:var(--card,#fff);border-radius:999px;padding:6px 12px;font:inherit;font-weight:700;cursor:pointer;color:var(--ink)}.chip:hover{border-color:var(--accent)}.kinsvg{display:block;max-width:100%;height:auto;margin:8px 0}

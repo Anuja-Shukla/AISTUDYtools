@@ -210,9 +210,45 @@
     for (var i = 1; i <= 26; i++) h += '<span class="' + (i % 5 === 0 ? "k" : "") + '"><b>' + String.fromCharCode(64 + i) + "</b>" + i + "</span>";
     return h + "</div>";
   }
+  var KIN = { father: ["u", "M"], mother: ["u", "F"], son: ["d", "M"], daughter: ["d", "F"], brother: ["ud", "M"], sister: ["ud", "F"], husband: ["m", "M"], wife: ["m", "F"] };
+  function kinName(chain) {
+    if (!chain.length) return "";
+    var s = chain.map(function (r) { return KIN[r][0]; }).join(""), g = KIN[chain[chain.length - 1]][1], prev;
+    do { prev = s; s = s.replace(/udud/g, "ud").replace(/udu/g, "u").replace(/um/g, "u").replace(/mm/g, "").replace(/du/g, "x"); } while (s !== prev);
+    if (s.indexOf("x") >= 0 || s === "") return "SELF";
+    var m = s.match(/^(m?)(u*)(d*)(m?)$/); if (!m) return null;
+    var pre = !!m[1], u = m[2].length, d = m[3].length, post = !!m[4], M = g === "M";
+    function pick(a, b) { return M ? a : b; }
+    function gp(n, a, b) { return (n > 2 ? "great-".repeat(n - 2) : "") + pick(a, b); }
+    var base;
+    if (u === 0 && d === 0) base = pick("husband", "wife");
+    else if (d === 0) base = u === 1 ? pick("father", "mother") : gp(u, "grandfather", "grandmother");
+    else if (u === 0) base = d === 1 ? pick("son", "daughter") : gp(d, "grandson", "granddaughter");
+    else if (u === 1 && d === 1) base = pick("brother", "sister");
+    else if (u === 2 && d === 1) base = pick("uncle", "aunt");
+    else if (u === 1 && d === 2) base = pick("nephew", "niece");
+    else if (u >= 2 && d >= 2) base = "cousin";
+    else return null;
+    if (u === 0 && d === 0) return base;
+    if (pre && post) return u === 1 && d === 1 ? pick("brother-in-law", "sister-in-law") : null;
+    if (pre) { if (d === 0 || (u === 1 && d === 1)) return base + "-in-law"; if (u === 0) return base; return base + " (by marriage)"; }
+    if (post) { if ((u === 0 && d === 1) || (u === 1 && d === 1)) return base + "-in-law"; if (u === 2 && d === 1) return base + " (by marriage)"; return base + "'s spouse"; }
+    return base;
+  }
+  function kinSvg(chain) {
+    var lv = 0, xs = 20, pts = [[xs, 0, "You"]];
+    chain.forEach(function (r) { var k = KIN[r][0]; for (var i = 0; i < k.length; i++) { if (k[i] === "u") lv--; else if (k[i] === "d") lv++; } xs += 62; pts.push([xs, lv, r]); });
+    var mn = Math.min.apply(null, pts.map(function (p) { return p[1]; })), mx = Math.max.apply(null, pts.map(function (p) { return p[1]; })), H = (mx - mn) * 48 + 54, W = xs + 40;
+    var y = function (l) { return 22 + (l - mn) * 48; }, h = '<svg viewBox="0 0 ' + W + " " + H + '" width="' + W + '" class="kinsvg" role="img" aria-label="Generation path">';
+    for (var l = mn; l <= mx; l++) h += '<line x1="0" x2="' + W + '" y1="' + y(l) + '" y2="' + y(l) + '" stroke="var(--border)" stroke-dasharray="3 4"/>';
+    for (var i = 1; i < pts.length; i++) h += '<line x1="' + pts[i - 1][0] + '" y1="' + y(pts[i - 1][1]) + '" x2="' + pts[i][0] + '" y2="' + y(pts[i][1]) + '" stroke="var(--accent)" stroke-width="2.5"/>';
+    pts.forEach(function (p, i) { var f = i && KIN[p[2]][1] === "F"; h += '<circle cx="' + p[0] + '" cy="' + y(p[1]) + '" r="9" fill="' + (i === 0 ? "var(--ink)" : f ? "#e0679b" : "#3d7ae0") + '"/><text x="' + p[0] + '" y="' + (y(p[1]) + 22) + '" text-anchor="middle" font-size="10" fill="var(--muted)">' + p[2] + "</text>"; });
+    return h + "</svg>";
+  }
   function viz(x) {
     if (!x) return "";
     if (x.type === "share") return shareBar(x.r, x.total);
+    if (x.type === "kin") return kinSvg(x.c);
     if (x.type === "alpha") return alphaViz();
     if (x.type === "alt") return altViz(x.v);
     if (x.type === "dots") { var mm = x.v.reduce(function (a, b) { return a + b; }, 0) / x.v.length, ss = x.v.slice().sort(function (a, b) { return a - b; }), nn = ss.length; return dotsSvg(x.v, mm, nn % 2 ? ss[(nn - 1) / 2] : (ss[nn / 2 - 1] + ss[nn / 2]) / 2); }
@@ -1705,6 +1741,53 @@
           $$("#cgo .opt", el).forEach(function (bt) { bt.onclick = function () { if (done) return; done = true; n++; var ok = bt.getAttribute("data-ok") === "1"; if (ok) sc++; bt.classList.add(ok ? "right" : "wrong"); $$("#cgo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#cgs", el).textContent = sc; $("#cgn", el).textContent = n; $("#cgw", el).hidden = false; $("#cgw", el).textContent = "Rule: " + (t === 0 ? "each letter " + (k > 0 ? "+" : "") + k : t === 1 ? "opposite letters" : "reversed") + "."; }; });
         }
         $("#cgg", el).onclick = round; round();
+      }
+    }
+    ,
+    relchain: {
+      title: "Relation chain builder", html: '<p class="note">Build “my ___’s ___’s ___”. Tap relations in order.</p><div class="row" id="rcb" style="flex-wrap:wrap;gap:6px"></div><div class="row" style="gap:6px;margin-top:8px"><button class="btn btn-sm" id="rcu">Undo</button><button class="btn btn-sm" id="rcc">Clear</button></div><div id="rcz" class="tscroll"></div><div class="out" id="rco"></div>',
+      init: function (el) {
+        var ch = ["father", "sister", "son"];
+        $("#rcb", el).innerHTML = Object.keys(KIN).map(function (k) { return '<button class="chip" data-r="' + k + '">' + k + "</button>"; }).join("");
+        function up() {
+          var o = $("#rco", el);
+          $("#rcz", el).innerHTML = ch.length ? kinSvg(ch) : "";
+          if (!ch.length) { o.textContent = "Tap a relation to start"; return; }
+          var n = kinName(ch), note = ""; if (n === "SELF") n = "self or spouse (check the chain)";
+          if (ch.some(function (r, i) { return i && (r === "son" || r === "daughter") && (ch[i - 1] === "father" || ch[i - 1] === "mother"); })) note = " If it says “only son/daughter”, that person may be you or your parent.";
+          o.innerHTML = "My " + ch.join("’s ") + " = my " + (n || "distant relative — draw the tree") + "<small>Steps up and down the generations decide the name." + note + "</small>";
+        }
+        $$("#rcb .chip", el).forEach(function (b) { b.onclick = function () { if (ch.length < 6) ch.push(b.getAttribute("data-r")); up(); }; });
+        $("#rcu", el).onclick = function () { ch.pop(); up(); };
+        $("#rcc", el).onclick = function () { ch = []; up(); };
+        up();
+      }
+    },
+    reltwo: {
+      title: "Two-statement solver", html: '<div class="field"><label>Statement 1</label><div class="row" style="gap:6px;flex-wrap:nowrap"><span style="white-space:nowrap">P is the</span><select id="rt1"></select><span style="white-space:nowrap">of Q.</span></div></div><div class="field"><label>Statement 2</label><div class="row" style="gap:6px;flex-wrap:nowrap"><span style="white-space:nowrap">Q is the</span><select id="rt2"></select><span style="white-space:nowrap">of R.</span></div></div><div class="out" id="rto"></div>',
+      init: function (el) {
+        var opts = Object.keys(KIN).map(function (k) { return "<option>" + k + "</option>"; }).join("");
+        $("#rt1", el).innerHTML = opts; $("#rt2", el).innerHTML = opts; $("#rt1", el).value = "son"; $("#rt2", el).value = "wife";
+        function up() {
+          var a = $("#rt1", el).value, b = $("#rt2", el).value, n = kinName([b, a]); if (n === "SELF") n = "self or spouse — check the statements";
+          $("#rto", el).innerHTML = "P is R’s " + (n || "relative — draw the tree") + "<small>From R: R’s " + b + " is Q, and Q’s " + a + " is P. So read it as “R’s " + b + "’s " + a + "”.</small>";
+        }
+        $("#rt1", el).onchange = up; $("#rt2", el).onchange = up; up();
+      }
+    },
+    relgame: {
+      title: "Relation sprint", html: '<div class="big" id="rgq" style="text-align:center;font-size:19px;font-weight:800">…</div><div class="opts" id="rgo"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="rgs">0</b> / <b id="rgn">0</b></span><button class="btn btn-accent btn-sm" id="rgg">Next</button></div><div class="why" id="rgw" hidden></div>',
+      init: function (el) {
+        var sc = 0, n = 0, R = ["father", "mother", "brother", "sister", "son", "daughter", "husband", "wife"], POOL = ["uncle", "aunt", "nephew", "niece", "cousin", "grandfather", "grandmother", "grandson", "granddaughter", "father-in-law", "mother-in-law", "brother-in-law", "sister-in-law", "son-in-law", "daughter-in-law", "brother", "sister", "father", "mother"];
+        function round() {
+          var c, ans, t = 0;
+          do { var L = 2 + Math.floor(Math.random() * 2); c = []; for (var i = 0; i < L; i++) c.push(R[Math.floor(Math.random() * R.length)]); ans = kinName(c); t++; } while ((!ans || ans === "SELF" || /\(|spouse|great/.test(ans) || /(father|mother|husband|wife),(husband|wife)/.test(c.join(","))) && t < 200);
+          var ops = [ans].concat(shuffle(POOL.length).map(function (i) { return POOL[i]; }).filter(function (x) { return x !== ans; }).slice(0, 3)), ord = shuffle(4), done = false;
+          $("#rgq", el).textContent = "My " + c.join("’s ") + " is my …"; $("#rgw", el).hidden = true;
+          $("#rgo", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-ok="' + (k === 0 ? 1 : 0) + '">' + ops[k] + "</button>"; }).join("");
+          $$("#rgo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#rgo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#rgs", el).textContent = sc; $("#rgn", el).textContent = n; $("#rgw", el).hidden = false; $("#rgw", el).innerHTML = kinSvg(c); }; });
+        }
+        $("#rgg", el).onclick = round; round();
       }
     }
   };

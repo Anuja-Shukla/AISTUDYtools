@@ -1,0 +1,10 @@
+# SSC CGL Reasoning — Blood relations
+Welcome! This SSC CGL lesson is about blood relations. || Welcome! This S S C C G L lesson is about blood relations.
+Chains, pointing puzzles and coded symbols. || There are three question types: chains of relations, pointing puzzles, and coded symbols. For every one of them, draw a small family tree. Never solve in your head.
+Draw the tree: generations in rows. || Put each generation on its own row, with parents above and children below. Mark male and female only when the question tells you. Use an equals sign for a married couple.
+Generations decide the name. || The number of steps up and down decides the name. One up is a parent. Two up, one down is an uncle or aunt. One up, two down is a nephew or niece. Two up, two down is a cousin.
+Chain: A is B's brother, B is C's mother → maternal uncle. || Try a chain. A is B's brother, and B is C's mother. Start from C. C's mother is B, and her brother is A. So A is C's maternal uncle.
+Pointing: my father's only son is my brother. || In pointing puzzles, start from the speaker. Riya says, he is the son of my father's only son. Her father's only son is her brother, so the man is her nephew.
+Coded: decode one symbol at a time. || For coded relations, decode one symbol at a time. If plus means son of, and minus means wife of, then P plus Q minus R means P is Q's son, and Q is R's wife. So P is R's son.
+Try this: P is Q's husband, R is P's mother. The answer is A, mother-in-law. || Try this. P is Q's husband, and R is P's mother. How is R related to Q? The answer is A, mother in law, because R is the mother of Q's husband.
+Recap. Now try the tools and the practice questions below. || To recap. Draw the tree. Count the generations. Watch for the word only. And if gender is not given, the answer may be cannot be determined. Now try the tools and the practice questions below this video.
