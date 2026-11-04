@@ -867,6 +867,83 @@
         $$("input", el).forEach(function (i) { i.oninput = up; }); up();
       }
     }
+    ,
+    sdt: {
+      title: "Speed, distance, time + unit converter", html: '<div class="grid g2"><div class="field"><label for="kmh">km/h</label><input type="number" id="kmh" value="72"></div><div class="field"><label for="mps">m/s</label><input type="number" id="mps" value="20"></div></div><div class="out" id="cvo"></div><div class="field" style="margin-top:6px"><label for="sk">Find…</label><select id="sk"><option value="d">Distance</option><option value="s">Speed</option><option value="t">Time</option></select></div><div class="grid g3"><div class="field" data-q="s"><label for="sv">Speed (km/h)</label><input type="number" id="sv" value="60"></div><div class="field" data-q="t"><label for="tv">Time (hours)</label><input type="number" id="tv" value="3.5"></div><div class="field" data-q="d"><label for="dv">Distance (km)</label><input type="number" id="dv" value="210"></div></div><div class="out" id="sdo"></div>',
+      init: function (el) {
+        var lock = false;
+        function conv(from) {
+          if (lock) return; lock = true;
+          var k = parseFloat($("#kmh", el).value), m = parseFloat($("#mps", el).value);
+          if (from === "k" && isFinite(k)) $("#mps", el).value = +(k * 5 / 18).toFixed(4);
+          if (from === "m" && isFinite(m)) $("#kmh", el).value = +(m * 18 / 5).toFixed(4);
+          k = parseFloat($("#kmh", el).value); m = parseFloat($("#mps", el).value);
+          $("#cvo", el).innerHTML = isFinite(k) ? fmtN(k) + " km/h = " + fmtN(m) + " m/s<small>" + (from === "m" ? fmtN(m) + " × 18/5" : fmtN(k) + " × 5/18") + "</small>" : "Enter a speed";
+          lock = false;
+        }
+        function up() {
+          var q = $("#sk", el).value, s = parseFloat($("#sv", el).value), t = parseFloat($("#tv", el).value), d = parseFloat($("#dv", el).value), o = $("#sdo", el);
+          $$("[data-q]", el).forEach(function (f) { f.hidden = f.getAttribute("data-q") === q; });
+          if (q === "d") o.innerHTML = s > 0 && t > 0 ? "Distance = " + fmtN(s * t) + " km<small>" + fmtN(s) + " × " + fmtN(t) + "</small>" : "Enter speed and time";
+          else if (q === "s") o.innerHTML = d > 0 && t > 0 ? "Speed = " + fmtN(d / t) + " km/h = " + fmtN(d / t * 5 / 18) + " m/s<small>" + fmtN(d) + " ÷ " + fmtN(t) + "</small>" : "Enter distance and time";
+          else o.innerHTML = d > 0 && s > 0 ? "Time = " + fmtN(d / s) + " h = " + Math.floor(d / s) + " h " + fmtN((d / s - Math.floor(d / s)) * 60) + " min<small>" + fmtN(d) + " ÷ " + fmtN(s) + "</small>" : "Enter distance and speed";
+        }
+        $("#kmh", el).oninput = function () { conv("k"); }; $("#mps", el).oninput = function () { conv("m"); };
+        $$("#sk,#sv,#tv,#dv", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); conv("k"); up();
+      }
+    },
+    relmeet: {
+      title: "Meeting and chasing", html: '<div class="grid g4"><div class="field"><label for="rgap">Gap (km)</label><input type="number" id="rgap" value="300"></div><div class="field"><label for="rs1">Speed 1 (km/h)</label><input type="number" id="rs1" value="40"></div><div class="field"><label for="rs2">Speed 2 (km/h)</label><input type="number" id="rs2" value="60"></div><div class="field"><label for="rdir">Direction</label><select id="rdir"><option value="t">Towards each other</option><option value="s">Same direction (2 chases 1)</option></select></div></div><div class="track" id="rtr"><i class="ca"></i><i class="cb"></i></div><div class="field"><label for="rt">Time: <b id="rtv">0</b> h</label><input type="range" id="rt" min="0" max="100" value="0"></div><div class="out" id="rmo"></div>',
+      init: function (el) {
+        function up() {
+          var g = parseFloat($("#rgap", el).value), a = parseFloat($("#rs1", el).value), b = parseFloat($("#rs2", el).value), dir = $("#rdir", el).value, o = $("#rmo", el);
+          if (!(g > 0 && a >= 0 && b >= 0)) { o.textContent = "Enter a gap and speeds"; return; }
+          var rel = dir === "t" ? a + b : b - a, T = rel > 0 ? g / rel : Infinity, tm = isFinite(T) ? T : 10, t = +$("#rt", el).value / 100 * tm;
+          $("#rtv", el).textContent = fmtN(t);
+          var span = dir === "t" ? g : g + a * tm, pA, pB;
+          if (dir === "t") { pA = a * t; pB = g - b * t; } else { pA = g + a * t; pB = b * t; }
+          $(".ca", el).style.left = Math.max(0, Math.min(100, (dir === "t" ? pA : pA) / span * 100)) + "%";
+          $(".cb", el).style.left = Math.max(0, Math.min(100, pB / span * 100)) + "%";
+          o.innerHTML = (isFinite(T) ? (dir === "t" ? "They meet after " : "Caught after ") + fmtN(T) + " h" : "Never caught: the chaser is not faster") + "<small>Relative speed = " + (dir === "t" ? fmtN(a) + " + " + fmtN(b) : fmtN(b) + " − " + fmtN(a)) + " → " + fmtN(Math.abs(rel)) + " km/h; " + fmtN(g) + " ÷ " + fmtN(Math.abs(rel)) + ". Drag the slider to move both.</small>";
+        }
+        $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
+      }
+    },
+    trainx: {
+      title: "Train crossing calculator", html: '<div class="grid g2"><div class="field"><label for="tl">Train length (m)</label><input type="number" id="tl" value="150"></div><div class="field"><label for="tsp">Train speed (km/h)</label><input type="number" id="tsp" value="54"></div></div><div class="field"><label for="tob">It crosses…</label><select id="tob"><option value="pole">a pole / a standing person</option><option value="plat">a platform / bridge</option><option value="opp">another train, opposite direction</option><option value="same">another train, same direction</option><option value="walk">a person walking the same way</option></select></div><div class="grid g2"><div class="field" id="tow"><label for="tol" id="toll">Its length (m)</label><input type="number" id="tol" value="250"></div><div class="field" id="tsw"><label for="tos">Its speed (km/h)</label><input type="number" id="tos" value="40"></div></div><div class="trn" id="tvz"></div><div class="out" id="tro"></div>',
+      init: function (el) {
+        function up() {
+          var L = parseFloat($("#tl", el).value), S = parseFloat($("#tsp", el).value), k = $("#tob", el).value, l2 = parseFloat($("#tol", el).value) || 0, s2 = parseFloat($("#tos", el).value) || 0, o = $("#tro", el);
+          $("#tow", el).hidden = k === "pole" || k === "walk"; $("#tsw", el).hidden = k === "pole" || k === "plat";
+          if (!(L > 0 && S > 0)) { o.textContent = "Enter the train's length and speed"; return; }
+          var len = L + (k === "plat" || k === "opp" || k === "same" ? l2 : 0), rel = k === "opp" ? S + s2 : k === "same" || k === "walk" ? S - s2 : S;
+          $("#tvz", el).innerHTML = '<i class="t1" style="flex:' + L + '">train ' + fmtN(L) + " m</i>" + (len > L ? '<i class="t2" style="flex:' + (len - L) + '">' + (k === "plat" ? "platform" : "other train") + " " + fmtN(len - L) + " m</i>" : "");
+          if (!(rel > 0)) { o.textContent = "The train never passes: relative speed is not positive"; return; }
+          var ms = rel * 5 / 18;
+          o.innerHTML = "Time = " + fmtN(len / ms) + " s<small>Distance " + fmtN(len) + " m ÷ relative speed " + fmtN(rel) + " km/h (" + fmtN(rel) + " × 5/18 = " + fmtN(ms) + " m/s).</small>";
+        }
+        $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
+      }
+    },
+    boats: {
+      title: "Boats and streams", html: '<div class="field"><label for="bk">I know…</label><select id="bk"><option value="bs">boat and stream speeds</option><option value="du">downstream and upstream speeds</option></select></div><div class="grid g3"><div class="field"><label for="b1" id="b1l">Boat in still water (km/h)</label><input type="number" id="b1" value="10"></div><div class="field"><label for="b2" id="b2l">Stream (km/h)</label><input type="number" id="b2" value="2"></div><div class="field"><label for="bd">Distance each way (km)</label><input type="number" id="bd" value="48"></div></div><div class="river" id="brv"><span class="dn">→ downstream</span><span class="up">← upstream</span></div><div class="out" id="bo"></div>',
+      init: function (el) {
+        var last = "bs";
+        function up() {
+          var k = $("#bk", el).value;
+          if (k !== last) { last = k; $("#b1", el).value = k === "bs" ? 10 : 15; $("#b2", el).value = k === "bs" ? 2 : 9; }
+          $("#b1l", el).textContent = k === "bs" ? "Boat in still water (km/h)" : "Downstream (km/h)"; $("#b2l", el).textContent = k === "bs" ? "Stream (km/h)" : "Upstream (km/h)";
+          var x = parseFloat($("#b1", el).value), y = parseFloat($("#b2", el).value), D = parseFloat($("#bd", el).value), o = $("#bo", el), b, s;
+          if (!(x > 0 && y >= 0)) { o.textContent = "Enter two speeds"; return; }
+          if (k === "bs") { b = x; s = y; } else { b = (x + y) / 2; s = (x - y) / 2; }
+          var dn = b + s, upS = b - s;
+          if (!(upS > 0)) { o.textContent = "The boat cannot go upstream: the stream is too fast"; return; }
+          $(".dn", el).textContent = "→ downstream " + fmtN(dn) + " km/h"; $(".up", el).textContent = "← upstream " + fmtN(upS) + " km/h";
+          o.innerHTML = "Boat " + fmtN(b) + " km/h · stream " + fmtN(s) + " km/h" + (D > 0 ? " · round trip " + fmtN(D / dn + D / upS) + " h" : "") + "<small>" + (k === "bs" ? "Down = b + s, up = b − s." : "b = (" + fmtN(x) + " + " + fmtN(y) + ") ÷ 2, s = (" + fmtN(x) + " − " + fmtN(y) + ") ÷ 2.") + (D > 0 ? " Time = " + fmtN(D) + " ÷ " + fmtN(dn) + " + " + fmtN(D) + " ÷ " + fmtN(upS) + "." : "") + "</small>";
+        }
+        $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
