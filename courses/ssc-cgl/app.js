@@ -2666,6 +2666,47 @@
         $("#cgw", el).oninput = up; up();
       }
     }
+    ,
+    prepfind: {
+      title: "Preposition finder", html: '<div class="field"><label for="pfw">Word</label><input type="text" id="pfw" value="insist" list="pfl"><datalist id="pfl"></datalist></div><div class="out" id="pfo"></div>',
+      init: function (el) {
+        var P = { accused: ["of", "He was accused of theft."], afraid: ["of", "She is afraid of dogs."], fond: ["of", "He is fond of music."], aware: ["of", "Are you aware of the rule?"], capable: ["of", "She is capable of leading."], consist: ["of", "Water consists of hydrogen and oxygen."], proud: ["of", "We are proud of you."], good: ["at", "He is good at maths."], bad: ["at", "I am bad at drawing."], surprised: ["at / by", "She was surprised at the news."], insist: ["on", "He insisted on paying."], depend: ["on", "It depends on the weather."], congratulate: ["on", "I congratulate you on your success."], rely: ["on", "You can rely on me."], interested: ["in", "She is interested in art."], succeed: ["in", "He succeeded in the test."], believe: ["in", "I believe in hard work."], prefer: ["to", "I prefer tea to coffee."], superior: ["to", "This model is superior to that one."], inferior: ["to", "It is inferior to the original."], senior: ["to", "She is senior to me."], married: ["to", "He is married to a doctor."], listen: ["to", "Listen to the teacher."], belong: ["to", "This bag belongs to me."], angry: ["with (a person) / at (a thing)", "She was angry with him."], deal: ["with", "We must deal with the problem."], comply: ["with", "Comply with the rules."], wait: ["for", "Wait for me."], apologise: ["for (a thing) / to (a person)", "He apologised to her for the delay."], abide: ["by", "Abide by the law."], refrain: ["from", "Refrain from smoking."], prevent: ["from", "Rain prevented us from going."], suffer: ["from", "He suffers from fever."], discuss: ["no preposition", "We discussed the plan."], reach: ["no preposition", "We reached the station."], enter: ["no preposition (for places)", "She entered the room."] };
+        $("#pfl", el).innerHTML = Object.keys(P).sort().map(function (k) { return '<option value="' + k + '">'; }).join("");
+        function up() { var w = $("#pfw", el).value.trim().toLowerCase(), r = P[w], o = $("#pfo", el); o.innerHTML = r ? w + " → " + r[0] + "<small>Example: " + esc(r[1]) + "</small>" : "Pick a word from the list<small>" + Object.keys(P).length + " common words are included.</small>"; }
+        $("#pfw", el).oninput = up; up();
+      }
+    },
+    aanfind: {
+      title: "a or an?", html: '<div class="field"><label for="anw">Word or abbreviation</label><input type="text" id="anw" value="SSC"></div><div class="out" id="ano"></div>',
+      init: function (el) {
+        var VOW = ["hour", "honest", "honour", "honor", "heir", "honorary", "hourly"], CON = ["university", "unique", "uniform", "union", "unit", "use", "useful", "user", "usual", "european", "euro", "one", "once", "ewe", "utensil", "unicorn", "uranium", "eulogy"], VL = "AEFHILMNORSX";
+        function up() {
+          var w = $("#anw", el).value.trim(), lw = w.toLowerCase(), o = $("#ano", el), a, why;
+          if (!w) { o.textContent = "Type a word"; return; }
+          if (/^[A-Z]{2,}$/.test(w)) { a = VL.indexOf(w[0]) >= 0 ? "an" : "a"; why = "Abbreviations are read letter by letter; “" + w[0] + "” is said “" + { A: "ay", E: "ee", F: "ef", H: "aitch", I: "eye", L: "el", M: "em", N: "en", O: "oh", R: "ar", S: "es", X: "ex" }[w[0]] + "”." ; if (a === "a") why = "“" + w[0] + "” is said with a consonant sound."; why += " (If it is said as a word, like NASA, go by that sound: a NASA scientist.)"; }
+          else if (VOW.some(function (v) { return lw.indexOf(v) === 0; })) { a = "an"; why = "The h is silent, so it starts with a vowel sound."; }
+          else if (CON.some(function (v) { return lw.indexOf(v) === 0; })) { a = "a"; why = "It starts with a ‘yoo’ or ‘w’ sound, which is a consonant sound."; }
+          else { a = /^[aeiou]/.test(lw) ? "an" : "a"; why = a === "an" ? "It starts with a vowel sound." : "It starts with a consonant sound."; }
+          o.innerHTML = a + " " + esc(w) + "<small>" + why + "</small>";
+        }
+        $("#anw", el).oninput = up; up();
+      }
+    },
+    sincefor: {
+      title: "since or for?", html: '<div class="field"><label for="sfw">Time expression</label><input type="text" id="sfw" value="five years"></div><div class="row" style="gap:6px;flex-wrap:wrap" id="sfx"></div><div class="out" id="sfo2"></div>',
+      init: function (el) {
+        var EX = ["five years", "2019", "Monday", "two hours", "last week", "a long time", "morning", "childhood", "three days", "January"];
+        $("#sfx", el).innerHTML = EX.map(function (e) { return '<button class="chip">' + e + "</button>"; }).join("");
+        function up() {
+          var w = $("#sfw", el).value.trim().toLowerCase(), o = $("#sfo2", el);
+          if (!w) { o.textContent = "Type a time expression"; return; }
+          var period = /^(a|an|one|two|three|four|five|six|seven|eight|nine|ten|many|several|few|\d+)\s+(second|minute|hour|day|week|month|year|decade|centur)|long time|ages|a while/.test(w);
+          o.innerHTML = (period ? "for " : "since ") + esc(w) + "<small>" + (period ? "It is a length of time (a period)." : "It is a point in time (when it started).") + "</small>";
+        }
+        $$("#sfx .chip", el).forEach(function (b) { b.onclick = function () { $("#sfw", el).value = b.textContent; up(); }; });
+        $("#sfw", el).oninput = up; up();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
