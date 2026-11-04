@@ -39,7 +39,7 @@ window.SSC = {
         ["mixtures", "Mixtures & alligation", "live"],
         ["time-work", "Time & work, pipes & cisterns", "live"],
         ["tsd", "Time, speed & distance", "live"],
-        ["algebra", "Algebra", "soon"],
+        ["algebra", "Algebra", "live"],
         ["geometry", "Geometry", "soon"],
         ["mensuration", "Mensuration", "soon"],
         ["trigonometry", "Trigonometry, heights & distances", "soon"],

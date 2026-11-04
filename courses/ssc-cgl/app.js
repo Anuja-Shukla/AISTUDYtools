@@ -205,9 +205,15 @@
   function altViz(S) {
     return '<div class="altv">' + S.map(function (x, i) { return '<span class="' + (i % 2 ? "e" : "o") + '">' + fmtN(x) + "</span>"; }).join("") + '<span class="q">?</span></div>';
   }
+  function alphaViz() {
+    var h = '<div class="alv">';
+    for (var i = 1; i <= 26; i++) h += '<span class="' + (i % 5 === 0 ? "k" : "") + '"><b>' + String.fromCharCode(64 + i) + "</b>" + i + "</span>";
+    return h + "</div>";
+  }
   function viz(x) {
     if (!x) return "";
     if (x.type === "share") return shareBar(x.r, x.total);
+    if (x.type === "alpha") return alphaViz();
     if (x.type === "alt") return altViz(x.v);
     if (x.type === "dots") { var mm = x.v.reduce(function (a, b) { return a + b; }, 0) / x.v.length, ss = x.v.slice().sort(function (a, b) { return a - b; }), nn = ss.length; return dotsSvg(x.v, mm, nn % 2 ? ss[(nn - 1) / 2] : (ss[nn / 2 - 1] + ss[nn / 2]) / 2); }
     if (x.type === "bars") return barsSvg(x.l, x.v);
@@ -1621,6 +1627,84 @@
           $$("#sgo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#sgo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#sgs", el).textContent = sc; $("#sgn", el).textContent = n; $("#sgw", el).hidden = false; $("#sgw", el).textContent = "Rule: " + p.rule + "."; }; });
         }
         $("#sgg", el).onclick = round; round();
+      }
+    }
+    ,
+    codeshift: {
+      title: "Letter coder", html: '<div class="field"><label for="csw">Word</label><input type="text" id="csw" value="DOG" maxlength="14"></div><div class="field"><label for="csm">Rule</label><select id="csm"><option value="s">Shift each letter by k</option><option value="g">Growing shift (k, k+1, k+2 …)</option><option value="a">Alternating +k, −k</option><option value="o">Opposite letter (A↔Z)</option><option value="r">Reverse the word</option><option value="n">Letter positions</option></select></div><div class="field"><label for="csk">k = <b id="cskv">1</b></label><input type="range" id="csk" min="-5" max="7" value="1"></div><div class="out" id="cso"></div>',
+      init: function (el) {
+        function w(p) { return String.fromCharCode(65 + ((p - 1) % 26 + 26) % 26); }
+        function up() {
+          var W = $("#csw", el).value.toUpperCase().replace(/[^A-Z]/g, ""), m = $("#csm", el).value, k = +$("#csk", el).value, P = W.split("").map(function (c) { return c.charCodeAt(0) - 64; }), out;
+          $("#cskv", el).textContent = k;
+          if (!W) { $("#cso", el).textContent = "Type a word"; return; }
+          if (m === "s") out = P.map(function (p) { return w(p + k); }).join("");
+          else if (m === "g") out = P.map(function (p, i) { return w(p + k + i); }).join("");
+          else if (m === "a") out = P.map(function (p, i) { return w(p + (i % 2 ? -k : k)); }).join("");
+          else if (m === "o") out = P.map(function (p) { return w(27 - p); }).join("");
+          else if (m === "r") out = W.split("").reverse().join("");
+          else out = P.join("-");
+          $("#cso", el).innerHTML = W + " → " + out + "<small>Positions: " + P.join(", ") + (m === "n" ? ". Sum = " + P.reduce(function (a, b) { return a + b; }, 0) : "") + ".</small>";
+        }
+        $$("input,select", el).forEach(function (x) { x.oninput = up; }); up();
+      }
+    },
+    codefind: {
+      title: "Find the rule from an example", html: '<div class="grid2"><div class="field"><label for="cfa">Word</label><input type="text" id="cfa" value="FRIEND"></div><div class="field"><label for="cfb">Code</label><input type="text" id="cfb" value="HUMJTK"></div></div><div class="field"><label for="cfc">New word to code</label><input type="text" id="cfc" value="CANDLE"></div><div class="tscroll"><table class="pt" id="cft"></table></div><div class="out" id="cfo"></div>',
+      init: function (el) {
+        function w(p) { return String.fromCharCode(65 + ((p - 1) % 26 + 26) % 26); }
+        function pos(s) { return s.toUpperCase().replace(/[^A-Z]/g, "").split("").map(function (c) { return c.charCodeAt(0) - 64; }); }
+        function md(x) { return ((x % 26) + 39) % 26 - 13; }
+        function up() {
+          var A = pos($("#cfa", el).value), B = pos($("#cfb", el).value), C = pos($("#cfc", el).value), o = $("#cfo", el), rule = null, f = null;
+          if (!A.length || A.length !== B.length) { $("#cft", el).innerHTML = ""; o.textContent = "Word and code must have the same number of letters"; return; }
+          var g = A.map(function (a, i) { return md(B[i] - a); });
+          $("#cft", el).innerHTML = "<tr><th>Word</th>" + A.map(function (a) { return "<td>" + w(a) + "<br><small>" + a + "</small></td>"; }).join("") + "</tr><tr><th>Code</th>" + B.map(function (b) { return "<td>" + w(b) + "<br><small>" + b + "</small></td>"; }).join("") + "</tr><tr><th>Gap</th>" + g.map(function (x) { return "<td>" + (x > 0 ? "+" : "") + x + "</td>"; }).join("") + "</tr>";
+          if (g.every(function (x) { return x === g[0]; })) { rule = "every letter " + (g[0] >= 0 ? "+" : "") + g[0]; f = function (p) { return w(p + g[0]); }; }
+          else if (g.every(function (x, i) { return i === 0 || x - g[i - 1] === g[1] - g[0]; })) { rule = "gap changes by " + (g[1] - g[0]) + " each letter"; f = function (p, i) { return w(p + g[0] + i * (g[1] - g[0])); }; }
+          else if (A.every(function (a, i) { return a + B[i] === 27; })) { rule = "opposite letters (sum 27)"; f = function (p) { return w(27 - p); }; }
+          else if (A.every(function (a, i) { return a === B[B.length - 1 - i]; })) { rule = "word reversed"; f = null; }
+          else if (g.every(function (x, i) { return x === (i % 2 ? g[1] : g[0]); })) { rule = "alternating " + g[0] + " and " + g[1]; f = function (p, i) { return w(p + (i % 2 ? g[1] : g[0])); }; }
+          if (!rule) { o.innerHTML = "No single rule found<small>Try opposite letters for some positions, or rearranged letters.</small>"; return; }
+          var res = !C.length ? "" : rule === "word reversed" ? C.map(w).reverse().join("") : C.map(f).join("");
+          o.innerHTML = (res ? C.map(w).join("") + " → " + res : "Rule found") + "<small>Rule: " + rule + ".</small>";
+        }
+        $$("input", el).forEach(function (x) { x.oninput = up; }); up();
+      }
+    },
+    codelang: {
+      title: "Code language solver", html: '<p class="note">Write each sentence as <b>words = codes</b>, one per line.</p><div class="field"><label for="clt">Sentences</label><textarea id="clt" rows="4">sun is hot = mo na ti\nhot and cold = ti ra so\nsun rises = pe na</textarea></div><div class="out" id="clo"></div>',
+      init: function (el) {
+        function up() {
+          var L = $("#clt", el).value.split("\n").map(function (l) { var p = l.split("="); if (p.length !== 2) return null; return { w: p[0].trim().toLowerCase().split(/\s+/).filter(Boolean), c: p[1].trim().toLowerCase().split(/\s+/).filter(Boolean) }; }).filter(Boolean), o = $("#clo", el), found = {};
+          if (L.length < 2) { o.textContent = "Enter at least two sentences"; return; }
+          for (var it = 0; it < 4; it++) {
+            for (var i = 0; i < L.length; i++) for (var j = i + 1; j < L.length; j++) {
+              var cw = L[i].w.filter(function (x) { return L[j].w.indexOf(x) >= 0 && !found[x]; }), used = Object.keys(found).map(function (k) { return found[k]; }), cc = L[i].c.filter(function (x) { return L[j].c.indexOf(x) >= 0 && used.indexOf(x) < 0; });
+              if (cw.length === 1 && cc.length === 1) found[cw[0]] = cc[0];
+            }
+            L.forEach(function (s) { var rw = s.w.filter(function (x) { return !found[x]; }), used = Object.keys(found).map(function (k) { return found[k]; }), rc = s.c.filter(function (x) { return used.indexOf(x) < 0; }); if (rw.length === 1 && rc.length === 1) found[rw[0]] = rc[0]; });
+          }
+          var k = Object.keys(found);
+          o.innerHTML = k.length ? k.map(function (x) { return esc(x) + " = " + esc(found[x]); }).join(" · ") + "<small>Found by comparing sentences in pairs. Words that appear only once cannot always be fixed.</small>" : "No word could be fixed<small>Each pair of sentences needs exactly one common word.</small>";
+        }
+        $("#clt", el).oninput = up; up();
+      }
+    },
+    codegame: {
+      title: "Code it fast", html: '<div class="big" id="cgq" style="text-align:center;font-size:20px;font-weight:800">…</div><div class="opts" id="cgo"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="cgs">0</b> / <b id="cgn">0</b></span><button class="btn btn-accent btn-sm" id="cgg">Next</button></div><div class="why" id="cgw" hidden></div>',
+      init: function (el) {
+        var W = ["BOOK", "LAMP", "FISH", "COLD", "RAIN", "MILK", "SHIP", "TREE", "BELL", "GOAT", "KITE", "DESK", "WIND", "ROAD", "HILL"], sc = 0, n = 0;
+        function w(p) { return String.fromCharCode(65 + ((p - 1) % 26 + 26) % 26); }
+        function cd(s, t, k) { var P = s.split("").map(function (c) { return c.charCodeAt(0) - 64; }); if (t === 0) return P.map(function (p) { return w(p + k); }).join(""); if (t === 1) return P.map(function (p) { return w(27 - p); }).join(""); return s.split("").reverse().join(""); }
+        function round() {
+          var a = W[Math.floor(Math.random() * W.length)], b; do { b = W[Math.floor(Math.random() * W.length)]; } while (b === a);
+          var t = Math.floor(Math.random() * 3), k = [1, 2, 3, -1, -2][Math.floor(Math.random() * 5)], ans = cd(b, t, k), ops = [ans, cd(b, 0, k + 1), cd(b, 0, -k), cd(b, 1, 0), cd(b, 2, 0), cd(b, 0, k + 2)].filter(function (v, i, A) { return A.indexOf(v) === i; }).slice(0, 4), ord = shuffle(ops.length), done = false;
+          $("#cgq", el).textContent = "If " + a + " = " + cd(a, t, k) + ", then " + b + " = ?"; $("#cgw", el).hidden = true;
+          $("#cgo", el).innerHTML = ord.map(function (i) { return '<button class="opt" data-ok="' + (i === 0 ? 1 : 0) + '">' + ops[i] + "</button>"; }).join("");
+          $$("#cgo .opt", el).forEach(function (bt) { bt.onclick = function () { if (done) return; done = true; n++; var ok = bt.getAttribute("data-ok") === "1"; if (ok) sc++; bt.classList.add(ok ? "right" : "wrong"); $$("#cgo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#cgs", el).textContent = sc; $("#cgn", el).textContent = n; $("#cgw", el).hidden = false; $("#cgw", el).textContent = "Rule: " + (t === 0 ? "each letter " + (k > 0 ? "+" : "") + k : t === 1 ? "opposite letters" : "reversed") + "."; }; });
+        }
+        $("#cgg", el).onclick = round; round();
       }
     }
   };

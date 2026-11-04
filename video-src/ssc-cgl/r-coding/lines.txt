@@ -1,0 +1,10 @@
+# SSC CGL Reasoning — Coding-decoding
+Welcome! This SSC CGL lesson is about coding and decoding. || Welcome! This S S C C G L lesson is about coding and decoding.
+Find the rule on the example, then apply it. || A word is changed by a hidden rule. Find the rule on the example word, then apply it to the new word. The common rules are letter shifts, opposite letters, reversal, number codes and code languages.
+Know the positions: E J O T Y = 5, 10, 15, 20, 25. || First, know the letter positions. A is one and Z is twenty six. Remember E J O T Y for five, ten, fifteen, twenty and twenty five. Opposite letters always add up to twenty seven.
+Letter shift: CAT → DBU, so DOG → EPH. || For a letter shift, write the gap under each letter. C A T becomes D B U, which is plus one each. So D O G becomes E P H. Sometimes the gap grows, like plus two, plus three, plus four.
+Opposite letters: CAT → XZG. || If the code looks random, check opposite letters. C becomes X, A becomes Z, and T becomes G. Each pair adds to twenty seven.
+Number codes: CAT = 24, so DOG = 26. || For number codes, add the positions. C A T is three plus one plus twenty, which is twenty four. So D O G is four plus fifteen plus seven, which is twenty six.
+Code language: common word, common code. || For a code language, compare two sentences at a time. A word that appears in both sentences has the code that appears in both. Sun is hot, and sun rises, share the word sun and the code n a.
+Try this: PEN = QFO, so INK = ? The answer is A, JOL. || Try this. If P E N is Q F O, what is I N K? The answer is A, J O L, because every letter moves forward by one.
+Recap. Now try the tools and the practice questions below. || To recap. Write positions. Check for a shift, a growing shift, opposite letters or reversal. For code languages, intersect two sentences. Now try the tools and the practice questions below this video.
