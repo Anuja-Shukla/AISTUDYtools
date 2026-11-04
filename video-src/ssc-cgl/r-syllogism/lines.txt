@@ -1,0 +1,10 @@
+# SSC CGL Reasoning — Syllogism
+Welcome! This SSC CGL lesson is about syllogism. || Welcome! This S S C C G L lesson is about syllogism.
+Treat statements as true; a conclusion must hold in every diagram. || Treat the statements as true, even if they sound silly. A conclusion follows only if it is true in every diagram that fits the statements.
+Four types: All, Some, No, Some not. || There are four statement types. All A are B puts A inside B. Some A are B makes them overlap. No A is B keeps them apart. Some A are not B leaves part of A outside B.
+Conversions: All → Some; Some → Some; No → No. || Learn the conversions. All A are B gives some B are A, but not all B are A. Some converts to some, and no converts to no.
+All + All → All; All + No → No. || Now combine two statements. All plus all gives all. All plus no gives no. Some plus all gives some. Some plus no gives some not.
+All roses are flowers; no flower is a tree → no rose is a tree. || For example, all roses are flowers, and no flower is a tree. The roses sit inside the flowers, which are apart from the trees. So no rose is a tree.
+Either-or: Some / No on the same terms. || If neither conclusion is definite, check for an either or pair. Some A are B and no A is B together cover every case. So do all A are B and some A are not B.
+Try this: some boys are tall; some tall are players. The answer is A, either I or II. || Try this. Some boys are tall, and some tall people are players. Conclusion one, some boys are players. Conclusion two, no boy is a player. The answer is A, either one or two follows.
+Recap. Now try the tools and the practice questions below. || To recap. Draw the smallest diagram. Try to break each conclusion. Use conversions. And look for an either or pair when neither follows. Now try the tools and the practice questions below this video.

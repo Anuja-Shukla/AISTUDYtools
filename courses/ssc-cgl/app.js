@@ -273,9 +273,56 @@
     if (!j || !/^[\d.+\-*/()]+$/.test(j)) return null;
     try { var v = Function("return (" + j + ")")(); return typeof v === "number" && isFinite(v) ? v : null; } catch (e) { return null; }
   }
+  /* Syllogism engine: terms are 0..2; a model is a set of non-empty Venn regions (bit masks 1..7). */
+  function sylHolds(st, M) {
+    var x = 1 << st[1], y = 1 << st[2], t = st[0];
+    if (t === "all") return M.every(function (r) { return !(r & x) || (r & y); });
+    if (t === "some") return M.some(function (r) { return (r & x) && (r & y); });
+    if (t === "no") return M.every(function (r) { return !((r & x) && (r & y)); });
+    return M.some(function (r) { return (r & x) && !(r & y); });
+  }
+  function sylModels(sts) {
+    var out = [];
+    for (var m = 1; m < 128; m++) {
+      var M = []; for (var r = 1; r < 8; r++) if (m & (1 << (r - 1))) M.push(r);
+      var ne = [1, 2, 4].every(function (b) { return M.some(function (r) { return r & b; }); });
+      if (ne && sts.every(function (s) { return sylHolds(s, M); })) out.push(M);
+    }
+    return out;
+  }
+  function sylFollows(sts, c) { var ms = sylModels(sts); return ms.length > 0 && ms.every(function (M) { return sylHolds(c, M); }); }
+  function sylVerdict(sts, c1, c2) {
+    var f1 = sylFollows(sts, c1), f2 = sylFollows(sts, c2);
+    if (f1 && f2) return "Both follow";
+    if (f1) return "Only I follows";
+    if (f2) return "Only II follows";
+    var comp = c1[1] === c2[1] && c1[2] === c2[2] && ((c1[0] === "some" && c2[0] === "no") || (c1[0] === "no" && c2[0] === "some") || (c1[0] === "all" && c2[0] === "somenot") || (c1[0] === "somenot" && c2[0] === "all"));
+    var comp2 = (c1[0] === "some" && c2[0] === "no" || c1[0] === "no" && c2[0] === "some") && c1[1] === c2[2] && c1[2] === c2[1];
+    return comp || comp2 ? "Either I or II follows" : "Neither follows";
+  }
+  function sylText(st, N) { var a = N[st[1]], b = N[st[2]]; return st[0] === "all" ? "All " + a + " are " + b : st[0] === "some" ? "Some " + a + " are " + b : st[0] === "no" ? "No " + a + " are " + b : "Some " + a + " are not " + b; }
+  function vennSvg(S, N) {
+    var ms = sylModels(S), C = [[105, 90], [165, 90], [135, 142]], R = 54, uid = "v" + Math.floor(Math.random() * 1e6);
+    var h = '<svg viewBox="0 0 270 220" width="270" class="kinsvg" role="img" aria-label="Venn diagram"><defs>';
+    C.forEach(function (c, i) { h += '<clipPath id="' + uid + "c" + i + '"><circle cx="' + c[0] + '" cy="' + c[1] + '" r="' + R + '"/></clipPath>'; });
+    for (var r = 1; r < 8; r++) { h += '<mask id="' + uid + "m" + r + '"><rect width="270" height="220" fill="#fff"/>'; for (var i = 0; i < 3; i++) if (!(r & (1 << i))) h += '<circle cx="' + C[i][0] + '" cy="' + C[i][1] + '" r="' + R + '" fill="#000"/>'; h += "</mask>"; }
+    h += "</defs>";
+    for (r = 1; r < 8; r++) {
+      var empty = ms.length && ms.every(function (M) { return M.indexOf(r) < 0; }), full = ms.length && ms.every(function (M) { return M.indexOf(r) >= 0; });
+      var inner = '<rect width="270" height="220" fill="' + (empty ? "#c9ccd6" : "transparent") + '" mask="url(#' + uid + "m" + r + ')"/>';
+      for (i = 2; i >= 0; i--) if (r & (1 << i)) inner = '<g clip-path="url(#' + uid + "c" + i + ')">' + inner + "</g>";
+      h += inner;
+      if (full) { var xs = 0, ys = 0, k = 0; for (i = 0; i < 3; i++) if (r & (1 << i)) { xs += C[i][0]; ys += C[i][1]; k++; } var cx = xs / k, cy = ys / k; if (k === 1) { cx += (C[r === 1 ? 0 : r === 2 ? 1 : 2][0] - 135) * 0.6; cy += (C[r === 1 ? 0 : r === 2 ? 1 : 2][1] - 107) * 0.6; } if (k === 2) { var o3 = C[[0, 1, 2].filter(function (j) { return !(r & (1 << j)); })[0]]; cx += (cx - o3[0]) * 0.5; cy += (cy - o3[1]) * 0.5; } h += '<circle cx="' + cx + '" cy="' + cy + '" r="6" fill="var(--accent)"/>'; }
+    }
+    var col = ["#3d7ae0", "#e0679b", "#2aa876"];
+    C.forEach(function (c, i) { h += '<circle cx="' + c[0] + '" cy="' + c[1] + '" r="' + R + '" fill="none" stroke="' + col[i] + '" stroke-width="2.5"/>'; });
+    h += '<text x="60" y="28" font-size="12" font-weight="800" fill="' + col[0] + '">' + esc(N[0]) + '</text><text x="210" y="28" text-anchor="end" font-size="12" font-weight="800" fill="' + col[1] + '">' + esc(N[1]) + '</text><text x="135" y="214" text-anchor="middle" font-size="12" font-weight="800" fill="' + col[2] + '">' + esc(N[2]) + "</text>";
+    return h + "</svg>";
+  }
   function viz(x) {
     if (!x) return "";
     if (x.type === "share") return shareBar(x.r, x.total);
+    if (x.type === "venn") return vennSvg(x.s, x.n);
     if (x.type === "row") return rowViz(x.n, x.p);
     if (x.type === "compass") return compassSvg();
     if (x.type === "kin") return kinSvg(x.c);
@@ -1987,6 +2034,53 @@
           $("#rfo", el).innerHTML = ok.length ? v[6] + " * " + v[7] + " = " + fmtN(ok[0][1](v[6], v[7])) + "<small>Rule: " + ok.map(function (r) { return r[0]; }).join(" or ") + " (fits both examples).</small>" : "No common rule fits<small>Try digits placed side by side (e.g. 5 * 3 = 82 from 8 and 2), or a rule using a − b.</small>";
         }
         $$("input", el).forEach(function (x) { x.oninput = up; }); up();
+      }
+    }
+    ,
+    sylsolve: {
+      title: "Two-statement solver", html: '<div class="grid3"><div class="field"><label for="ysn0">Term A</label><input type="text" id="ysn0" value="Roses"></div><div class="field"><label for="ysn1">Term B (middle)</label><input type="text" id="ysn1" value="Flowers"></div><div class="field"><label for="ysn2">Term C</label><input type="text" id="ysn2" value="Trees"></div></div><div class="field"><label for="yst1">Statement 1 (A and B)</label><select id="yst1"><option value="all">All A are B</option><option value="some">Some A are B</option><option value="no">No A is B</option><option value="somenot">Some A are not B</option></select></div><div class="field"><label for="yst2">Statement 2 (B and C)</label><select id="yst2"><option value="all">All B are C</option><option value="some">Some B are C</option><option value="no" selected>No B is C</option><option value="somenot">Some B are not C</option></select></div><div id="ysz"></div><div class="out" id="yso"></div>',
+      init: function (el) {
+        function up() {
+          var N = [0, 1, 2].map(function (i) { return $("#ysn" + i, el).value.trim() || "ABC"[i]; }), S = [[$("#yst1", el).value, 0, 1], [$("#yst2", el).value, 1, 2]], found = [];
+          [[0, 2], [2, 0]].forEach(function (p) { ["all", "no", "some", "somenot"].forEach(function (t) { var c = [t, p[0], p[1]]; if (sylFollows(S, c)) found.push(c); }); });
+          found = found.filter(function (c) { return !(c[0] === "some" && found.some(function (d) { return d[0] === "all" && d[1] === c[1] && d[2] === c[2]; })) && !(c[0] === "somenot" && found.some(function (d) { return d[0] === "no" && d[1] === c[1] && d[2] === c[2]; })); });
+          $("#ysz", el).innerHTML = vennSvg(S, N);
+          $("#yso", el).innerHTML = (found.length ? found.map(function (c) { return sylText(c, N); }).join(" · ") : "No definite conclusion between " + N[0] + " and " + N[2]) + "<small>Grey = must be empty; ● = must have members. Conclusions are tested against every diagram that fits both statements.</small>";
+        }
+        $$("input,select", el).forEach(function (x) { x.oninput = up; }); up();
+      }
+    },
+    sylcheck: {
+      title: "Conclusion checker", html: '<p class="note">Terms are A, B and C. Pick two statements and two conclusions.</p><div id="ycq"></div><div class="out" id="yco"></div>',
+      init: function (el) {
+        var T = [["all", "All X are Y"], ["some", "Some X are Y"], ["no", "No X is Y"], ["somenot", "Some X are not Y"]], P = [[0, 1], [1, 0], [1, 2], [2, 1], [0, 2], [2, 0]], L = "ABC";
+        var opts = []; P.forEach(function (p) { T.forEach(function (t) { opts.push([t[0], p[0], p[1]]); }); });
+        function sel(id, v) { return '<select id="' + id + '">' + opts.map(function (o, i) { return '<option value="' + i + '"' + (i === v ? " selected" : "") + ">" + sylText(o, L) + "</option>"; }).join("") + "</select>"; }
+        $("#ycq", el).innerHTML = '<div class="grid2"><div class="field"><label>Statement 1</label>' + sel("yc0", 1) + '</div><div class="field"><label>Statement 2</label>' + sel("yc1", 9) + '</div><div class="field"><label>Conclusion I</label>' + sel("yc2", 17) + '</div><div class="field"><label>Conclusion II</label>' + sel("yc3", 18) + "</div></div>";
+        function up() {
+          var v = [0, 1, 2, 3].map(function (i) { return opts[+$("#yc" + i, el).value]; }), ms = sylModels([v[0], v[1]]);
+          if (!ms.length) { $("#yco", el).innerHTML = "The two statements contradict each other<small>No diagram fits both.</small>"; return; }
+          var f = [v[2], v[3]].map(function (c) { return sylFollows([v[0], v[1]], c); });
+          $("#yco", el).innerHTML = sylVerdict([v[0], v[1]], v[2], v[3]) + "<small>I " + (f[0] ? "is true in every diagram" : "can be false") + "; II " + (f[1] ? "is true in every diagram" : "can be false") + ".</small>";
+        }
+        $$("select", el).forEach(function (x) { x.onchange = up; }); up();
+      }
+    },
+    sylgame: {
+      title: "Follows or not?", html: '<div id="ygq" style="font-weight:700;line-height:1.5">…</div><div class="opts" id="ygo"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="ygs">0</b> / <b id="ygn">0</b></span><button class="btn btn-accent btn-sm" id="ygg">Next</button></div><div class="why" id="ygw" hidden></div>',
+      init: function (el) {
+        var sets = [["cats", "pets", "toys"], ["pens", "books", "bags"], ["doctors", "singers", "dancers"], ["stones", "gems", "metals"], ["trees", "plants", "flowers"], ["boys", "players", "students"]], TT = ["all", "some", "no"], sc = 0, n = 0;
+        function rnd(k) { return Math.floor(Math.random() * k); }
+        function round() {
+          var N = sets[rnd(sets.length)], S = [[TT[rnd(3)], 0, 1], [TT[rnd(3)], 1, 2]], c, t = 0;
+          do { c = [["all", "some", "no", "somenot"][rnd(4)]].concat(rnd(2) ? [0, 2] : [2, 0]); t++; } while (t < 20 && Math.random() < 0.4 && !sylFollows(S, c));
+          var ok = sylFollows(S, c), done = false;
+          $("#ygq", el).innerHTML = "1. " + sylText(S[0], N) + ".<br>2. " + sylText(S[1], N) + ".<br><br>Conclusion: " + sylText(c, N) + ".";
+          $("#ygw", el).hidden = true;
+          $("#ygo", el).innerHTML = '<button class="opt" data-ok="' + (ok ? 1 : 0) + '">Follows</button><button class="opt" data-ok="' + (ok ? 0 : 1) + '">Does not follow</button>';
+          $$("#ygo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var r = b.getAttribute("data-ok") === "1"; if (r) sc++; b.classList.add(r ? "right" : "wrong"); $$("#ygo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#ygs", el).textContent = sc; $("#ygn", el).textContent = n; $("#ygw", el).hidden = false; $("#ygw", el).innerHTML = vennSvg(S, N); }; });
+        }
+        $("#ygg", el).onclick = round; round();
       }
     }
   };
