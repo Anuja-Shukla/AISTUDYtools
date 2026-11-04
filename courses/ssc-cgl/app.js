@@ -2707,6 +2707,46 @@
         $("#sfw", el).oninput = up; up();
       }
     }
+    ,
+    vocabcards: {
+      title: "Word drill", html: '<div class="row" style="gap:6px;justify-content:center"><button class="chip" data-m="s">Synonyms</button><button class="chip" data-m="a">Antonyms</button><button class="chip" data-m="x">Mixed</button></div><div class="big" id="vcq" style="text-align:center;font-size:20px;font-weight:800;margin:10px 0">…</div><div class="opts" id="vco"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="vcs">0</b> / <b id="vcn">0</b></span><button class="btn btn-accent btn-sm" id="vcg">Next</button></div><div class="why" id="vcw" hidden></div>',
+      init: function (el) {
+        var W = [["abundant", "plentiful", "scarce"], ["candid", "frank", "secretive"], ["diligent", "hardworking", "lazy"], ["obsolete", "outdated", "modern"], ["benevolent", "kind", "cruel"], ["eloquent", "fluent", "inarticulate"], ["meticulous", "careful", "careless"], ["ferocious", "fierce", "gentle"], ["vivid", "bright", "dull"], ["prudent", "wise", "rash"], ["hostile", "unfriendly", "friendly"], ["timid", "shy", "bold"], ["transparent", "clear", "opaque"], ["humble", "modest", "proud"], ["artificial", "man-made", "natural"], ["generous", "giving", "mean"], ["ancient", "old", "modern"], ["brief", "short", "lengthy"], ["vacant", "empty", "occupied"], ["rigid", "stiff", "flexible"], ["affluent", "rich", "poor"], ["fragile", "delicate", "sturdy"], ["lethargic", "sluggish", "energetic"], ["obstinate", "stubborn", "flexible"], ["tranquil", "calm", "noisy"], ["genuine", "real", "fake"], ["hasty", "hurried", "slow"], ["frugal", "thrifty", "wasteful"], ["vague", "unclear", "precise"], ["ample", "enough", "insufficient"]], mode = "x", sc = 0, n = 0;
+        function round() {
+          var i = Math.floor(Math.random() * W.length), w = W[i], m = mode === "x" ? (Math.random() < 0.5 ? "s" : "a") : mode, ans = m === "s" ? w[1] : w[2], trap = m === "s" ? w[2] : w[1], pool = [ans, trap], done = false;
+          while (pool.length < 4) { var r = W[Math.floor(Math.random() * W.length)][1 + Math.floor(Math.random() * 2)]; if (pool.indexOf(r) < 0) pool.push(r); }
+          var ord = shuffle(4);
+          $("#vcq", el).innerHTML = (m === "s" ? "Synonym of " : "Antonym of ") + "<u>" + w[0].toUpperCase() + "</u>"; $("#vcw", el).hidden = true;
+          $("#vco", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-ok="' + (k === 0 ? 1 : 0) + '">' + pool[k] + "</button>"; }).join("");
+          $$("#vco .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#vco .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#vcs", el).textContent = sc; $("#vcn", el).textContent = n; $("#vcw", el).hidden = false; $("#vcw", el).textContent = w[0] + ": same as “" + w[1] + "”, opposite of “" + w[2] + "”."; }; });
+        }
+        $$(".chip[data-m]", el).forEach(function (b) { b.onclick = function () { mode = b.getAttribute("data-m"); round(); }; });
+        $("#vcg", el).onclick = round; round();
+      }
+    },
+    prefixopp: {
+      title: "Opposite by prefix", html: '<div class="field"><label for="pxw">Word</label><input type="text" id="pxw" value="possible"></div><div class="out" id="pxo"></div>',
+      init: function (el) {
+        var KNOWN = { possible: "im", mature: "im", patient: "im", polite: "im", balance: "im", perfect: "im", legal: "il", logical: "il", literate: "il", regular: "ir", responsible: "ir", relevant: "ir", honest: "dis", agree: "dis", appear: "dis", like: "dis", obey: "dis", happy: "un", kind: "un", fair: "un", able: "un", usual: "un", correct: "in", complete: "in", visible: "in", direct: "in", formal: "in", sense: "non", violent: "non", understand: "mis", lead: "mis" };
+        function up() {
+          var w = $("#pxw", el).value.trim().toLowerCase(), o = $("#pxo", el), p = KNOWN[w], why;
+          if (!w) { o.textContent = "Type a word"; return; }
+          if (!p) { p = /^[bmp]/.test(w) ? "im" : /^l/.test(w) ? "il" : /^r/.test(w) ? "ir" : "un"; why = "Best guess from the first letter — check a dictionary."; }
+          else why = { im: "im- before b, m, p.", il: "il- before l.", ir: "ir- before r.", dis: "dis- with many verbs and some adjectives.", un: "un- is the most common.", "in": "in- with many Latin-based words.", non: "non- means simply ‘not’.", mis: "mis- means ‘wrongly’." }[p];
+          o.innerHTML = p + w + "<small>" + why + "</small>";
+        }
+        $("#pxw", el).oninput = up; up();
+      }
+    },
+    rootfind: {
+      title: "Word roots", html: '<div class="field"><label for="rtk">Root</label><select id="rtk"></select></div><div class="out" id="rto2"></div>',
+      init: function (el) {
+        var R = [["bene", "good", "benevolent, benefit, benefactor"], ["mal", "bad", "malice, malfunction, malnutrition"], ["chron", "time", "chronic, chronology, synchronise"], ["loqu / locu", "speak", "eloquent, loquacious, elocution"], ["vid / vis", "see", "vivid, visible, vision"], ["aud", "hear", "audible, audience, audit"], ["port", "carry", "transport, portable, export"], ["scrib / script", "write", "describe, manuscript, inscription"], ["bio", "life", "biology, biography, antibiotic"], ["phil", "love", "philosophy, philanthropy"], ["path", "feeling", "sympathy, apathy, empathy"], ["omni", "all", "omnipresent, omnivore, omnipotent"], ["anti", "against", "antidote, antisocial"], ["ante", "before", "antecedent, anteroom"], ["poly", "many", "polygon, polyglot"], ["mono", "one", "monotonous, monopoly"]];
+        $("#rtk", el).innerHTML = R.map(function (r, i) { return '<option value="' + i + '">' + r[0] + "</option>"; }).join("");
+        function up() { var r = R[+$("#rtk", el).value]; $("#rto2", el).innerHTML = r[0] + " = " + r[1] + "<small>Words: " + r[2] + ".</small>"; }
+        $("#rtk", el).onchange = up; up();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
