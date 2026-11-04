@@ -263,9 +263,15 @@
     if (b !== undefined) h += arr(b, "var(--accent)", 5);
     return h + '<circle cx="100" cy="100" r="5" fill="var(--ink)"/></svg>';
   }
+  function rowViz(n, a, b) {
+    var h = '<div class="rowv">';
+    for (var i = 1; i <= n; i++) h += '<span class="' + (i === a ? "a" : i === b ? "b" : b && i > Math.min(a, b) && i < Math.max(a, b) ? "m" : "") + '">' + (i === a ? "A" : i === b ? "B" : "") + "</span>";
+    return h + "</div>";
+  }
   function viz(x) {
     if (!x) return "";
     if (x.type === "share") return shareBar(x.r, x.total);
+    if (x.type === "row") return rowViz(x.n, x.p);
     if (x.type === "compass") return compassSvg();
     if (x.type === "kin") return kinSvg(x.c);
     if (x.type === "alpha") return alphaViz();
@@ -1863,6 +1869,75 @@
           $$("#dgo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#dgo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#dgs", el).textContent = sc; $("#dgn", el).textContent = n; $("#dgw", el).hidden = false; var hh = s; $("#dgw", el).textContent = N[s] + t.map(function (x) { hh = (hh + (x === "right" ? 1 : 3)) % 4; return " → " + N[hh]; }).join(""); }; });
         }
         $("#dgg", el).onclick = round; round();
+      }
+    }
+    ,
+    rankcalc: {
+      title: "Left + right − 1", html: '<p class="note">Fill any two boxes; leave the one you want empty.</p><div class="grid3"><div class="field"><label for="rkl">From left / top</label><input type="number" id="rkl" value="7" min="1"></div><div class="field"><label for="rkr">From right / bottom</label><input type="number" id="rkr" value="18" min="1"></div><div class="field"><label for="rkn">Total</label><input type="number" id="rkn" value="" min="1"></div></div><div id="rkz" class="tscroll"></div><div class="out" id="rko"></div>',
+      init: function (el) {
+        function v(id) { var x = $(id, el).value; return x === "" ? null : Math.round(+x); }
+        function up() {
+          var L = v("#rkl"), R = v("#rkr"), N = v("#rkn"), o = $("#rko", el), msg;
+          var known = [L, R, N].filter(function (x) { return x !== null; }).length;
+          if (known < 2) { o.textContent = "Fill two of the three boxes"; $("#rkz", el).innerHTML = ""; return; }
+          if (N === null) { N = L + R - 1; msg = "Total = " + L + " + " + R + " − 1 = " + N; }
+          else if (R === null) { R = N - L + 1; msg = "From right = " + N + " − " + L + " + 1 = " + R; }
+          else if (L === null) { L = N - R + 1; msg = "From left = " + N + " − " + R + " + 1 = " + L; }
+          else msg = L + R - 1 === N ? "Consistent: " + L + " + " + R + " − 1 = " + N : "Not consistent: " + L + " + " + R + " − 1 = " + (L + R - 1) + ", not " + N;
+          if (L < 1 || R < 1 || N < 1 || L > N) { o.innerHTML = "Not possible<small>Positions must be between 1 and the total.</small>"; $("#rkz", el).innerHTML = ""; return; }
+          $("#rkz", el).innerHTML = N <= 40 ? rowViz(N, L) : "";
+          o.innerHTML = msg + "<small>The person is counted from both ends, so 1 is subtracted.</small>";
+        }
+        $$("input", el).forEach(function (x) { x.oninput = up; }); up();
+      }
+    },
+    rankbetween: {
+      title: "People between two persons", html: '<div class="field"><label for="rbn">Total in row</label><input type="number" id="rbn" value="30" min="2" max="200"></div><div class="grid2"><div class="field"><label for="rba">A’s position</label><div class="row" style="flex-wrap:nowrap;gap:6px"><input type="number" id="rba" value="10" min="1"><select id="rbae"><option value="L">from left</option><option value="R">from right</option></select></div></div><div class="field"><label for="rbb">B’s position</label><div class="row" style="flex-wrap:nowrap;gap:6px"><input type="number" id="rbb" value="15" min="1"><select id="rbbe"><option value="L">from left</option><option value="R" selected>from right</option></select></div></div></div><div id="rbz" class="tscroll"></div><div class="out" id="rbo"></div>',
+      init: function (el) {
+        function up() {
+          var N = Math.round(+$("#rbn", el).value), a = Math.round(+$("#rba", el).value), b = Math.round(+$("#rbb", el).value), o = $("#rbo", el);
+          if (!(N > 1) || a < 1 || b < 1 || a > N || b > N) { o.textContent = "Positions must be between 1 and the total"; $("#rbz", el).innerHTML = ""; return; }
+          var A = $("#rbae", el).value === "L" ? a : N - a + 1, B = $("#rbbe", el).value === "L" ? b : N - b + 1, btw = Math.abs(A - B) - 1;
+          $("#rbz", el).innerHTML = N <= 40 ? rowViz(N, A, B) : "";
+          o.innerHTML = (A === B ? "A and B are the same position" : btw + " between them") + "<small>From the left: A is " + A + ", B is " + B + ". Between = |" + A + " − " + B + "| − 1.</small>";
+        }
+        $$("input,select", el).forEach(function (x) { x.oninput = up; }); up();
+      }
+    },
+    rankorder: {
+      title: "Comparison chain", html: '<p class="note">Write comparisons like <b>A&gt;B</b> or <b>C&lt;B</b>, separated by commas.</p><div class="field"><label for="rot">Comparisons</label><input type="text" id="rot" value="A>B, C<B, D>A, E<C"></div><div class="out" id="roo"></div>',
+      init: function (el) {
+        function up() {
+          var pairs = [], nodes = {}, o = $("#roo", el);
+          $("#rot", el).value.split(/[,;]+/).forEach(function (t) { var m = t.trim().toUpperCase().match(/^([A-Z])\s*([<>])\s*([A-Z])$/); if (m) { var g = m[2] === ">" ? [m[1], m[3]] : [m[3], m[1]]; pairs.push(g); nodes[g[0]] = 1; nodes[g[1]] = 1; } });
+          var V = Object.keys(nodes);
+          if (!pairs.length) { o.textContent = "Type comparisons like A>B"; return; }
+          var indeg = {}; V.forEach(function (x) { indeg[x] = 0; }); pairs.forEach(function (p) { indeg[p[1]]++; });
+          var order = [], amb = false, q = V.filter(function (x) { return !indeg[x]; });
+          while (q.length) { if (q.length > 1) amb = true; var x = q.shift(); order.push(x); pairs.forEach(function (p) { if (p[0] === x && --indeg[p[1]] === 0) q.push(p[1]); }); }
+          if (order.length < V.length) { o.innerHTML = "These comparisons contradict each other<small>Check for a loop such as A>B, B>C, C>A.</small>"; return; }
+          o.innerHTML = order.join(" > ") + "<small>" + (amb ? "Some places are not fixed by the given facts; this is one possible order. " : "The order is fully fixed. ") + "Highest: " + order[0] + " · lowest: " + order[order.length - 1] + (order.length % 2 && !amb ? " · middle: " + order[(order.length - 1) / 2] : "") + ".</small>";
+        }
+        $("#rot", el).oninput = up; up();
+      }
+    },
+    rankgame: {
+      title: "Ranking sprint", html: '<div class="big" id="kgq" style="text-align:center;font-size:18px;font-weight:800">…</div><div class="opts" id="kgo"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="kgs">0</b> / <b id="kgn">0</b></span><button class="btn btn-accent btn-sm" id="kgg">Next</button></div><div class="why" id="kgw" hidden></div>',
+      init: function (el) {
+        var sc = 0, n = 0;
+        function rnd(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
+        function th(k) { var m = k % 100; return k + (m > 10 && m < 14 ? "th" : ["th", "st", "nd", "rd"][k % 10] || "th"); }
+        function round() {
+          var t = rnd(0, 2), q, ans, why;
+          if (t === 0) { var L = rnd(3, 25), R = rnd(3, 25); q = "Rank " + th(L) + " from the top and " + th(R) + " from the bottom. Total?"; ans = L + R - 1; why = L + " + " + R + " − 1"; }
+          else if (t === 1) { var N = rnd(20, 60), p = rnd(2, N - 1); q = "Row of " + N + ", " + th(p) + " from the left. Position from the right?"; ans = N - p + 1; why = N + " − " + p + " + 1"; }
+          else { var k = rnd(4, 20); q = th(k) + " from both ends. How many in the row?"; ans = 2 * k - 1; why = "2 × " + k + " − 1"; }
+          var ops = [ans, ans + 1, ans - 1, ans + 2], ord = shuffle(4), done = false;
+          $("#kgq", el).textContent = q; $("#kgw", el).hidden = true;
+          $("#kgo", el).innerHTML = ord.map(function (i) { return '<button class="opt" data-ok="' + (i === 0 ? 1 : 0) + '">' + ops[i] + "</button>"; }).join("");
+          $$("#kgo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#kgo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#kgs", el).textContent = sc; $("#kgn", el).textContent = n; $("#kgw", el).hidden = false; $("#kgw", el).textContent = why + " = " + ans + "."; }; });
+        }
+        $("#kgg", el).onclick = round; round();
       }
     }
   };
