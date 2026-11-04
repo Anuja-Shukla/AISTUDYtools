@@ -268,6 +268,11 @@
     for (var i = 1; i <= n; i++) h += '<span class="' + (i === a ? "a" : i === b ? "b" : b && i > Math.min(a, b) && i < Math.max(a, b) ? "m" : "") + '">' + (i === a ? "A" : i === b ? "B" : "") + "</span>";
     return h + "</div>";
   }
+  function opEval(s) {
+    var j = String(s).replace(/×/g, "*").replace(/÷/g, "/").replace(/−/g, "-").replace(/[\[{]/g, "(").replace(/[\]}]/g, ")").replace(/\s+/g, "");
+    if (!j || !/^[\d.+\-*/()]+$/.test(j)) return null;
+    try { var v = Function("return (" + j + ")")(); return typeof v === "number" && isFinite(v) ? v : null; } catch (e) { return null; }
+  }
   function viz(x) {
     if (!x) return "";
     if (x.type === "share") return shareBar(x.r, x.total);
@@ -1938,6 +1943,50 @@
           $$("#kgo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#kgo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#kgs", el).textContent = sc; $("#kgn", el).textContent = n; $("#kgw", el).hidden = false; $("#kgw", el).textContent = why + " = " + ans + "."; }; });
         }
         $("#kgg", el).onclick = round; round();
+      }
+    }
+    ,
+    opmean: {
+      title: "Changed-meaning rewriter", html: '<div class="grid2" id="omm"></div><div class="field"><label for="ome">Expression as given</label><input type="text" id="ome" value="8 + 4 × 6 − 2 ÷ 5"></div><div class="out" id="omo"></div>',
+      init: function (el) {
+        var S = ["+", "−", "×", "÷"], def = { "+": "×", "−": "÷", "×": "−", "÷": "+" };
+        $("#omm", el).innerHTML = S.map(function (s, i) { return '<div class="field"><label for="om' + i + '">“' + s + '” means</label><select id="om' + i + '">' + S.map(function (t) { return "<option" + (def[s] === t ? " selected" : "") + ">" + t + "</option>"; }).join("") + "</select></div>"; }).join("");
+        function up() {
+          var map = {}; S.forEach(function (s, i) { map[s] = $("#om" + i, el).value; });
+          var e = $("#ome", el).value.replace(/\*/g, "×").replace(/\//g, "÷").replace(/-/g, "−"), o = $("#omo", el);
+          var r = e.replace(/[+−×÷]/g, function (c) { return map[c]; }), v = opEval(r);
+          o.innerHTML = v === null ? "Check the expression<small>Use numbers, + − × ÷ and brackets.</small>" : r + " = " + fmtN(v) + "<small>Rewritten with the real signs, then solved with BODMAS.</small>";
+        }
+        $$("select,input", el).forEach(function (x) { x.oninput = up; }); up();
+      }
+    },
+    swapfind: {
+      title: "Which signs to interchange?", html: '<div class="grid2"><div class="field"><label for="sfe">Left side</label><input type="text" id="sfe" value="12 ÷ 4 + 3 × 2"></div><div class="field"><label for="sfr">Should equal</label><input type="number" id="sfr" value="11"></div></div><div class="tscroll"><table class="pt" id="sft"></table></div><div class="out" id="sfo"></div>',
+      init: function (el) {
+        var S = ["+", "−", "×", "÷"];
+        function up() {
+          var e = $("#sfe", el).value.replace(/\*/g, "×").replace(/\//g, "÷").replace(/-/g, "−"), R = +$("#sfr", el).value, rows = [], hits = [], now = opEval(e);
+          for (var i = 0; i < 4; i++) for (var j = i + 1; j < 4; j++) {
+            var a = S[i], b = S[j]; if (e.indexOf(a) < 0 && e.indexOf(b) < 0) continue;
+            var t = e.replace(/[+−×÷]/g, function (c) { return c === a ? b : c === b ? a : c; }), v = opEval(t), ok = v !== null && Math.abs(v - R) < 1e-9;
+            if (ok) hits.push(a + " and " + b);
+            rows.push("<tr><td>" + a + " ↔ " + b + "</td><td>" + t + "</td><td>" + (v === null ? "—" : fmtN(Math.round(v * 1000) / 1000)) + (ok ? " ✓" : "") + "</td></tr>");
+          }
+          $("#sft", el).innerHTML = "<tr><th>Swap</th><th>New expression</th><th>Value</th></tr>" + rows.join("");
+          $("#sfo", el).innerHTML = now === null ? "Check the expression" : (hits.length ? "Interchange " + hits.join(" or ") : "No single swap works") + "<small>As written it equals " + fmtN(Math.round(now * 1000) / 1000) + ".</small>";
+        }
+        $$("input", el).forEach(function (x) { x.oninput = up; }); up();
+      }
+    },
+    rulefind: {
+      title: "Hidden rule finder", html: '<p class="note">Enter two solved examples of a * b.</p><div class="grid3"><div class="field"><label for="rf1">a</label><input type="number" id="rf1" value="2"></div><div class="field"><label for="rf2">b</label><input type="number" id="rf2" value="3"></div><div class="field"><label for="rf3">result</label><input type="number" id="rf3" value="13"></div><div class="field"><label for="rf4">a</label><input type="number" id="rf4" value="4"></div><div class="field"><label for="rf5">b</label><input type="number" id="rf5" value="5"></div><div class="field"><label for="rf6">result</label><input type="number" id="rf6" value="41"></div><div class="field"><label for="rf7">New a</label><input type="number" id="rf7" value="3"></div><div class="field"><label for="rf8">New b</label><input type="number" id="rf8" value="4"></div></div><div class="out" id="rfo"></div>',
+      init: function (el) {
+        var R = [["a² + b²", function (a, b) { return a * a + b * b; }], ["a² − b²", function (a, b) { return a * a - b * b; }], ["(a + b)²", function (a, b) { return (a + b) * (a + b); }], ["(a − b)²", function (a, b) { return (a - b) * (a - b); }], ["a × b + a", function (a, b) { return a * b + a; }], ["a × b + b", function (a, b) { return a * b + b; }], ["a × b − a", function (a, b) { return a * b - a; }], ["a × b + a + b", function (a, b) { return a * b + a + b; }], ["2a + b", function (a, b) { return 2 * a + b; }], ["a + 2b", function (a, b) { return a + 2 * b; }], ["a² ÷ b", function (a, b) { return a * a / b; }], ["a² + b", function (a, b) { return a * a + b; }], ["a + b²", function (a, b) { return a + b * b; }], ["a³ + b³", function (a, b) { return a * a * a + b * b * b; }], ["(a + b) × (a − b) + ab", function (a, b) { return a * a - b * b + a * b; }], ["a × b × 2", function (a, b) { return 2 * a * b; }]];
+        function up() {
+          var v = [1, 2, 3, 4, 5, 6, 7, 8].map(function (i) { return +$("#rf" + i, el).value; }), ok = R.filter(function (r) { return Math.abs(r[1](v[0], v[1]) - v[2]) < 1e-9 && Math.abs(r[1](v[3], v[4]) - v[5]) < 1e-9; });
+          $("#rfo", el).innerHTML = ok.length ? v[6] + " * " + v[7] + " = " + fmtN(ok[0][1](v[6], v[7])) + "<small>Rule: " + ok.map(function (r) { return r[0]; }).join(" or ") + " (fits both examples).</small>" : "No common rule fits<small>Try digits placed side by side (e.g. 5 * 3 = 82 from 8 and 2), or a rule using a − b.</small>";
+        }
+        $$("input", el).forEach(function (x) { x.oninput = up; }); up();
       }
     }
   };
