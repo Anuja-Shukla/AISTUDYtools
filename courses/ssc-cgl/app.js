@@ -2596,6 +2596,76 @@
         $("#sjg", el).onclick = round; round();
       }
     }
+    ,
+    errgame: {
+      title: "Tap the error", html: '<p class="note">Tap the part with the mistake, or “No error”.</p><div class="errparts" id="eep"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="ees">0</b> / <b id="een">0</b></span><button class="btn btn-accent btn-sm" id="eeg">Next sentence</button></div><div class="why" id="eew" hidden></div>',
+      init: function (el) {
+        var Q = [
+          [["Everyone in the class", "have done", "the homework."], 1, "Everyone takes a singular verb: has done."],
+          [["Mathematics", "are my", "favourite subject."], 1, "Subjects ending in -ics take a singular verb: is."],
+          [["He is senior", "than me", "in the office."], 1, "Senior takes “to”: senior to me."],
+          [["I have seen", "this film", "yesterday."], 0, "Past time word: I saw."],
+          [["She has been working here", "since 2019", "and loves it."], -1, "Correct: since + point of time."],
+          [["They reached", "at the station", "on time."], 1, "No “at” after reach."],
+          [["An university", "has opened", "in our city."], 0, "‘Yoo’ sound: A university."],
+          [["Neither of the two answers", "are", "correct."], 1, "Neither of + singular verb: is."],
+          [["The police", "has arrested", "the thief."], 1, "Police is plural: have arrested."],
+          [["No sooner had he left", "when", "it started to rain."], 1, "No sooner … than."],
+          [["He gave me", "many informations", "about the course."], 1, "Information is uncountable: much information."],
+          [["She is", "better than", "her brother at chess."], -1, "Correct."],
+          [["The number of students", "are increasing", "every year."], 1, "“The number of” is singular: is increasing."],
+          [["Ten kilometres", "is", "a long walk."], -1, "Correct: a distance as one amount takes a singular verb."],
+          [["He enjoys", "to swim", "in the sea."], 1, "Enjoy + -ing: enjoys swimming."]
+        ], sc = 0, n = 0;
+        function round() {
+          var q = Q[Math.floor(Math.random() * Q.length)], parts = q[0].concat(["No error"]), right = q[1] < 0 ? 3 : q[1], done = false;
+          $("#eep", el).innerHTML = parts.map(function (p, i) { return '<button class="opt" data-i="' + i + '">' + "abcd"[i] + ") " + esc(p) + "</button>"; }).join(""); $("#eew", el).hidden = true;
+          $$("#eep .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var i = +b.getAttribute("data-i"), ok = i === right; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#eep .opt", el)[right].classList.add("right"); $("#ees", el).textContent = sc; $("#een", el).textContent = n; $("#eew", el).hidden = false; $("#eew", el).textContent = q[2]; }; });
+        }
+        $("#eeg", el).onclick = round; round();
+      }
+    },
+    agreeguide: {
+      title: "Which verb? Agreement guide", html: '<div class="field"><label for="agk">The subject starts with…</label><select id="agk"></select></div><div class="out" id="ago"></div>',
+      init: function (el) {
+        var R = [
+          ["Each / Every / Everyone / Somebody", "Singular verb", "Each of the players <b>is</b> ready."],
+          ["One of + plural noun", "Singular verb, plural noun", "One of my friends <b>lives</b> in Pune."],
+          ["Neither … nor / Either … or", "Agrees with the nearer subject", "Neither the manager nor the clerks <b>were</b> late."],
+          ["A as well as B / A along with B / A with B", "Agrees with A (the first subject)", "The captain, along with his players, <b>was</b> praised."],
+          ["The number of …", "Singular verb", "The number of cars <b>is</b> rising."],
+          ["A number of …", "Plural verb", "A number of cars <b>are</b> parked outside."],
+          ["News, information, furniture, advice, luggage", "Singular verb; no plural form", "The information <b>is</b> useful."],
+          ["Police, people, cattle, children", "Plural verb", "The police <b>have</b> arrived."],
+          ["Mathematics, physics, economics (subjects)", "Singular verb", "Physics <b>is</b> interesting."],
+          ["Amounts as one quantity (₹500, ten km, five years)", "Singular verb", "Five years <b>is</b> a long time."],
+          ["Two subjects joined by “and”", "Plural verb", "Ravi and Sita <b>are</b> friends."],
+          ["Bread and butter (one idea)", "Singular verb", "Bread and butter <b>is</b> my breakfast."]
+        ];
+        $("#agk", el).innerHTML = R.map(function (r, i) { return '<option value="' + i + '">' + r[0] + "</option>"; }).join("");
+        function up() { var r = R[+$("#agk", el).value]; $("#ago", el).innerHTML = r[1] + "<small>Example: " + r[2] + "</small>"; }
+        $("#agk", el).onchange = up; up();
+      }
+    },
+    compgen: {
+      title: "Comparative and superlative maker", html: '<div class="field"><label for="cgw">Adjective</label><input type="text" id="cgw" value="clever"></div><div class="out" id="cgo4"></div>',
+      init: function (el) {
+        var IRR = { good: ["better", "best"], well: ["better", "best"], bad: ["worse", "worst"], badly: ["worse", "worst"], little: ["less", "least"], much: ["more", "most"], many: ["more", "most"], far: ["farther / further", "farthest / furthest"], old: ["older / elder", "oldest / eldest"] };
+        function syl(w) { var m = w.replace(/e$/, "").match(/[aeiouy]+/g); return m ? m.length : 1; }
+        function up() {
+          var w = $("#cgw", el).value.trim().toLowerCase().replace(/[^a-z]/g, ""), o = $("#cgo4", el), c, s, why;
+          if (!w) { o.textContent = "Type an adjective"; return; }
+          if (IRR[w]) { c = IRR[w][0]; s = IRR[w][1]; why = "Irregular — learn it by heart."; }
+          else if (syl(w) >= 3 || (syl(w) === 2 && !/(y|er|le|ow)$/.test(w))) { c = "more " + w; s = "most " + w; why = "Long adjective: use more / most."; }
+          else if (/[^aeiou]y$/.test(w)) { c = w.slice(0, -1) + "ier"; s = w.slice(0, -1) + "iest"; why = "Ends in consonant + y: change y to i."; }
+          else if (/e$/.test(w)) { c = w + "r"; s = w + "st"; why = "Ends in e: add r / st."; }
+          else if (syl(w) === 1 && /[^aeiou][aeiou][^aeiouwxy]$/.test(w)) { var l = w.slice(-1); c = w + l + "er"; s = w + l + "est"; why = "Short vowel + one consonant: double it."; }
+          else { c = w + "er"; s = w + "est"; why = "Short adjective: add -er / -est."; }
+          o.innerHTML = w + " → " + c + " → " + s + "<small>" + why + " Never combine both: not “more " + (c.indexOf("more ") === 0 ? w + "er" : c) + "”.</small>";
+        }
+        $("#cgw", el).oninput = up; up();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
