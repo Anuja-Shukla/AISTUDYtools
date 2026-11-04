@@ -158,9 +158,34 @@
     }
     return '<svg class="lg2" viewBox="0 0 ' + W + " " + W + '" role="img" aria-label="Two lines crossing"><rect width="' + W + '" height="' + W + '" fill="#FAFAFF"/><line x1="0" y1="' + W / 2 + '" x2="' + W + '" y2="' + W / 2 + '" stroke="#D6D7EE"/><line x1="' + W / 2 + '" y1="0" x2="' + W / 2 + '" y2="' + W + '" stroke="#D6D7EE"/>' + seg(v[0], v[1], v[2], "#4F46E5") + seg(v[3], v[4], v[5], "#F59E0B") + '<circle cx="' + sc(x) + '" cy="' + (W - sc(y)) + '" r="6" fill="#1E1B4B"/></svg>';
   }
+  function triSvg(A, B, C) {
+    var r = Math.PI / 180, bx = 0, by = 0, cx = 1, cy = 0, b = Math.sin(B * r) / Math.sin(A * r), ax = b * Math.cos(C * r), ay = b * Math.sin(C * r);
+    ax = 1 - ax;
+    var xs = [ax, bx, cx], ys = [ay, by, cy], mnx = Math.min.apply(null, xs), mxx = Math.max.apply(null, xs), mxy = Math.max.apply(null, ys), s = 180 / Math.max(mxx - mnx, mxy, .2);
+    var P = function (x, y) { return (20 + (x - mnx) * s).toFixed(1) + "," + (200 - 14 - y * s).toFixed(1); };
+    var lab = function (x, y, t, dy) { var p = P(x, y).split(","); return '<text x="' + p[0] + '" y="' + (+p[1] + dy) + '" text-anchor="middle" font-size="13" font-weight="700" fill="#1E1B4B">' + t + "</text>"; };
+    return '<svg class="geo" viewBox="0 0 ' + (40 + (mxx - mnx) * s) + ' 220" role="img" aria-label="Triangle"><polygon points="' + P(ax, ay) + " " + P(bx, by) + " " + P(cx, cy) + '" fill="#EEF0FF" stroke="#4F46E5" stroke-width="2.5"/>' + lab(ax, ay, "A " + fmtN(A) + "°", -6) + lab(bx, by, "B " + fmtN(B) + "°", 16) + lab(cx, cy, "C " + fmtN(C) + "°", 16) + "</svg>";
+  }
+  function rtSvg(a, b, h) {
+    var s = 150 / Math.max(a, b), W = a * s, H = b * s;
+    return '<svg class="geo" viewBox="-30 -10 ' + (W + 90) + " " + (H + 40) + '" role="img" aria-label="Right triangle"><polygon points="0,0 0,' + H + " " + W + "," + H + '" fill="#EEF0FF" stroke="#4F46E5" stroke-width="2.5"/><rect x="0" y="' + (H - 12) + '" width="12" height="12" fill="none" stroke="#4F46E5"/><text x="-6" y="' + H / 2 + '" text-anchor="end" font-size="13" font-weight="700" fill="#1E1B4B">' + fmtN(b) + '</text><text x="' + W / 2 + '" y="' + (H + 18) + '" text-anchor="middle" font-size="13" font-weight="700" fill="#1E1B4B">' + fmtN(a) + '</text><text x="' + (W / 2 + 10) + '" y="' + (H / 2 - 6) + '" font-size="13" font-weight="800" fill="#3730A3">' + fmtN(h) + "</text></svg>";
+  }
+  function circSvg(k, a, b) {
+    if (k === "t") { var R = 50, d = R * a / b, t = Math.sqrt(d * d - R * R), ang = Math.asin(R / d), tx = d - (t * Math.cos(ang)) * Math.cos(ang), ty = t * Math.cos(ang) * Math.sin(ang);
+      tx = R * R / d; ty = R * Math.sqrt(1 - R * R / (d * d));
+      return '<svg class="geo" viewBox="' + (-R - 10) + " " + (-R - 10) + " " + (d + R + 30) + " " + (2 * R + 20) + '" role="img" aria-label="Tangent from a point"><circle r="' + R + '" fill="#EEF0FF" stroke="#4F46E5" stroke-width="2"/><line x1="0" y1="0" x2="' + d + '" y2="0" stroke="#94A3B8" stroke-dasharray="4 3"/><line x1="0" y1="0" x2="' + tx + '" y2="' + (-ty) + '" stroke="#4F46E5" stroke-width="2"/><line x1="' + tx + '" y1="' + (-ty) + '" x2="' + d + '" y2="0" stroke="#F59E0B" stroke-width="3"/><circle cx="' + d + '" cy="0" r="3.5" fill="#1E1B4B"/><circle r="3" fill="#1E1B4B"/></svg>'; }
+    var Rr = 60, dd = Rr * b / a, hc = Math.sqrt(Rr * Rr - dd * dd);
+    return '<svg class="geo" viewBox="-70 -70 140 140" role="img" aria-label="Chord"><circle r="' + Rr + '" fill="#EEF0FF" stroke="#4F46E5" stroke-width="2"/><line x1="' + (-hc) + '" y1="' + dd + '" x2="' + hc + '" y2="' + dd + '" stroke="#F59E0B" stroke-width="3"/><line x1="0" y1="0" x2="0" y2="' + dd + '" stroke="#94A3B8" stroke-dasharray="4 3"/><line x1="0" y1="0" x2="' + hc + '" y2="' + dd + '" stroke="#4F46E5" stroke-width="2"/><circle r="3" fill="#1E1B4B"/></svg>';
+  }
+  function polySvg(n) {
+    if (n > 24) return "";
+    var pts = []; for (var i = 0; i < n; i++) { var t = -Math.PI / 2 + i * 2 * Math.PI / n; pts.push((60 + 50 * Math.cos(t)).toFixed(1) + "," + (60 + 50 * Math.sin(t)).toFixed(1)); }
+    return '<svg class="geo sm" viewBox="0 0 120 120" role="img" aria-label="Regular polygon"><polygon points="' + pts.join(" ") + '" fill="#EEF0FF" stroke="#4F46E5" stroke-width="2.5"/></svg>';
+  }
   function viz(x) {
     if (!x) return "";
     if (x.type === "share") return shareBar(x.r, x.total);
+    if (x.type === "rt") return rtSvg(x.a, x.b, Math.hypot(x.a, x.b));
     if (x.type === "sq") return sqViz(x.a, x.b);
     if (x.type === "units") return unitsViz(x.d);
     if (x.type === "allig") return allig(x.c, x.d, x.m);
@@ -1020,6 +1045,77 @@
           o2.innerHTML = "Remainder = p(" + fmtN(x) + ") = " + fmtN(val) + (Math.abs(val) < 1e-9 ? " → (x − " + fmtN(x) + ") is a factor" : "") + "<small>" + terms.join(" + ").replace(/\+ −/g, "− ") + "</small>";
         }
         $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
+    }
+    ,
+    triang: {
+      title: "Triangle angles and centres", html: '<div class="field"><label for="tgk">I know…</label><select id="tgk"><option value="r">the ratio of the angles</option><option value="two">two angles</option></select></div><div class="grid g3"><div class="field"><label for="tg1" id="tg1l">Ratio A</label><input type="number" id="tg1" value="2"></div><div class="field"><label for="tg2" id="tg2l">Ratio B</label><input type="number" id="tg2" value="3"></div><div class="field" id="tg3w"><label for="tg3">Ratio C</label><input type="number" id="tg3" value="4"></div></div><div id="tgv"></div><div class="out" id="tgo2"></div><div class="tscroll"><table class="pt" id="tgc"></table></div>',
+      init: function (el) {
+        var last = "r";
+        function up() {
+          var k = $("#tgk", el).value;
+          if (k !== last) { last = k; $("#tg1", el).value = k === "r" ? 2 : 70; $("#tg2", el).value = k === "r" ? 3 : 50; }
+          $("#tg3w", el).hidden = k !== "r"; $("#tg1l", el).textContent = k === "r" ? "Ratio A" : "Angle A (°)"; $("#tg2l", el).textContent = k === "r" ? "Ratio B" : "Angle B (°)";
+          var a = parseFloat($("#tg1", el).value), b = parseFloat($("#tg2", el).value), c = parseFloat($("#tg3", el).value), A, B, C, o = $("#tgo2", el);
+          if (k === "r") { if (!(a > 0 && b > 0 && c > 0)) { o.textContent = "Enter three positive ratio terms"; return; } var u = 180 / (a + b + c); A = a * u; B = b * u; C = c * u; }
+          else { if (!(a > 0 && b > 0 && a + b < 180)) { o.textContent = "Two angles must add to less than 180°"; return; } A = a; B = b; C = 180 - a - b; }
+          $("#tgv", el).innerHTML = triSvg(A, B, C);
+          var mx = Math.max(A, B, C), type = Math.abs(mx - 90) < 1e-9 ? "right-angled" : mx > 90 ? "obtuse" : "acute";
+          o.innerHTML = "A = " + fmtN(A) + "°, B = " + fmtN(B) + "°, C = " + fmtN(C) + "°<small>" + (type === "acute" ? "An " : "A ") + type + " triangle. Exterior angle at C = A + B = " + fmtN(A + B) + "°.</small>";
+          $("#tgc", el).innerHTML = "<tr><th>Centre</th><th>Angle at the centre facing BC</th><th>Value</th></tr><tr><td>Incentre I</td><td>90° + A/2</td><td><b>" + fmtN(90 + A / 2) + "°</b></td></tr><tr><td>Orthocentre H</td><td>180° − A</td><td><b>" + fmtN(180 - A) + "°</b></td></tr><tr><td>Circumcentre O</td><td>2A" + (A > 90 ? " (A obtuse: 360° − 2A)" : "") + "</td><td><b>" + fmtN(A > 90 ? 360 - 2 * A : 2 * A) + "°</b></td></tr><tr><td>Centroid G</td><td>divides medians</td><td><b>2 : 1</b></td></tr>";
+        }
+        $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
+      }
+    },
+    pyth: {
+      title: "Pythagoras and triplets", html: '<div class="field"><label for="pk2">I know…</label><select id="pk2"><option value="ll">both legs</option><option value="lh">one leg and the hypotenuse</option></select></div><div class="grid g2"><div class="field"><label for="p1" id="p1l">Leg 1</label><input type="number" id="p1" value="9"></div><div class="field"><label for="p2" id="p2l">Leg 2</label><input type="number" id="p2" value="12"></div></div><div id="ptv"></div><div class="out" id="pto2"></div>',
+      init: function (el) {
+        var TR = [[3, 4, 5], [5, 12, 13], [8, 15, 17], [7, 24, 25], [20, 21, 29], [9, 40, 41]];
+        function up() {
+          var k = $("#pk2", el).value, x = parseFloat($("#p1", el).value), y = parseFloat($("#p2", el).value), o = $("#pto2", el), a, b, h;
+          $("#p1l", el).textContent = "Leg" + (k === "ll" ? " 1" : ""); $("#p2l", el).textContent = k === "ll" ? "Leg 2" : "Hypotenuse";
+          if (!(x > 0 && y > 0)) { o.textContent = "Enter two positive lengths"; return; }
+          if (k === "ll") { a = x; b = y; h = Math.hypot(x, y); } else { if (!(y > x)) { o.textContent = "The hypotenuse must be the longest side"; return; } a = x; h = y; b = Math.sqrt(y * y - x * x); }
+          $("#ptv", el).innerHTML = rtSvg(a, b, h);
+          var s = [a, b, h].sort(function (p, q) { return p - q; }), trip = TR.filter(function (t) { var m = s[2] / t[2]; return Math.abs(s[0] - t[0] * m) < 1e-9 && Math.abs(s[1] - t[1] * m) < 1e-9; })[0];
+          o.innerHTML = (k === "ll" ? "Hypotenuse = " + fmtN(h) : "Other leg = " + fmtN(b)) + "<small>" + (k === "ll" ? "√(" + fmtN(a) + "² + " + fmtN(b) + "²) = √" + fmtN(a * a + b * b) : "√(" + fmtN(h) + "² − " + fmtN(a) + "²) = √" + fmtN(h * h - a * a)) + ". Area = " + fmtN(a * b / 2) + "." + (trip ? " This is " + fmtN(s[2] / trip[2]) + " × the " + trip.join("-") + " triplet." : "") + "</small>";
+        }
+        $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
+      }
+    },
+    circ: {
+      title: "Tangents and chords", html: '<div class="field"><label for="ck">Find…</label><select id="ck"><option value="t">tangent length from a point</option><option value="c">chord length from its distance to the centre</option><option value="x">PD for intersecting chords</option></select></div><div class="grid g3"><div class="field"><label for="c1" id="c1l">Distance from centre d</label><input type="number" id="c1" value="13"></div><div class="field"><label for="c2" id="c2l">Radius r</label><input type="number" id="c2" value="5"></div><div class="field" id="c3w"><label for="c3">PC</label><input type="number" id="c3" value="3"></div></div><div id="cvz"></div><div class="out" id="co3"></div>',
+      init: function (el) {
+        var L = { t: ["Distance from centre d", "Radius r", 13, 5], c: ["Radius r", "Distance of chord from centre", 10, 6], x: ["PA", "PB", 4, 6] }, last = "t";
+        function up() {
+          var k = $("#ck", el).value;
+          if (k !== last) { last = k; $("#c1", el).value = L[k][2]; $("#c2", el).value = L[k][3]; }
+          $("#c1l", el).textContent = L[k][0]; $("#c2l", el).textContent = L[k][1]; $("#c3w", el).hidden = k !== "x";
+          var a = parseFloat($("#c1", el).value), b = parseFloat($("#c2", el).value), c = parseFloat($("#c3", el).value), o = $("#co3", el);
+          if (!(a > 0 && b > 0) || (k === "x" && !(c > 0))) { $("#cvz", el).innerHTML = ""; o.textContent = "Enter positive lengths"; return; }
+          if (k === "t") { if (!(a > b)) { o.textContent = "The point must be outside the circle (d > r)"; return; } $("#cvz", el).innerHTML = circSvg("t", a, b); o.innerHTML = "Tangent = " + fmtN(Math.sqrt(a * a - b * b)) + "<small>√(" + fmtN(a) + "² − " + fmtN(b) + "²). The radius meets the tangent at 90°, so it is a right triangle.</small>"; }
+          else if (k === "c") { if (!(b < a)) { o.textContent = "The distance must be less than the radius"; return; } var hc = Math.sqrt(a * a - b * b); $("#cvz", el).innerHTML = circSvg("c", a, b); o.innerHTML = "Chord = " + fmtN(2 * hc) + "<small>Half-chord = √(" + fmtN(a) + "² − " + fmtN(b) + "²) = " + fmtN(hc) + ". The perpendicular from the centre bisects the chord.</small>"; }
+          else { $("#cvz", el).innerHTML = ""; o.innerHTML = "PD = " + fmtN(a * b / c) + "<small>PA × PB = PC × PD → " + fmtN(a) + " × " + fmtN(b) + " = " + fmtN(c) + " × PD.</small>"; }
+        }
+        $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
+      }
+    },
+    poly: {
+      title: "Polygon calculator", html: '<div class="field"><label for="pyk">I know…</label><select id="pyk"><option value="n">the number of sides</option><option value="i">each interior angle (regular)</option><option value="e">each exterior angle (regular)</option><option value="s">the sum of interior angles</option></select></div><div class="field"><label for="pyv" id="pyl">Number of sides</label><input type="number" id="pyv" value="6"></div><div id="pyz"></div><div class="out" id="pyo"></div>',
+      init: function (el) {
+        var L = { n: ["Number of sides", 6], i: ["Interior angle (°)", 140], e: ["Exterior angle (°)", 40], s: ["Sum of interior angles (°)", 1440] }, last = "n";
+        function up() {
+          var k = $("#pyk", el).value;
+          if (k !== last) { last = k; $("#pyv", el).value = L[k][1]; }
+          $("#pyl", el).textContent = L[k][0];
+          var v = parseFloat($("#pyv", el).value), o = $("#pyo", el), n;
+          n = k === "n" ? v : k === "i" ? 360 / (180 - v) : k === "e" ? 360 / v : v / 180 + 2;
+          if (!(n >= 3) || Math.abs(n - Math.round(n)) > 1e-9 || n > 200) { $("#pyz", el).innerHTML = ""; o.textContent = "No regular polygon has that value"; return; }
+          n = Math.round(n);
+          $("#pyz", el).innerHTML = polySvg(n);
+          o.innerHTML = n + " sides<small>Interior sum = (" + n + " − 2) × 180 = " + fmtN((n - 2) * 180) + "°. Each interior (regular) = " + fmtN((n - 2) * 180 / n) + "°, each exterior = 360 ÷ " + n + " = " + fmtN(360 / n) + "°. Diagonals = " + n + " × " + (n - 3) + " ÷ 2 = " + n * (n - 3) / 2 + ".</small>";
+        }
+        $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
       }
     }
   };
