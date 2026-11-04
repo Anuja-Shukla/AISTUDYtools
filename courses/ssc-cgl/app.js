@@ -134,9 +134,13 @@
     var t = r.reduce(function (a, b) { return a + b; }, 0);
     return '<div class="sb">' + r.map(function (x, i) { return '<i style="flex:' + x + ';background:' + SHC[i % 6] + '"><b>' + (labels ? labels[i] : fmtN(x) + (x === 1 ? " part" : " parts")) + '</b><small>' + fmtN(S * x / t) + '</small></i>'; }).join("") + '</div>';
   }
+  function allig(c, d, m) {
+    return '<div class="allig"><div class="ax c">' + fmtN(c) + '<small>cheaper</small></div><div class="ax d">' + fmtN(d) + '<small>dearer</small></div><div class="ax m">' + fmtN(m) + '<small>mean</small></div><div class="ax rc">' + fmtN(d - m) + '<small>parts of cheaper</small></div><div class="ax rd">' + fmtN(m - c) + '<small>parts of dearer</small></div><svg viewBox="0 0 300 150" preserveAspectRatio="none" aria-hidden="true"><path d="M70 30 L230 120 M230 30 L70 120" stroke="#C7C9F2" stroke-width="3" fill="none"/></svg></div>';
+  }
   function viz(x) {
     if (!x) return "";
     if (x.type === "share") return shareBar(x.r, x.total);
+    if (x.type === "allig") return allig(x.c, x.d, x.m);
     if (x.type === "chainprice") { var mp = x.cp * (1 + x.up / 100), sp = mp * (1 - x.d / 100); return '<div class="chain" style="margin:8px 0"><span class="v">CP ' + fmtN(x.cp) + '</span><span class="op up">+' + x.up + '%</span><span class="v">MP ' + fmtN(mp) + '</span><span class="op dn">−' + x.d + '%</span><span class="v">SP ' + fmtN(sp) + "</span></div>"; }
     if (x.type === "grid") { var g = '<div class="g100" data-n="' + x.n + '">'; for (var i = 0; i < 100; i++) g += "<i></i>"; return g + '</div><input type="range" min="0" max="100" value="' + x.n + '" aria-label="Per cent" class="gr" style="max-width:260px"><p class="small muted gl"></p>'; }
     if (x.type === "fractions") return '<div class="ftab">' + FR.slice(0, 15).map(function (f) { return "<div>" + f[0] + "<small>" + f[1] + "</small></div>"; }).join("") + '</div>';
@@ -735,6 +739,69 @@
           else o.innerHTML = "B's capital = ₹" + fmtN(ub / x) + "<small>B needs " + fmtN(ub) + " capital-months; ÷ " + fmtN(x) + " months = ₹" + fmtN(ub / x) + ".</small>";
         }
         $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
+      }
+    }
+    ,
+    alligx: {
+      title: "Alligation cross", html: '<div class="grid g4"><div class="field"><label for="ac">Cheaper value</label><input type="number" id="ac" value="40"></div><div class="field"><label for="ad">Dearer value</label><input type="number" id="ad" value="60"></div><div class="field"><label for="am">Mean (mixture)</label><input type="number" id="am" value="46"></div><div class="field"><label for="aq">Total quantity (optional)</label><input type="number" id="aq" value="50"></div></div><div id="acx"></div><div class="out" id="aco"></div>',
+      init: function (el) {
+        function up() {
+          var c = parseFloat($("#ac", el).value), d = parseFloat($("#ad", el).value), m = parseFloat($("#am", el).value), q = parseFloat($("#aq", el).value), o = $("#aco", el);
+          if (![c, d, m].every(isFinite) || !(c < m && m < d)) { $("#acx", el).innerHTML = ""; o.textContent = "The mean must lie between the cheaper and dearer values"; return; }
+          $("#acx", el).innerHTML = allig(c, d, m);
+          var a = d - m, b = m - c, s = a + b;
+          o.innerHTML = "Cheaper : Dearer = " + fmtN(a) + " : " + fmtN(b) + (q > 0 ? " → " + fmtN(q * a / s) + " and " + fmtN(q * b / s) : "") + "<small>Cheaper gets (dearer − mean) = " + fmtN(d) + " − " + fmtN(m) + "; dearer gets (mean − cheaper) = " + fmtN(m) + " − " + fmtN(c) + ". Check: (" + fmtN(a) + " × " + fmtN(c) + " + " + fmtN(b) + " × " + fmtN(d) + ") ÷ " + fmtN(s) + " = " + fmtN((a * c + b * d) / s) + ".</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
+    },
+    mixpct: {
+      title: "Concentration mixer", html: '<p class="small muted">Mix up to three solutions, then see how much pure ingredient or water takes it to a target strength.</p><table class="pt"><tr><th>Solution</th><th>Quantity</th><th>Strength %</th></tr>' + [[1, 20, 20], [2, 10, 50], [3, "", ""]].map(function (r) { return "<tr><td><b>" + r[0] + '</b></td><td><input type="number" class="mq" value="' + r[1] + '" style="width:90px"></td><td><input type="number" class="ms" value="' + r[2] + '" style="width:80px"></td></tr>'; }).join("") + '</table><div class="field"><label for="mt2">Target strength %</label><input type="number" id="mt2" value="40"></div><div class="tank" id="mtk"></div><div class="out" id="mxo"></div>',
+      init: function (el) {
+        function up() {
+          var Q = 0, I = 0, n = 0;
+          $$(".mq", el).forEach(function (q, i) { var a = parseFloat(q.value), s = parseFloat($$(".ms", el)[i].value); if (a > 0 && s >= 0 && s <= 100) { Q += a; I += a * s / 100; n++; } });
+          var T = parseFloat($("#mt2", el).value), o = $("#mxo", el);
+          if (!n) { $("#mtk", el).innerHTML = ""; o.textContent = "Enter at least one quantity and strength"; return; }
+          var p = I / Q * 100;
+          $("#mtk", el).innerHTML = '<i style="height:' + p + '%"></i><span>' + fmtN(p) + "%</span>";
+          var extra = "";
+          if (T >= 0 && T <= 100 && Math.abs(T - p) > 1e-9) {
+            if (T > p && T < 100) extra = " To reach " + fmtN(T) + "%, add " + fmtN((T * Q / 100 - I) / (1 - T / 100)) + " of pure ingredient (the other part, " + fmtN(Q - I) + ", stays fixed).";
+            else if (T < p && T > 0) extra = " To reach " + fmtN(T) + "%, add " + fmtN(I / (T / 100) - Q) + " of water (the ingredient, " + fmtN(I) + ", stays fixed).";
+          }
+          o.innerHTML = "Mixture strength = " + fmtN(p) + "%<small>Ingredient " + fmtN(I) + " in a total of " + fmtN(Q) + "." + extra + "</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
+    },
+    replace: {
+      title: "Removal and replacement", html: '<div class="grid g3"><div class="field"><label for="rx">Vessel holds (L)</label><input type="number" id="rx" value="40"></div><div class="field"><label for="ry">Taken out and replaced (L)</label><input type="number" id="ry" value="4"></div><div class="field"><label for="rn">Times</label><input type="number" id="rn" value="3" min="1" max="10"></div></div><div class="reps" id="rps"></div><div class="out" id="rpo"></div>',
+      init: function (el) {
+        function up() {
+          var x = parseFloat($("#rx", el).value), y = parseFloat($("#ry", el).value), n = Math.round(+$("#rn", el).value), o = $("#rpo", el);
+          if (!(x > 0 && y > 0 && y < x && n >= 1 && n <= 10)) { $("#rps", el).innerHTML = ""; o.textContent = "Amount taken out must be less than the vessel; times 1–10"; return; }
+          var f = 1 - y / x, h = "", m = x;
+          for (var k = 0; k <= n; k++) { h += '<div class="rep"><div class="jar"><i style="height:' + (m / x * 100) + '%"></i></div><small>' + (k ? "after " + k : "start") + "<br><b>" + fmtN(m) + "</b></small></div>"; m *= f; }
+          $("#rps", el).innerHTML = h;
+          var left = x * Math.pow(f, n);
+          o.innerHTML = "Original liquid left = " + fmtN(left) + " · water = " + fmtN(x - left) + "<small>" + fmtN(x) + " × (1 − " + fmtN(y) + "/" + fmtN(x) + ")^" + n + " = " + fmtN(x) + " × " + fmtN(f) + "^" + n + ". Each time a fixed " + fmtN(y / x * 100) + "% of what is left is removed.</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
+    },
+    mixratio: {
+      title: "Mix two mixtures", html: '<div class="grid g3"><div class="field"><label>Vessel A milk : water</label><div class="row"><input type="number" id="ma1" value="3" style="width:70px"><b>:</b><input type="number" id="ma2" value="1" style="width:70px"></div></div><div class="field"><label>Vessel B milk : water</label><div class="row"><input type="number" id="mb1" value="5" style="width:70px"><b>:</b><input type="number" id="mb2" value="3" style="width:70px"></div></div><div class="field"><label>Mix A : B in quantity</label><div class="row"><input type="number" id="mqa" value="1" style="width:70px"><b>:</b><input type="number" id="mqb" value="1" style="width:70px"></div></div></div><div class="out" id="mro"></div>',
+      init: function (el) {
+        function g(a, b) { a = Math.round(a); b = Math.round(b); while (b) { var t = a % b; a = b; b = t; } return a || 1; }
+        function up() {
+          var v = ["#ma1", "#ma2", "#mb1", "#mb2", "#mqa", "#mqb"].map(function (s) { return parseFloat($(s, el).value); }), o = $("#mro", el);
+          if (!v.every(function (x) { return x >= 0; }) || !(v[0] + v[1] > 0 && v[2] + v[3] > 0 && v[4] + v[5] > 0)) { o.textContent = "Enter the ratios and quantities"; return; }
+          var fa = v[0] / (v[0] + v[1]), fb = v[2] / (v[2] + v[3]), milk = v[4] * fa + v[5] * fb, water = v[4] + v[5] - milk;
+          var L = (v[0] + v[1]) * (v[2] + v[3]), M = Math.round(milk * L * 1e6) / 1e6, W = Math.round(water * L * 1e6) / 1e6, isInt = Math.abs(M - Math.round(M)) < 1e-6 && Math.abs(W - Math.round(W)) < 1e-6, k = isInt ? g(M, W) : 1;
+          o.innerHTML = "Milk : Water = " + (isInt ? fmtN(M / k) + " : " + fmtN(W / k) : fmtN(milk / water) + " : 1") + "<small>Milk fractions " + fmtN(v[0]) + "/" + fmtN(v[0] + v[1]) + " and " + fmtN(v[2]) + "/" + fmtN(v[2] + v[3]) + ", weighted " + fmtN(v[4]) + " : " + fmtN(v[5]) + " → milk is " + fmtN(milk / (v[4] + v[5]) * 100) + "% of the mix.</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
       }
     }
   };

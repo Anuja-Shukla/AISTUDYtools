@@ -210,3 +210,19 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 .tlr>div{display:flex;gap:2px;align-items:flex-end}
 .tlr i{display:flex;align-items:center;justify-content:center;border-radius:6px;color:#fff;min-width:0;overflow:hidden}
 .tlr i small{font-size:11.5px;font-weight:700;white-space:nowrap;padding:0 3px}
+/* mixtures tools */
+.allig{position:relative;display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto auto auto;gap:6px;max-width:420px;margin:8px auto;text-align:center}
+.allig svg{position:absolute;inset:18% 8% 18% 8%;width:84%;height:64%;z-index:0}
+.allig .ax{position:relative;z-index:1;background:#fff;border:2px solid var(--border);border-radius:12px;padding:6px 4px;font-weight:800;font-size:18px;color:var(--ink)}
+.allig .ax small{display:block;font-size:11.5px;font-weight:600;color:var(--muted)}
+.allig .c{grid-column:1;grid-row:1}.allig .d{grid-column:3;grid-row:1}.allig .m{grid-column:2;grid-row:2;background:var(--ink);color:#fff;border-color:var(--ink)}.allig .m small{color:#C9C8EA}
+.allig .rc{grid-column:1;grid-row:3;background:var(--soft);color:var(--accent-dk)}.allig .rd{grid-column:3;grid-row:3;background:var(--sun);color:var(--sun-fg)}
+.tank{position:relative;width:90px;height:110px;margin:6px auto;border:3px solid var(--ink);border-top:0;border-radius:0 0 16px 16px;overflow:hidden;background:#F4F4FB}
+.tank i{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(#818CF8,#4F46E5)}
+.tank span{position:absolute;inset:0;display:grid;place-items:center;font-weight:800;color:var(--ink);text-shadow:0 0 4px #fff}
+.reps{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.rep{display:grid;justify-items:center;gap:4px;text-align:center}
+.rep .jar{position:relative;width:34px;height:56px;border:2.5px solid var(--ink);border-top:0;border-radius:0 0 9px 9px;background:#E0F2FE;overflow:hidden}
+.rep .jar i{position:absolute;left:0;right:0;bottom:0;background:#F5F0E1;border-top:2px solid #E7DCBB}
+.rep small{font-size:11.5px;color:var(--muted)}.rep b{color:var(--ink)}
+.field .row{flex-wrap:nowrap;gap:6px}.field .row input{min-width:0;flex:1 1 0}
