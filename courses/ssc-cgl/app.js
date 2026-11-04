@@ -196,9 +196,16 @@
     });
     return '<svg class="dich pie" viewBox="0 0 160 160" role="img" aria-label="Pie chart">' + out + "</svg>";
   }
+  function dotsSvg(x, m, med) {
+    var mn = Math.min.apply(null, x), mx = Math.max.apply(null, x), sp = mx - mn || 1, W = 320, cnt = {}, sc = function (v) { return 16 + (v - mn) / sp * (W - 32); }, out = "";
+    x.slice().sort(function (a, b) { return a - b; }).forEach(function (v) { cnt[v] = (cnt[v] || 0) + 1; out += '<circle cx="' + sc(v).toFixed(1) + '" cy="' + (96 - cnt[v] * 13) + '" r="5.5" fill="#4F46E5"/>'; });
+    var mark = function (v, col, lab, y) { return '<line x1="' + sc(v) + '" y1="20" x2="' + sc(v) + '" y2="100" stroke="' + col + '" stroke-width="2" stroke-dasharray="4 3"/><text x="' + sc(v) + '" y="' + y + '" text-anchor="middle" font-size="11" font-weight="700" fill="' + col + '">' + lab + " " + fmtN(v) + "</text>"; };
+    return '<svg class="dich" viewBox="0 0 ' + W + ' 130" role="img" aria-label="Dot plot"><line x1="10" y1="100" x2="' + (W - 10) + '" y2="100" stroke="#C7C9F2" stroke-width="2"/>' + out + mark(m, "#F59E0B", "mean", 14) + mark(med, "#10B981", "median", 122) + '<text x="16" y="116" font-size="10" fill="#6E6C94">' + fmtN(mn) + '</text><text x="' + (W - 16) + '" y="116" font-size="10" fill="#6E6C94" text-anchor="end">' + fmtN(mx) + "</text></svg>";
+  }
   function viz(x) {
     if (!x) return "";
     if (x.type === "share") return shareBar(x.r, x.total);
+    if (x.type === "dots") { var mm = x.v.reduce(function (a, b) { return a + b; }, 0) / x.v.length, ss = x.v.slice().sort(function (a, b) { return a - b; }), nn = ss.length; return dotsSvg(x.v, mm, nn % 2 ? ss[(nn - 1) / 2] : (ss[nn / 2 - 1] + ss[nn / 2]) / 2); }
     if (x.type === "bars") return barsSvg(x.l, x.v);
     if (x.type === "pie") return '<div class="grid g2" style="align-items:center">' + pieSvg(x.l, x.v) + '<div class="small">' + x.l.map(function (n, i) { return '<div><i class="sw2" style="background:' + SHC[i % 6] + '"></i>' + esc(n) + " " + x.v[i] + "%</div>"; }).join("") + "</div></div>";
     if (x.type === "cone") return '<svg class="geo sm" viewBox="0 0 220 120" role="img" aria-label="Cylinder and cone"><ellipse cx="55" cy="22" rx="40" ry="10" fill="#EEF0FF" stroke="#4F46E5" stroke-width="2"/><path d="M15 22 V98 A40 10 0 0 0 95 98 V22" fill="#EEF0FF" stroke="#4F46E5" stroke-width="2"/><line x1="55" y1="22" x2="95" y2="22" stroke="#F59E0B" stroke-width="2"/><text x="72" y="17" font-size="11" fill="#1E1B4B" font-weight="700">r</text><text x="100" y="62" font-size="11" fill="#1E1B4B" font-weight="700">h</text><path d="M125 98 L165 14 L205 98 A40 10 0 0 1 125 98" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/><line x1="165" y1="14" x2="165" y2="98" stroke="#94A3B8" stroke-dasharray="3 3"/><text x="187" y="50" font-size="11" fill="#1E1B4B" font-weight="700">l</text></svg>';
@@ -1339,6 +1346,71 @@
           $("#ddo", el).removeAttribute("data-done");
         }
         $("#ddg", el).onclick = round; round();
+      }
+    }
+    ,
+    statsx: {
+      title: "Mean, median, mode and SD", html: '<div class="field"><label for="sxd">Data (comma separated)</label><input type="text" id="sxd" value="2, 4, 4, 4, 5, 5, 7, 9"></div><div id="sxz"></div><div class="out" id="sxo"></div>',
+      init: function (el) {
+        function up() {
+          var x = $("#sxd", el).value.split(/[,\s;]+/).filter(Boolean).map(Number).filter(isFinite).slice(0, 60), o = $("#sxo", el);
+          if (x.length < 2) { $("#sxz", el).innerHTML = ""; o.textContent = "Enter at least two numbers"; return; }
+          var n = x.length, s = x.slice().sort(function (a, b) { return a - b; }), m = x.reduce(function (a, b) { return a + b; }, 0) / n, med = n % 2 ? s[(n - 1) / 2] : (s[n / 2 - 1] + s[n / 2]) / 2;
+          var cnt = {}, best = 0; x.forEach(function (v) { cnt[v] = (cnt[v] || 0) + 1; if (cnt[v] > best) best = cnt[v]; });
+          var modes = Object.keys(cnt).filter(function (k) { return cnt[k] === best; }).map(Number), v = x.reduce(function (a, b) { return a + (b - m) * (b - m); }, 0) / n;
+          $("#sxz", el).innerHTML = dotsSvg(x, m, med);
+          o.innerHTML = "Mean " + fmtN(m) + " · median " + fmtN(med) + " · mode " + (best === 1 ? "none" : modes.map(fmtN).join(", ")) + " · SD " + fmtN(Math.sqrt(v)) + "<small>Sorted: " + s.map(fmtN).join(", ") + ". Range " + fmtN(s[n - 1] - s[0]) + ". Variance = Σ(x − " + fmtN(m) + ")² ÷ " + n + " = " + fmtN(v) + ".</small>";
+        }
+        $("#sxd", el).oninput = up; up();
+      }
+    },
+    freqm: {
+      title: "Frequency table", html: '<div class="grid g2"><div class="field"><label for="fqx">Values x</label><input type="text" id="fqx" value="1, 2, 3, 4"></div><div class="field"><label for="fqf">Frequencies f</label><input type="text" id="fqf" value="3, 5, 8, 4"></div></div><div class="tscroll"><table class="pt" id="fqt"></table></div><div class="out" id="fqo"></div>',
+      init: function (el) {
+        function up() {
+          var X = $("#fqx", el).value.split(/[,\s]+/).filter(Boolean).map(Number), F = $("#fqf", el).value.split(/[,\s]+/).filter(Boolean).map(Number), o = $("#fqo", el);
+          if (!X.length || X.length !== F.length || !F.every(function (f) { return f >= 0; }) || !X.every(isFinite)) { $("#fqt", el).innerHTML = ""; o.textContent = "Give the same number of values and frequencies"; return; }
+          var N = F.reduce(function (a, b) { return a + b; }, 0), S = X.reduce(function (a, x, i) { return a + x * F[i]; }, 0), cf = 0, mi = 0;
+          if (!N) { o.textContent = "Frequencies add to 0"; return; }
+          var idx = X.map(function (_, i) { return i; }).sort(function (a, b) { return X[a] - X[b]; }), med = null, half = N / 2, run = 0;
+          idx.forEach(function (i) { run += F[i]; if (med === null && run >= half) med = X[i]; });
+          F.forEach(function (f, i) { if (f > F[mi]) mi = i; });
+          $("#fqt", el).innerHTML = "<tr><th>x</th><th>f</th><th>f × x</th><th>cum. f</th></tr>" + idx.map(function (i) { cf += F[i]; return "<tr><td>" + fmtN(X[i]) + "</td><td>" + fmtN(F[i]) + "</td><td>" + fmtN(X[i] * F[i]) + "</td><td>" + fmtN(cf) + "</td></tr>"; }).join("") + "<tr><td><b>Σ</b></td><td><b>" + fmtN(N) + "</b></td><td><b>" + fmtN(S) + "</b></td><td></td></tr>";
+          o.innerHTML = "Mean = " + fmtN(S / N) + " · median ≈ " + fmtN(med) + " · mode = " + fmtN(X[mi]) + "<small>Σfx ÷ Σf = " + fmtN(S) + " ÷ " + fmtN(N) + ". The median is where the cumulative frequency first reaches " + fmtN(half) + ".</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
+    },
+    dicegrid: {
+      title: "Two dice: the 36 outcomes", html: '<div class="grid g2"><div class="field"><label for="dgk">Event</label><select id="dgk"><option value="eq">Sum equals</option><option value="ge">Sum is at least</option><option value="le">Sum is at most</option><option value="dbl">A double</option><option value="six">At least one six</option></select></div><div class="field" id="dgnw"><label for="dgn">Number</label><input type="number" id="dgn" value="7"></div></div><div class="dg" id="dgg"></div><div class="out" id="dgo"></div>',
+      init: function (el) {
+        function g(a, b) { while (b) { var t = a % b; a = b; b = t; } return a; }
+        function up() {
+          var k = $("#dgk", el).value, n = parseFloat($("#dgn", el).value), h = '<i></i>', c = 0;
+          $("#dgnw", el).hidden = k === "dbl" || k === "six";
+          for (var b = 1; b <= 6; b++) h += "<i class='hd'>" + b + "</i>";
+          for (var a = 1; a <= 6; a++) { h += "<i class='hd'>" + a + "</i>"; for (var b2 = 1; b2 <= 6; b2++) { var s = a + b2, ok = k === "eq" ? s === n : k === "ge" ? s >= n : k === "le" ? s <= n : k === "dbl" ? a === b2 : (a === 6 || b2 === 6); if (ok) c++; h += "<i class='" + (ok ? "on" : "") + "'>" + s + "</i>"; } }
+          $("#dgg", el).innerHTML = h;
+          var d = g(c, 36) || 1;
+          $("#dgo", el).innerHTML = "P = " + c + "/36" + (c && d > 1 ? " = " + c / d + "/" + 36 / d : "") + "<small>" + c + " highlighted outcomes out of 36 (rows: first die, columns: second die, cells show the sum).</small>";
+        }
+        $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
+      }
+    },
+    bagdraw: {
+      title: "Drawing balls from a bag", html: '<div class="grid g4"><div class="field"><label for="bgr">Red balls</label><input type="number" id="bgr" value="5"></div><div class="field"><label for="bgb">Blue balls</label><input type="number" id="bgb" value="3"></div><div class="field"><label for="bgn">Balls drawn</label><input type="number" id="bgn" value="2"></div><div class="field"><label for="bgk">How many red wanted</label><input type="number" id="bgk" value="2"></div></div><div class="bag" id="bgv"></div><div class="out" id="bgo"></div>',
+      init: function (el) {
+        function C(n, r) { if (r < 0 || r > n) return 0; var x = 1; for (var i = 1; i <= r; i++) x = x * (n - r + i) / i; return Math.round(x); }
+        function g(a, b) { while (b) { var t = a % b; a = b; b = t; } return a; }
+        function up() {
+          var R = Math.round(+$("#bgr", el).value), B = Math.round(+$("#bgb", el).value), n = Math.round(+$("#bgn", el).value), k = Math.round(+$("#bgk", el).value), o = $("#bgo", el);
+          if (!(R >= 0 && B >= 0 && R + B >= 1 && R + B <= 40 && n >= 1 && n <= R + B && k >= 0 && k <= n)) { $("#bgv", el).innerHTML = ""; o.textContent = "Check the numbers (up to 40 balls; draw no more than there are)"; return; }
+          var h = ""; for (var i = 0; i < R; i++) h += '<i class="r"></i>'; for (var j = 0; j < B; j++) h += '<i class="b"></i>';
+          $("#bgv", el).innerHTML = h;
+          var fav = C(R, k) * C(B, n - k), tot = C(R + B, n), d = g(fav, tot) || 1;
+          o.innerHTML = "P(exactly " + k + " red) = " + (fav ? fav / d + "/" + tot / d : "0") + "<small>(" + R + "C" + k + " × " + B + "C" + (n - k) + ") ÷ " + (R + B) + "C" + n + " = (" + C(R, k) + " × " + C(B, n - k) + ") ÷ " + tot + " = " + fav + "/" + tot + " ≈ " + fmtN(fav / tot) + ".</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
       }
     }
   };

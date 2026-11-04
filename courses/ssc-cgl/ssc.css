@@ -258,3 +258,9 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 .dich.pie{max-width:200px}
 .sw2{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
 .pt tr.hl td{background:var(--mint);color:var(--mint-fg);font-weight:700}
+/* stats & probability tools */
+.dg{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;max-width:330px;margin:6px auto}
+.dg i{display:grid;place-items:center;height:34px;border-radius:7px;background:#F4F4FB;font-style:normal;font-size:13px;font-weight:700;color:var(--muted)}
+.dg i.hd{background:none;color:var(--ink)}.dg i.on{background:var(--accent);color:#fff}
+.bag{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;padding:10px;border:2.5px solid var(--border);border-radius:0 0 40px 40px;max-width:260px;margin:6px auto}
+.bag i{width:18px;height:18px;border-radius:50%}.bag i.r{background:#F43F5E}.bag i.b{background:#3B82F6}

@@ -1,0 +1,10 @@
+# SSC CGL Quant — Statistics & probability
+Welcome! This SSC CGL lesson is about statistics and probability. || Welcome! This S S C C G L lesson is about statistics and probability, which appear in Tier two.
+Mean = Σx ÷ n; with frequencies Σfx ÷ Σf. || The mean is the sum divided by the count. With a frequency table, multiply each value by its frequency, add them up, and divide by the total frequency.
+Median: the middle value after sorting. Mode: the most frequent. || The median is the middle value once the data is sorted. With an even number of values, average the two middle ones. The mode is the value that appears most often.
+Mode = 3 Median − 2 Mean. || When two of these are given, use the empirical relation: mode equals three times the median, minus two times the mean. Mean twenty and median twenty two give a mode of twenty six.
+Standard deviation measures spread. Adding a constant does not change it. || The standard deviation measures spread. Adding the same number to every value does not change it. Multiplying every value by k multiplies the standard deviation by k, and the variance by k squared.
+Probability = favourable ÷ total. P(not A) = 1 − P(A). || Probability is favourable outcomes divided by total outcomes. And the probability of not A is one minus the probability of A.
+Two dice have 36 outcomes. Sum 7 happens 6 ways, so 1/6. || Two dice have thirty six outcomes. A sum of seven happens in six ways, so its probability is one sixth. For at least one head with two coins, use one minus one quarter, which is three quarters.
+Try this: a king from 52 cards. The answer is A, 1/13. || Try this. A card is drawn from a pack of fifty two. What is the probability that it is a king? The answer is A, one in thirteen. Four kings out of fifty two cards.
+Recap. Now try the tools and the practice questions below. || To recap. Sort before finding the median. Mode is three median minus two mean. Adding a constant does not change the spread. And probability is favourable over total. Now try the tools and the practice questions below this video.
