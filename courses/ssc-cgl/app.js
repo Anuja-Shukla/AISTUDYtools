@@ -319,9 +319,36 @@
     h += '<text x="60" y="28" font-size="12" font-weight="800" fill="' + col[0] + '">' + esc(N[0]) + '</text><text x="210" y="28" text-anchor="end" font-size="12" font-weight="800" fill="' + col[1] + '">' + esc(N[1]) + '</text><text x="135" y="214" text-anchor="middle" font-size="12" font-weight="800" fill="' + col[2] + '">' + esc(N[2]) + "</text>";
     return h + "</svg>";
   }
+  var VTYPES = [
+    ["Three separate circles", [[40, 60, 24], [100, 60, 24], [160, 60, 24]]],
+    ["Nested: one inside another inside a third", [[100, 60, 52], [100, 66, 34], [100, 72, 16]]],
+    ["Two separate circles inside a third", [[100, 60, 54], [76, 62, 20], [124, 62, 20]]],
+    ["Two overlapping circles inside a third", [[100, 60, 54], [84, 62, 24], [116, 62, 24]]],
+    ["Three mutually overlapping circles", [[80, 48, 30], [120, 48, 30], [100, 80, 30]]],
+    ["Two separate circles, both overlapping a third", [[52, 60, 26], [148, 60, 26], [100, 60, 34]]],
+    ["One inside another; third separate", [[66, 60, 40], [66, 66, 20], [156, 60, 26]]],
+    ["One inside another; third overlaps both", [[80, 60, 46], [70, 62, 20], [132, 60, 30]]],
+    ["Two overlapping circles; third separate", [[50, 60, 28], [92, 60, 28], [164, 60, 24]]]
+  ];
+  function vtypeSvg(i, labels) {
+    var c = VTYPES[i][1], col = ["#3d7ae0", "#e0679b", "#2aa876"], h = '<svg viewBox="0 0 200 120" width="200" class="kinsvg" role="img" aria-label="' + VTYPES[i][0] + '">';
+    c.forEach(function (k, j) { h += '<circle cx="' + k[0] + '" cy="' + k[1] + '" r="' + k[2] + '" fill="' + col[j] + '" fill-opacity=".10" stroke="' + col[j] + '" stroke-width="2.2"/>'; });
+    if (labels) c.forEach(function (k, j) { h += '<text x="' + k[0] + '" y="' + (k[1] - k[2] + 13) + '" text-anchor="middle" font-size="10" font-weight="800" fill="' + col[j] + '">' + esc(labels[j]) + "</text>"; });
+    return h + "</svg>";
+  }
+  function vgallery() { return '<div class="vgal">' + VTYPES.map(function (t, i) { return "<figure>" + vtypeSvg(i) + "<figcaption>" + (i + 1) + ". " + t[0] + "</figcaption></figure>"; }).join("") + "</div>"; }
+  function venn2Svg(a, b, ab, n) {
+    var h = '<svg viewBox="0 0 260 150" width="260" class="kinsvg" role="img" aria-label="Two-set Venn diagram"><rect x="4" y="4" width="252" height="142" rx="10" fill="none" stroke="var(--border)"/>';
+    h += '<circle cx="100" cy="76" r="52" fill="#3d7ae0" fill-opacity=".12" stroke="#3d7ae0" stroke-width="2.2"/><circle cx="160" cy="76" r="52" fill="#e0679b" fill-opacity=".12" stroke="#e0679b" stroke-width="2.2"/>';
+    h += '<text x="78" y="82" text-anchor="middle" font-size="15" font-weight="800">' + a + '</text><text x="130" y="82" text-anchor="middle" font-size="15" font-weight="800">' + ab + '</text><text x="182" y="82" text-anchor="middle" font-size="15" font-weight="800">' + b + "</text>";
+    if (n !== null) h += '<text x="244" y="138" text-anchor="end" font-size="12" font-weight="700" fill="var(--muted)">neither ' + n + "</text>";
+    return h + "</svg>";
+  }
   function viz(x) {
     if (!x) return "";
     if (x.type === "share") return shareBar(x.r, x.total);
+    if (x.type === "vgal") return vgallery();
+    if (x.type === "venn2") return venn2Svg(x.a, x.b, x.ab, null);
     if (x.type === "venn") return vennSvg(x.s, x.n);
     if (x.type === "row") return rowViz(x.n, x.p);
     if (x.type === "compass") return compassSvg();
@@ -2081,6 +2108,49 @@
           $$("#ygo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var r = b.getAttribute("data-ok") === "1"; if (r) sc++; b.classList.add(r ? "right" : "wrong"); $$("#ygo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#ygs", el).textContent = sc; $("#ygn", el).textContent = n; $("#ygw", el).hidden = false; $("#ygw", el).innerHTML = vennSvg(S, N); }; });
         }
         $("#ygg", el).onclick = round; round();
+      }
+    }
+    ,
+    venn2calc: {
+      title: "Two-set calculator", html: '<div class="grid2"><div class="field"><label for="v2a">In A (e.g. tea)</label><input type="number" id="v2a" value="30" min="0"></div><div class="field"><label for="v2b">In B (e.g. coffee)</label><input type="number" id="v2b" value="25" min="0"></div><div class="field"><label for="v2c">In both</label><input type="number" id="v2c" value="10" min="0"></div><div class="field"><label for="v2n">Total people (optional)</label><input type="number" id="v2n" value="50" min="0"></div></div><div id="v2z"></div><div class="out" id="v2o"></div>',
+      init: function (el) {
+        function up() {
+          var a = +$("#v2a", el).value || 0, b = +$("#v2b", el).value || 0, c = +$("#v2c", el).value || 0, ns = $("#v2n", el).value, N = ns === "" ? null : +ns, o = $("#v2o", el);
+          if (c > a || c > b) { o.innerHTML = "‘Both’ cannot be more than A or B"; $("#v2z", el).innerHTML = ""; return; }
+          var u = a + b - c, ne = N === null ? null : N - u;
+          if (ne !== null && ne < 0) { o.innerHTML = "The total is too small<small>At least " + u + " people are in A or B.</small>"; $("#v2z", el).innerHTML = ""; return; }
+          $("#v2z", el).innerHTML = venn2Svg(a - c, b - c, c, ne);
+          o.innerHTML = "At least one: " + u + (ne !== null ? " · neither: " + ne : "") + "<small>" + a + " + " + b + " − " + c + " = " + u + ". Only A: " + (a - c) + ", only B: " + (b - c) + ".</small>";
+        }
+        $$("input", el).forEach(function (x) { x.oninput = up; }); up();
+      }
+    },
+    venn3calc: {
+      title: "Three-set calculator", html: '<p class="note">Enter group totals and overlaps (people in each pair include those in all three).</p><div class="grid3"><div class="field"><label for="v3a">A</label><input type="number" id="v3a" value="40" min="0"></div><div class="field"><label for="v3b">B</label><input type="number" id="v3b" value="35" min="0"></div><div class="field"><label for="v3c">C</label><input type="number" id="v3c" value="30" min="0"></div><div class="field"><label for="v3ab">A and B</label><input type="number" id="v3ab" value="12" min="0"></div><div class="field"><label for="v3bc">B and C</label><input type="number" id="v3bc" value="10" min="0"></div><div class="field"><label for="v3ca">C and A</label><input type="number" id="v3ca" value="8" min="0"></div><div class="field"><label for="v3abc">All three</label><input type="number" id="v3abc" value="5" min="0"></div></div><div class="tscroll"><table class="pt" id="v3t"></table></div><div class="out" id="v3o"></div>',
+      init: function (el) {
+        function g(id) { return +$("#" + id, el).value || 0; }
+        function up() {
+          var A = g("v3a"), B = g("v3b"), C = g("v3c"), AB = g("v3ab"), BC = g("v3bc"), CA = g("v3ca"), X = g("v3abc"), o = $("#v3o", el);
+          var ab = AB - X, bc = BC - X, ca = CA - X, a = A - ab - ca - X, b = B - ab - bc - X, c = C - bc - ca - X, R = [["Only A", a], ["Only B", b], ["Only C", c], ["A and B only", ab], ["B and C only", bc], ["C and A only", ca], ["All three", X]];
+          $("#v3t", el).innerHTML = "<tr><th>Region</th><th>People</th></tr>" + R.map(function (r) { return "<tr><td>" + r[0] + "</td><td" + (r[1] < 0 ? ' style="color:var(--red-fg)"' : "") + ">" + r[1] + "</td></tr>"; }).join("");
+          if (R.some(function (r) { return r[1] < 0; })) { o.innerHTML = "These numbers do not fit<small>A region came out negative; check the overlaps.</small>"; return; }
+          var u = A + B + C - AB - BC - CA + X;
+          o.innerHTML = "At least one: " + u + "<small>" + A + " + " + B + " + " + C + " − " + AB + " − " + BC + " − " + CA + " + " + X + ". Exactly one: " + (a + b + c) + ", exactly two: " + (ab + bc + ca) + ".</small>";
+        }
+        $$("input", el).forEach(function (x) { x.oninput = up; }); up();
+      }
+    },
+    vtypegame: {
+      title: "Pick the diagram", html: '<div class="big" id="vgq" style="text-align:center;font-size:19px;font-weight:800">…</div><div class="vpick" id="vgo"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="vgs">0</b> / <b id="vgn">0</b></span><button class="btn btn-accent btn-sm" id="vgg">Next</button></div><div class="why" id="vgw" hidden></div>',
+      init: function (el) {
+        var Q = [["Delhi", "India", "Asia", 1], ["Dogs", "Cats", "Animals", 2], ["Pen", "Book", "Table", 0], ["Teachers", "Singers", "Women", 4], ["Men", "Women", "Doctors", 5], ["Mangoes", "Fruits", "Vegetables", 6], ["Mothers", "Women", "Teachers", 7], ["Elephants", "Wild animals", "Animals", 3], ["Rose", "Lily", "Flower", 2], ["Square", "Rectangle", "Quadrilateral", 1], ["Chair", "Sun", "River", 0], ["Girls", "Students", "Swimmers", 7], ["Cricketers", "Footballers", "Planets", 8], ["Hockey players", "Musicians", "Painters", 4], ["Kolkata", "West Bengal", "Bihar", 6]], sc = 0, n = 0;
+        function round() {
+          var q = Q[Math.floor(Math.random() * Q.length)], ans = q[3], pool = shuffle(VTYPES.length).filter(function (i) { return i !== ans; }).slice(0, 3).concat([ans]), ord = shuffle(4), done = false;
+          $("#vgq", el).textContent = q[0] + ", " + q[1] + ", " + q[2]; $("#vgw", el).hidden = true;
+          $("#vgo", el).innerHTML = ord.map(function (k) { var i = pool[k]; return '<button class="opt" data-ok="' + (i === ans ? 1 : 0) + '" aria-label="' + VTYPES[i][0] + '">' + vtypeSvg(i) + "<small>" + VTYPES[i][0] + "</small></button>"; }).join("");
+          $$("#vgo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#vgo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#vgs", el).textContent = sc; $("#vgn", el).textContent = n; $("#vgw", el).hidden = false; $("#vgw", el).innerHTML = "Answer: " + VTYPES[ans][0] + "."; }; });
+        }
+        $("#vgg", el).onclick = round; round();
       }
     }
   };

@@ -1,0 +1,10 @@
+# SSC CGL Reasoning — Venn diagrams
+Welcome! This SSC CGL lesson is about Venn diagrams. || Welcome! This S S C C G L lesson is about Venn diagrams.
+Pick the diagram, or count the people. || There are two kinds of question. Pick the diagram that shows how three groups are related, or count the people in overlapping groups.
+For each pair: inside, overlap or apart? || For each pair of groups, ask one question. Is one inside the other, do they overlap, or are they completely apart? Answer it for all three pairs, then choose the picture.
+Delhi, India, Asia → nested. || Delhi is inside India, and India is inside Asia, so the circles are nested. Dogs and cats are apart, but both are animals, so two separate circles sit inside a third.
+Men, Women, Doctors → two separate, both overlapping a third. || Men and women are apart, but some of each are doctors. So two separate circles both overlap the doctors circle. Teachers, singers and women all overlap each other.
+Two sets: A + B − both. || To count with two sets, add A and B, then subtract those in both. Thirty like tea, twenty five like coffee, and ten like both. So forty five like at least one.
+Three sets: fill from the centre outwards. || With three sets, fill the diagram from the centre outwards. First those in all three, then each pair, then each only region. Three overlapping circles have seven regions inside.
+Try this: 50 students, 30 cricket, 25 football, 10 both. The answer is A, 5. || Try this. In a class of fifty, thirty play cricket, twenty five play football, and ten play both. How many play neither? The answer is A, five. Forty five play at least one, and fifty minus forty five is five.
+Recap. Now try the tools and the practice questions below. || To recap. Decide inside, overlap or apart for each pair. Start with the biggest group. Count from the centre. And never count both twice. Now try the tools and the practice questions below this video.
