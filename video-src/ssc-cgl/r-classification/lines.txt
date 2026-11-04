@@ -1,0 +1,9 @@
+# SSC CGL Reasoning — Classification
+Welcome! This SSC CGL lesson is about classification, or finding the odd one out. || Welcome! This S S C C G L lesson is about classification, where you find the odd one out.
+Three items share a property; one does not. || In every question, three items share a property and one does not. The trick is to name the group of three first.
+Words: name the category of three. || For words, ask what three of them are. Apple, mango and banana are fruits, so potato is odd. Violin, guitar and sitar have strings, so the flute is odd.
+Numbers: test prime, square, cube, then divisibility. || For numbers, test in order: prime, perfect square, cube, even or odd, then divisibility. Seventeen, twenty three and twenty nine are prime, so thirty three is odd.
+Letter groups: write the gaps. || For letter groups, write the gaps between the letters. A C E, G I K and M O Q all move by two and two. R T W moves by two and three, so it is the odd one.
+Pairs: find the rule in three pairs. || For number pairs, find the rule that fits three of them. Four sixteen, five twenty five and six thirty six follow n squared. Seven forty eight breaks it, because seven squared is forty nine.
+Try this: 16, 25, 36, 50. The answer is A, 50. || Try this. Which is the odd one: sixteen, twenty five, thirty six, fifty? The answer is A, fifty, because it is not a perfect square.
+Recap. Now try the tools and the practice questions below. || To recap. Name the group of three. Test number properties in order. Write the gaps for letters. And choose the most specific pattern. Now try the tools and the practice questions below this video.

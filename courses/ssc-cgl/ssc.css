@@ -270,3 +270,4 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 .abc i b{font-size:14px;color:var(--ink)}.abc i small{font-size:10.5px;color:var(--muted)}
 .abc i.ej{background:var(--sun)}.abc i.on{background:var(--accent)}.abc i.on b,.abc i.on small{color:#fff}
 @media(max-width:560px){.abc{grid-template-columns:repeat(9,1fr)}}
+.pt td.odd{background:var(--red);color:var(--red-fg);font-weight:800}

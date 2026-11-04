@@ -1477,6 +1477,71 @@
         $("#rqg", el).onclick = round; round();
       }
     }
+    ,
+    numprop: {
+      title: "Number property checker", html: '<div class="field"><label for="npl">Numbers (comma separated)</label><input type="text" id="npl" value="17, 23, 29, 33"></div><div class="tscroll"><table class="pt" id="npt"></table></div><div class="out" id="npo"></div>',
+      init: function (el) {
+        function isP(n) { if (n < 2 || n !== Math.floor(n)) return false; for (var d = 2; d * d <= n; d++) if (n % d === 0) return false; return true; }
+        function isSq(n) { var r = Math.round(Math.sqrt(n)); return n >= 0 && r * r === n; }
+        function isCu(n) { var r = Math.round(Math.cbrt(n)); return r * r * r === n; }
+        function ds(n) { return String(Math.abs(n)).split("").reduce(function (a, b) { return a + (+b || 0); }, 0); }
+        function up() {
+          var N = $("#npl", el).value.split(/[,\s]+/).filter(Boolean).map(Number).filter(function (x) { return isFinite(x) && x === Math.floor(x); }).slice(0, 8), o = $("#npo", el);
+          if (N.length < 3) { $("#npt", el).innerHTML = ""; o.textContent = "Enter at least three whole numbers"; return; }
+          var props = [["Prime", isP], ["Square", isSq], ["Cube", isCu], ["Even", function (n) { return n % 2 === 0; }], ["÷ 3", function (n) { return n % 3 === 0; }], ["÷ 7", function (n) { return n % 7 === 0; }], ["÷ 11", function (n) { return n % 11 === 0; }]], found = [], later = [];
+          $("#npt", el).innerHTML = "<tr><th>Property</th>" + N.map(function (n) { return "<th>" + fmtN(n) + "</th>"; }).join("") + "</tr>" + props.map(function (p) {
+            var r = N.map(p[1]), yes = r.filter(Boolean).length, odd = yes === N.length - 1 ? r.indexOf(false) : yes === 1 ? r.indexOf(true) : -1;
+            if (odd >= 0) { var msg = fmtN(N[odd]) + " (" + (yes === 1 ? "only one that is " : "only one that is not ") + p[0].toLowerCase() + ")"; (yes === 1 ? later : found).push(msg); }
+            return "<tr><td>" + p[0] + "</td>" + r.map(function (v, i) { return '<td class="' + (i === odd ? "odd" : "") + '">' + (v ? "✓" : "·") + "</td>"; }).join("") + "</tr>";
+          }).join("") + (function () { found = found.concat(later); return ""; })() + "<tr><td>Digit sum</td>" + N.map(function (n) { return "<td>" + ds(n) + "</td>"; }).join("") + "</tr>";
+          o.innerHTML = (found.length ? "Odd one: " + found[0] : "No single property separates one number") + "<small>" + (found.length > 1 ? "Other candidates: " + found.slice(1).join("; ") + ". Pick the most specific pattern." : "Highlighted cells break the pattern of the rest.") + "</small>";
+        }
+        $("#npl", el).oninput = up; up();
+      }
+    },
+    lgap: {
+      title: "Letter-group gap analyser", html: '<div class="field"><label for="lgl">Letter groups (comma separated)</label><input type="text" id="lgl" value="ACE, GIK, MOQ, RTW"></div><div class="tscroll"><table class="pt" id="lgt"></table></div><div class="out" id="lgo"></div>',
+      init: function (el) {
+        function up() {
+          var G = $("#lgl", el).value.toUpperCase().split(/[,\s]+/).map(function (s) { return s.replace(/[^A-Z]/g, ""); }).filter(Boolean).slice(0, 8), o = $("#lgo", el);
+          if (G.length < 3) { $("#lgt", el).innerHTML = ""; o.textContent = "Enter at least three letter groups"; return; }
+          var gaps = G.map(function (w) { var a = []; for (var i = 1; i < w.length; i++) a.push(w.charCodeAt(i) - w.charCodeAt(i - 1)); return a.join(","); }), cnt = {};
+          gaps.forEach(function (g) { cnt[g] = (cnt[g] || 0) + 1; });
+          var odd = gaps.map(function (g) { return cnt[g] === 1 && G.length - 1 === Math.max.apply(null, Object.keys(cnt).map(function (k) { return cnt[k]; })); });
+          $("#lgt", el).innerHTML = "<tr><th>Group</th><th>Positions</th><th>Gaps</th><th>Vowels</th></tr>" + G.map(function (w, i) { return "<tr class='" + (odd[i] ? "hl" : "") + "'><td><b>" + w + "</b></td><td>" + w.split("").map(function (c) { return c.charCodeAt(0) - 64; }).join(", ") + "</td><td>" + gaps[i].split(",").map(function (d) { return (d > 0 ? "+" : "") + d; }).join(", ") + "</td><td>" + (w.match(/[AEIOU]/g) || []).length + "</td></tr>"; }).join("");
+          var k = odd.indexOf(true);
+          o.innerHTML = (k >= 0 ? "Odd one: " + G[k] : "The gaps do not single one out") + "<small>" + (k >= 0 ? "Its gaps are " + gaps[k] + "; the others share " + Object.keys(cnt).filter(function (x) { return cnt[x] > 1; })[0] + "." : "Check vowels or reverse order instead.") + "</small>";
+        }
+        $("#lgl", el).oninput = up; up();
+      }
+    },
+    pairrule: {
+      title: "Odd pair finder", html: '<div class="field"><label for="prl">Pairs like 4-16, 5-25, 6-36, 7-48</label><input type="text" id="prl" value="4-16, 5-25, 6-36, 7-48"></div><div class="out" id="pro"></div>',
+      init: function (el) {
+        var R = [["n²", function (n) { return n * n; }], ["n³", function (n) { return n * n * n; }], ["n² + 1", function (n) { return n * n + 1; }], ["n² − 1", function (n) { return n * n - 1; }], ["n(n + 1)", function (n) { return n * (n + 1); }], ["n³ + 1", function (n) { return n * n * n + 1; }], ["2n", function (n) { return 2 * n; }], ["3n", function (n) { return 3 * n; }], ["n + 5", function (n) { return n + 5; }]];
+        function up() {
+          var P = $("#prl", el).value.split(/[,;]+/).map(function (s) { var m = s.match(/(-?\d+(?:\.\d+)?)\s*[-–:]\s*(-?\d+(?:\.\d+)?)/); return m ? [+m[1], +m[2]] : null; }).filter(Boolean), o = $("#pro", el);
+          if (P.length < 3) { o.textContent = "Enter at least three pairs"; return; }
+          var best = null;
+          R.forEach(function (r) { var bad = P.filter(function (p) { return Math.abs(r[1](p[0]) - p[1]) > 1e-9; }); if (bad.length === 1 && !best) best = [r, bad[0]]; });
+          o.innerHTML = best ? "Odd pair: " + best[1][0] + "–" + best[1][1] + "<small>The rule is " + best[0][0] + ": " + best[1][0] + " should give " + fmtN(best[0][1](best[1][0])) + ".</small>" : "No common rule found<small>Try other rules such as digit sums or reversed digits.</small>";
+        }
+        $("#prl", el).oninput = up; up();
+      }
+    },
+    oddgame: {
+      title: "Odd-one-out game", html: '<div class="opts" id="ogo"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="ogs">0</b> / <b id="ogn">0</b></span><button class="btn btn-accent btn-sm" id="ogg">Next</button></div><div class="why" id="ogw" hidden></div>',
+      init: function (el) {
+        var S = [[["Mango", "Apple", "Grapes"], "Carrot", "fruits"], [["Delhi", "Paris", "Tokyo"], "Asia", "cities"], [["Copper", "Iron", "Silver"], "Wood", "metals"], [["Rupee", "Dollar", "Yen"], "Bank", "currencies"], [["Hockey", "Cricket", "Football"], "Chess", "outdoor games"], [["Eagle", "Sparrow", "Parrot"], "Bat", "birds"], [["Square", "Triangle", "Hexagon"], "Circle", "polygons with straight sides"], [["Cobra", "Python", "Viper"], "Lizard", "snakes"], [["Monday", "Friday", "Sunday"], "March", "days"], [["Tabla", "Drum", "Dholak"], "Flute", "percussion instruments"], [["Ganga", "Yamuna", "Godavari"], "Himalaya", "rivers"], [["Wheat", "Rice", "Barley"], "Potato", "cereals"]], sc = 0, n = 0;
+        function round() {
+          var s = S[Math.floor(Math.random() * S.length)], items = s[0].concat([s[1]]), ord = shuffle(4), done = false;
+          $("#ogw", el).hidden = true;
+          $("#ogo", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-ok="' + (k === 3 ? 1 : 0) + '">' + items[k] + "</button>"; }).join("");
+          $$("#ogo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#ogo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#ogs", el).textContent = sc; $("#ogn", el).textContent = n; $("#ogw", el).hidden = false; $("#ogw", el).textContent = s[0].join(", ") + " are " + s[2] + "; " + s[1] + " is not."; }; });
+        }
+        $("#ogg", el).onclick = round; round();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
