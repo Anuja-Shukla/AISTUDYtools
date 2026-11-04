@@ -35,7 +35,7 @@ window.SSC = {
         ["averages", "Averages", "live"],
         ["interest", "Simple & compound interest", "live"],
         ["profit-loss", "Profit, loss & discount", "live"],
-        ["partnership", "Partnership", "soon"],
+        ["partnership", "Partnership", "live"],
         ["mixtures", "Mixtures & alligation", "soon"],
         ["time-work", "Time & work, pipes & cisterns", "soon"],
         ["tsd", "Time, speed & distance", "soon"],
