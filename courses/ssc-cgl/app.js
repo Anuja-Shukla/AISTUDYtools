@@ -245,9 +245,28 @@
     pts.forEach(function (p, i) { var f = i && KIN[p[2]][1] === "F"; h += '<circle cx="' + p[0] + '" cy="' + y(p[1]) + '" r="9" fill="' + (i === 0 ? "var(--ink)" : f ? "#e0679b" : "#3d7ae0") + '"/><text x="' + p[0] + '" y="' + (y(p[1]) + 22) + '" text-anchor="middle" font-size="10" fill="var(--muted)">' + p[2] + "</text>"; });
     return h + "</svg>";
   }
+  function pathSvg(P) {
+    var xs = P.map(function (p) { return p[0]; }), ys = P.map(function (p) { return p[1]; }), x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs), y0 = Math.min.apply(null, ys), y1 = Math.max.apply(null, ys), span = Math.max(x1 - x0, y1 - y0, 1), s = 180 / span, W = (x1 - x0) * s + 60, H = (y1 - y0) * s + 60;
+    var X = function (x) { return 30 + (x - x0) * s; }, Y = function (y) { return 30 + (y1 - y) * s; }, last = P[P.length - 1];
+    var h = '<svg viewBox="0 0 ' + W + " " + H + '" width="' + W + '" class="kinsvg" role="img" aria-label="Path">';
+    h += '<text x="' + (W - 14) + '" y="16" font-size="11" font-weight="700" fill="var(--muted)">N↑</text>';
+    if (P.length > 1) h += '<polyline points="' + P.map(function (p) { return X(p[0]) + "," + Y(p[1]); }).join(" ") + '" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linejoin="round"/>';
+    if (last[0] || last[1]) h += '<line x1="' + X(0) + '" y1="' + Y(0) + '" x2="' + X(last[0]) + '" y2="' + Y(last[1]) + '" stroke="#e0679b" stroke-width="2" stroke-dasharray="5 4"/>';
+    h += '<circle cx="' + X(0) + '" cy="' + Y(0) + '" r="6" fill="var(--ink)"/><circle cx="' + X(last[0]) + '" cy="' + Y(last[1]) + '" r="6" fill="#e0679b"/>';
+    return h + "</svg>";
+  }
+  function compassSvg(a, b) {
+    var L = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"], h = '<svg viewBox="0 0 200 200" width="200" class="kinsvg" role="img" aria-label="Compass"><circle cx="100" cy="100" r="78" fill="none" stroke="var(--border)" stroke-width="2"/>';
+    L.forEach(function (l, i) { var t = i * Math.PI / 4; h += '<text x="' + (100 + 92 * Math.sin(t)) + '" y="' + (104 - 92 * Math.cos(t)) + '" text-anchor="middle" font-size="' + (i % 2 ? 10 : 13) + '" font-weight="700" fill="var(--muted)">' + l + "</text>"; });
+    function arr(d, c, w) { var t = d * Math.PI / 180; return '<line x1="100" y1="100" x2="' + (100 + 64 * Math.sin(t)) + '" y2="' + (100 - 64 * Math.cos(t)) + '" stroke="' + c + '" stroke-width="' + w + '" stroke-linecap="round"/>'; }
+    if (a !== undefined) h += arr(a, "var(--border)", 4);
+    if (b !== undefined) h += arr(b, "var(--accent)", 5);
+    return h + '<circle cx="100" cy="100" r="5" fill="var(--ink)"/></svg>';
+  }
   function viz(x) {
     if (!x) return "";
     if (x.type === "share") return shareBar(x.r, x.total);
+    if (x.type === "compass") return compassSvg();
     if (x.type === "kin") return kinSvg(x.c);
     if (x.type === "alpha") return alphaViz();
     if (x.type === "alt") return altViz(x.v);
@@ -1788,6 +1807,62 @@
           $$("#rgo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#rgo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#rgs", el).textContent = sc; $("#rgn", el).textContent = n; $("#rgw", el).hidden = false; $("#rgw", el).innerHTML = kinSvg(c); }; });
         }
         $("#rgg", el).onclick = round; round();
+      }
+    }
+    ,
+    dirwalk: {
+      title: "Path tracer", html: '<p class="note">Start facing a direction, then add moves.</p><div class="field"><label for="dws">Start facing</label><select id="dws"><option>North</option><option>East</option><option>South</option><option>West</option></select></div><div class="row" style="gap:6px;flex-wrap:wrap"><button class="chip" data-m="F">Walk</button><button class="chip" data-m="R">Turn right</button><button class="chip" data-m="L">Turn left</button><input type="number" id="dwk" value="5" min="1" max="50" style="width:70px" aria-label="Distance"><button class="btn btn-sm" id="dwu">Undo</button><button class="btn btn-sm" id="dwc">Clear</button></div><div id="dwz"></div><div class="out" id="dwo"></div>',
+      init: function (el) {
+        var mv = [["F", 5], ["R", 0], ["F", 3], ["R", 0], ["F", 5]], N = ["North", "East", "South", "West"];
+        function up() {
+          var h = N.indexOf($("#dws", el).value), x = 0, y = 0, P = [[0, 0]], txt = [];
+          mv.forEach(function (m) { if (m[0] === "R") { h = (h + 1) % 4; txt.push("right"); } else if (m[0] === "L") { h = (h + 3) % 4; txt.push("left"); } else { x += [0, 1, 0, -1][h] * m[1]; y += [1, 0, -1, 0][h] * m[1]; P.push([x, y]); txt.push(m[1] + " " + N[h][0]); } });
+          $("#dwz", el).innerHTML = pathSvg(P);
+          var d = Math.sqrt(x * x + y * y), dir = (y > 0 ? "north" : y < 0 ? "south" : "") + (x && y ? "-" : "") + (x > 0 ? "east" : x < 0 ? "west" : "");
+          $("#dwo", el).innerHTML = (d ? fmtN(Math.round(d * 100) / 100) + " from start, " + dir : "Back at the start") + "<small>Net: " + Math.abs(x) + (x >= 0 ? " east" : " west") + ", " + Math.abs(y) + (y >= 0 ? " north" : " south") + ". Now facing " + N[h] + ". Moves: " + (txt.join(" · ") || "none") + ".</small>";
+        }
+        $$(".chip", el).forEach(function (b) { b.onclick = function () { if (mv.length < 16) mv.push([b.getAttribute("data-m"), Math.max(1, Math.min(50, +$("#dwk", el).value || 1))]); up(); }; });
+        $("#dwu", el).onclick = function () { mv.pop(); up(); };
+        $("#dwc", el).onclick = function () { mv = []; up(); };
+        $("#dws", el).onchange = up; up();
+      }
+    },
+    dirturn: {
+      title: "Turn by angle", html: '<div class="field"><label for="dts">Start facing</label><select id="dts"><option value="0">North</option><option value="45">North-east</option><option value="90">East</option><option value="135">South-east</option><option value="180" selected>South</option><option value="225">South-west</option><option value="270">West</option><option value="315">North-west</option></select></div><div class="field"><label for="dta">Turn <b id="dtav">135</b>°</label><input type="range" id="dta" min="0" max="360" step="45" value="135"></div><div class="field"><label for="dtd">Direction</label><select id="dtd"><option value="1">Clockwise (right)</option><option value="-1">Anticlockwise (left)</option></select></div><div id="dtz"></div><div class="out" id="dto"></div>',
+      init: function (el) {
+        var NM = ["North", "North-east", "East", "South-east", "South", "South-west", "West", "North-west"];
+        function up() {
+          var s = +$("#dts", el).value, a = +$("#dta", el).value, d = +$("#dtd", el).value, e = ((s + d * a) % 360 + 360) % 360;
+          $("#dtav", el).textContent = a; $("#dtz", el).innerHTML = compassSvg(s, e);
+          $("#dto", el).innerHTML = "Now facing " + NM[e / 45] + "<small>" + s + "° " + (d > 0 ? "+" : "−") + " " + a + "° = " + e + "° (measured clockwise from north).</small>";
+        }
+        $$("select,input", el).forEach(function (x) { x.oninput = up; }); up();
+      }
+    },
+    dirshadow: {
+      title: "Shadow direction", html: '<div class="grid2"><div class="field"><label for="dsh">Time</label><select id="dsh"><option value="m">Morning</option><option value="e">Evening</option></select></div><div class="field"><label for="dsf">Shadow falls to my</label><select id="dsf"><option value="r">right</option><option value="l">left</option><option value="b">back</option><option value="f">front</option></select></div></div><div class="out" id="dso"></div>',
+      init: function (el) {
+        var N = ["North", "East", "South", "West"];
+        function up() {
+          var sh = $("#dsh", el).value === "m" ? 3 : 1, off = { f: 0, r: 1, b: 2, l: 3 }[$("#dsf", el).value], face = ((sh - off) % 4 + 4) % 4;
+          $("#dso", el).innerHTML = "You are facing " + N[face] + "<small>The sun is in the " + ($("#dsh", el).value === "m" ? "east" : "west") + ", so the shadow points " + N[sh] + ". Shadow " + { f: "in front", r: "to your right", b: "behind you", l: "to your left" }[$("#dsf", el).value] + " → you face " + N[face] + ".</small>";
+        }
+        $$("select", el).forEach(function (x) { x.onchange = up; }); up();
+      }
+    },
+    dirgame: {
+      title: "Where do I face?", html: '<div class="big" id="dgq" style="text-align:center;font-size:18px;font-weight:800">…</div><div class="opts" id="dgo"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="dgs">0</b> / <b id="dgn">0</b></span><button class="btn btn-accent btn-sm" id="dgg">Next</button></div><div class="why" id="dgw" hidden></div>',
+      init: function (el) {
+        var N = ["North", "East", "South", "West"], sc = 0, n = 0;
+        function round() {
+          var s = Math.floor(Math.random() * 4), k = 2 + Math.floor(Math.random() * 3), t = [], h = s, done = false;
+          for (var i = 0; i < k; i++) { var r = Math.random() < 0.5; t.push(r ? "right" : "left"); h = (h + (r ? 1 : 3)) % 4; }
+          var ord = shuffle(4);
+          $("#dgq", el).textContent = "Facing " + N[s] + ", turn " + t.join(", ") + ". Now facing?"; $("#dgw", el).hidden = true;
+          $("#dgo", el).innerHTML = ord.map(function (j) { return '<button class="opt" data-ok="' + (j === h ? 1 : 0) + '">' + N[j] + "</button>"; }).join("");
+          $$("#dgo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#dgo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#dgs", el).textContent = sc; $("#dgn", el).textContent = n; $("#dgw", el).hidden = false; var hh = s; $("#dgw", el).textContent = N[s] + t.map(function (x) { hh = (hh + (x === "right" ? 1 : 3)) % 4; return " → " + N[hh]; }).join(""); }; });
+        }
+        $("#dgg", el).onclick = round; round();
       }
     }
   };

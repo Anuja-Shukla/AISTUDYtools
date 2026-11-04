@@ -1,0 +1,10 @@
+# SSC CGL Reasoning — Direction sense
+Welcome! This SSC CGL lesson is about direction sense. || Welcome! This S S C C G L lesson is about direction sense.
+North is up, east is right. Clockwise: N, E, S, W. || On paper, north is up and east is to the right. Going clockwise, the order is north, east, south, west. The corners north east, south east, south west and north west lie halfway between.
+Right turn is clockwise; left turn is anticlockwise. || A right turn is ninety degrees clockwise. A left turn is ninety degrees anticlockwise. Facing north, turn right, right, then left, and you face east.
+Use angles: N 0°, E 90°, S 180°, W 270°. || For bigger turns, use angles from north. Facing south, which is one eighty, turn one thirty five degrees clockwise. One eighty plus one thirty five is three fifteen, which is north west.
+Distance: add each axis, then Pythagoras. || For distance, add up the east west moves and the north south moves separately. Four east and three north gives a shortest distance of five, by the three four five triangle.
+Shadows: morning → west; evening → east. || In the morning the sun is in the east, so shadows fall to the west. In the evening, shadows fall to the east. If your morning shadow is on your right, you are facing south.
+Relative position: put the reference person at the centre. || For relative position, put the reference person at the centre. A is ten metres south of B, and C is six metres east of A. So C is south east of B.
+Try this: 8 km north, then left 6 km. The answer is A, 10 km. || Try this. Walk eight kilometres north, turn left and walk six. How far are you from the start? The answer is A, ten kilometres, by the six eight ten triangle.
+Recap. Now try the tools and the practice questions below. || To recap. Draw the path with north up. Track your facing after every turn. Add each axis, then use Pythagoras. And remember the sun for shadow questions. Now try the tools and the practice questions below this video.
