@@ -1192,6 +1192,70 @@
         $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
       }
     }
+    ,
+    ratios6: {
+      title: "All six ratios from a triangle", html: '<p class="small muted">Enter the two shorter sides of a right triangle (P opposite θ, B next to θ).</p><div class="grid g2"><div class="field"><label for="rP">Perpendicular P</label><input type="number" id="rP" value="3"></div><div class="field"><label for="rB">Base B</label><input type="number" id="rB" value="4"></div></div><div id="rtz"></div><div class="tscroll"><table class="pt" id="r6"></table></div><div class="out" id="r6o"></div>',
+      init: function (el) {
+        function fr(a, b) { var g = function (x, y) { x = Math.round(x * 1e6); y = Math.round(y * 1e6); while (y) { var t = x % y; x = y; y = t; } return x; }; if (Math.abs(a - Math.round(a)) < 1e-9 && Math.abs(b - Math.round(b)) < 1e-9) { var k = g(a, b) / 1e6; return fmtN(a / k) + "/" + fmtN(b / k); } return fmtN(a / b); }
+        function up() {
+          var P = parseFloat($("#rP", el).value), B = parseFloat($("#rB", el).value), o = $("#r6o", el);
+          if (!(P > 0 && B > 0)) { $("#r6", el).innerHTML = ""; o.textContent = "Enter two positive sides"; return; }
+          var H = Math.hypot(P, B), Hs = Math.abs(H - Math.round(H)) < 1e-9 ? fmtN(H) : "√" + fmtN(P * P + B * B);
+          $("#rtz", el).innerHTML = rtSvg(B, P, H);
+          var R = [["sin θ", "P/H", P, H], ["cos θ", "B/H", B, H], ["tan θ", "P/B", P, B], ["cosec θ", "H/P", H, P], ["sec θ", "H/B", H, B], ["cot θ", "B/P", B, P]];
+          $("#r6", el).innerHTML = "<tr><th>Ratio</th><th>Rule</th><th>Value</th><th>Decimal</th></tr>" + R.map(function (r) { var exact = Hs.charAt(0) === "√" && (r[2] === H || r[3] === H) ? (r[2] === H ? Hs + "/" + fmtN(r[3]) : fmtN(r[2]) + "/" + Hs) : fr(r[2], r[3]); return "<tr><td>" + r[0] + "</td><td>" + r[1] + "</td><td><b>" + exact + "</b></td><td>" + fmtN(r[2] / r[3]) + "</td></tr>"; }).join("");
+          var th = Math.atan(P / B) * 180 / Math.PI;
+          o.innerHTML = "H = " + Hs + " · θ ≈ " + fmtN(th) + "°<small>Check: sin²θ + cos²θ = " + fmtN(P * P / (H * H)) + " + " + fmtN(B * B / (H * H)) + " = 1.</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
+    },
+    unitc: {
+      title: "sin, cos and tan as the angle turns", html: '<div class="field"><label for="ua">Angle θ: <b id="uav">30</b>°</label><input type="range" id="ua" min="0" max="90" value="30"></div><div class="row small"><span class="muted">Jump to:</span>' + [0, 30, 45, 60, 90].map(function (a) { return '<button class="btn btn-sm btn-line" data-a="' + a + '">' + a + "°</button>"; }).join("") + '</div><div id="ucz"></div><div class="out" id="uco"></div>',
+      init: function (el) {
+        var EX = { 0: ["0", "1", "0"], 30: ["1/2", "√3/2", "1/√3"], 45: ["1/√2", "1/√2", "1"], 60: ["√3/2", "1/2", "√3"], 90: ["1", "0", "not defined"] };
+        function up() {
+          var a = +$("#ua", el).value, r = a * Math.PI / 180, s = Math.sin(r), c = Math.cos(r);
+          $("#uav", el).textContent = a;
+          var X = 20 + 150 * c, Y = 170 - 150 * s;
+          $("#ucz", el).innerHTML = '<svg class="geo" viewBox="0 0 200 190" role="img" aria-label="Quarter circle"><path d="M20 170 L170 170 A150 150 0 0 0 20 20 Z" fill="#FAFAFF" stroke="#D6D7EE"/><line x1="20" y1="170" x2="' + X + '" y2="' + Y + '" stroke="#1E1B4B" stroke-width="2.5"/><line x1="' + X + '" y1="' + Y + '" x2="' + X + '" y2="170" stroke="#4F46E5" stroke-width="4"/><line x1="20" y1="170" x2="' + X + '" y2="170" stroke="#F59E0B" stroke-width="4"/><circle cx="' + X + '" cy="' + Y + '" r="5" fill="#1E1B4B"/><text x="' + (X + 6) + '" y="' + ((Y + 170) / 2) + '" font-size="12" font-weight="700" fill="#4F46E5">sin</text><text x="' + ((20 + X) / 2) + '" y="185" font-size="12" font-weight="700" fill="#B45309" text-anchor="middle">cos</text></svg>';
+          var ex = EX[a];
+          $("#uco", el).innerHTML = "sin " + a + "° = " + (ex ? ex[0] : fmtN(s)) + " · cos " + a + "° = " + (ex ? ex[1] : fmtN(c)) + " · tan " + a + "° = " + (ex ? ex[2] : fmtN(s / c)) + "<small>On a circle of radius 1, sin is the height (blue) and cos the base (orange). As θ grows, sin rises and cos falls; sin θ = cos(90° − θ) = cos " + (90 - a) + "°.</small>";
+        }
+        $("#ua", el).oninput = up;
+        $$("[data-a]", el).forEach(function (b) { b.onclick = function () { $("#ua", el).value = b.getAttribute("data-a"); up(); }; });
+        up();
+      }
+    },
+    heights: {
+      title: "Height and distance", html: '<div class="field"><label for="hk">Find…</label><select id="hk"><option value="h">height (know distance and angle)</option><option value="d">distance (know height and angle)</option><option value="a">angle (know height and distance)</option></select></div><div class="grid g3"><div class="field" data-h="h"><label for="hh">Height</label><input type="number" id="hh" value="100"></div><div class="field" data-h="d"><label for="hd">Distance</label><input type="number" id="hd" value="30"></div><div class="field" data-h="a"><label for="ha">Angle of elevation (°)</label><input type="number" id="ha" value="60"></div></div><div id="hz"></div><div class="out" id="hgo"></div>',
+      init: function (el) {
+        function rt3(v) { var k = v / Math.sqrt(3); return Math.abs(k - Math.round(k)) < 1e-6 && Math.round(k) ? " (= " + fmtN(Math.round(k)) + "√3)" : ""; }
+        function up() {
+          var k = $("#hk", el).value, h = parseFloat($("#hh", el).value), d = parseFloat($("#hd", el).value), a = parseFloat($("#ha", el).value), o = $("#hgo", el);
+          $$("[data-h]", el).forEach(function (f) { f.hidden = f.getAttribute("data-h") === k; });
+          var t = Math.tan(a * Math.PI / 180);
+          if (k === "h") { if (!(d > 0 && a > 0 && a < 90)) { o.textContent = "Enter a distance and an angle between 0° and 90°"; return; } h = d * t; o.innerHTML = "Height = " + fmtN(h) + rt3(h) + "<small>distance × tan " + fmtN(a) + "° = " + fmtN(d) + " × " + fmtN(t) + "</small>"; }
+          else if (k === "d") { if (!(h > 0 && a > 0 && a < 90)) { o.textContent = "Enter a height and an angle between 0° and 90°"; return; } d = h / t; o.innerHTML = "Distance = " + fmtN(d) + rt3(d) + "<small>height ÷ tan " + fmtN(a) + "° = " + fmtN(h) + " ÷ " + fmtN(t) + ". The angle of depression from the top is also " + fmtN(a) + "°.</small>"; }
+          else { if (!(h > 0 && d > 0)) { o.textContent = "Enter a height and a distance"; return; } a = Math.atan(h / d) * 180 / Math.PI; o.innerHTML = "Angle = " + fmtN(a) + "°<small>tan θ = " + fmtN(h) + " ÷ " + fmtN(d) + " = " + fmtN(h / d) + "</small>"; }
+          var W = 220, s = 140 / Math.max(h, d), Hs = h * s, Ds = d * s;
+          $("#hz", el).innerHTML = '<svg class="geo" viewBox="0 0 ' + (Ds + 60) + " " + (Hs + 40) + '" role="img" aria-label="Tower and observer"><rect x="' + (Ds + 20) + '" y="10" width="14" height="' + Hs + '" fill="#C7C9F2" stroke="#4F46E5"/><line x1="10" y1="' + (Hs + 10) + '" x2="' + (Ds + 50) + '" y2="' + (Hs + 10) + '" stroke="#94A3B8" stroke-width="2"/><line x1="10" y1="' + (Hs + 10) + '" x2="' + (Ds + 27) + '" y2="10" stroke="#F59E0B" stroke-width="2.5" stroke-dasharray="5 4"/><circle cx="10" cy="' + (Hs + 10) + '" r="5" fill="#1E1B4B"/><text x="24" y="' + (Hs + 4) + '" font-size="12" font-weight="700" fill="#B45309">' + fmtN(a) + "°</text></svg>";
+        }
+        $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
+      }
+    },
+    twoang: {
+      title: "Two angles of elevation", html: '<p class="small muted">Two observers on the same side of a tower see its top at two angles.</p><div class="grid g3"><div class="field"><label for="ta1">Farther point angle (°)</label><input type="number" id="ta1" value="30"></div><div class="field"><label for="ta2">Nearer point angle (°)</label><input type="number" id="ta2" value="60"></div><div class="field"><label for="tgp">Gap between points</label><input type="number" id="tgp" value="40"></div></div><div class="out" id="tao"></div>',
+      init: function (el) {
+        function up() {
+          var a = parseFloat($("#ta1", el).value), b = parseFloat($("#ta2", el).value), g = parseFloat($("#tgp", el).value), o = $("#tao", el);
+          if (!(a > 0 && b > a && b < 90 && g > 0)) { o.textContent = "The nearer point must have the bigger angle (both below 90°)"; return; }
+          var ca = 1 / Math.tan(a * Math.PI / 180), cb = 1 / Math.tan(b * Math.PI / 180), h = g / (ca - cb), k = h / Math.sqrt(3);
+          o.innerHTML = "Height = " + fmtN(h) + (Math.abs(k - Math.round(k)) < 1e-6 ? " (= " + fmtN(Math.round(k)) + "√3)" : "") + "<small>h × cot " + fmtN(a) + "° − h × cot " + fmtN(b) + "° = gap → h = " + fmtN(g) + " ÷ (" + fmtN(ca) + " − " + fmtN(cb) + "). The nearer point is " + fmtN(h * cb) + " from the foot.</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
