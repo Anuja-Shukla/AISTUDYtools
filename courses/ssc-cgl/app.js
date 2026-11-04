@@ -137,9 +137,17 @@
   function allig(c, d, m) {
     return '<div class="allig"><div class="ax c">' + fmtN(c) + '<small>cheaper</small></div><div class="ax d">' + fmtN(d) + '<small>dearer</small></div><div class="ax m">' + fmtN(m) + '<small>mean</small></div><div class="ax rc">' + fmtN(d - m) + '<small>parts of cheaper</small></div><div class="ax rd">' + fmtN(m - c) + '<small>parts of dearer</small></div><svg viewBox="0 0 300 150" preserveAspectRatio="none" aria-hidden="true"><path d="M70 30 L230 120 M230 30 L70 120" stroke="#C7C9F2" stroke-width="3" fill="none"/></svg></div>';
   }
+  function gcd2(a, b) { a = Math.abs(Math.round(a)); b = Math.abs(Math.round(b)); while (b) { var t = a % b; a = b; b = t; } return a || 1; }
+  function lcm(a, b) { return Math.abs(a * b) / gcd2(a, b); }
+  function unitsViz(ds) {
+    var L = ds.reduce(function (a, d) { return lcm(a, Math.abs(d)); }, 1);
+    if (L > 400) return '<p class="small muted">Job = ' + L + " units (too many to draw).</p>";
+    return '<div class="uviz"><div class="ul">Job = LCM = <b>' + L + " units</b></div>" + ds.map(function (d, i) { var r = L / Math.abs(d), cells = ""; for (var k = 0; k < Math.min(r, 60); k++) cells += "<i></i>"; return '<div class="ur"><b>' + "ABC"[i] + "</b><span class=\"" + (d < 0 ? "neg" : "") + '">' + cells + "</span><small>" + (d < 0 ? "−" : "") + fmtN(r) + " a day</small></div>"; }).join("") + "</div>";
+  }
   function viz(x) {
     if (!x) return "";
     if (x.type === "share") return shareBar(x.r, x.total);
+    if (x.type === "units") return unitsViz(x.d);
     if (x.type === "allig") return allig(x.c, x.d, x.m);
     if (x.type === "chainprice") { var mp = x.cp * (1 + x.up / 100), sp = mp * (1 - x.d / 100); return '<div class="chain" style="margin:8px 0"><span class="v">CP ' + fmtN(x.cp) + '</span><span class="op up">+' + x.up + '%</span><span class="v">MP ' + fmtN(mp) + '</span><span class="op dn">−' + x.d + '%</span><span class="v">SP ' + fmtN(sp) + "</span></div>"; }
     if (x.type === "grid") { var g = '<div class="g100" data-n="' + x.n + '">'; for (var i = 0; i < 100; i++) g += "<i></i>"; return g + '</div><input type="range" min="0" max="100" value="' + x.n + '" aria-label="Per cent" class="gr" style="max-width:260px"><p class="small muted gl"></p>'; }
@@ -800,6 +808,61 @@
           var fa = v[0] / (v[0] + v[1]), fb = v[2] / (v[2] + v[3]), milk = v[4] * fa + v[5] * fb, water = v[4] + v[5] - milk;
           var L = (v[0] + v[1]) * (v[2] + v[3]), M = Math.round(milk * L * 1e6) / 1e6, W = Math.round(water * L * 1e6) / 1e6, isInt = Math.abs(M - Math.round(M)) < 1e-6 && Math.abs(W - Math.round(W)) < 1e-6, k = isInt ? g(M, W) : 1;
           o.innerHTML = "Milk : Water = " + (isInt ? fmtN(M / k) + " : " + fmtN(W / k) : fmtN(milk / water) + " : 1") + "<small>Milk fractions " + fmtN(v[0]) + "/" + fmtN(v[0] + v[1]) + " and " + fmtN(v[2]) + "/" + fmtN(v[2] + v[3]) + ", weighted " + fmtN(v[4]) + " : " + fmtN(v[5]) + " → milk is " + fmtN(milk / (v[4] + v[5]) * 100) + "% of the mix.</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
+    }
+    ,
+    together: {
+      title: "Working together (LCM method)", html: '<p class="small muted">Enter days for up to three workers. Use a minus sign for someone who undoes work (or a leak).</p><div class="grid g3"><div class="field"><label for="ta">A (days)</label><input type="number" id="ta" value="10"></div><div class="field"><label for="tb">B (days)</label><input type="number" id="tb" value="15"></div><div class="field"><label for="tc">C (days, optional)</label><input type="number" id="tc" value=""></div></div><div id="tu"></div><div class="out" id="tgo"></div>',
+      init: function (el) {
+        function up() {
+          var ds = ["#ta", "#tb", "#tc"].map(function (s) { return parseFloat($(s, el).value); }).filter(function (x) { return isFinite(x) && x !== 0; }), o = $("#tgo", el);
+          if (!ds.length || ds.some(function (d) { return Math.abs(d) > 1000 || Math.round(d) !== d; })) { $("#tu", el).innerHTML = ""; o.textContent = "Enter whole numbers of days"; return; }
+          $("#tu", el).innerHTML = unitsViz(ds);
+          var L = ds.reduce(function (a, d) { return lcm(a, Math.abs(d)); }, 1), r = ds.map(function (d) { return L / d; }), net = r.reduce(function (a, b) { return a + b; }, 0);
+          o.innerHTML = (net > 0 ? "Together: " + fmtN(L / net) + " days" : "The job never gets done (net rate ≤ 0)") + "<small>Job = LCM = " + L + " units. Per day: " + ds.map(function (d, i) { return "ABC"[i] + " " + (r[i] > 0 ? "+" : "−") + fmtN(Math.abs(r[i])); }).join(", ") + " → net " + fmtN(net) + " a day." + (net > 0 ? " " + L + " ÷ " + fmtN(net) + " = " + fmtN(L / net) + "." : "") + "</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
+    },
+    leaves: {
+      title: "Someone leaves midway", html: '<div class="grid g4"><div class="field"><label for="la">A (days)</label><input type="number" id="la" value="20"></div><div class="field"><label for="lb">B (days)</label><input type="number" id="lb" value="30"></div><div class="field"><label for="lt">Together for (days)</label><input type="number" id="lt" value="6"></div><div class="field"><label for="lw">Then who leaves?</label><select id="lw"><option value="a">A leaves</option><option value="b">B leaves</option></select></div></div><div class="prog" id="lpg"></div><div class="out" id="lo"></div>',
+      init: function (el) {
+        function up() {
+          var a = Math.round(+$("#la", el).value), b = Math.round(+$("#lb", el).value), t = parseFloat($("#lt", el).value), w = $("#lw", el).value, o = $("#lo", el);
+          if (!(a > 0 && b > 0 && t >= 0)) { $("#lpg", el).innerHTML = ""; o.textContent = "Enter positive days"; return; }
+          var L = lcm(a, b), ra = L / a, rb = L / b, done = Math.min(L, t * (ra + rb)), left = L - done, rr = w === "a" ? rb : ra, more = left / rr;
+          $("#lpg", el).innerHTML = '<i style="width:' + done / L * 100 + '%;background:var(--accent)"></i><i style="width:' + left / L * 100 + '%;background:#F59E0B"></i>';
+          o.innerHTML = (left <= 0 ? "Finished while both worked" : (w === "a" ? "B" : "A") + " finishes in " + fmtN(more) + " more days (total " + fmtN(t + more) + ")") + "<small>Job " + L + " units; A " + fmtN(ra) + "/day, B " + fmtN(rb) + "/day. Together " + fmtN(t) + " days → " + fmtN(done) + " units (blue). Left " + fmtN(left) + " (orange) at " + fmtN(rr) + " a day.</small>";
+        }
+        $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
+      }
+    },
+    mandays: {
+      title: "Men, days and hours", html: '<p class="small muted">Same job: M₁ × D₁ × H₁ = M₂ × D₂ × H₂. Leave one box on the right empty to find it.</p><div class="grid g2"><div><b>Before</b><div class="grid g3"><div class="field"><label for="m1">Men</label><input type="number" id="m1" value="10"></div><div class="field"><label for="d1">Days</label><input type="number" id="d1" value="12"></div><div class="field"><label for="h1">Hours/day</label><input type="number" id="h1" value="8"></div></div></div><div><b>After</b><div class="grid g3"><div class="field"><label for="m2">Men</label><input type="number" id="m2" value="16"></div><div class="field"><label for="d2">Days</label><input type="number" id="d2" value=""></div><div class="field"><label for="h2">Hours/day</label><input type="number" id="h2" value="6"></div></div></div></div><div class="field"><label for="wr">Second job is … times the first (1 = same job)</label><input type="number" id="wr" value="1"></div><div class="out" id="mdo"></div>',
+      init: function (el) {
+        function up() {
+          var v = ["#m1", "#d1", "#h1", "#m2", "#d2", "#h2"].map(function (s) { return parseFloat($(s, el).value); }), k = parseFloat($("#wr", el).value) || 1, o = $("#mdo", el);
+          if (!(v[0] > 0 && v[1] > 0 && v[2] > 0)) { o.textContent = "Fill in all three 'before' boxes"; return; }
+          var miss = [3, 4, 5].filter(function (i) { return !(v[i] > 0); });
+          if (miss.length !== 1) { o.textContent = "Leave exactly one 'after' box empty"; return; }
+          var W = v[0] * v[1] * v[2] * k, i = miss[0], others = [3, 4, 5].filter(function (j) { return j !== i; }), ans = W / (v[others[0]] * v[others[1]]);
+          o.innerHTML = ["Men", "Days", "Hours a day"][i - 3] + " needed = " + fmtN(ans) + "<small>" + fmtN(v[0]) + " × " + fmtN(v[1]) + " × " + fmtN(v[2]) + (k !== 1 ? " × " + fmtN(k) : "") + " = " + fmtN(W) + " man-hours ÷ (" + fmtN(v[others[0]]) + " × " + fmtN(v[others[1]]) + ")</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
+    },
+    pipes: {
+      title: "Tank filler", html: '<p class="small muted">Hours to fill (+) or empty (−) the full tank for each pipe. Drag the slider to watch the level.</p><div class="grid g3"><div class="field"><label for="pa3">Pipe A (h)</label><input type="number" id="pa3" value="10"></div><div class="field"><label for="pb3">Pipe B (h)</label><input type="number" id="pb3" value="15"></div><div class="field"><label for="pc3">Pipe C (h)</label><input type="number" id="pc3" value="-30"></div></div><div class="grid g2" style="align-items:center"><div class="tank big" id="ptk"><i></i><span></span></div><div class="field"><label for="pt3">After <b id="ptv">0</b> hours</label><input type="range" id="pt3" min="0" max="100" value="50"></div></div><div class="out" id="pto"></div>',
+      init: function (el) {
+        function up() {
+          var hs = ["#pa3", "#pb3", "#pc3"].map(function (s) { return parseFloat($(s, el).value); }).filter(function (x) { return isFinite(x) && x !== 0; }), o = $("#pto", el);
+          if (!hs.length) { o.textContent = "Enter at least one pipe"; return; }
+          var net = hs.reduce(function (a, h) { return a + 1 / h; }, 0), T = net > 0 ? 1 / net : Infinity, s = +$("#pt3", el).value / 100, tmax = isFinite(T) ? T : 24, t = s * tmax, lvl = Math.max(0, Math.min(1, net * t));
+          $("#ptv", el).textContent = fmtN(t);
+          $("#ptk i", el).style.height = lvl * 100 + "%"; $("#ptk span", el).textContent = fmtN(lvl * 100) + "% full";
+          o.innerHTML = (net > 0 ? "Full in " + fmtN(T) + " hours" : "It never fills: the outlets are faster") + "<small>Net rate = " + hs.map(function (h) { return (h > 0 ? "+" : "−") + "1/" + fmtN(Math.abs(h)); }).join(" ") + " = " + fmtN(net * 100) + "% of the tank per hour.</small>";
         }
         $$("input", el).forEach(function (i) { i.oninput = up; }); up();
       }

@@ -226,3 +226,11 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 .rep .jar i{position:absolute;left:0;right:0;bottom:0;background:#F5F0E1;border-top:2px solid #E7DCBB}
 .rep small{font-size:11.5px;color:var(--muted)}.rep b{color:var(--ink)}
 .field .row{flex-wrap:nowrap;gap:6px}.field .row input{min-width:0;flex:1 1 0}
+/* time & work tools */
+.uviz{display:grid;gap:6px;margin:6px 0}
+.uviz .ul{font-size:14px;color:var(--muted)}
+.ur{display:grid;grid-template-columns:22px 1fr auto;gap:8px;align-items:center}
+.ur span{display:flex;flex-wrap:wrap;gap:3px}.ur span i{width:14px;height:14px;border-radius:3px;background:var(--accent)}.ur span.neg i{background:#F43F5E}
+.ur small{font-size:12.5px;font-weight:700;color:var(--muted);white-space:nowrap}
+.prog{display:flex;height:22px;border-radius:999px;overflow:hidden;background:#EEEEF3}.prog i{display:block;height:100%}
+.tank.big{width:120px;height:140px}

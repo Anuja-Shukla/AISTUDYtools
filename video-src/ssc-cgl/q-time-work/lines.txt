@@ -1,0 +1,10 @@
+# SSC CGL Quant — Time & work, pipes & cisterns
+Welcome! This SSC CGL lesson is about time and work, and pipes and cisterns. || Welcome! This S S C C G L lesson is about time and work, and pipes and cisterns.
+If A finishes a job in 10 days, A does 1/10 of it each day. || If A finishes a job in ten days, A does one tenth of it each day. Working together, the rates add up.
+LCM method: let the job be the LCM of the days. || The fastest method is to let the job be the L C M of the days. A takes ten days and B fifteen. The job is thirty units. A does three a day, B does two. Together they do five, so they finish in six days.
+Efficiency is the inverse of time. || Efficiency and time are inversely proportional. If A is twice as efficient as B, give A two units a day and B one. If together they take twelve days, the job is thirty six units, and A alone takes eighteen days.
+Someone leaves: find what is done, then divide what is left. || If someone leaves midway, find the work done first. A and B do five units a day for six days, which is thirty of sixty units. B then does the remaining thirty at two a day, in fifteen days.
+Men × days × hours stays the same for the same job. || For the same job, men times days times hours stays the same. Twelve men take ten days, so fifteen men take twelve times ten divided by fifteen, which is eight days.
+Pipes: filling is plus, emptying is minus. || In pipes and cisterns, a filling pipe adds and a leak subtracts. A fills a tank in twelve hours and B empties it in eighteen. One twelfth minus one eighteenth is one thirty sixth, so the tank fills in thirty six hours.
+Try this: A 10 days, B 15 days, together? The answer is A, 6 days. || Try this. A can finish a job in ten days and B in fifteen. How long together? The answer is A, six days. Thirty units at five a day.
+Recap. Now try the tools and the practice questions below. || To recap. Make the job the L C M. Work in units per day. Pipes that empty are negative. And for teams, men times days times hours is constant. Now try the tools and the practice questions below this video.
