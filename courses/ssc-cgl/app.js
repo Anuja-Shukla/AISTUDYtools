@@ -137,6 +137,7 @@
   function viz(x) {
     if (!x) return "";
     if (x.type === "share") return shareBar(x.r, x.total);
+    if (x.type === "chainprice") { var mp = x.cp * (1 + x.up / 100), sp = mp * (1 - x.d / 100); return '<div class="chain" style="margin:8px 0"><span class="v">CP ' + fmtN(x.cp) + '</span><span class="op up">+' + x.up + '%</span><span class="v">MP ' + fmtN(mp) + '</span><span class="op dn">−' + x.d + '%</span><span class="v">SP ' + fmtN(sp) + "</span></div>"; }
     if (x.type === "grid") { var g = '<div class="g100" data-n="' + x.n + '">'; for (var i = 0; i < 100; i++) g += "<i></i>"; return g + '</div><input type="range" min="0" max="100" value="' + x.n + '" aria-label="Per cent" class="gr" style="max-width:260px"><p class="small muted gl"></p>'; }
     if (x.type === "fractions") return '<div class="ftab">' + FR.slice(0, 15).map(function (f) { return "<div>" + f[0] + "<small>" + f[1] + "</small></div>"; }).join("") + '</div>';
     return "";
@@ -611,6 +612,67 @@
           if (!(n > 1 && T > 0 && m > 1)) { o.textContent = "Times must be more than 1 and years more than 0"; return; }
           if (t === "si") { var R = 100 * (n - 1) / T, T2 = 100 * (m - 1) / R; o.innerHTML = "Rate " + fmtN(R) + "% · " + fmtN(m) + " times in " + fmtN(T2) + " years<small>SI: R × T = 100 × (n − 1). R = 100 × " + fmtN(n - 1) + " ÷ " + fmtN(T) + ". For " + fmtN(m) + " times: T = 100 × " + fmtN(m - 1) + " ÷ " + fmtN(R) + ".</small>"; }
           else { var Rc = (Math.pow(n, 1 / T) - 1) * 100, T3 = T * Math.log(m) / Math.log(n), k = Math.log(m) / Math.log(n), whole = Math.abs(k - Math.round(k)) < 1e-9; o.innerHTML = "Rate ≈ " + fmtN(Rc) + "% · " + fmtN(m) + " times in " + fmtN(T3) + " years<small>CI multiplies: " + (whole ? fmtN(m) + " = " + fmtN(n) + "^" + Math.round(k) + ", so " + Math.round(k) + " × " + fmtN(T) + " years. " : "") + "Rate = (" + fmtN(n) + "^(1/" + fmtN(T) + ") − 1) × 100.</small>"; }
+        }
+        $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
+      }
+    }    ,
+    plcalc: {
+      title: "Profit and loss calculator", html: '<div class="field"><label for="pm">I know…</label><select id="pm"><option value="cs">CP and SP</option><option value="cp">CP and profit / loss %</option><option value="sp">SP and profit / loss %</option></select></div><div class="grid g3"><div class="field" data-g="c"><label for="pc2">Cost price ₹</label><input type="number" id="pc2" value="400"></div><div class="field" data-g="s"><label for="ps2">Selling price ₹</label><input type="number" id="ps2" value="500"></div><div class="field" data-g="p"><label for="pp2">Profit % (use − for loss)</label><input type="number" id="pp2" value="15"></div></div><div class="bars" id="pbars"></div><div class="out" id="pout"></div>',
+      init: function (el) {
+        function up() {
+          var m = $("#pm", el).value, c = parseFloat($("#pc2", el).value), s = parseFloat($("#ps2", el).value), p = parseFloat($("#pp2", el).value), o = $("#pout", el), how;
+          $$("[data-g]", el).forEach(function (f) { var g = f.getAttribute("data-g"); f.hidden = (m === "cs" && g === "p") || (m === "cp" && g === "s") || (m === "sp" && g === "c"); });
+          if (m === "cs") { if (!(c > 0 && s >= 0)) { o.textContent = "Enter CP and SP"; return; } p = (s - c) / c * 100; how = "(" + fmtN(s) + " − " + fmtN(c) + ") ÷ " + fmtN(c) + " × 100"; }
+          else if (m === "cp") { if (!(c > 0) || !(p > -100)) { o.textContent = "Enter CP and a % above −100"; return; } s = c * (100 + p) / 100; how = "SP = " + fmtN(c) + " × " + fmtN((100 + p) / 100) + " = ₹" + fmtN(s); }
+          else { if (!(s > 0) || !(p > -100)) { o.textContent = "Enter SP and a % above −100"; return; } c = s * 100 / (100 + p); how = "CP = " + fmtN(s) + " ÷ " + fmtN((100 + p) / 100) + " = ₹" + fmtN(c) + " (divide; don't subtract " + fmtN(Math.abs(p)) + "% of the SP)"; }
+          var mx = Math.max(c, s) || 1;
+          $("#pbars", el).innerHTML = '<div class="b"><b>CP</b><span class="bar" style="width:' + (c / mx * 100) + '%"></span><span>₹' + fmtN(c) + '</span></div><div class="b"><b>SP</b><span class="bar n" style="width:' + (s / mx * 100) + '%"></span><span>₹' + fmtN(s) + "</span></div>";
+          o.innerHTML = (Math.abs(s - c) < 1e-9 ? "No profit, no loss" : (s > c ? "Profit ₹" : "Loss ₹") + fmtN(Math.abs(s - c)) + " = " + fmtN(Math.abs(p)) + "%") + "<small>" + how + ". The % is always on the cost price.</small>";
+        }
+        $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
+      }
+    },
+    mpchain: {
+      title: "Cost → marked → selling price", html: '<div class="grid g3"><div class="field"><label for="mcp">Cost price ₹</label><input type="number" id="mcp" value="100"></div><div class="field"><label for="mup">Marked up by %</label><input type="number" id="mup" value="40"></div><div class="field"><label for="mds">Discount %</label><input type="number" id="mds" value="25"></div></div><div class="chain" id="mch"></div><div class="out" id="mo3"></div><div class="field" style="margin-top:6px"><label for="mtg">Target profit % (to find the mark-up needed)</label><input type="number" id="mtg" value="20"></div><div class="out" id="mo4"></div>',
+      init: function (el) {
+        function up() {
+          var c = parseFloat($("#mcp", el).value), u = parseFloat($("#mup", el).value), d = parseFloat($("#mds", el).value), tg = parseFloat($("#mtg", el).value);
+          if (!(c > 0) || !isFinite(u) || !(d >= 0 && d < 100)) { $("#mch", el).innerHTML = ""; $("#mo3", el).textContent = "Enter CP, mark-up and a discount below 100%"; return; }
+          var mp = c * (1 + u / 100), sp = mp * (1 - d / 100), p = (sp - c) / c * 100;
+          $("#mch", el).innerHTML = '<span class="v">CP ₹' + fmtN(c) + '</span><span class="op up">+' + fmtN(u) + '%</span><span class="v">MP ₹' + fmtN(mp) + '</span><span class="op dn">−' + fmtN(d) + '%</span><span class="v">SP ₹' + fmtN(sp) + "</span>";
+          $("#mo3", el).innerHTML = (p >= 0 ? "Profit " : "Loss ") + fmtN(Math.abs(p)) + "%<small>" + fmtN(1 + u / 100) + " × " + fmtN(1 - d / 100) + " = " + fmtN((1 + u / 100) * (1 - d / 100)) + ". Mark-up is on CP; discount is on MP, so they don't cancel.</small>";
+          $("#mo4", el).innerHTML = isFinite(tg) && tg > -100 ? "Mark up by " + fmtN(((100 + tg) / (100 - d) - 1) * 100) + "%<small>For " + fmtN(tg) + "% profit after " + fmtN(d) + "% off: MP ÷ CP = (100 + " + fmtN(tg) + ") ÷ (100 − " + fmtN(d) + ") = " + fmtN((100 + tg) / (100 - d)) + "</small>" : "Enter a target profit %";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
+    },
+    discs: {
+      title: "Successive discounts", html: '<div class="grid g2"><div class="field"><label for="dmp">Marked price ₹</label><input type="number" id="dmp" value="5000"></div><div class="field"><label for="dls">Discounts % (comma separated)</label><input type="text" id="dls" value="20, 10"></div></div><div class="chain" id="dch"></div><div class="out" id="dout"></div>',
+      init: function (el) {
+        function up() {
+          var M = parseFloat($("#dmp", el).value), ds = $("#dls", el).value.split(/[,\s;]+/).filter(Boolean).map(Number).filter(function (x) { return x >= 0 && x < 100; }).slice(0, 6), o = $("#dout", el);
+          if (!(M > 0) || !ds.length) { $("#dch", el).innerHTML = ""; o.textContent = "Enter a marked price and discounts below 100%"; return; }
+          var v = M, h = '<span class="v">₹' + fmtN(M) + "</span>";
+          ds.forEach(function (d) { v *= 1 - d / 100; h += '<span class="op dn">−' + fmtN(d) + '%</span><span class="v">₹' + fmtN(v) + "</span>"; });
+          $("#dch", el).innerHTML = h;
+          var single = (1 - v / M) * 100, sum = ds.reduce(function (a, b) { return a + b; }, 0);
+          o.innerHTML = "Single equivalent discount = " + fmtN(single) + "%<small>Selling price ₹" + fmtN(v) + ". Adding them gives " + fmtN(sum) + "%, which is too much: each later discount is on a smaller price." + (ds.length === 2 ? " Formula: " + fmtN(ds[0]) + " + " + fmtN(ds[1]) + " − " + fmtN(ds[0]) + " × " + fmtN(ds[1]) + " ÷ 100." : "") + "</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
+    },
+    dealer: {
+      title: "Dishonest dealer and free offers", html: '<div class="field"><label for="dk">Situation</label><select id="dk"><option value="w">Uses a false weight</option><option value="f">Buy x, get y free</option><option value="a">CP of a items = SP of b items</option></select></div><div class="grid g3"><div class="field"><label for="d1" id="d1l">True weight (g)</label><input type="number" id="d1" value="1000"></div><div class="field"><label for="d2" id="d2l">Weight used (g)</label><input type="number" id="d2" value="900"></div><div class="field" id="d3w"><label for="d3">Also sells above CP by %</label><input type="number" id="d3" value="0"></div></div><div class="out" id="dko"></div>',
+      init: function (el) {
+        var L = { w: ["True weight (g)", "Weight used (g)"], f: ["Buy (x)", "Get free (y)"], a: ["a (CP side)", "b (SP side)"] }, last = "w";
+        function up() {
+          var k = $("#dk", el).value, a = parseFloat($("#d1", el).value), b = parseFloat($("#d2", el).value), m = parseFloat($("#d3", el).value) || 0, o = $("#dko", el);
+          if (k !== last) { last = k; $("#d1", el).value = k === "w" ? 1000 : k === "f" ? 3 : 12; $("#d2", el).value = k === "w" ? 900 : k === "f" ? 1 : 10; a = +$("#d1", el).value; b = +$("#d2", el).value; }
+          $("#d1l", el).textContent = L[k][0]; $("#d2l", el).textContent = L[k][1]; $("#d3w", el).hidden = k !== "w";
+          if (!(a > 0 && b > 0)) { o.textContent = "Enter two positive numbers"; return; }
+          if (k === "w") { var f = (1 + m / 100) * a / b, p = (f - 1) * 100; o.innerHTML = (p >= 0 ? "Profit " : "Loss ") + fmtN(Math.abs(p)) + "%<small>" + (m ? "(1 + " + fmtN(m) + "/100) × " : "") + fmtN(a) + " ÷ " + fmtN(b) + " = " + (+f.toFixed(4)) + ". He charges for " + fmtN(a) + " g but gives only " + fmtN(b) + " g.</small>"; }
+          else if (k === "f") o.innerHTML = "Effective discount = " + fmtN(b / (a + b) * 100) + "%<small>" + fmtN(b) + " free out of " + fmtN(a + b) + " items: " + fmtN(b) + " ÷ " + fmtN(a + b) + ". (Not " + fmtN(b) + " ÷ " + fmtN(a) + ".)</small>";
+          else { var q = (a - b) / b * 100; o.innerHTML = (q >= 0 ? "Profit " : "Loss ") + fmtN(Math.abs(q)) + "%<small>(" + fmtN(a) + " − " + fmtN(b) + ") ÷ " + fmtN(b) + " × 100. The money from " + fmtN(b) + " items pays for " + fmtN(a) + ".</small>"; }
         }
         $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
       }
