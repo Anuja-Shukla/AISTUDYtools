@@ -1,0 +1,10 @@
+# SSC CGL Quant — Algebra
+Welcome! This SSC CGL lesson is about algebra. || Welcome! This S S C C G L lesson is about algebra, where a few identities solve most questions.
+Learn the key identities by heart. || Learn these identities by heart. a plus b, squared, is a squared plus two a b plus b squared. a squared minus b squared is a plus b times a minus b. And a plus b, cubed, is a cubed plus b cubed plus three a b times a plus b.
+If a + b = 7 and ab = 12, then a² + b² = 25. || Use them with given values. If a plus b is seven and a b is twelve, then a squared plus b squared is forty nine minus twenty four, which is twenty five.
+x + 1/x = k: x² + 1/x² = k² − 2 and x³ + 1/x³ = k³ − 3k. || For x plus one over x equals k, square it: x squared plus one over x squared is k squared minus two. Cube it: x cubed plus one over x cubed is k cubed minus three k. If k is three, these are seven and eighteen.
+If a + b + c = 0, then a³ + b³ + c³ = 3abc. || A favourite trick: if a plus b plus c is zero, then a cubed plus b cubed plus c cubed equals three a b c.
+Quadratics: sum of roots −b/a, product c/a. || For a quadratic a x squared plus b x plus c, the sum of the roots is minus b over a, and the product is c over a. x squared minus five x plus six has roots two and three.
+Remainder theorem: divide by (x − a), the remainder is p(a). || When a polynomial is divided by x minus a, the remainder is simply p of a. For x cubed minus two x squared plus three x minus five, divided by x minus two, put x equals two to get one.
+Try this: x + 1/x = 3, find x² + 1/x². The answer is A, 7. || Try this. If x plus one over x is three, what is x squared plus one over x squared? The answer is A, seven. Three squared minus two.
+Recap. Now try the tools and the practice questions below. || To recap. Learn the identities. Square or cube x plus one over x. Remember a plus b plus c equals zero. And use p of a for remainders. Now try the tools and the practice questions below this video.

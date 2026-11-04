@@ -243,3 +243,10 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 .trn .t1{background:var(--accent)}.trn .t2{background:#94A3B8}
 .river{display:grid;gap:4px;padding:10px 12px;border-radius:12px;background:linear-gradient(90deg,#BAE6FD,#E0F2FE);font-weight:700;font-size:14px;color:#075985}
 .river .up{text-align:right}
+/* algebra tools */
+.sqv{display:grid;justify-items:center;gap:4px;margin:6px 0}
+.sqv>div{display:grid;width:200px;height:200px;gap:3px}
+.sqv i{display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:700;font-size:12.5px;border-radius:6px;color:#fff;text-align:center;overflow:hidden}
+.sqv .aa{background:var(--accent)}.sqv .ab{background:#F59E0B}.sqv .bb{background:#10B981}
+.sqv small{font-size:12.5px;color:var(--muted);font-weight:700}
+.lg2{display:block;width:220px;max-width:100%;margin:6px auto;border-radius:10px;border:1.5px solid var(--border)}

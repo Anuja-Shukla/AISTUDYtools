@@ -144,9 +144,24 @@
     if (L > 400) return '<p class="small muted">Job = ' + L + " units (too many to draw).</p>";
     return '<div class="uviz"><div class="ul">Job = LCM = <b>' + L + " units</b></div>" + ds.map(function (d, i) { var r = L / Math.abs(d), cells = ""; for (var k = 0; k < Math.min(r, 60); k++) cells += "<i></i>"; return '<div class="ur"><b>' + "ABC"[i] + "</b><span class=\"" + (d < 0 ? "neg" : "") + '">' + cells + "</span><small>" + (d < 0 ? "−" : "") + fmtN(r) + " a day</small></div>"; }).join("") + "</div>";
   }
+  function sqViz(a, b) {
+    var s = a + b, pa = a / s * 100;
+    return '<div class="sqv"><div style="grid-template-columns:' + pa + '% ' + (100 - pa) + '%;grid-template-rows:' + pa + '% ' + (100 - pa) + '%"><i class="aa">a² = ' + fmtN(a * a) + '</i><i class="ab">ab = ' + fmtN(a * b) + '</i><i class="ab">ab = ' + fmtN(a * b) + '</i><i class="bb">b² = ' + fmtN(b * b) + "</i></div><small>side a + b = " + fmtN(s) + "</small></div>";
+  }
+  function lineGraph(v, x, y) {
+    var R = Math.max(6, Math.ceil(Math.max(Math.abs(x), Math.abs(y)) * 1.6)), W = 220, sc = function (u) { return (u + R) / (2 * R) * W; };
+    function seg(a, b, c, col) {
+      var pts = [];
+      if (Math.abs(b) > 1e-12) { [-R, R].forEach(function (xx) { pts.push([xx, (c - a * xx) / b]); }); }
+      else { [-R, R].forEach(function (yy) { pts.push([c / a, yy]); }); }
+      return '<line x1="' + sc(pts[0][0]) + '" y1="' + (W - sc(pts[0][1])) + '" x2="' + sc(pts[1][0]) + '" y2="' + (W - sc(pts[1][1])) + '" stroke="' + col + '" stroke-width="3"/>';
+    }
+    return '<svg class="lg2" viewBox="0 0 ' + W + " " + W + '" role="img" aria-label="Two lines crossing"><rect width="' + W + '" height="' + W + '" fill="#FAFAFF"/><line x1="0" y1="' + W / 2 + '" x2="' + W + '" y2="' + W / 2 + '" stroke="#D6D7EE"/><line x1="' + W / 2 + '" y1="0" x2="' + W / 2 + '" y2="' + W + '" stroke="#D6D7EE"/>' + seg(v[0], v[1], v[2], "#4F46E5") + seg(v[3], v[4], v[5], "#F59E0B") + '<circle cx="' + sc(x) + '" cy="' + (W - sc(y)) + '" r="6" fill="#1E1B4B"/></svg>';
+  }
   function viz(x) {
     if (!x) return "";
     if (x.type === "share") return shareBar(x.r, x.total);
+    if (x.type === "sq") return sqViz(x.a, x.b);
     if (x.type === "units") return unitsViz(x.d);
     if (x.type === "allig") return allig(x.c, x.d, x.m);
     if (x.type === "chainprice") { var mp = x.cp * (1 + x.up / 100), sp = mp * (1 - x.d / 100); return '<div class="chain" style="margin:8px 0"><span class="v">CP ' + fmtN(x.cp) + '</span><span class="op up">+' + x.up + '%</span><span class="v">MP ' + fmtN(mp) + '</span><span class="op dn">−' + x.d + '%</span><span class="v">SP ' + fmtN(sp) + "</span></div>"; }
@@ -942,6 +957,69 @@
           o.innerHTML = "Boat " + fmtN(b) + " km/h · stream " + fmtN(s) + " km/h" + (D > 0 ? " · round trip " + fmtN(D / dn + D / upS) + " h" : "") + "<small>" + (k === "bs" ? "Down = b + s, up = b − s." : "b = (" + fmtN(x) + " + " + fmtN(y) + ") ÷ 2, s = (" + fmtN(x) + " − " + fmtN(y) + ") ÷ 2.") + (D > 0 ? " Time = " + fmtN(D) + " ÷ " + fmtN(dn) + " + " + fmtN(D) + " ÷ " + fmtN(upS) + "." : "") + "</small>";
         }
         $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
+      }
+    }
+    ,
+    identity: {
+      title: "Identity explorer", html: '<div class="field"><label for="idk">Identity</label><select id="idk"><option value="sq">(a + b)² = a² + 2ab + b²</option><option value="dsq">(a − b)² = a² − 2ab + b²</option><option value="dos">a² − b² = (a + b)(a − b)</option><option value="cu">(a + b)³ = a³ + b³ + 3ab(a + b)</option><option value="sc">a³ + b³ = (a + b)(a² − ab + b²)</option></select></div><div class="grid g2"><div class="field"><label for="ida">a</label><input type="number" id="ida" value="3"></div><div class="field"><label for="idb">b</label><input type="number" id="idb" value="2"></div></div><div id="idv"></div><div class="out" id="ido"></div>',
+      init: function (el) {
+        function up() {
+          var k = $("#idk", el).value, a = parseFloat($("#ida", el).value), b = parseFloat($("#idb", el).value), o = $("#ido", el), L, R, how;
+          if (!isFinite(a) || !isFinite(b)) { o.textContent = "Enter a and b"; return; }
+          if (k === "sq") { L = (a + b) * (a + b); R = a * a + 2 * a * b + b * b; how = fmtN(a * a) + " + " + fmtN(2 * a * b) + " + " + fmtN(b * b); }
+          else if (k === "dsq") { L = (a - b) * (a - b); R = a * a - 2 * a * b + b * b; how = fmtN(a * a) + " − " + fmtN(2 * a * b) + " + " + fmtN(b * b); }
+          else if (k === "dos") { L = a * a - b * b; R = (a + b) * (a - b); how = fmtN(a + b) + " × " + fmtN(a - b); }
+          else if (k === "cu") { L = Math.pow(a + b, 3); R = a * a * a + b * b * b + 3 * a * b * (a + b); how = fmtN(a * a * a) + " + " + fmtN(b * b * b) + " + " + fmtN(3 * a * b * (a + b)); }
+          else { L = a * a * a + b * b * b; R = (a + b) * (a * a - a * b + b * b); how = fmtN(a + b) + " × " + fmtN(a * a - a * b + b * b); }
+          $("#idv", el).innerHTML = k === "sq" && a > 0 && b > 0 ? sqViz(a, b) : "";
+          o.innerHTML = "Left " + fmtN(L) + " = Right " + fmtN(R) + "<small>Right side: " + how + ". " + (k === "sq" && a > 0 && b > 0 ? "The square of side a + b splits into a², b² and two ab rectangles." : "Try your own numbers: it always matches.") + "</small>";
+        }
+        $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
+      }
+    },
+    xinv: {
+      title: "The x + 1/x ladder", html: '<div class="grid g2"><div class="field"><label for="xk">Given</label><select id="xk"><option value="p">x + 1/x = k</option><option value="m">x − 1/x = k</option></select></div><div class="field"><label for="xv">k</label><input type="number" id="xv" value="3"></div></div><div class="tscroll"><table class="pt" id="xt"></table></div><div class="out" id="xo"></div>',
+      init: function (el) {
+        function up() {
+          var m = $("#xk", el).value, k = parseFloat($("#xv", el).value), o = $("#xo", el);
+          if (!isFinite(k)) { $("#xt", el).innerHTML = ""; o.textContent = "Enter k"; return; }
+          var rows;
+          if (m === "p") { var s2 = k * k - 2, s3 = k * k * k - 3 * k, s4 = s2 * s2 - 2; rows = [["x² + 1/x²", "k² − 2", s2], ["x³ + 1/x³", "k³ − 3k", s3], ["x⁴ + 1/x⁴", "(x² + 1/x²)² − 2", s4]]; }
+          else { var d2 = k * k + 2, d3 = k * k * k + 3 * k, d4 = d2 * d2 - 2; rows = [["x² + 1/x²", "k² + 2", d2], ["x³ − 1/x³", "k³ + 3k", d3], ["x⁴ + 1/x⁴", "(x² + 1/x²)² − 2", d4]]; }
+          $("#xt", el).innerHTML = "<tr><th>Expression</th><th>Rule</th><th>Value</th></tr>" + rows.map(function (r) { return "<tr><td>" + r[0] + "</td><td>" + r[1] + "</td><td><b>" + fmtN(r[2]) + "</b></td></tr>"; }).join("");
+          o.innerHTML = rows[0][0] + " = " + fmtN(rows[0][2]) + "<small>" + (m === "p" && Math.abs(k) < 2 ? "Note: for real x, x + 1/x can't be between −2 and 2. " : "") + (m === "p" && k === 2 ? "k = 2 means x = 1, so every row is 2. " : "") + "Square the given value for the 2nd power; cube it for the 3rd.</small>";
+        }
+        $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
+      }
+    },
+    lin2: {
+      title: "Two linear equations", html: '<p class="small muted">a₁x + b₁y = c₁ and a₂x + b₂y = c₂</p><div class="grid g3"><div class="field"><label for="la1">a₁</label><input type="number" id="la1" value="2"></div><div class="field"><label for="lb1">b₁</label><input type="number" id="lb1" value="3"></div><div class="field"><label for="lc1">c₁</label><input type="number" id="lc1" value="12"></div><div class="field"><label for="la2">a₂</label><input type="number" id="la2" value="1"></div><div class="field"><label for="lb2">b₂</label><input type="number" id="lb2" value="-1"></div><div class="field"><label for="lc2">c₂</label><input type="number" id="lc2" value="1"></div></div><div id="lgr"></div><div class="out" id="lo2"></div>',
+      init: function (el) {
+        function up() {
+          var v = ["#la1", "#lb1", "#lc1", "#la2", "#lb2", "#lc2"].map(function (s) { return parseFloat($(s, el).value); }), o = $("#lo2", el);
+          if (!v.every(isFinite)) { $("#lgr", el).innerHTML = ""; o.textContent = "Fill in all six numbers"; return; }
+          var D = v[0] * v[4] - v[1] * v[3];
+          if (Math.abs(D) < 1e-12) { $("#lgr", el).innerHTML = ""; o.innerHTML = "No single solution<small>The lines are parallel (no solution) or the same line (infinitely many).</small>"; return; }
+          var x = (v[2] * v[4] - v[1] * v[5]) / D, y = (v[0] * v[5] - v[2] * v[3]) / D;
+          $("#lgr", el).innerHTML = lineGraph(v, x, y);
+          o.innerHTML = "x = " + fmtN(x) + ", y = " + fmtN(y) + "<small>Check: " + fmtN(v[0]) + "(" + fmtN(x) + ") + " + fmtN(v[1]) + "(" + fmtN(y) + ") = " + fmtN(v[0] * x + v[1] * y) + " and " + fmtN(v[3]) + "(" + fmtN(x) + ") + " + fmtN(v[4]) + "(" + fmtN(y) + ") = " + fmtN(v[3] * x + v[4] * y) + ". The lines cross at (" + fmtN(x) + ", " + fmtN(y) + ").</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
+    },
+    quadr: {
+      title: "Quadratic roots and remainder theorem", html: '<p class="small muted">ax² + bx + c = 0</p><div class="grid g3"><div class="field"><label for="qa">a</label><input type="number" id="qa" value="1"></div><div class="field"><label for="qb">b</label><input type="number" id="qb" value="-5"></div><div class="field"><label for="qc">c</label><input type="number" id="qc" value="6"></div></div><div class="out" id="qo"></div><p class="small muted" style="margin-top:8px">Remainder theorem: p(x) = coefficients from the highest power, e.g. <b>1, -2, 3, -5</b> for x³ − 2x² + 3x − 5.</p><div class="grid g2"><div class="field"><label for="rp">Coefficients</label><input type="text" id="rp" value="1, -2, 3, -5"></div><div class="field"><label for="ra">Divide by (x − a), a =</label><input type="number" id="ra" value="2"></div></div><div class="out" id="ro2"></div>',
+      init: function (el) {
+        function up() {
+          var a = parseFloat($("#qa", el).value), b = parseFloat($("#qb", el).value), c = parseFloat($("#qc", el).value), o = $("#qo", el);
+          if (!(isFinite(a) && a !== 0 && isFinite(b) && isFinite(c))) o.textContent = "a must not be 0";
+          else { var D = b * b - 4 * a * c, r = D >= 0 ? [(-b + Math.sqrt(D)) / (2 * a), (-b - Math.sqrt(D)) / (2 * a)] : null; o.innerHTML = (r ? "Roots: " + fmtN(r[0]) + " and " + fmtN(r[1]) : "No real roots") + "<small>Discriminant b² − 4ac = " + fmtN(D) + ". Sum = −b/a = " + fmtN(-b / a) + ", product = c/a = " + fmtN(c / a) + ".</small>"; }
+          var cs = $("#rp", el).value.split(/[,\s]+/).filter(Boolean).map(Number), x = parseFloat($("#ra", el).value), o2 = $("#ro2", el);
+          if (!cs.length || !cs.every(isFinite) || !isFinite(x)) { o2.textContent = "Enter coefficients and a"; return; }
+          var n = cs.length - 1, val = cs.reduce(function (acc, k) { return acc * x + k; }, 0), terms = cs.map(function (k, i) { var p = n - i; return fmtN(k) + (p ? "(" + fmtN(x) + ")" + (p > 1 ? "^" + p : "") : ""); });
+          o2.innerHTML = "Remainder = p(" + fmtN(x) + ") = " + fmtN(val) + (Math.abs(val) < 1e-9 ? " → (x − " + fmtN(x) + ") is a factor" : "") + "<small>" + terms.join(" + ").replace(/\+ −/g, "− ") + "</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
       }
     }
   };
