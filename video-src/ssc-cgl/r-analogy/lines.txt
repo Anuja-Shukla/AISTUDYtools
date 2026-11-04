@@ -1,0 +1,9 @@
+# SSC CGL Reasoning — Analogy
+Welcome! This SSC CGL lesson is about analogy, the first reasoning topic. || Welcome! This S S C C G L lesson is about analogy, the first topic in general intelligence and reasoning.
+A : B :: C : ? Find the rule in the first pair, apply it to the second. || An analogy reads A is to B as C is to what. Find the rule that links the first pair, and apply the same rule to the second.
+Make a sentence: a pen is used to write; a knife is used to cut. || For word pairs, put the relationship into a short sentence. A pen is used to write. Now test the options: a knife is used to cut. Common relationships are tool and use, worker and workplace, animal and young one, and part and whole.
+Number pairs: try squares, cubes, n² ± 1 and n(n + 1). || For numbers, look for a simple rule. Three to twenty seven is a cube. Five to twenty six is n squared plus one. Seven to fifty six is n times n plus one.
+Letters: learn the positions. EJOTY = 5, 10, 15, 20, 25. || For letters, learn the alphabet positions. A memory aid is E J O T Y, which are five, ten, fifteen, twenty and twenty five. C A T to D B U moves each letter forward by one, so D O G becomes E P H.
+Opposite letters add up to 27. || Opposite letters add up to twenty seven. A pairs with Z, B with Y, and M with N. So A B C becomes Z Y X, and G O L D becomes T L O W.
+Try this: 3 : 27 :: 4 : ? The answer is A, 64. || Try this. Three is to twenty seven as four is to what? The answer is A, sixty four, because each number is cubed.
+Recap. Now try the tools and the practice questions below. || To recap. Say the relationship in a sentence. Try squares and cubes for numbers. Write positions under letters. And always check your rule on both pairs. Now try the tools and the practice questions below this video.

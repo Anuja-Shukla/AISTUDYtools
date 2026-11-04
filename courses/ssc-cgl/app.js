@@ -1413,6 +1413,70 @@
         $$("input", el).forEach(function (i) { i.oninput = up; }); up();
       }
     }
+    ,
+    alpha: {
+      title: "Alphabet positions and opposites", html: '<div class="field"><label for="alw">Type a word</label><input type="text" id="alw" value="GOLD"></div><div class="abc" id="alg"></div><div class="tscroll"><table class="pt" id="alt"></table></div><div class="out" id="alo"></div>',
+      init: function (el) {
+        var g = ""; for (var i = 0; i < 26; i++) g += '<i data-k="' + i + '"><b>' + String.fromCharCode(65 + i) + "</b><small>" + (i + 1) + "</small></i>";
+        $("#alg", el).innerHTML = g;
+        function up() {
+          var w = $("#alw", el).value.toUpperCase().replace(/[^A-Z]/g, "").slice(0, 16), o = $("#alo", el);
+          $$("#alg i", el).forEach(function (c) { var k = +c.getAttribute("data-k"), L = String.fromCharCode(65 + k); c.className = (w.indexOf(L) >= 0 ? "on " : "") + ([4, 9, 14, 19, 24].indexOf(k) >= 0 ? "ej" : ""); });
+          if (!w) { $("#alt", el).innerHTML = ""; o.textContent = "Type a word"; return; }
+          var L = w.split(""), pos = L.map(function (c) { return c.charCodeAt(0) - 64; });
+          $("#alt", el).innerHTML = "<tr><th>Letter</th>" + L.map(function (c) { return "<td><b>" + c + "</b></td>"; }).join("") + "</tr><tr><th>Position</th>" + pos.map(function (p) { return "<td>" + p + "</td>"; }).join("") + "</tr><tr><th>Opposite</th>" + pos.map(function (p) { return "<td>" + String.fromCharCode(64 + 27 - p) + "</td>"; }).join("") + "</tr><tr><th>From the end</th>" + pos.map(function (p) { return "<td>" + (27 - p) + "</td>"; }).join("") + "</tr>";
+          o.innerHTML = "Opposite word: " + pos.map(function (p) { return String.fromCharCode(64 + 27 - p); }).join("") + " · sum of positions " + pos.reduce(function (a, b) { return a + b; }, 0) + "<small>Opposite letters add to 27. E, J, O, T, Y (highlighted) are 5, 10, 15, 20, 25.</small>";
+        }
+        $("#alw", el).oninput = up; up();
+      }
+    },
+    numrule: {
+      title: "Number pair rule finder", html: '<p class="small muted">Give the first pair; the tool tests common rules and applies the ones that fit to your third number.</p><div class="grid g3"><div class="field"><label for="nra">a</label><input type="number" id="nra" value="5"></div><div class="field"><label for="nrb">b</label><input type="number" id="nrb" value="26"></div><div class="field"><label for="nrc">c</label><input type="number" id="nrc" value="7"></div></div><div class="out" id="nro"></div>',
+      init: function (el) {
+        var R = [["n²", function (n) { return n * n; }], ["n³", function (n) { return n * n * n; }], ["n² + 1", function (n) { return n * n + 1; }], ["n² − 1", function (n) { return n * n - 1; }], ["n³ + 1", function (n) { return n * n * n + 1; }], ["n³ − 1", function (n) { return n * n * n - 1; }], ["n(n + 1)", function (n) { return n * (n + 1); }], ["n(n − 1)", function (n) { return n * (n - 1); }], ["n² + n + 1", function (n) { return n * n + n + 1; }], ["2n + 1", function (n) { return 2 * n + 1; }], ["(n + 1)²", function (n) { return (n + 1) * (n + 1); }]];
+        function up() {
+          var a = parseFloat($("#nra", el).value), b = parseFloat($("#nrb", el).value), c = parseFloat($("#nrc", el).value), o = $("#nro", el);
+          if (![a, b, c].every(isFinite)) { o.textContent = "Enter three numbers"; return; }
+          var hits = R.filter(function (r) { return Math.abs(r[1](a) - b) < 1e-9; }).map(function (r) { return r[0] + " → " + fmtN(r[1](c)); });
+          if (a && Math.abs(b / a - Math.round(b / a)) < 1e-9) hits.push("× " + fmtN(b / a) + " → " + fmtN(c * b / a));
+          hits.push("+ " + fmtN(b - a) + " → " + fmtN(c + b - a));
+          o.innerHTML = (hits.length > 1 ? hits[0] : "No special rule; simple difference") + "<small>Rules that fit " + fmtN(a) + " : " + fmtN(b) + ": " + hits.join(" · ") + ". If several fit, check which answer is in the options.</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
+    },
+    letshift: {
+      title: "Letter-shift solver", html: '<p class="small muted">Find the shift for each letter in the first pair and apply it to a new word.</p><div class="grid g3"><div class="field"><label for="lsa">First word</label><input type="text" id="lsa" value="CAT"></div><div class="field"><label for="lsb">Becomes</label><input type="text" id="lsb" value="DBU"></div><div class="field"><label for="lsc">New word</label><input type="text" id="lsc" value="DOG"></div></div><div class="tscroll"><table class="pt" id="lst"></table></div><div class="out" id="lso"></div>',
+      init: function (el) {
+        function cl(s) { return s.toUpperCase().replace(/[^A-Z]/g, "").slice(0, 12); }
+        function up() {
+          var A = cl($("#lsa", el).value), B = cl($("#lsb", el).value), C = cl($("#lsc", el).value), o = $("#lso", el);
+          if (!A || A.length !== B.length) { $("#lst", el).innerHTML = ""; o.textContent = "The first two words must have the same length"; return; }
+          var sh = A.split("").map(function (c, i) { var d = B.charCodeAt(i) - c.charCodeAt(0); return d > 13 ? d - 26 : d < -13 ? d + 26 : d; }), opp = A.split("").every(function (c, i) { return c.charCodeAt(0) - 64 + B.charCodeAt(i) - 64 === 27; });
+          $("#lst", el).innerHTML = "<tr><th></th>" + A.split("").map(function (c) { return "<td><b>" + c + "</b></td>"; }).join("") + "</tr><tr><th>→</th>" + B.split("").map(function (c) { return "<td><b>" + c + "</b></td>"; }).join("") + "</tr><tr><th>Shift</th>" + sh.map(function (d) { return "<td>" + (d >= 0 ? "+" : "") + d + "</td>"; }).join("") + "</tr>";
+          if (!C) { o.textContent = "Type a new word"; return; }
+          var out = C.split("").map(function (c, i) { var p = c.charCodeAt(0) - 65; if (opp) return String.fromCharCode(90 - p); var d = sh[i % sh.length]; return String.fromCharCode(65 + ((p + d) % 26 + 26) % 26); }).join("");
+          o.innerHTML = C + " → " + out + "<small>" + (opp ? "Each letter becomes its opposite (positions add to 27)." : "Shifts " + sh.map(function (d) { return (d >= 0 ? "+" : "") + d; }).join(", ") + (C.length > sh.length ? " (repeated)" : "") + " applied letter by letter.") + "</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
+    },
+    relquiz: {
+      title: "Relationship spotter", html: '<p class="small muted">What is the relationship in each pair? Build the habit of naming it.</p><div class="big" id="rqp" style="text-align:center;font-size:24px;font-weight:800">…</div><div class="opts" id="rqo"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="rqs">0</b> / <b id="rqn">0</b></span><button class="btn btn-accent btn-sm" id="rqg">Next pair</button></div>',
+      init: function (el) {
+        var P = [["Pen", "Write", "Tool : use"], ["Saw", "Cut", "Tool : use"], ["Brush", "Paint", "Tool : use"], ["Chef", "Kitchen", "Worker : workplace"], ["Pilot", "Cockpit", "Worker : workplace"], ["Farmer", "Field", "Worker : workplace"], ["Horse", "Foal", "Animal : young one"], ["Cat", "Kitten", "Animal : young one"], ["Lion", "Cub", "Animal : young one"], ["Page", "Book", "Part : whole"], ["Petal", "Flower", "Part : whole"], ["Wheel", "Car", "Part : whole"], ["Ammeter", "Current", "Instrument : measures"], ["Odometer", "Distance", "Instrument : measures"], ["Hygrometer", "Humidity", "Instrument : measures"], ["France", "Paris", "Country : capital"], ["Nepal", "Kathmandu", "Country : capital"], ["Egypt", "Cairo", "Country : capital"], ["Happy", "Sad", "Opposites"], ["Ancient", "Modern", "Opposites"], ["Brave", "Bold", "Same meaning"], ["Begin", "Commence", "Same meaning"]];
+        var types = ["Tool : use", "Worker : workplace", "Animal : young one", "Part : whole", "Instrument : measures", "Country : capital", "Opposites", "Same meaning"], sc = 0, n = 0;
+        function round() {
+          var p = P[Math.floor(Math.random() * P.length)], opts = [p[2]];
+          while (opts.length < 4) { var t = types[Math.floor(Math.random() * types.length)]; if (opts.indexOf(t) < 0) opts.push(t); }
+          var ord = shuffle(4); $("#rqp", el).textContent = p[0] + " : " + p[1];
+          $("#rqo", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-ok="' + (k === 0 ? 1 : 0) + '">' + opts[k] + "</button>"; }).join("");
+          var done = false;
+          $$("#rqo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#rqo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#rqs", el).textContent = sc; $("#rqn", el).textContent = n; }; });
+        }
+        $("#rqg", el).onclick = round; round();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
