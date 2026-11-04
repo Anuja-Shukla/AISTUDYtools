@@ -1,0 +1,10 @@
+# SSC CGL Reasoning — Seating and puzzles
+Welcome! This SSC CGL lesson is about seating arrangements and puzzles. || Welcome! This S S C C G L lesson is about seating arrangements and floor puzzles.
+Draw the seats or floors first. || Always draw first. For a row facing north, your left is the left of the page, and right of X means a higher seat number. For floors, floor one is at the bottom.
+Use clues in order: fixed, tight, loose. || Use the clues in order of strength. Fixed clues place one person. Tight links, like immediately right of, join two people. Loose links, like somewhere to the left of, come last.
+Read the key words carefully. || Read the key words carefully. Second to the left of Y means two seats to Y's left, with one person between. Exactly one person between X and Y can go either way round.
+Branch when a clue allows two places. || When a clue allows two places, such as at one of the ends, draw two rows, one for each case, and continue both. A later clue usually rules one out.
+Five people: 120 arrangements; each clue removes many. || Five people can sit in one hundred and twenty ways. Each clue removes many of them. A good puzzle ends with exactly one arrangement.
+Check every clue on your final answer. || When you finish, check every clue against your final arrangement. Missing one not is the most common mistake.
+Try this in the practice set below. || Now try the practice set. Each puzzle has been checked by computer to have exactly one answer.
+Recap. Now try the tools and the practice questions below. || To recap. Draw first. Fixed clues, then tight, then loose. Branch into cases instead of guessing. And check every clue at the end. Now try the tools and the practice questions below this video.

@@ -412,6 +412,26 @@
     S.forEach(function (s) { h += '<line x1="' + X(s[0]) + '" y1="' + Y(s[1]) + '" x2="' + X(s[2]) + '" y2="' + Y(s[3]) + '" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round"/>'; });
     return h + "</svg>";
   }
+  function pzEval(c, P) {
+    var px = P[c[1]], py = P[c[2]];
+    switch (c[0]) {
+      case "end": return px === 0 || px === 4;
+      case "notend": return px !== 0 && px !== 4;
+      case "imr": return px === py + 1;
+      case "iml": return px === py - 1;
+      case "two": return px === py - 2;
+      case "one": return Math.abs(px - py) === 2;
+      case "notnext": return Math.abs(px - py) !== 1;
+      case "leftof": return px < py;
+      case "even": return (px + 1) % 2 === 0;
+    }
+    return false;
+  }
+  function pzPerms() {
+    var out = [];
+    (function rec(arr, rest) { if (!rest.length) { var P = {}; arr.forEach(function (n, i) { P[n] = i; }); out.push(P); return; } rest.forEach(function (n, i) { rec(arr.concat([n]), rest.slice(0, i).concat(rest.slice(i + 1))); }); })([], ["A", "B", "C", "D", "E"]);
+    return out;
+  }
   function viz(x) {
     if (!x) return "";
     if (x.type === "share") return shareBar(x.r, x.total);
@@ -2467,6 +2487,62 @@
           $$("#cgo3 .opt", el).forEach(function (bt) { bt.onclick = function () { if (done) return; done = true; n++; var ok = bt.getAttribute("data-ok") === "1"; if (ok) sc++; bt.classList.add(ok ? "right" : "wrong"); $$("#cgo3 .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#cgs3", el).textContent = sc; $("#cgn3", el).textContent = n; $("#cgw3", el).hidden = false; $("#cgw3", el).textContent = a + " triangles. Use the Triangle spotter to see each one."; }; });
         }
         $("#cgg3", el).onclick = round; if (B.length) round();
+      }
+    }
+    ,
+    seatboard: {
+      title: "Seat board", html: '<div id="sbq" class="pzq"></div><div id="sbs" class="pzseats"></div><div class="row" style="gap:6px"><button class="btn btn-accent btn-sm" id="sbc">Check my seating</button><button class="btn btn-sm" id="sbn">New puzzle</button></div><ul id="sbl" class="pzclues"></ul><div class="out" id="sbo"></div>',
+      init: function (el, T) {
+        var B = T.bank || [], p, N = ["A", "B", "C", "D", "E"];
+        function load() {
+          p = B[Math.floor(Math.random() * B.length)];
+          $("#sbq", el).innerHTML = "<b>" + esc(p.intro) + "</b>";
+          var lab = p.mode === "row" ? ["Seat 1 (left)", "Seat 2", "Seat 3", "Seat 4", "Seat 5 (right)"] : ["Floor 1 (bottom)", "Floor 2", "Floor 3", "Floor 4", "Floor 5 (top)"];
+          $("#sbs", el).className = "pzseats" + (p.mode === "floor" ? " fl" : "");
+          $("#sbs", el).innerHTML = lab.map(function (l, i) { return '<div class="field"><label for="sb' + i + '">' + l + '</label><select id="sb' + i + '"><option value="">—</option>' + N.map(function (n) { return "<option>" + n + "</option>"; }).join("") + "</select></div>"; }).join("");
+          $("#sbl", el).innerHTML = p.clues.map(function (c) { return "<li>" + esc(c) + "</li>"; }).join("");
+          $("#sbo", el).innerHTML = "Fill the seats, then check<small>" + esc(p.q) + "</small>";
+        }
+        $("#sbc", el).onclick = function () {
+          var v = [0, 1, 2, 3, 4].map(function (i) { return $("#sb" + i, el).value; }), o = $("#sbo", el);
+          if (v.some(function (x) { return !x; }) || new Set(v).size < 5) { o.innerHTML = "Place all five people, once each"; return; }
+          var P = {}; v.forEach(function (n, i) { P[n] = i; });
+          var ok = p.cs.map(function (c) { return pzEval(c, P); });
+          $$("#sbl li", el).forEach(function (li, i) { li.className = ok[i] ? "ok" : "no"; });
+          var all = ok.every(Boolean);
+          o.innerHTML = (all ? "All clues satisfied ✓" : ok.filter(function (x) { return !x; }).length + " clue(s) broken") + "<small>" + (all ? esc(p.q) + " Answer: " + p.a + "." : "Red clues are not met yet.") + "</small>";
+        };
+        $("#sbn", el).onclick = load; if (B.length) load();
+      }
+    },
+    pzshrink: {
+      title: "Watch the possibilities shrink", html: '<p class="note">Five people can sit in 120 ways. Each clue removes some of them.</p><div id="psq" class="pzq"></div><div class="tscroll"><table class="pt" id="pst"></table></div><div class="row" style="gap:6px"><button class="btn btn-accent btn-sm" id="psn">Next clue</button><button class="btn btn-sm" id="psr">New puzzle</button></div><div class="out" id="pso"></div>',
+      init: function (el, T) {
+        var B = T.bank || [], p, k = 0, PER = pzPerms();
+        function up() {
+          var left = PER, rows = ["<tr><th>Clues used</th><th>Arrangements left</th></tr><tr><td>none</td><td>120</td></tr>"];
+          for (var i = 0; i < k; i++) { left = left.filter(function (P) { return pzEval(p.cs[i], P); }); rows.push("<tr><td>" + esc(p.clues[i]) + "</td><td>" + left.length + "</td></tr>"); }
+          $("#pst", el).innerHTML = rows.join("");
+          var o = $("#pso", el);
+          if (left.length === 1) { var ord = Object.keys(left[0]).sort(function (a, b) { return left[0][a] - left[0][b]; }); o.innerHTML = "Solved: " + ord.join(", ") + "<small>" + (p.mode === "row" ? "Left to right." : "Bottom to top.") + "</small>"; }
+          else o.innerHTML = left.length + " arrangements still fit<small>" + (k < p.cs.length ? "Add the next clue." : "") + "</small>";
+        }
+        function load() { p = B[Math.floor(Math.random() * B.length)]; k = 0; $("#psq", el).innerHTML = "<b>" + esc(p.intro) + "</b>"; up(); }
+        $("#psn", el).onclick = function () { if (k < p.cs.length) k++; up(); };
+        $("#psr", el).onclick = load; if (B.length) load();
+      }
+    },
+    pzgame: {
+      title: "Quick puzzle", html: '<div id="pzq" class="pzq"></div><div class="opts" id="pzo" style="grid-template-columns:repeat(4,1fr)"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="pzs">0</b> / <b id="pzn">0</b></span><button class="btn btn-accent btn-sm" id="pzg">Next</button></div><div class="why" id="pzw" hidden></div>',
+      init: function (el, T) {
+        var B = T.bank || [], sc = 0, n = 0;
+        function round() {
+          var p = B[Math.floor(Math.random() * B.length)], ord = shuffle(4), done = false;
+          $("#pzq", el).innerHTML = "<b>" + esc(p.intro) + "</b><ul>" + p.clues.map(function (c) { return "<li>" + esc(c) + "</li>"; }).join("") + "</ul><b>" + esc(p.q) + "</b>"; $("#pzw", el).hidden = true;
+          $("#pzo", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-ok="' + (k === 0 ? 1 : 0) + '">' + p.o[k] + "</button>"; }).join("");
+          $$("#pzo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#pzo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#pzs", el).textContent = sc; $("#pzn", el).textContent = n; $("#pzw", el).hidden = false; $("#pzw", el).textContent = p.why; }; });
+        }
+        $("#pzg", el).onclick = round; if (B.length) round();
       }
     }
   };
