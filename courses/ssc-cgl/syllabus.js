@@ -41,7 +41,7 @@ window.SSC = {
         ["tsd", "Time, speed & distance", "live"],
         ["algebra", "Algebra", "live"],
         ["geometry", "Geometry", "live"],
-        ["mensuration", "Mensuration", "soon"],
+        ["mensuration", "Mensuration", "live"],
         ["trigonometry", "Trigonometry, heights & distances", "soon"],
         ["di", "Data interpretation", "soon"],
         ["stats-prob", "Statistics & probability (Tier 2)", "soon"]
