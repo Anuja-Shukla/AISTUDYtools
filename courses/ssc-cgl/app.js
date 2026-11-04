@@ -676,6 +676,66 @@
         }
         $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
       }
+    }    ,
+    partsplit: {
+      title: "Partnership profit splitter", html: '<p class="small muted">Enter each partner\'s capital and months in the business (leave a row blank to skip it).</p><table class="pt"><tr><th>Partner</th><th>Capital ₹</th><th>Months</th></tr>' + [["A", 50000, 12], ["B", 60000, 8], ["C", "", ""], ["D", "", ""]].map(function (g, i) { return "<tr><td><b>" + g[0] + '</b></td><td><input type="number" class="psc" value="' + g[1] + '" style="width:110px"></td><td><input type="number" class="psm" value="' + g[2] + '" style="width:70px"></td></tr>'; }).join("") + '</table><div class="field"><label for="psp">Total profit ₹</label><input type="number" id="psp" value="18000"></div><div id="psb"></div><div class="out" id="pso"></div>',
+      init: function (el) {
+        function g(a, b) { a = Math.round(a); b = Math.round(b); while (b) { var t = a % b; a = b; b = t; } return a; }
+        function up() {
+          var P = parseFloat($("#psp", el).value), rows = [];
+          $$(".psc", el).forEach(function (c, i) { var cap = parseFloat(c.value), m = parseFloat($$(".psm", el)[i].value); if (cap > 0 && m > 0) rows.push({ l: "ABCD"[i], u: cap * m, cap: cap, m: m }); });
+          if (rows.length < 2 || !(P > 0)) { $("#psb", el).innerHTML = ""; $("#pso", el).textContent = "Enter at least two partners and the profit"; return; }
+          var k = rows.reduce(function (a, r) { return g(a, r.u); }, 0) || 1, R = rows.map(function (r) { return r.u / k; }), T = R.reduce(function (a, b) { return a + b; }, 0);
+          $("#psb", el).innerHTML = shareBar(R, P, rows.map(function (r) { return r.l; }));
+          $("#pso", el).innerHTML = rows.map(function (r, i) { return r.l + " ₹" + fmtN(P * R[i] / T); }).join(" · ") + "<small>Capital × months: " + rows.map(function (r) { return fmtN(r.cap) + " × " + fmtN(r.m); }).join(", ") + " → ratio " + R.map(fmtN).join(" : ") + " (" + fmtN(T) + " parts, 1 part = ₹" + fmtN(P / T) + ").</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
+    },
+    captime: {
+      title: "Changing capital timeline", html: '<p class="small muted">Write each partner\'s capital and months in order, e.g. <b>30000x6, 20000x6</b> (invested 30,000 for 6 months, then 20,000 for 6 months).</p><div class="field"><label for="cta">Partner A</label><input type="text" id="cta" value="5000x3, 7000x9"></div><div class="field"><label for="ctb">Partner B</label><input type="text" id="ctb" value="4000x3, 3000x9"></div><div class="tl" id="ctl"></div><div class="out" id="cto"></div>',
+      init: function (el) {
+        function parse(s) { return s.split(/[,;]+/).map(function (p) { var m = p.replace(/\s/g, "").match(/^([\d.]+)[x×*]([\d.]+)$/i); return m ? { c: +m[1], m: +m[2] } : null; }).filter(Boolean); }
+        function up() {
+          var A = parse($("#cta", el).value), B = parse($("#ctb", el).value), o = $("#cto", el);
+          if (!A.length || !B.length) { $("#ctl", el).innerHTML = ""; o.textContent = "Write blocks like 30000x6, 20000x6"; return; }
+          var tot = Math.max(A.reduce(function (s, b) { return s + b.m; }, 0), B.reduce(function (s, b) { return s + b.m; }, 0)), mx = Math.max.apply(null, A.concat(B).map(function (b) { return b.c; }));
+          function row(L, bl, col) { return '<div class="tlr"><b>' + L + "</b><div>" + bl.map(function (b) { return '<i style="flex:' + b.m + ';height:' + (12 + 26 * b.c / mx) + 'px;background:' + col + '" title="' + fmtN(b.c) + " × " + fmtN(b.m) + '"><small>' + fmtN(b.c) + " × " + fmtN(b.m) + "</small></i>"; }).join("") + (tot > bl.reduce(function (s, b) { return s + b.m; }, 0) ? '<i style="flex:' + (tot - bl.reduce(function (s, b) { return s + b.m; }, 0)) + ';height:6px;background:#EEEEF3"></i>' : "") + "</div></div>"; }
+          $("#ctl", el).innerHTML = row("A", A, SHC[0]) + row("B", B, SHC[1]);
+          var ua = A.reduce(function (s, b) { return s + b.c * b.m; }, 0), ub = B.reduce(function (s, b) { return s + b.c * b.m; }, 0), gg = function (a, b) { while (b) { var t = a % b; a = b; b = t; } return a; }, k = gg(Math.round(ua), Math.round(ub)) || 1;
+          o.innerHTML = "A : B = " + fmtN(ua / k) + " : " + fmtN(ub / k) + "<small>A = " + A.map(function (b) { return fmtN(b.c) + " × " + fmtN(b.m); }).join(" + ") + " = " + fmtN(ua) + ". B = " + B.map(function (b) { return fmtN(b.c) + " × " + fmtN(b.m); }).join(" + ") + " = " + fmtN(ub) + ".</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
+    },
+    workp: {
+      title: "Working partner's share", html: '<div class="grid g2"><div class="field"><label for="wp">Total profit ₹</label><input type="number" id="wp" value="50000"></div><div class="field"><label for="ws">Working partner gets first (% of profit)</label><input type="number" id="ws" value="10"></div><div class="field"><label for="wa">Capital share of A (working partner)</label><input type="number" id="wa" value="3"></div><div class="field"><label for="wb">Capital share of B</label><input type="number" id="wb" value="2"></div></div><div class="out" id="wo"></div>',
+      init: function (el) {
+        function up() {
+          var P = parseFloat($("#wp", el).value), s = parseFloat($("#ws", el).value) || 0, a = parseFloat($("#wa", el).value), b = parseFloat($("#wb", el).value), o = $("#wo", el);
+          if (!(P > 0 && a > 0 && b > 0) || s < 0 || s >= 100) { o.textContent = "Enter the profit, a % below 100 and two positive shares"; return; }
+          var fee = P * s / 100, rest = P - fee, A = fee + rest * a / (a + b), B = rest * b / (a + b);
+          o.innerHTML = "A gets ₹" + fmtN(A) + " · B gets ₹" + fmtN(B) + "<small>First A's " + fmtN(s) + "% = ₹" + fmtN(fee) + ". The remaining ₹" + fmtN(rest) + " is shared " + fmtN(a) + " : " + fmtN(b) + " → A ₹" + fmtN(rest * a / (a + b)) + ", B ₹" + fmtN(B) + ".</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
+    },
+    findmiss: {
+      title: "Find the missing months or capital", html: '<div class="field"><label for="fk">Find…</label><select id="fk"><option value="m">B\'s months</option><option value="c">B\'s capital</option></select></div><div class="grid g3"><div class="field"><label for="fa1">A\'s capital ₹</label><input type="number" id="fa1" value="3000"></div><div class="field"><label for="fa2">A\'s months</label><input type="number" id="fa2" value="12"></div><div class="field" id="fbw"><label for="fb" id="fbl">B\'s capital ₹</label><input type="number" id="fb" value="4000"></div><div class="field"><label for="fr1">Profit ratio A</label><input type="number" id="fr1" value="1"></div><div class="field"><label for="fr2">Profit ratio B</label><input type="number" id="fr2" value="1"></div></div><div class="out" id="fmo"></div>',
+      init: function (el) {
+        var last = "m";
+        function up() {
+          var k = $("#fk", el).value;
+          if (k !== last) { last = k; $("#fb", el).value = k === "m" ? 4000 : 8; }
+          $("#fbl", el).textContent = k === "m" ? "B's capital ₹" : "B's months";
+          var c = parseFloat($("#fa1", el).value), m = parseFloat($("#fa2", el).value), x = parseFloat($("#fb", el).value), p = parseFloat($("#fr1", el).value), q = parseFloat($("#fr2", el).value), o = $("#fmo", el);
+          if (!(c > 0 && m > 0 && x > 0 && p > 0 && q > 0)) { o.textContent = "Fill in all the boxes"; return; }
+          var ub = c * m * q / p;
+          if (k === "m") { var t = ub / x; o.innerHTML = "B was in for " + fmtN(t) + " months" + (m === 12 && t < 12 ? " (joined after " + fmtN(12 - t) + ")" : "") + "<small>A's capital-months = " + fmtN(c * m) + ". B needs " + fmtN(c * m) + " × " + fmtN(q) + "/" + fmtN(p) + " = " + fmtN(ub) + ", so months = " + fmtN(ub) + " ÷ " + fmtN(x) + ".</small>"; }
+          else o.innerHTML = "B's capital = ₹" + fmtN(ub / x) + "<small>B needs " + fmtN(ub) + " capital-months; ÷ " + fmtN(x) + " months = ₹" + fmtN(ub / x) + ".</small>";
+        }
+        $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
+      }
     }
   };
   function tryIt(T, pane) {
