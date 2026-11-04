@@ -1196,14 +1196,14 @@
     ratios6: {
       title: "All six ratios from a triangle", html: '<p class="small muted">Enter the two shorter sides of a right triangle (P opposite θ, B next to θ).</p><div class="grid g2"><div class="field"><label for="rP">Perpendicular P</label><input type="number" id="rP" value="3"></div><div class="field"><label for="rB">Base B</label><input type="number" id="rB" value="4"></div></div><div id="rtz"></div><div class="tscroll"><table class="pt" id="r6"></table></div><div class="out" id="r6o"></div>',
       init: function (el) {
-        function fr(a, b) { var g = function (x, y) { x = Math.round(x * 1e6); y = Math.round(y * 1e6); while (y) { var t = x % y; x = y; y = t; } return x; }; if (Math.abs(a - Math.round(a)) < 1e-9 && Math.abs(b - Math.round(b)) < 1e-9) { var k = g(a, b) / 1e6; return fmtN(a / k) + "/" + fmtN(b / k); } return fmtN(a / b); }
+        function fr(a, b) { var g = function (x, y) { x = Math.round(x * 1e6); y = Math.round(y * 1e6); while (y) { var t = x % y; x = y; y = t; } return x; }; if (Math.abs(a - Math.round(a)) < 1e-9 && Math.abs(b - Math.round(b)) < 1e-9) { var k = g(a, b) / 1e6; return b / k === 1 ? fmtN(a / k) : fmtN(a / k) + "/" + fmtN(b / k); } return fmtN(a / b); }
         function up() {
           var P = parseFloat($("#rP", el).value), B = parseFloat($("#rB", el).value), o = $("#r6o", el);
           if (!(P > 0 && B > 0)) { $("#r6", el).innerHTML = ""; o.textContent = "Enter two positive sides"; return; }
           var H = Math.hypot(P, B), Hs = Math.abs(H - Math.round(H)) < 1e-9 ? fmtN(H) : "√" + fmtN(P * P + B * B);
           $("#rtz", el).innerHTML = rtSvg(B, P, H);
           var R = [["sin θ", "P/H", P, H], ["cos θ", "B/H", B, H], ["tan θ", "P/B", P, B], ["cosec θ", "H/P", H, P], ["sec θ", "H/B", H, B], ["cot θ", "B/P", B, P]];
-          $("#r6", el).innerHTML = "<tr><th>Ratio</th><th>Rule</th><th>Value</th><th>Decimal</th></tr>" + R.map(function (r) { var exact = Hs.charAt(0) === "√" && (r[2] === H || r[3] === H) ? (r[2] === H ? Hs + "/" + fmtN(r[3]) : fmtN(r[2]) + "/" + Hs) : fr(r[2], r[3]); return "<tr><td>" + r[0] + "</td><td>" + r[1] + "</td><td><b>" + exact + "</b></td><td>" + fmtN(r[2] / r[3]) + "</td></tr>"; }).join("");
+          $("#r6", el).innerHTML = "<tr><th>Ratio</th><th>Rule</th><th>Value</th><th>Decimal</th></tr>" + R.map(function (r) { var exact = Hs.charAt(0) === "√" && (r[2] === H || r[3] === H) ? (r[2] === H ? Hs + (r[3] === 1 ? "" : "/" + fmtN(r[3])) : fmtN(r[2]) + "/" + Hs) : fr(r[2], r[3]); return "<tr><td>" + r[0] + "</td><td>" + r[1] + "</td><td><b>" + exact + "</b></td><td>" + fmtN(r[2] / r[3]) + "</td></tr>"; }).join("");
           var th = Math.atan(P / B) * 180 / Math.PI;
           o.innerHTML = "H = " + Hs + " · θ ≈ " + fmtN(th) + "°<small>Check: sin²θ + cos²θ = " + fmtN(P * P / (H * H)) + " + " + fmtN(B * B / (H * H)) + " = 1.</small>";
         }

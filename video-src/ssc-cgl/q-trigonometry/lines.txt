@@ -1,0 +1,10 @@
+# SSC CGL Quant — Trigonometry, heights & distances
+Welcome! This SSC CGL lesson is about trigonometry, heights and distances. || Welcome! This S S C C G L lesson is about trigonometry, and heights and distances.
+sin = P/H, cos = B/H, tan = P/B. The others are their reciprocals. || In a right triangle, sine is perpendicular over hypotenuse, cosine is base over hypotenuse, and tangent is perpendicular over base. Cosecant, secant and cotangent are their reciprocals.
+Learn the table of values for 0, 30, 45, 60 and 90 degrees. || Learn the table of values. Sine of zero, thirty, forty five, sixty and ninety degrees is zero, one half, one over root two, root three over two, and one. Cosine is the same list in reverse.
+Three identities: sin² + cos² = 1, 1 + tan² = sec², 1 + cot² = cosec². || Three identities solve most questions. Sine squared plus cosine squared is one. One plus tan squared is sec squared. And one plus cot squared is cosec squared.
+Complementary angles: sin(90° − θ) = cos θ. || For complementary angles, sine of ninety minus theta is cosine of theta. So sine of thirty seven divided by cosine of fifty three is one.
+Maximum of a sin θ + b cos θ is √(a² + b²). || The maximum of a sine theta plus b cosine theta is the square root of a squared plus b squared. Three sine theta plus four cosine theta can be at most five.
+Heights: tan θ = height ÷ distance. || In heights and distances, tan of the angle equals height divided by horizontal distance. A tower seen from thirty metres at sixty degrees is thirty root three metres tall.
+Try this: sin θ = 3/5, find tan θ. The answer is A, 3/4. || Try this. If sine theta is three fifths, what is tan theta? The answer is A, three quarters, from the three four five triangle.
+Recap. Now try the tools and the practice questions below. || To recap. Draw a right triangle for ratio questions. Learn the value table and the three identities. Pair complementary angles. And for heights, use tan. Now try the tools and the practice questions below this video.
