@@ -344,9 +344,26 @@
     if (n !== null) h += '<text x="244" y="138" text-anchor="end" font-size="12" font-weight="700" fill="var(--muted)">neither ' + n + "</text>";
     return h + "</svg>";
   }
+  function clockSvg(h, m, flip, cap) {
+    var a = ((h % 12) + m / 60) * 30, b = m * 6, R = function (d, L) { var t = d * Math.PI / 180; return [70 + L * Math.sin(t), 70 - L * Math.cos(t)]; };
+    var s = '<svg viewBox="0 0 140 160" width="140" class="kinsvg" role="img" aria-label="' + (cap || "Clock") + '"><g' + (flip ? ' transform="translate(140,0) scale(-1,1)"' : "") + '><circle cx="70" cy="70" r="62" fill="#fff" stroke="var(--ink)" stroke-width="3"/>';
+    for (var i = 1; i <= 12; i++) { var p = R(i * 30, 50); s += '<text x="' + p[0] + '" y="' + (p[1] + 4) + '" text-anchor="middle" font-size="11" font-weight="700" fill="var(--ink)">' + i + "</text>"; }
+    var hp = R(a, 32), mp = R(b, 46);
+    s += '<line x1="70" y1="70" x2="' + hp[0] + '" y2="' + hp[1] + '" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/><line x1="70" y1="70" x2="' + mp[0] + '" y2="' + mp[1] + '" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="70" cy="70" r="4" fill="var(--ink)"/></g>';
+    if (cap) s += '<text x="70" y="152" text-anchor="middle" font-size="12" font-weight="800" fill="var(--muted)">' + cap + "</text>";
+    return s + "</svg>";
+  }
+  function mirrorTime(h, m) { var t = (h % 12) * 60 + m, r = (720 - t) % 720, H = Math.floor(r / 60), M = r % 60; return [H || 12, M]; }
+  function hm(h, m) { return h + ":" + (m < 10 ? "0" : "") + m; }
+  function mirWord(w) {
+    var e = esc(w);
+    return '<div class="mirw"><div><span>' + e + "</span><small>Object</small></div><div><span style=\"display:inline-block;transform:scaleX(-1)\">" + e + "</span><small>Mirror image</small></div><div><span style=\"display:inline-block;transform:scaleY(-1)\">" + e + "</span><small>Water image</small></div></div>";
+  }
   function viz(x) {
     if (!x) return "";
     if (x.type === "share") return shareBar(x.r, x.total);
+    if (x.type === "mirw") return mirWord(x.w);
+    if (x.type === "mclock") { var mt = mirrorTime(x.h, x.m); return '<div class="row" style="justify-content:center;gap:12px">' + clockSvg(x.h, x.m, false, "Actual " + hm(x.h, x.m)) + clockSvg(x.h, x.m, true, "Mirror " + hm(mt[0], mt[1])) + "</div>"; }
     if (x.type === "vgal") return vgallery();
     if (x.type === "venn2") return venn2Svg(x.a, x.b, x.ab, null);
     if (x.type === "venn") return vennSvg(x.s, x.n);
@@ -2204,6 +2221,51 @@
           $$("#sgo2 .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#sgo2 .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#sgs2", el).textContent = sc; $("#sgn2", el).textContent = n; $("#sgw2", el).hidden = false; $("#sgw2", el).textContent = p[3]; }; });
         }
         $("#sgg2", el).onclick = round; round();
+      }
+    }
+    ,
+    mclockt: {
+      title: "Mirror clock", html: '<div class="grid2"><div class="field"><label for="mch">Hour</label><input type="number" id="mch" value="3" min="1" max="12"></div><div class="field"><label for="mcm">Minutes</label><input type="number" id="mcm" value="40" min="0" max="59"></div></div><div class="row" id="mcz" style="justify-content:center;gap:12px"></div><div class="out" id="mco"></div>',
+      init: function (el) {
+        function up() {
+          var h = Math.round(+$("#mch", el).value), m = Math.round(+$("#mcm", el).value), o = $("#mco", el);
+          if (!(h >= 1 && h <= 12) || !(m >= 0 && m <= 59)) { o.textContent = "Hour 1–12, minutes 0–59"; $("#mcz", el).innerHTML = ""; return; }
+          var r = mirrorTime(h, m);
+          $("#mcz", el).innerHTML = clockSvg(h, m, false, "Actual " + hm(h, m)) + clockSvg(h, m, true, "In the mirror");
+          o.innerHTML = "Mirror shows " + hm(r[0], r[1]) + "<small>11:60 − " + hm(h % 12, m) + " = " + hm(r[0] === 12 ? 0 : r[0], r[1]) + (r[0] === 12 ? ", i.e. " + hm(12, r[1]) : "") + ". The flipped clock on the right reads the same.</small>";
+        }
+        $$("input", el).forEach(function (x) { x.oninput = up; }); up();
+      }
+    },
+    mword: {
+      title: "Word reflector", html: '<div class="field"><label for="mwt">Word or letters</label><input type="text" id="mwt" value="CHOICE" maxlength="16"></div><div id="mwz"></div><div class="out" id="mwo"></div>',
+      init: function (el) {
+        var V = "AHIMOTUVWXY", W = "BCDEHIKOX";
+        function up() {
+          var w = $("#mwt", el).value.toUpperCase().replace(/[^A-Z0-9 ]/g, ""), L = w.replace(/[^A-Z]/g, ""), o = $("#mwo", el);
+          $("#mwz", el).innerHTML = w ? mirWord(w) : "";
+          if (!L) { o.textContent = "Type a word"; return; }
+          var v = L.split("").filter(function (c) { return V.indexOf(c) >= 0; }).length, wa = L.split("").filter(function (c) { return W.indexOf(c) >= 0; }).length, same = v === L.length && L === L.split("").reverse().join("");
+          o.innerHTML = v + " of " + L.length + " letters are mirror-safe · " + wa + " are water-safe<small>" + (same ? "The whole word looks the same in a mirror." : "The word changes in a mirror: the letters reverse order" + (v < L.length ? " and some letters flip." : ".")) + (wa === L.length ? " It looks the same in water." : "") + "</small>";
+        }
+        $("#mwt", el).oninput = up; up();
+      }
+    },
+    mgame: {
+      title: "Mirror clock sprint", html: '<div class="row" id="mgz" style="justify-content:center"></div><div class="opts" id="mgo"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="mgs">0</b> / <b id="mgn">0</b></span><button class="btn btn-accent btn-sm" id="mgg">Next</button></div><div class="why" id="mgw" hidden></div>',
+      init: function (el) {
+        var sc = 0, n = 0;
+        function round() {
+          var h = 1 + Math.floor(Math.random() * 12), m = 5 * Math.floor(Math.random() * 12), r = mirrorTime(h, m), ans = hm(r[0], r[1]), done = false;
+          var ops = [ans, hm(h, m), hm(r[0] % 12 + 1, r[1]), hm(r[0], (r[1] + 30) % 60)].filter(function (v, i, a) { return a.indexOf(v) === i; });
+          while (ops.length < 4) ops.push(hm(1 + Math.floor(Math.random() * 12), 5 * Math.floor(Math.random() * 12)));
+          ops = ops.filter(function (v, i, a) { return a.indexOf(v) === i; }).slice(0, 4);
+          var ord = shuffle(ops.length);
+          $("#mgz", el).innerHTML = clockSvg(h, m, false) + '<p style="width:100%;text-align:center;font-weight:800;margin:4px 0 0">What does the mirror show?</p>'; $("#mgw", el).hidden = true;
+          $("#mgo", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-ok="' + (k === 0 ? 1 : 0) + '">' + ops[k] + "</button>"; }).join("");
+          $$("#mgo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#mgo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#mgs", el).textContent = sc; $("#mgn", el).textContent = n; $("#mgw", el).hidden = false; $("#mgw", el).textContent = "11:60 − " + hm(h % 12, m) + " = " + ans + "."; }; });
+        }
+        $("#mgg", el).onclick = round; round();
       }
     }
   };

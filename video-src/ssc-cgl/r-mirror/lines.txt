@@ -1,0 +1,10 @@
+# SSC CGL Reasoning — Mirror and water images
+Welcome! This SSC CGL lesson is about mirror and water images. || Welcome! This S S C C G L lesson is about mirror and water images.
+Mirror: left ↔ right. Water: top ↔ bottom. || A mirror placed at the side swaps left and right, but the top stays on top. Water below an object swaps top and bottom, but left stays on the left.
+Mirror-safe letters: A H I M O T U V W X Y. || Some capital letters do not change in a mirror: A, H, I, M, O, T, U, V, W, X and Y. In water, these stay the same: B, C, D, E, H, I, K, O and X.
+Words: reverse the order and flip each letter. || A mirror reverses the order of the letters and flips each one. So a word looks the same only if it reads the same backwards and uses only mirror safe letters, like MOM or WOW.
+Mirror clocks: 11:60 − time. || For clocks in a mirror, subtract the time from eleven sixty. Three forty becomes eight twenty. The rule works both ways, so the mirror of eight twenty is three forty.
+Special cases: 12:00 and 6:00 stay the same. || Twelve o'clock and six o'clock look the same in a mirror. For twelve twenty, treat it as zero twenty. Eleven sixty minus zero twenty is eleven forty.
+Figures: follow one detail. || For figures, follow one small detail, like a dot or a corner, and see where it moves. In a mirror, an arrow pointing right now points left.
+Try this: a mirror shows 9:10. The answer is A, 2:50. || Try this. A clock seen in a mirror shows nine ten. What is the real time? The answer is A, two fifty, because eleven sixty minus nine ten is two fifty.
+Recap. Now try the tools and the practice questions below. || To recap. Mirror swaps left and right, water swaps top and bottom. Learn the safe letters. Subtract clock times from eleven sixty. And follow one detail in figures. Now try the tools and the practice questions below this video.
