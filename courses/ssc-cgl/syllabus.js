@@ -38,7 +38,7 @@ window.SSC = {
         ["partnership", "Partnership", "live"],
         ["mixtures", "Mixtures & alligation", "live"],
         ["time-work", "Time & work, pipes & cisterns", "live"],
-        ["tsd", "Time, speed & distance", "soon"],
+        ["tsd", "Time, speed & distance", "live"],
         ["algebra", "Algebra", "soon"],
         ["geometry", "Geometry", "soon"],
         ["mensuration", "Mensuration", "soon"],

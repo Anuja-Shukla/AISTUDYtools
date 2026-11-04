@@ -1,0 +1,10 @@
+# SSC CGL Reasoning — Series
+Welcome! This SSC CGL lesson is about number and letter series. || Welcome! This S S C C G L lesson is about number and letter series.
+Every series hides one rule. Use a checklist. || Every series hides one rule. You may be asked for the next term, a missing term, or the wrong term. Work through a checklist: differences, ratios, squares and cubes, then alternating series.
+Differences: 2, 5, 10, 17, 26 → 37. || Start with differences. Two, five, ten, seventeen, twenty six. The gaps are three, five, seven, nine, so the next gap is eleven and the answer is thirty seven. If the gaps are not simple, take the gaps of the gaps.
+Ratios when terms grow fast. || When terms grow fast, divide instead. Three, six, twelve, twenty four is times two. One, two, six, twenty four, one twenty is times two, times three, times four. One, three, seven, fifteen is times two plus one.
+Squares, cubes and primes. || Learn the standard families. One, eight, twenty seven, sixty four are cubes. Two, six, twelve, twenty, thirty is n into n plus one. Zero, seven, twenty six, sixty three is n cubed minus one.
+Alternating: split odd and even positions. || If nothing fits, split the series into odd and even positions. Two, ten, four, twenty, six, thirty. The odd positions go two, four, six, so the next term is eight.
+Letters: change to positions. || For letters, change each letter to its position, A is one and Z is twenty six. A, C, F, J, O has gaps two, three, four, five, so the next gap is six, giving U.
+Try this: 6, 11, 21, 41, 81. The answer is A, 161. || Try this. Six, eleven, twenty one, forty one, eighty one. What comes next? The answer is A, one hundred sixty one, because each term is double the previous minus one.
+Recap. Now try the tools and the practice questions below. || To recap. Differences first, then ratios, then squares and cubes, then alternating series. Change letters to positions. And always check your rule on every term. Now try the tools and the practice questions below this video.

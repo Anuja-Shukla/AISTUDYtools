@@ -202,9 +202,13 @@
     var mark = function (v, col, lab, y) { return '<line x1="' + sc(v) + '" y1="20" x2="' + sc(v) + '" y2="100" stroke="' + col + '" stroke-width="2" stroke-dasharray="4 3"/><text x="' + sc(v) + '" y="' + y + '" text-anchor="middle" font-size="11" font-weight="700" fill="' + col + '">' + lab + " " + fmtN(v) + "</text>"; };
     return '<svg class="dich" viewBox="0 0 ' + W + ' 130" role="img" aria-label="Dot plot"><line x1="10" y1="100" x2="' + (W - 10) + '" y2="100" stroke="#C7C9F2" stroke-width="2"/>' + out + mark(m, "#F59E0B", "mean", 14) + mark(med, "#10B981", "median", 122) + '<text x="16" y="116" font-size="10" fill="#6E6C94">' + fmtN(mn) + '</text><text x="' + (W - 16) + '" y="116" font-size="10" fill="#6E6C94" text-anchor="end">' + fmtN(mx) + "</text></svg>";
   }
+  function altViz(S) {
+    return '<div class="altv">' + S.map(function (x, i) { return '<span class="' + (i % 2 ? "e" : "o") + '">' + fmtN(x) + "</span>"; }).join("") + '<span class="q">?</span></div>';
+  }
   function viz(x) {
     if (!x) return "";
     if (x.type === "share") return shareBar(x.r, x.total);
+    if (x.type === "alt") return altViz(x.v);
     if (x.type === "dots") { var mm = x.v.reduce(function (a, b) { return a + b; }, 0) / x.v.length, ss = x.v.slice().sort(function (a, b) { return a - b; }), nn = ss.length; return dotsSvg(x.v, mm, nn % 2 ? ss[(nn - 1) / 2] : (ss[nn / 2 - 1] + ss[nn / 2]) / 2); }
     if (x.type === "bars") return barsSvg(x.l, x.v);
     if (x.type === "pie") return '<div class="grid g2" style="align-items:center">' + pieSvg(x.l, x.v) + '<div class="small">' + x.l.map(function (n, i) { return '<div><i class="sw2" style="background:' + SHC[i % 6] + '"></i>' + esc(n) + " " + x.v[i] + "%</div>"; }).join("") + "</div></div>";
@@ -1540,6 +1544,83 @@
           $$("#ogo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#ogo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#ogs", el).textContent = sc; $("#ogn", el).textContent = n; $("#ogw", el).hidden = false; $("#ogw", el).textContent = s[0].join(", ") + " are " + s[2] + "; " + s[1] + " is not."; }; });
         }
         $("#ogg", el).onclick = round; round();
+      }
+    }
+    ,
+    sdiff: {
+      title: "Difference and ratio table", html: '<div class="field"><label for="sdl">Series (comma separated)</label><input type="text" id="sdl" value="3, 4, 8, 17, 33"></div><div class="tscroll"><table class="pt" id="sdt"></table></div><div class="out" id="sdo"></div>',
+      init: function (el) {
+        function d(a) { var o = []; for (var i = 1; i < a.length; i++) o.push(a[i] - a[i - 1]); return o; }
+        function same(a) { return a.length > 1 && a.every(function (x) { return Math.abs(x - a[0]) < 1e-9; }); }
+        function up() {
+          var S = $("#sdl", el).value.split(/[,\s]+/).filter(Boolean).map(Number).filter(isFinite).slice(0, 12), o = $("#sdo", el);
+          if (S.length < 3) { $("#sdt", el).innerHTML = ""; o.textContent = "Enter at least three terms"; return; }
+          var d1 = d(S), d2 = d(d1), d3 = d(d2), r = S.slice(1).map(function (x, i) { return S[i] ? x / S[i] : NaN; }), next = null, why = "";
+          if (same(d1)) { next = S[S.length - 1] + d1[0]; why = "constant difference " + fmtN(d1[0]); }
+          else if (same(d2)) { next = S[S.length - 1] + d1[d1.length - 1] + d2[0]; why = "differences grow by " + fmtN(d2[0]); }
+          else if (same(r) && isFinite(r[0])) { next = S[S.length - 1] * r[0]; why = "constant ratio × " + fmtN(r[0]); }
+          else if (same(d3)) { var n2 = d2[d2.length - 1] + d3[0], n1 = d1[d1.length - 1] + n2; next = S[S.length - 1] + n1; why = "third differences are constant"; }
+          else if ([2, 3].some(function (e) { var b = S.map(function (x) { return Math.round(Math.pow(Math.abs(x), 1 / e)); }); if (b.every(function (v, i) { return Math.pow(v, e) === Math.abs(S[i]) && (i === 0 || v === b[i - 1] + 1); })) { next = Math.pow(b[b.length - 1] + 1, e); why = (e === 2 ? "squares" : "cubes") + " of consecutive numbers"; return true; } return false; })) { }
+          else { var ratios = r.map(function (x) { return Math.round(x * 1e6) / 1e6; }), sq = d1.every(function (x, i) { return Math.round(Math.sqrt(Math.abs(x))) ** 2 === Math.abs(x); }); if (sq) { var k = Math.round(Math.sqrt(Math.abs(d1[d1.length - 1]))) + 1; next = S[S.length - 1] + k * k * Math.sign(d1[0] || 1); why = "differences are squares"; } }
+          var row = function (n, a) { return "<tr><th>" + n + "</th>" + a.map(function (x) { return "<td>" + (isFinite(x) ? fmtN(x) : "—") + "</td>"; }).join("") + "</tr>"; };
+          $("#sdt", el).innerHTML = row("Terms", S) + row("1st diff", d1) + row("2nd diff", d2) + row("Ratio", r);
+          o.innerHTML = next !== null ? "Next term: " + fmtN(next) + "<small>Pattern: " + why + ".</small>" : "No simple pattern found<small>Try splitting into two alternating series, or look for squares, cubes or primes.</small>";
+        }
+        $("#sdl", el).oninput = up; up();
+      }
+    },
+    lser: {
+      title: "Letter series to positions", html: '<div class="field"><label for="lsl">Letters (comma separated)</label><input type="text" id="lsl" value="A, C, F, J, O"></div><div class="tscroll"><table class="pt" id="lst2"></table></div><div class="out" id="lso2"></div>',
+      init: function (el) {
+        function up() {
+          var L = $("#lsl", el).value.toUpperCase().split(/[,\s]+/).map(function (s) { return s.replace(/[^A-Z]/g, ""); }).filter(function (s) { return s.length === 1; }).slice(0, 12), o = $("#lso2", el);
+          if (L.length < 3) { $("#lst2", el).innerHTML = ""; o.textContent = "Enter at least three single letters"; return; }
+          var P = L.map(function (c) { return c.charCodeAt(0) - 64; }), g = P.slice(1).map(function (x, i) { return x - P[i]; }), g2 = g.slice(1).map(function (x, i) { return x - g[i]; }), nxt = null;
+          if (g.every(function (x) { return x === g[0]; })) nxt = P[P.length - 1] + g[0];
+          else if (g2.every(function (x) { return x === g2[0]; })) nxt = P[P.length - 1] + g[g.length - 1] + g2[0];
+          $("#lst2", el).innerHTML = "<tr><th>Letter</th>" + L.map(function (c) { return "<td><b>" + c + "</b></td>"; }).join("") + "</tr><tr><th>Position</th>" + P.map(function (p) { return "<td>" + p + "</td>"; }).join("") + "</tr><tr><th>Gap</th><td></td>" + g.map(function (x) { return "<td>" + (x > 0 ? "+" : "") + x + "</td>"; }).join("") + "</tr>";
+          var wrap = function (p) { return ((p - 1) % 26 + 26) % 26 + 1; };
+          o.innerHTML = nxt !== null ? "Next letter: " + String.fromCharCode(64 + wrap(nxt)) + "<small>Position " + wrap(nxt) + (nxt !== wrap(nxt) ? " (wrapped round the alphabet)" : "") + ".</small>" : "No single gap pattern<small>Try splitting into two series, or compare with opposite letters.</small>";
+        }
+        $("#lsl", el).oninput = up; up();
+      }
+    },
+    altsplit: {
+      title: "Alternating series splitter", html: '<div class="field"><label for="asl">Series</label><input type="text" id="asl" value="2, 10, 4, 20, 6, 30"></div><div id="asz"></div><div class="out" id="aso"></div>',
+      init: function (el) {
+        function nextOf(a) { if (a.length < 2) return null; var d = a.slice(1).map(function (x, i) { return x - a[i]; }); if (d.every(function (x) { return x === d[0]; })) return a[a.length - 1] + d[0]; var r = a.slice(1).map(function (x, i) { return a[i] ? x / a[i] : NaN; }); if (r.every(function (x) { return Math.abs(x - r[0]) < 1e-9; })) return a[a.length - 1] * r[0]; return null; }
+        function up() {
+          var S = $("#asl", el).value.split(/[,\s]+/).filter(Boolean).map(Number).filter(isFinite).slice(0, 14), o = $("#aso", el);
+          if (S.length < 4) { $("#asz", el).innerHTML = ""; o.textContent = "Enter at least four terms"; return; }
+          $("#asz", el).innerHTML = altViz(S);
+          var odd = S.filter(function (_, i) { return i % 2 === 0; }), even = S.filter(function (_, i) { return i % 2 === 1; }), turn = S.length % 2 === 0 ? odd : even, nx = nextOf(turn);
+          o.innerHTML = (nx !== null ? "Next term: " + fmtN(nx) : "The parts have no simple rule") + "<small>Odd positions: " + odd.map(fmtN).join(", ") + ". Even positions: " + even.map(fmtN).join(", ") + ". The next term continues the " + (S.length % 2 === 0 ? "odd" : "even") + "-position series.</small>";
+        }
+        $("#asl", el).oninput = up; up();
+      }
+    },
+    sergame: {
+      title: "Series sprint", html: '<div class="big" id="sgq" style="text-align:center;font-size:22px;font-weight:800">…</div><div class="opts" id="sgo"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="sgs">0</b> / <b id="sgn">0</b></span><button class="btn btn-accent btn-sm" id="sgg">Next series</button></div><div class="why" id="sgw" hidden></div>',
+      init: function (el) {
+        var sc = 0, n = 0;
+        function rnd(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
+        function make() {
+          var t = rnd(0, 5), a = rnd(1, 9), k = rnd(2, 6), s = [], rule;
+          if (t === 0) { for (var i = 0; i < 6; i++) s.push(a + i * k); rule = "+" + k + " each time"; }
+          else if (t === 1) { var m = rnd(2, 3); s.push(a); for (var j = 1; j < 6; j++) s.push(s[j - 1] * m); rule = "× " + m; }
+          else if (t === 2) { var g = rnd(1, 3); s.push(a); for (var q = 1; q < 6; q++) s.push(s[q - 1] + g + 2 * (q - 1)); rule = "gaps grow by 2"; }
+          else if (t === 3) { var b = rnd(1, 4); for (var r = b; r < b + 6; r++) s.push(r * r); rule = "squares"; }
+          else if (t === 4) { s.push(a); for (var u = 1; u < 6; u++) s.push(s[u - 1] * 2 + 1); rule = "× 2 + 1"; }
+          else { var c = rnd(2, 5), d = rnd(3, 9); for (var v = 0; v < 6; v++) s.push(v % 2 === 0 ? a + (v / 2) * c : d * ((v + 1) / 2)); rule = "two alternating series"; }
+          return { shown: s.slice(0, 5), ans: s[5], rule: rule };
+        }
+        function round() {
+          var p = make(), ops = [p.ans, p.ans + rnd(1, 3), p.ans - rnd(1, 4), p.ans + rnd(4, 9)].filter(function (v, i, a) { return a.indexOf(v) === i; }), ord = shuffle(ops.length), done = false;
+          $("#sgq", el).textContent = p.shown.join(", ") + ", ?"; $("#sgw", el).hidden = true;
+          $("#sgo", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-ok="' + (k === 0 ? 1 : 0) + '">' + ops[k] + "</button>"; }).join("");
+          $$("#sgo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#sgo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#sgs", el).textContent = sc; $("#sgn", el).textContent = n; $("#sgw", el).hidden = false; $("#sgw", el).textContent = "Rule: " + p.rule + "."; }; });
+        }
+        $("#sgg", el).onclick = round; round();
       }
     }
   };
