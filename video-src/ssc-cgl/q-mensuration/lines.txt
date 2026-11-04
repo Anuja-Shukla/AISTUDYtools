@@ -1,0 +1,10 @@
+# SSC CGL Quant — Mensuration
+Welcome! This SSC CGL lesson is about mensuration. || Welcome! This S S C C G L lesson is about mensuration: areas of flat shapes, and volumes and surface areas of solids.
+Triangle area: ½ × base × height, or Heron's formula for three sides. || The area of a triangle is half base times height. With three sides, use Heron's formula. For sides thirteen, fourteen and fifteen, s is twenty one, and the area is eighty four.
+Rhombus ½d₁d₂, trapezium ½(a + b)h, circle πr². || A rhombus is half the product of its diagonals. A trapezium is half the sum of the parallel sides, times the height. A circle is pi r squared, and with radius seven that is one hundred and fifty four.
+Lengths up 10% → area up 21%, volume up 33.1%. || When every length grows by ten percent, the area grows by twenty one percent, because area uses two lengths. Volume uses three lengths, so it grows by thirty three point one percent.
+Cuboid diagonal √(l² + b² + h²). Cube: a³ and 6a². || A cuboid's volume is length times breadth times height, and its diagonal is the square root of the sum of the squares. A cube has volume a cubed and surface area six a squared.
+Cylinder πr²h. Cone ⅓πr²h with slant √(r² + h²). || A cylinder's volume is pi r squared h. A cone holds one third of that. Its slant height is the square root of r squared plus h squared. With radius seven and height twenty four, the slant is twenty five.
+Sphere (4/3)πr³ and 4πr². Melting keeps the volume. || A sphere's volume is four thirds pi r cubed, and its surface is four pi r squared. When a solid is melted and recast, the volume stays the same. A sphere of radius six makes twenty seven spheres of radius two.
+Try this: rhombus with diagonals 16 and 12. The answer is A, 96. || Try this. A rhombus has diagonals sixteen and twelve. What is its area? The answer is A, ninety six. Half of sixteen times twelve.
+Recap. Now try the tools and the practice questions below. || To recap. Write the formula first. Use twenty two over seven for multiples of seven. Lengths times k makes area times k squared and volume times k cubed. Now try the tools and the practice questions below this video.

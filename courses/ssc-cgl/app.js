@@ -185,6 +185,7 @@
   function viz(x) {
     if (!x) return "";
     if (x.type === "share") return shareBar(x.r, x.total);
+    if (x.type === "cone") return '<svg class="geo sm" viewBox="0 0 220 120" role="img" aria-label="Cylinder and cone"><ellipse cx="55" cy="22" rx="40" ry="10" fill="#EEF0FF" stroke="#4F46E5" stroke-width="2"/><path d="M15 22 V98 A40 10 0 0 0 95 98 V22" fill="#EEF0FF" stroke="#4F46E5" stroke-width="2"/><line x1="55" y1="22" x2="95" y2="22" stroke="#F59E0B" stroke-width="2"/><text x="72" y="17" font-size="11" fill="#1E1B4B" font-weight="700">r</text><text x="100" y="62" font-size="11" fill="#1E1B4B" font-weight="700">h</text><path d="M125 98 L165 14 L205 98 A40 10 0 0 1 125 98" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/><line x1="165" y1="14" x2="165" y2="98" stroke="#94A3B8" stroke-dasharray="3 3"/><text x="187" y="50" font-size="11" fill="#1E1B4B" font-weight="700">l</text></svg>';
     if (x.type === "rt") return rtSvg(x.a, x.b, Math.hypot(x.a, x.b));
     if (x.type === "sq") return sqViz(x.a, x.b);
     if (x.type === "units") return unitsViz(x.d);
@@ -1114,6 +1115,79 @@
           n = Math.round(n);
           $("#pyz", el).innerHTML = polySvg(n);
           o.innerHTML = n + " sides<small>Interior sum = (" + n + " − 2) × 180 = " + fmtN((n - 2) * 180) + "°. Each interior (regular) = " + fmtN((n - 2) * 180 / n) + "°, each exterior = 360 ÷ " + n + " = " + fmtN(360 / n) + "°. Diagonals = " + n + " × " + (n - 3) + " ÷ 2 = " + n * (n - 3) / 2 + ".</small>";
+        }
+        $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
+      }
+    }
+    ,
+    area2d: {
+      title: "Area and perimeter (2D)", html: '<div class="field"><label for="ak">Shape</label><select id="ak"><option value="rect">Rectangle</option><option value="tri">Triangle (three sides)</option><option value="eq">Equilateral triangle</option><option value="circ">Circle</option><option value="sec">Sector</option><option value="rho">Rhombus (diagonals)</option><option value="trap">Trapezium</option></select></div><div class="grid g3" id="aflds"></div><label class="small" style="display:flex;gap:6px;align-items:center;margin-top:4px"><input type="checkbox" id="api" style="width:auto"> use π = 3.1416 instead of 22/7</label><div class="out" id="ao"></div>',
+      init: function (el) {
+        var F = { rect: [["Length", 15], ["Breadth", 8]], tri: [["Side a", 13], ["Side b", 14], ["Side c", 15]], eq: [["Side", 8]], circ: [["Radius", 7]], sec: [["Radius", 14], ["Angle (°)", 90]], rho: [["Diagonal 1", 16], ["Diagonal 2", 12]], trap: [["Parallel side a", 10], ["Parallel side b", 16], ["Height", 6]] }, cur = "";
+        function build(k) { $("#aflds", el).innerHTML = F[k].map(function (f, i) { return '<div class="field"><label for="af' + i + '">' + f[0] + '</label><input type="number" id="af' + i + '" value="' + f[1] + '"></div>'; }).join(""); $$("#aflds input", el).forEach(function (i) { i.oninput = up; }); }
+        function up() {
+          var k = $("#ak", el).value; if (k !== cur) { cur = k; build(k); }
+          var v = F[k].map(function (_, i) { return parseFloat($("#af" + i, el).value); }), P = $("#api", el).checked ? 3.1416 : 22 / 7, o = $("#ao", el), A, Pm, how;
+          if (!v.every(function (x) { return x > 0; })) { o.textContent = "Enter positive values"; return; }
+          if (k === "rect") { A = v[0] * v[1]; Pm = 2 * (v[0] + v[1]); how = "Diagonal = " + fmtN(Math.hypot(v[0], v[1])); }
+          else if (k === "tri") { var s = (v[0] + v[1] + v[2]) / 2, q = s * (s - v[0]) * (s - v[1]) * (s - v[2]); if (!(q > 0)) { o.textContent = "These sides cannot form a triangle"; return; } A = Math.sqrt(q); Pm = 2 * s; how = "s = " + fmtN(s) + "; √(" + fmtN(s) + " × " + fmtN(s - v[0]) + " × " + fmtN(s - v[1]) + " × " + fmtN(s - v[2]) + ")"; }
+          else if (k === "eq") { A = Math.sqrt(3) / 4 * v[0] * v[0]; Pm = 3 * v[0]; how = "(√3/4) × " + fmtN(v[0]) + "² = " + fmtN(v[0] * v[0] / 4) + "√3; height = " + fmtN(Math.sqrt(3) / 2 * v[0]); }
+          else if (k === "circ") { A = P * v[0] * v[0]; Pm = 2 * P * v[0]; how = "πr² and 2πr"; }
+          else if (k === "sec") { A = v[1] / 360 * P * v[0] * v[0]; Pm = v[1] / 360 * 2 * P * v[0] + 2 * v[0]; how = "Arc = " + fmtN(v[1] / 360 * 2 * P * v[0]) + "; perimeter = arc + 2r"; }
+          else if (k === "rho") { A = v[0] * v[1] / 2; var sd = Math.hypot(v[0] / 2, v[1] / 2); Pm = 4 * sd; how = "Side = √(" + fmtN(v[0] / 2) + "² + " + fmtN(v[1] / 2) + "²) = " + fmtN(sd); }
+          else { A = (v[0] + v[1]) / 2 * v[2]; Pm = NaN; how = "½ × (" + fmtN(v[0]) + " + " + fmtN(v[1]) + ") × " + fmtN(v[2]); }
+          o.innerHTML = "Area = " + fmtN(A) + (isFinite(Pm) ? " · Perimeter = " + fmtN(Pm) : "") + "<small>" + how + ".</small>";
+        }
+        $("#ak", el).onchange = up; $("#api", el).onchange = up; up();
+      }
+    },
+    solid3d: {
+      title: "Volume and surface area (3D)", html: '<div class="field"><label for="sk3">Solid</label><select id="sk3"><option value="cube">Cube</option><option value="cuboid">Cuboid</option><option value="cyl">Cylinder</option><option value="cone">Cone</option><option value="sph">Sphere</option><option value="hem">Hemisphere</option></select></div><div class="grid g3" id="sflds"></div><div class="out" id="so3"></div>',
+      init: function (el) {
+        var F = { cube: [["Side", 5]], cuboid: [["Length", 3], ["Breadth", 4], ["Height", 12]], cyl: [["Radius", 7], ["Height", 10]], cone: [["Radius", 7], ["Height", 24]], sph: [["Radius", 7]], hem: [["Radius", 7]] }, cur = "", P = 22 / 7;
+        function build(k) { $("#sflds", el).innerHTML = F[k].map(function (f, i) { return '<div class="field"><label for="sf' + i + '">' + f[0] + '</label><input type="number" id="sf' + i + '" value="' + f[1] + '"></div>'; }).join(""); $$("#sflds input", el).forEach(function (i) { i.oninput = up; }); }
+        function up() {
+          var k = $("#sk3", el).value; if (k !== cur) { cur = k; build(k); }
+          var v = F[k].map(function (_, i) { return parseFloat($("#sf" + i, el).value); }), o = $("#so3", el), r = [];
+          if (!v.every(function (x) { return x > 0; })) { o.textContent = "Enter positive values"; return; }
+          var a = v[0], b = v[1], c = v[2];
+          if (k === "cube") r = [["Volume", a * a * a], ["Total surface", 6 * a * a], ["Lateral surface", 4 * a * a], ["Diagonal", a * Math.sqrt(3)]];
+          else if (k === "cuboid") r = [["Volume", a * b * c], ["Total surface", 2 * (a * b + b * c + c * a)], ["Four walls", 2 * (a + b) * c], ["Diagonal", Math.sqrt(a * a + b * b + c * c)]];
+          else if (k === "cyl") r = [["Volume", P * a * a * b], ["Curved surface", 2 * P * a * b], ["Total surface", 2 * P * a * (a + b)]];
+          else if (k === "cone") { var l = Math.hypot(a, b); r = [["Volume", P * a * a * b / 3], ["Slant height", l], ["Curved surface", P * a * l], ["Total surface", P * a * (l + a)]]; }
+          else if (k === "sph") r = [["Volume", 4 / 3 * P * a * a * a], ["Surface area", 4 * P * a * a]];
+          else r = [["Volume", 2 / 3 * P * a * a * a], ["Curved surface", 2 * P * a * a], ["Total surface", 3 * P * a * a]];
+          o.innerHTML = r.map(function (x) { return x[0] + " " + fmtN(x[1]); }).join(" · ") + "<small>Using π = 22/7.</small>";
+        }
+        $("#sk3", el).onchange = up; up();
+      }
+    },
+    scaling: {
+      title: "Scaling: what happens to area and volume?", html: '<div class="field"><label for="scm">Change every length by…</label><select id="scm"><option value="p">a percentage</option><option value="k">a factor (× k)</option></select></div><div class="field"><label for="scv" id="scl">% change (use − for decrease)</label><input type="number" id="scv" value="10"></div><div class="tscroll"><table class="pt" id="sct"></table></div><div class="out" id="sco"></div>',
+      init: function (el) {
+        function up() {
+          var m = $("#scm", el).value, v = parseFloat($("#scv", el).value), o = $("#sco", el);
+          $("#scl", el).textContent = m === "p" ? "% change (use − for decrease)" : "Factor k (e.g. 2 for doubling)";
+          var k = m === "p" ? 1 + v / 100 : v;
+          if (!(k > 0)) { $("#sct", el).innerHTML = ""; o.textContent = "Enter a valid change"; return; }
+          var row = function (n, p) { var f = Math.pow(k, p); return "<tr><td>" + n + "</td><td>× " + fmtN(f) + "</td><td>" + (f >= 1 ? "+" : "−") + fmtN(Math.abs(f - 1) * 100) + "%</td></tr>"; };
+          $("#sct", el).innerHTML = "<tr><th>Quantity</th><th>Multiplied by</th><th>Change</th></tr>" + row("Length / perimeter", 1) + row("Area / surface area", 2) + row("Volume", 3);
+          o.innerHTML = "Area × " + fmtN(k * k) + ", volume × " + fmtN(k * k * k) + "<small>Area uses two lengths (k²) and volume three (k³). " + (m === "p" ? fmtN(v) + "% on each side gives " + fmtN((k * k - 1) * 100) + "% on area, not " + fmtN(2 * v) + "%." : "") + "</small>";
+        }
+        $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
+      }
+    },
+    recast: {
+      title: "Melt and recast", html: '<p class="small muted">The volume stays the same. How many small solids can be made from the big one?</p><div class="grid g2"><div class="field"><label for="rbk">Big solid</label><select id="rbk"><option value="sph">Sphere (r)</option><option value="cyl" selected>Cylinder (r, h)</option><option value="cone">Cone (r, h)</option><option value="cube">Cube (side)</option></select></div><div class="field"><label for="rsk">Small solid</label><select id="rsk"><option value="sph">Sphere (r)</option><option value="cyl">Cylinder (r, h)</option><option value="cone" selected>Cone (r, h)</option><option value="cube">Cube (side)</option></select></div><div class="field"><label>Big: r / side, h</label><div class="row"><input type="number" id="rb1" value="3"><input type="number" id="rb2" value="7"></div></div><div class="field"><label>Small: r / side, h</label><div class="row"><input type="number" id="rs1" value="1"><input type="number" id="rs2" value="3"></div></div></div><div class="out" id="rco"></div>',
+      init: function (el) {
+        function vol(k, a, h) { return k === "sph" ? 4 / 3 * Math.PI * a * a * a : k === "cyl" ? Math.PI * a * a * h : k === "cone" ? Math.PI * a * a * h / 3 : a * a * a; }
+        function nm(k) { return { sph: "sphere", cyl: "cylinder", cone: "cone", cube: "cube" }[k]; }
+        function up() {
+          var bk = $("#rbk", el).value, sk = $("#rsk", el).value, b1 = parseFloat($("#rb1", el).value), b2 = parseFloat($("#rb2", el).value), s1 = parseFloat($("#rs1", el).value), s2 = parseFloat($("#rs2", el).value), o = $("#rco", el);
+          $("#rb2", el).hidden = !(bk === "cyl" || bk === "cone"); $("#rs2", el).hidden = !(sk === "cyl" || sk === "cone");
+          if (!(b1 > 0 && s1 > 0) || ((bk === "cyl" || bk === "cone") && !(b2 > 0)) || ((sk === "cyl" || sk === "cone") && !(s2 > 0))) { o.textContent = "Enter positive sizes"; return; }
+          var VB = vol(bk, b1, b2), VS = vol(sk, s1, s2), n = VB / VS;
+          o.innerHTML = fmtN(n) + " small " + nm(sk) + (Math.abs(n - 1) < 1e-9 ? "" : "s") + "<small>Volume of the big " + nm(bk) + " ÷ volume of one small " + nm(sk) + " = " + fmtN(VB / Math.PI) + "π ÷ " + fmtN(VS / Math.PI) + "π" + (bk === "cube" || sk === "cube" ? " (π doesn't cancel with a cube)" : "; π cancels") + ".</small>";
         }
         $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
       }
