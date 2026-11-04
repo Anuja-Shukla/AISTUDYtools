@@ -359,9 +359,38 @@
     var e = esc(w);
     return '<div class="mirw"><div><span>' + e + "</span><small>Object</small></div><div><span style=\"display:inline-block;transform:scaleX(-1)\">" + e + "</span><small>Mirror image</small></div><div><span style=\"display:inline-block;transform:scaleY(-1)\">" + e + "</span><small>Water image</small></div></div>";
   }
+  /* Paper folding on an N×N grid. A fold is "L" (left half over right), "R" (right over left), "T" (top down), "B" (bottom up). */
+  function pfState(N, folds) {
+    var r = { x0: 0, x1: N, y0: 0, y1: N }, lines = [];
+    folds.forEach(function (f) {
+      if (f === "L" || f === "R") { var w = r.x1 - r.x0; if (w < 2 || w % 2) return; var m = r.x0 + w / 2; lines.push(["x", m]); if (f === "L") r.x0 = m; else r.x1 = m; }
+      else { var h = r.y1 - r.y0; if (h < 2 || h % 2) return; var n = r.y0 + h / 2; lines.push(["y", n]); if (f === "T") r.y0 = n; else r.y1 = n; }
+    });
+    return { r: r, lines: lines };
+  }
+  function pfUnfold(st, holes) {
+    var S = holes.map(function (h) { return h[0] + "," + h[1]; });
+    for (var i = st.lines.length - 1; i >= 0; i--) {
+      var L = st.lines[i], add = [];
+      S.forEach(function (k) { var p = k.split(",").map(Number); var q = L[0] === "x" ? [2 * L[1] - 1 - p[0], p[1]] : [p[0], 2 * L[1] - 1 - p[1]]; add.push(q[0] + "," + q[1]); });
+      add.forEach(function (k) { if (S.indexOf(k) < 0) S.push(k); });
+    }
+    return S.map(function (k) { return k.split(",").map(Number); });
+  }
+  function pfGrid(N, cells, rect, cls, small) {
+    var c = small ? 11 : 26, h = '<svg viewBox="0 0 ' + (N * c + 2) + " " + (N * c + 2) + '" width="' + (N * c + 2) + '" class="kinsvg ' + (cls || "") + '" role="img" aria-label="Paper grid">';
+    for (var y = 0; y < N; y++) for (var x = 0; x < N; x++) {
+      var inR = !rect || (x >= rect.x0 && x < rect.x1 && y >= rect.y0 && y < rect.y1), hole = cells.some(function (p) { return p[0] === x && p[1] === y; });
+      h += '<rect data-x="' + x + '" data-y="' + y + '" x="' + (1 + x * c) + '" y="' + (1 + y * c) + '" width="' + c + '" height="' + c + '" fill="' + (inR ? "#fffdf5" : "#eef0f5") + '" stroke="var(--border)" stroke-width=".8"/>';
+      if (hole) h += '<circle cx="' + (1 + x * c + c / 2) + '" cy="' + (1 + y * c + c / 2) + '" r="' + c * 0.3 + '" fill="var(--ink)"/>';
+    }
+    if (rect) h += '<rect x="' + (1 + rect.x0 * c) + '" y="' + (1 + rect.y0 * c) + '" width="' + (rect.x1 - rect.x0) * c + '" height="' + (rect.y1 - rect.y0) * c + '" fill="none" stroke="var(--accent)" stroke-width="2.5"/>';
+    return h + "</svg>";
+  }
   function viz(x) {
     if (!x) return "";
     if (x.type === "share") return shareBar(x.r, x.total);
+    if (x.type === "pf") { var ps = pfState(8, x.f); return '<div class="row" style="gap:14px;justify-content:center;align-items:flex-start"><div>' + pfGrid(8, x.h, ps.r) + "<small>Folded</small></div><div>" + pfGrid(8, pfUnfold(ps, x.h), null) + "<small>Opened</small></div></div>"; }
     if (x.type === "mirw") return mirWord(x.w);
     if (x.type === "mclock") { var mt = mirrorTime(x.h, x.m); return '<div class="row" style="justify-content:center;gap:12px">' + clockSvg(x.h, x.m, false, "Actual " + hm(x.h, x.m)) + clockSvg(x.h, x.m, true, "Mirror " + hm(mt[0], mt[1])) + "</div>"; }
     if (x.type === "vgal") return vgallery();
@@ -2266,6 +2295,60 @@
           $$("#mgo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#mgo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#mgs", el).textContent = sc; $("#mgn", el).textContent = n; $("#mgw", el).hidden = false; $("#mgw", el).textContent = "11:60 − " + hm(h % 12, m) + " = " + ans + "."; }; });
         }
         $("#mgg", el).onclick = round; round();
+      }
+    }
+    ,
+    foldsim: {
+      title: "Fold and punch simulator", html: '<p class="note">Fold the paper, tap squares inside the blue outline to punch, then open it.</p><div class="row" style="gap:6px;flex-wrap:wrap"><button class="chip" data-f="L">Left half over right</button><button class="chip" data-f="R">Right half over left</button><button class="chip" data-f="T">Top half down</button><button class="chip" data-f="B">Bottom half up</button></div><div class="row" style="gap:6px;margin-top:8px"><button class="btn btn-accent btn-sm" id="fso">Open the paper</button><button class="btn btn-sm" id="fsr">Start again</button></div><div class="row" id="fsz" style="gap:14px;align-items:flex-start;margin-top:8px"></div><div class="out" id="fsout"></div>',
+      init: function (el) {
+        var N = 8, F = ["L", "T"], H = [[6, 5]], open = false;
+        function up() {
+          var st = pfState(N, F), r = st.r, o = $("#fsout", el);
+          H = H.filter(function (h) { return h[0] >= r.x0 && h[0] < r.x1 && h[1] >= r.y0 && h[1] < r.y1; });
+          if (!open) {
+            $("#fsz", el).innerHTML = '<div class="pfclick">' + pfGrid(N, H, r) + "</div>";
+            $$("#fsz rect[data-x]", el).forEach(function (c) { c.style.cursor = "pointer"; c.onclick = function () { var x = +c.getAttribute("data-x"), y = +c.getAttribute("data-y"); if (x < r.x0 || x >= r.x1 || y < r.y0 || y >= r.y1) return; var i = H.findIndex(function (h) { return h[0] === x && h[1] === y; }); if (i >= 0) H.splice(i, 1); else H.push([x, y]); up(); }; });
+            o.innerHTML = "Folds: " + (st.lines.length || 0) + " · holes punched: " + H.length + "<small>When opened you will see " + H.length + " × 2^" + st.lines.length + " = " + H.length * Math.pow(2, st.lines.length) + " holes.</small>";
+          } else {
+            var U = pfUnfold(st, H);
+            $("#fsz", el).innerHTML = "<div>" + pfGrid(N, H, r) + "<small>Folded</small></div><div>" + pfGrid(N, U, null) + "<small>Opened</small></div>";
+            o.innerHTML = U.length + " holes when opened<small>Each hole is mirrored across every fold line, last fold first.</small>";
+          }
+        }
+        $$("#fsz", el); $$(".chip[data-f]", el).forEach(function (b) { b.onclick = function () { if (F.length < 4) { F.push(b.getAttribute("data-f")); open = false; up(); } }; });
+        $("#fso", el).onclick = function () { open = !open; $("#fso", el).textContent = open ? "Fold it back" : "Open the paper"; up(); };
+        $("#fsr", el).onclick = function () { F = []; H = []; open = false; $("#fso", el).textContent = "Open the paper"; up(); };
+        up();
+      }
+    },
+    holecount: {
+      title: "Hole counter", html: '<div class="grid2"><div class="field"><label for="hcf">Number of folds <b id="hcfv">2</b></label><input type="range" id="hcf" min="0" max="5" value="2"></div><div class="field"><label for="hch">Holes punched <b id="hchv">3</b></label><input type="range" id="hch" min="1" max="6" value="3"></div></div><label class="row" style="gap:8px;flex-wrap:nowrap"><input type="checkbox" id="hcl"> <span>One of the holes is exactly on the last fold line</span></label><div class="out" id="hco"></div>',
+      init: function (el) {
+        function up() {
+          var f = +$("#hcf", el).value, h = +$("#hch", el).value, on = $("#hcl", el).checked && f > 0, n = on ? (h - 1) * Math.pow(2, f) + Math.pow(2, f - 1) : h * Math.pow(2, f);
+          $("#hcfv", el).textContent = f; $("#hchv", el).textContent = h;
+          o = $("#hco", el); o.innerHTML = n + " holes when opened<small>" + (on ? (h - 1) + " × 2^" + f + " + 2^" + (f - 1) + " (the hole on the last fold opens as one, then doubles with the earlier folds)." : h + " × 2^" + f + ".") + "</small>";
+        }
+        var o; $$("input", el).forEach(function (x) { x.oninput = up; x.onchange = up; }); up();
+      }
+    },
+    foldgame: {
+      title: "Which one opens like this?", html: '<div class="row" id="fgq" style="justify-content:center"></div><p id="fgt" style="text-align:center;font-weight:800;margin:4px 0"></p><div class="vpick" id="fgo"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="fgs">0</b> / <b id="fgn">0</b></span><button class="btn btn-accent btn-sm" id="fgg">Next</button></div><div class="why" id="fgw" hidden></div>',
+      init: function (el) {
+        var N = 6, sc = 0, n = 0, NM = { L: "left over right", R: "right over left", T: "top down", B: "bottom up" };
+        function key(A) { return A.map(function (p) { return p.join(","); }).sort().join("|"); }
+        function round() {
+          var F = [["L", "R"][Math.floor(Math.random() * 2)]]; if (Math.random() < 0.7) F.push(["T", "B"][Math.floor(Math.random() * 2)]);
+          var st = pfState(N, F), r = st.r, H = [[r.x0 + Math.floor(Math.random() * (r.x1 - r.x0)), r.y0 + Math.floor(Math.random() * (r.y1 - r.y0))]], ans = pfUnfold(st, H);
+          var wrong = [H, pfUnfold(pfState(N, F.slice(0, 1)), H), ans.map(function (p) { return [N - 1 - p[0], p[1]]; }), ans.map(function (p) { return [p[0], N - 1 - p[1]]; }), pfUnfold(st, [[H[0][0] === r.x0 ? r.x1 - 1 : r.x0, H[0][1]]])];
+          var opts = [ans], seen = [key(ans)]; wrong.forEach(function (w) { var k = key(w); if (seen.indexOf(k) < 0 && opts.length < 4) { seen.push(k); opts.push(w); } });
+          while (opts.length < 4) { var rnd = [[Math.floor(Math.random() * N), Math.floor(Math.random() * N)]], k2 = key(pfUnfold(st, rnd)); if (seen.indexOf(k2) < 0) { seen.push(k2); opts.push(pfUnfold(st, rnd)); } }
+          var ord = shuffle(4), done = false;
+          $("#fgq", el).innerHTML = pfGrid(N, H, r); $("#fgt", el).textContent = "Folded " + F.map(function (f) { return NM[f]; }).join(", then ") + ". Opened, it looks like:"; $("#fgw", el).hidden = true;
+          $("#fgo", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-ok="' + (k === 0 ? 1 : 0) + '">' + pfGrid(N, opts[k], null, "", true) + "</button>"; }).join("");
+          $$("#fgo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#fgo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#fgs", el).textContent = sc; $("#fgn", el).textContent = n; $("#fgw", el).hidden = false; $("#fgw", el).textContent = ans.length + " holes: the punch is mirrored across " + (F.length === 2 ? "both fold lines." : "the fold line."); }; });
+        }
+        $("#fgg", el).onclick = round; round();
       }
     }
   };

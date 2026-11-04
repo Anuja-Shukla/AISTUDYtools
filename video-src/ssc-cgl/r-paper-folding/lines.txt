@@ -1,0 +1,9 @@
+# SSC CGL Reasoning — Paper folding and cutting
+Welcome! This SSC CGL lesson is about paper folding and cutting. || Welcome! This S S C C G L lesson is about paper folding and cutting.
+Unfold: mirror every hole across the fold line. || There is one big idea. When you unfold a paper, every hole is mirrored across the fold line. Unfold in the reverse order of folding, one step at a time.
+Holes = holes punched × 2 to the power of folds. || Each unfold doubles the holes. So the number of holes is the holes punched, times two to the power of the number of folds. Two folds and one hole give four holes. Three folds and two holes give sixteen.
+A hole on the fold line opens as one hole. || One exception. A hole punched exactly on a fold line opens as a single hole sitting on that line.
+Two folds: mirror up, then mirror sideways. || With two folds, unfold the last fold first. The hole is mirrored across that line, and then both holes are mirrored across the first fold line. You get four holes in a rectangle pattern.
+Cuts on the fold become whole shapes. || Cuts made on the fold become whole shapes. Half a circle on the fold opens as a full circle. A V shaped notch opens as a diamond. A quarter circle at the corner where two folds meet opens as one circle in the centre.
+Try this: folded in half twice, three holes. The answer is A, 12. || Try this. A paper is folded in half twice and three holes are punched. How many holes appear when it is opened? The answer is A, twelve, because three times four is twelve.
+Recap. Now try the tools and the practice questions below. || To recap. Count first using two to the power of folds. Check that every hole has a mirror partner. Unfold in reverse order. And remember cuts on the fold become whole shapes. Now try the tools and the practice questions below this video.
