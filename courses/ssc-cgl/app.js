@@ -2545,6 +2545,57 @@
         $("#pzg", el).onclick = round; if (B.length) round();
       }
     }
+    ,
+    eicards: {
+      title: "Five components: match the definition", html: '<div class="big" id="ecq" style="text-align:center;font-size:18px;font-weight:800">…</div><div class="opts" id="eco"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="ecs">0</b> / <b id="ecn">0</b></span><button class="btn btn-accent btn-sm" id="ecg">Next</button></div><div class="why" id="ecw" hidden></div>',
+      init: function (el) {
+        var C = [["Self-awareness", ["Noticing that you feel irritated before you reply", "Knowing which situations make you anxious", "Recognising your strengths and weak spots"]], ["Self-regulation", ["Pausing and breathing instead of snapping back", "Staying calm when a plan fails", "Thinking before acting when angry"]], ["Motivation", ["Working hard on a goal even without a reward", "Bouncing back after a setback to try again", "Enjoying learning for its own sake"]], ["Empathy", ["Sensing that a quiet friend is upset", "Seeing a problem from the customer’s side", "Understanding why a colleague is stressed"]], ["Social skills", ["Resolving a team disagreement", "Building a network of contacts", "Leading a group to agree on a plan"]]], sc = 0, n = 0;
+        function round() {
+          var i = Math.floor(Math.random() * 5), ex = C[i][1][Math.floor(Math.random() * 3)], ord = shuffle(5), done = false;
+          $("#ecq", el).textContent = ex; $("#ecw", el).hidden = true;
+          $("#eco", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-ok="' + (k === i ? 1 : 0) + '">' + C[k][0] + "</button>"; }).join("");
+          $$("#eco .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#eco .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#ecs", el).textContent = sc; $("#ecn", el).textContent = n; $("#ecw", el).hidden = false; $("#ecw", el).textContent = "This shows " + C[i][0].toLowerCase() + "."; }; });
+        }
+        $("#ecg", el).onclick = round; round();
+      }
+    },
+    stylegame: {
+      title: "Name the response style", html: '<div class="big" id="ysq" style="text-align:center;font-size:17px;font-weight:700;line-height:1.5">…</div><div class="opts" id="yso2"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="yss">0</b> / <b id="ysn2">0</b></span><button class="btn btn-accent btn-sm" id="ysg">Next</button></div><div class="why" id="ysw" hidden></div>',
+      init: function (el) {
+        var ST = ["Assertive", "Aggressive", "Passive", "Passive-aggressive"], Q = [
+          ["“I’d like to finish my point, then I’m happy to hear yours.”", 0], ["“You never listen. This is useless.”", 1], ["“It’s fine… whatever you want.” (while upset)", 2], ["“Oh, great job — as usual, late.”", 3],
+          ["“I can’t take this on today, but I can help on Friday.”", 0], ["“Do it now or you’ll regret it.”", 1], ["Saying nothing when someone takes your seat.", 2], ["Agreeing in the meeting, then quietly not doing the work.", 3],
+          ["“When the music is loud at night I can’t sleep. Could you lower it after 10?”", 0], ["Slamming the door after a disagreement.", 1], ["Always letting others choose, then feeling ignored.", 2], ["“No, no, I’m not angry,” followed by the silent treatment.", 3]
+        ], sc = 0, n = 0, W = ["Clear, honest and respectful.", "It attacks the other person.", "It hides your own needs.", "The anger comes out indirectly."];
+        function round() {
+          var q = Q[Math.floor(Math.random() * Q.length)], ord = shuffle(4), done = false;
+          $("#ysq", el).textContent = q[0]; $("#ysw", el).hidden = true;
+          $("#yso2", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-ok="' + (k === q[1] ? 1 : 0) + '">' + ST[k] + "</button>"; }).join("");
+          $$("#yso2 .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#yso2 .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#yss", el).textContent = sc; $("#ysn2", el).textContent = n; $("#ysw", el).hidden = false; $("#ysw", el).textContent = ST[q[1]] + ": " + W[q[1]]; }; });
+        }
+        $("#ysg", el).onclick = round; round();
+      }
+    },
+    sjtgame: {
+      title: "Best response", html: '<div id="sjq" style="font-weight:700;line-height:1.5">…</div><div class="opts" id="sjo"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="sjs">0</b> / <b id="sjn">0</b></span><button class="btn btn-accent btn-sm" id="sjg">Next</button></div><div class="why" id="sjw" hidden></div>',
+      init: function (el) {
+        var Q = [
+          ["Your neighbour’s dog barks every night and you can’t sleep.", ["Talk to the neighbour politely and suggest a solution together", "Shout at the dog from your window", "Complain about them on social media", "Put up with it and stay angry"]],
+          ["A teammate is struggling with software you know well.", ["Offer to show them how it works", "Let them struggle so you look better", "Tell the manager they are slow", "Do their whole task without asking"]],
+          ["You promised to help a friend move house, but now you have a fever.", ["Call early, explain honestly and suggest another day or help", "Just not turn up", "Go anyway and risk making others ill", "Send a message after the day is over"]],
+          ["In a group project, one member does almost no work.", ["Talk to them about sharing tasks and agree on deadlines", "Remove their name without telling them", "Do all the work and complain later", "Insult them in the group chat"]],
+          ["A shopkeeper gives you ₹100 extra change by mistake.", ["Return the extra money", "Keep it quietly", "Keep it and tell friends", "Spend it before anyone notices"]],
+          ["Your junior makes a small mistake in front of a client.", ["Fix the issue calmly and give feedback to the junior later in private", "Scold the junior in front of the client", "Blame the junior to the client", "Ignore the mistake completely"]]
+        ], sc = 0, n = 0;
+        function round() {
+          var q = Q[Math.floor(Math.random() * Q.length)], ord = shuffle(4), done = false;
+          $("#sjq", el).textContent = q[0]; $("#sjw", el).hidden = true;
+          $("#sjo", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-ok="' + (k === 0 ? 1 : 0) + '">' + esc(q[1][k]) + "</button>"; }).join("");
+          $$("#sjo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#sjo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#sjs", el).textContent = sc; $("#sjn", el).textContent = n; $("#sjw", el).hidden = false; $("#sjw", el).textContent = "Calm, honest and solves the problem."; }; });
+        }
+        $("#sjg", el).onclick = round; round();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
