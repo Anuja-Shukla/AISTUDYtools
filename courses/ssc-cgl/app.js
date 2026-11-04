@@ -404,9 +404,18 @@
     var L = x.labels || ["P", "Q", "R", "S"];
     return figRow([[segSvg(x.rest, 4, 120, { box: [2, 2, 4, 4] }), "Complete the figure"]]) + figRow(x.cands.map(function (o, i) { return [segSvg(o, 2, 60), L[i]]; }));
   }
+  function cntSvg(S, hl, px) {
+    var xs = [], ys = []; S.forEach(function (s) { xs.push(s[0], s[2]); ys.push(s[1], s[3]); });
+    var x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs), y0 = Math.min.apply(null, ys), y1 = Math.max.apply(null, ys), sp = Math.max(x1 - x0, y1 - y0, 1), k = (px || 150) / sp, pad = 8, W = (x1 - x0) * k + 2 * pad, H = (y1 - y0) * k + 2 * pad;
+    var X = function (x) { return pad + (x - x0) * k; }, Y = function (y) { return pad + (y - y0) * k; }, h = '<svg viewBox="0 0 ' + W + " " + H + '" width="' + W + '" class="kinsvg" role="img" aria-label="Figure">';
+    if (hl) h += '<polygon points="' + hl.map(function (p) { return X(p[0]) + "," + Y(p[1]); }).join(" ") + '" fill="var(--sun)" fill-opacity=".9"/>';
+    S.forEach(function (s) { h += '<line x1="' + X(s[0]) + '" y1="' + Y(s[1]) + '" x2="' + X(s[2]) + '" y2="' + Y(s[3]) + '" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round"/>'; });
+    return h + "</svg>";
+  }
   function viz(x) {
     if (!x) return "";
     if (x.type === "share") return shareBar(x.r, x.total);
+    if (x.type === "cfig") return '<div style="display:flex;justify-content:center">' + cntSvg(x.s) + "</div>";
     if (x.type === "emb") return embViz(x);
     if (x.type === "comp") return compViz(x);
     if (x.type === "pf") { var ps = pfState(8, x.f); return '<div class="row" style="gap:14px;justify-content:center;align-items:flex-start"><div>' + pfGrid(8, x.h, ps.r) + "<small>Folded</small></div><div>" + pfGrid(8, pfUnfold(ps, x.h), null) + "<small>Opened</small></div></div>"; }
@@ -2412,6 +2421,52 @@
         $("#sdu", el).onclick = function () { S.pop(); pick = null; up(); };
         $("#sdc", el).onclick = function () { S = []; pick = null; up(); };
         up();
+      }
+    }
+    ,
+    tricount: {
+      title: "Triangle spotter", html: '<p class="note">Step through every triangle in the figure, one at a time.</p><div class="field"><label for="tcf">Figure</label><select id="tcf"></select></div><div id="tcz" style="display:flex;justify-content:center"></div><div class="row" style="gap:6px;justify-content:center"><button class="btn btn-sm" id="tcp">◀ Previous</button><button class="btn btn-accent btn-sm" id="tcn">Next triangle ▶</button></div><div class="out" id="tco"></div>',
+      init: function (el, T) {
+        var B = (T.bank || []), i = -1;
+        $("#tcf", el).innerHTML = B.map(function (b, k) { return '<option value="' + k + '">Figure ' + (k + 1) + " (" + b.tri + " triangles)</option>"; }).join("");
+        function up() {
+          var b = B[+$("#tcf", el).value]; if (!b) return;
+          $("#tcz", el).innerHTML = cntSvg(b.s, i >= 0 ? b.tris[i] : null, 170);
+          $("#tco", el).innerHTML = (i < 0 ? "Tap “Next triangle” to start" : "Triangle " + (i + 1) + " of " + b.tri) + "<small>Count the smallest pieces first, then the larger ones, so none are missed.</small>";
+        }
+        $("#tcf", el).onchange = function () { i = -1; up(); };
+        $("#tcn", el).onclick = function () { var b = B[+$("#tcf", el).value]; i = Math.min(b.tri - 1, i + 1); up(); };
+        $("#tcp", el).onclick = function () { i = Math.max(-1, i - 1); up(); };
+        up();
+      }
+    },
+    gridcount: {
+      title: "Grid counter", html: '<div class="grid2"><div class="field"><label for="gcr">Rows <b id="gcrv">3</b></label><input type="range" id="gcr" min="1" max="8" value="3"></div><div class="field"><label for="gcc">Columns <b id="gccv">3</b></label><input type="range" id="gcc" min="1" max="8" value="3"></div></div><div id="gcz" style="display:flex;justify-content:center"></div><div class="out" id="gco"></div>',
+      init: function (el) {
+        function C2(n) { return n * (n - 1) / 2; }
+        function up() {
+          var r = +$("#gcr", el).value, c = +$("#gcc", el).value, S = [], sq = 0, parts = [];
+          $("#gcrv", el).textContent = r; $("#gccv", el).textContent = c;
+          for (var j = 0; j <= r; j++) S.push([0, j, c, j]); for (var i = 0; i <= c; i++) S.push([i, 0, i, r]);
+          for (var k = 1; k <= Math.min(r, c); k++) { var m = (r - k + 1) * (c - k + 1); sq += m; parts.push(m); }
+          $("#gcz", el).innerHTML = cntSvg(S, null, 150);
+          $("#gco", el).innerHTML = "Squares " + sq + " · rectangles " + C2(r + 1) * C2(c + 1) + "<small>Squares by size: " + parts.join(" + ") + ". Rectangles: C(" + (r + 1) + ",2) × C(" + (c + 1) + ",2) = " + C2(r + 1) + " × " + C2(c + 1) + ".</small>";
+        }
+        $$("input", el).forEach(function (x) { x.oninput = up; }); up();
+      }
+    },
+    cntgame: {
+      title: "Count the triangles", html: '<div id="cgz" style="display:flex;justify-content:center"></div><div class="opts" id="cgo3" style="grid-template-columns:repeat(4,1fr)"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="cgs3">0</b> / <b id="cgn3">0</b></span><button class="btn btn-accent btn-sm" id="cgg3">Next</button></div><div class="why" id="cgw3" hidden></div>',
+      init: function (el, T) {
+        var B = T.bank || [], sc = 0, n = 0;
+        function round() {
+          var b = B[Math.floor(Math.random() * B.length)], a = b.tri, ops = [a]; [1, -1, 2, -2, 3].forEach(function (d) { if (ops.length < 4 && a + d > 0) ops.push(a + d); });
+          var ord = shuffle(4), done = false;
+          $("#cgz", el).innerHTML = cntSvg(b.s, null, 150); $("#cgw3", el).hidden = true;
+          $("#cgo3", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-ok="' + (k === 0 ? 1 : 0) + '">' + ops[k] + "</button>"; }).join("");
+          $$("#cgo3 .opt", el).forEach(function (bt) { bt.onclick = function () { if (done) return; done = true; n++; var ok = bt.getAttribute("data-ok") === "1"; if (ok) sc++; bt.classList.add(ok ? "right" : "wrong"); $$("#cgo3 .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#cgs3", el).textContent = sc; $("#cgn3", el).textContent = n; $("#cgw3", el).hidden = false; $("#cgw3", el).textContent = a + " triangles. Use the Triangle spotter to see each one."; }; });
+        }
+        $("#cgg3", el).onclick = round; if (B.length) round();
       }
     }
   };

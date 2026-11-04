@@ -1,0 +1,10 @@
+# SSC CGL Reasoning — Counting figures
+Welcome! This SSC CGL lesson is about counting figures. || Welcome! This S S C C G L lesson is about counting figures.
+Count in a fixed order: smallest first. || Most mistakes come from counting at random. Count the smallest pieces first, then shapes made of two pieces, then three, and finish with the whole figure.
+Square with both diagonals: 8 triangles. || A square with both diagonals has four small triangles, and four more made of two small ones. That is eight in all.
+Squares in a grid: 1² + 2² + … + n². || In an n by n grid, the squares are one squared plus two squared, up to n squared. A three by three grid has nine plus four plus one, which is fourteen squares.
+Rectangles: choose 2 horizontal and 2 vertical lines. || A rectangle needs two horizontal lines and two vertical lines. Two rows by three columns has three horizontal and four vertical lines. Three times six gives eighteen rectangles.
+Lines from one corner: C(k + 2, 2). || If k lines are drawn from the top corner of a triangle to its base, the number of triangles is k plus two, choose two. One median gives three triangles.
+The classic: square with diagonals and midlines = 16. || A square with both diagonals and both midlines has eight small triangles, four made of two, and four made of four. That is sixteen.
+Try this: a 4 by 4 grid. The answer is A, 30 squares. || Try this. How many squares are in a four by four grid? The answer is A, thirty. Sixteen plus nine plus four plus one.
+Recap. Now try the tools and the practice questions below. || To recap. Count smallest first. Use the square sum for grids, and choose two lines each way for rectangles. Never count the same triangle twice. Now try the tools and the practice questions below this video.
