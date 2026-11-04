@@ -1,0 +1,10 @@
+# SSC CGL Reasoning — Embedded figures and figure completion
+Welcome! This SSC CGL lesson is about embedded figures and figure completion. || Welcome! This S S C C G L lesson is about embedded figures and figure completion.
+Find the hidden shape, or the missing piece. || There are two question types. In embedded figures, you find which option hides a given shape. In figure completion, you find the piece that fills the gap in a pattern.
+Same size, same turn, not flipped. || The hidden shape must appear exactly as given. Same size, same orientation, and not flipped. Extra lines around it are allowed, because that is how it is hidden.
+Search from one distinctive line. || To search, pick the most distinctive part of the shape, such as a slanted line or a corner. Find it in each option, then check that the rest of the shape continues from it in the same direction.
+Reject turned or mirrored copies. || Many wrong options contain the shape turned or mirrored. Reject them. Only an exact copy counts.
+Completion: mirror the neighbouring quarter. || Figure completion patterns are usually symmetric. The missing quarter must be the mirror image of the quarter next to it. Lines touching the edge of the gap must continue across it.
+Eliminate by counting lines and checking slants. || Eliminate quickly. Count the lines in each piece, and check the direction of slanted lines first. Slant direction is the easiest thing to get wrong.
+Try this. Count the lines first, then check slants. || Try this. When two pieces look alike, count their lines first, then check the direction of each slanted line. That usually leaves one answer.
+Recap. Now try the tools and the practice questions below. || To recap. Same size, same turn, not flipped. Search from one distinctive line. For completion, mirror the neighbouring quarter. Now try the tools and the practice questions below this video.

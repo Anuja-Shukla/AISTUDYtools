@@ -50,17 +50,23 @@ var SPEC = [
 [
 "Dogs, Cats, Animals",
 "two separate inside a third"
-],
-[
-"Men, Women, Doctors",
-"two separate, both overlap a third"
-],
-[
-"Teachers, Singers, Women",
-"all three overlap"
 ]
 ],
 "w": 680
+},
+{
+"k": "two",
+"t": "More examples",
+"a": [
+"Men, Women, Doctors",
+"men and women apart",
+"both overlap Doctors"
+],
+"b": [
+"Teachers, Singers, Women",
+"every pair",
+"overlaps"
+]
 },
 {
 "k": "eq",

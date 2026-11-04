@@ -286,3 +286,5 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 .mirw{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}.mirw div{flex:1 1 90px;text-align:center;padding:10px 6px;border:1px solid var(--border);border-radius:12px}.mirw span{font-size:24px;font-weight:800;letter-spacing:2px;color:var(--ink)}.mirw small{display:block;margin-top:6px;color:var(--muted);font-size:11px}
 /* paper folding */
 #fsz small,.slide small{display:block;text-align:center;color:var(--muted);font-size:11px}
+/* embedded */
+.figrow{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:6px 0}.figrow figure{margin:0;text-align:center}.figrow figcaption{font-weight:800;font-size:13px;color:var(--ink)}.qfig{margin:6px 0 10px}

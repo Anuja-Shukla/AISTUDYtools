@@ -387,9 +387,28 @@
     if (rect) h += '<rect x="' + (1 + rect.x0 * c) + '" y="' + (1 + rect.y0 * c) + '" width="' + (rect.x1 - rect.x0) * c + '" height="' + (rect.y1 - rect.y0) * c + '" fill="none" stroke="var(--accent)" stroke-width="2.5"/>';
     return h + "</svg>";
   }
+  function segSvg(S, n, px, opt) {
+    opt = opt || {}; var c = px / n, pad = 6, W = px + 2 * pad, h = '<svg viewBox="0 0 ' + W + " " + W + '" width="' + W + '" class="kinsvg" role="img" aria-label="' + (opt.label || "Figure") + '">';
+    if (opt.frame !== false) h += '<rect x="' + pad + '" y="' + pad + '" width="' + px + '" height="' + px + '" fill="#fff" stroke="var(--border)"/>';
+    if (opt.box) h += '<rect x="' + (pad + opt.box[0] * c) + '" y="' + (pad + opt.box[1] * c) + '" width="' + (opt.box[2] - opt.box[0]) * c + '" height="' + (opt.box[3] - opt.box[1]) * c + '" fill="#f3f4fa" stroke="var(--accent)" stroke-dasharray="4 3" stroke-width="1.5"/><text x="' + (pad + (opt.box[0] + opt.box[2]) / 2 * c) + '" y="' + (pad + (opt.box[1] + opt.box[3]) / 2 * c + 6) + '" text-anchor="middle" font-size="18" font-weight="800" fill="var(--accent)">?</text>';
+    S.forEach(function (s) { h += '<line x1="' + (pad + s[0] * c) + '" y1="' + (pad + s[1] * c) + '" x2="' + (pad + s[2] * c) + '" y2="' + (pad + s[3] * c) + '" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round"/>'; });
+    return h + "</svg>";
+  }
+  function figRow(items) { return '<div class="figrow">' + items.map(function (it) { return "<figure>" + it[0] + "<figcaption>" + it[1] + "</figcaption></figure>"; }).join("") + "</div>"; }
+  function embViz(x) {
+    var L = x.labels || ["P", "Q", "R", "S"];
+    var nn = Math.max(2, Math.max.apply(null, x.x.map(function (s) { return Math.max(s[0], s[1], s[2], s[3]); })));
+    return figRow([[segSvg(x.x, nn, 22 * nn, { frame: false }), "Find this shape"]]) + figRow(x.opts.map(function (o, i) { return [segSvg(o, 4, 88), L[i]]; }));
+  }
+  function compViz(x) {
+    var L = x.labels || ["P", "Q", "R", "S"];
+    return figRow([[segSvg(x.rest, 4, 120, { box: [2, 2, 4, 4] }), "Complete the figure"]]) + figRow(x.cands.map(function (o, i) { return [segSvg(o, 2, 60), L[i]]; }));
+  }
   function viz(x) {
     if (!x) return "";
     if (x.type === "share") return shareBar(x.r, x.total);
+    if (x.type === "emb") return embViz(x);
+    if (x.type === "comp") return compViz(x);
     if (x.type === "pf") { var ps = pfState(8, x.f); return '<div class="row" style="gap:14px;justify-content:center;align-items:flex-start"><div>' + pfGrid(8, x.h, ps.r) + "<small>Folded</small></div><div>" + pfGrid(8, pfUnfold(ps, x.h), null) + "<small>Opened</small></div></div>"; }
     if (x.type === "mirw") return mirWord(x.w);
     if (x.type === "mclock") { var mt = mirrorTime(x.h, x.m); return '<div class="row" style="justify-content:center;gap:12px">' + clockSvg(x.h, x.m, false, "Actual " + hm(x.h, x.m)) + clockSvg(x.h, x.m, true, "Mirror " + hm(mt[0], mt[1])) + "</div>"; }
@@ -2351,6 +2370,50 @@
         $("#fgg", el).onclick = round; round();
       }
     }
+    ,
+    embgame: {
+      title: "Find the hidden shape", html: '<div id="egz"></div><div class="opts" id="ego" style="grid-template-columns:repeat(4,1fr)"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="egs">0</b> / <b id="egn">0</b></span><button class="btn btn-accent btn-sm" id="egg">Next</button></div><div class="why" id="egw" hidden></div>',
+      init: function (el, T) {
+        var B = (T.bank && T.bank.emb) || [], sc = 0, n = 0, L = ["P", "Q", "R", "S"];
+        function round() {
+          var e = B[Math.floor(Math.random() * B.length)], figs = [e.good].concat(e.bad), ord = shuffle(4), ci = ord.indexOf(0), done = false;
+          $("#egz", el).innerHTML = embViz({ x: e.x, opts: ord.map(function (k) { return figs[k]; }) }); $("#egw", el).hidden = true;
+          $("#ego", el).innerHTML = L.map(function (l, i) { return '<button class="opt" data-ok="' + (i === ci ? 1 : 0) + '">' + l + "</button>"; }).join("");
+          $$("#ego .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#ego .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#egs", el).textContent = sc; $("#egn", el).textContent = n; $("#egw", el).hidden = false; $("#egw", el).textContent = "Figure " + L[ci] + " holds the shape exactly as drawn. The others hold it only turned or flipped."; }; });
+        }
+        $("#egg", el).onclick = round; if (B.length) round();
+      }
+    },
+    compgame: {
+      title: "Complete the pattern", html: '<div id="cpz"></div><div class="opts" id="cpo" style="grid-template-columns:repeat(4,1fr)"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="cps">0</b> / <b id="cpn">0</b></span><button class="btn btn-accent btn-sm" id="cpg">Next</button></div><div class="why" id="cpw" hidden></div>',
+      init: function (el, T) {
+        var B = (T.bank && T.bank.comp) || [], sc = 0, n = 0, L = ["P", "Q", "R", "S"];
+        function round() {
+          var c = B[Math.floor(Math.random() * B.length)], ord = shuffle(4), ci = ord.indexOf(0), done = false;
+          $("#cpz", el).innerHTML = compViz({ rest: c.rest, cands: ord.map(function (k) { return c.cands[k]; }) }); $("#cpw", el).hidden = true;
+          $("#cpo", el).innerHTML = L.map(function (l, i) { return '<button class="opt" data-ok="' + (i === ci ? 1 : 0) + '">' + l + "</button>"; }).join("");
+          $$("#cpo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#cpo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#cps", el).textContent = sc; $("#cpn", el).textContent = n; $("#cpw", el).hidden = false; $("#cpw", el).innerHTML = segSvg(c.rest.concat(c.cands[0].map(function (s) { return [s[0] + 2, s[1] + 2, s[2] + 2, s[3] + 2]; })), 4, 110) + "<br>Figure " + L[ci] + " mirrors the bottom-left quarter."; }; });
+        }
+        $("#cpg", el).onclick = round; if (B.length) round();
+      }
+    },
+    segdraw: {
+      title: "Draw and mirror", html: '<p class="note">Tap two dots to draw a line on the left half. The right half fills in as its mirror image.</p><div id="sdz" style="display:flex;justify-content:center"></div><div class="row" style="gap:6px;justify-content:center"><button class="btn btn-sm" id="sdu">Undo</button><button class="btn btn-sm" id="sdc">Clear</button></div><div class="out" id="sdo2"></div>',
+      init: function (el) {
+        var S = [[0, 0, 2, 2], [0, 4, 1, 2]], pick = null, c = 40, pad = 10;
+        function up() {
+          var all = S.concat(S.map(function (s) { return [4 - s[0], s[1], 4 - s[2], s[3]]; })), W = 4 * c + 2 * pad, h = '<svg viewBox="0 0 ' + W + " " + W + '" width="' + W + '" class="kinsvg"><rect x="' + pad + '" y="' + pad + '" width="' + 4 * c + '" height="' + 4 * c + '" fill="#fff" stroke="var(--border)"/><line x1="' + (pad + 2 * c) + '" y1="' + pad + '" x2="' + (pad + 2 * c) + '" y2="' + (pad + 4 * c) + '" stroke="var(--accent)" stroke-dasharray="4 4"/>';
+          all.forEach(function (s, i) { h += '<line x1="' + (pad + s[0] * c) + '" y1="' + (pad + s[1] * c) + '" x2="' + (pad + s[2] * c) + '" y2="' + (pad + s[3] * c) + '" stroke="' + (i < S.length ? "var(--ink)" : "#e0679b") + '" stroke-width="3" stroke-linecap="round"/>'; });
+          for (var x = 0; x <= 2; x++) for (var y = 0; y <= 4; y++) h += '<circle data-p="' + x + "," + y + '" cx="' + (pad + x * c) + '" cy="' + (pad + y * c) + '" r="7" fill="' + (pick && pick[0] === x && pick[1] === y ? "var(--accent)" : "#cfd3e0") + '" style="cursor:pointer"/>';
+          $("#sdz", el).innerHTML = h + "</svg>";
+          $$("#sdz circle[data-p]", el).forEach(function (d) { d.onclick = function () { var p = d.getAttribute("data-p").split(",").map(Number); if (!pick) pick = p; else { if (pick[0] !== p[0] || pick[1] !== p[1]) S.push([pick[0], pick[1], p[0], p[1]]); pick = null; } up(); }; });
+          $("#sdo2", el).innerHTML = S.length + " lines drawn<small>Pink lines are the mirror image across the dashed line. A completion answer must match the pink half exactly.</small>";
+        }
+        $("#sdu", el).onclick = function () { S.pop(); pick = null; up(); };
+        $("#sdc", el).onclick = function () { S = []; pick = null; up(); };
+        up();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
@@ -2370,7 +2433,7 @@
       }
       var q = Q[i]; ord = shuffle(q.o.length); answered = false;
       pane.innerHTML = '<div class="card qcard"><div class="row" style="justify-content:space-between"><span class="tag indigo">Question ' + (i + 1) + ' of ' + Q.length + '</span><span class="small muted">Score: ' + right + '</span></div><div class="progress"><i style="width:' + (i / Q.length * 100) + '%"></i></div>' +
-        '<p class="qtext">' + esc(q.q) + '</p><div class="opts">' + ord.map(function (k, j) { return '<button class="opt" data-k="' + k + '"><span class="k">' + "ABCD"[j] + "</span>" + esc(q.o[k]) + "</button>"; }).join("") + '</div>' +
+        '<p class="qtext">' + esc(q.q) + '</p>' + (q.viz ? '<div class="qfig">' + viz(q.viz) + "</div>" : "") + '<div class="opts">' + ord.map(function (k, j) { return '<button class="opt" data-k="' + k + '"><span class="k">' + "ABCD"[j] + "</span>" + esc(q.o[k]) + "</button>"; }).join("") + '</div>' +
         '<div id="fb"></div><div class="row" style="justify-content:space-between">' + (q.hint ? '<button class="btn btn-line btn-sm" id="hint">Need a hint?</button>' : "<span></span>") + '<button class="btn btn-accent" id="nx" hidden style="margin-left:auto">' + (i < Q.length - 1 ? "Next question →" : "See my score →") + '</button></div></div>';
       $$(".opt", pane).forEach(function (b) {
         b.onclick = function () {
@@ -2403,7 +2466,7 @@
     }
     function draw() {
       var q = Q[cur], s = st[cur]; s.seen = true;
-      $("#qa", pane).innerHTML = '<div class="row" style="justify-content:space-between"><span class="tag indigo">Question ' + (cur + 1) + ' of ' + n + '</span>' + (s.mark ? '<span class="tag" style="background:#EDE9FE;color:#5B21B6">Marked for review</span>' : "") + '</div><p class="qtext">' + esc(q.q) + '</p>' +
+      $("#qa", pane).innerHTML = '<div class="row" style="justify-content:space-between"><span class="tag indigo">Question ' + (cur + 1) + ' of ' + n + '</span>' + (s.mark ? '<span class="tag" style="background:#EDE9FE;color:#5B21B6">Marked for review</span>' : "") + '</div><p class="qtext">' + esc(q.q) + '</p>' + (q.viz ? '<div class="qfig">' + viz(q.viz) + "</div>" : "") +
         '<div class="opts">' + s.ord.map(function (k, j) { return '<button class="opt' + (s.ans === k ? " sel" : "") + '" data-k="' + k + '"><span class="k">' + "ABCD"[j] + "</span>" + esc(q.o[k]) + "</button>"; }).join("") + '</div>' +
         '<div class="row" style="justify-content:space-between;margin-top:6px"><div class="row"><button class="btn btn-line btn-sm" id="mk">Mark for review &amp; next</button><button class="btn btn-line btn-sm" id="cl">Clear response</button></div><div class="row"><button class="btn btn-soft btn-sm" id="pv"' + (cur ? "" : " disabled") + '>← Previous</button><button class="btn btn-accent btn-sm" id="nx">Save &amp; next →</button></div></div>';
       $$("#qa .opt", pane).forEach(function (b) { b.onclick = function () { s.ans = +b.getAttribute("data-k"); $$("#qa .opt", pane).forEach(function (x) { x.classList.toggle("sel", x === b); }); pal(); }; });

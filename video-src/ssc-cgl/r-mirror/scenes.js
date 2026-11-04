@@ -76,6 +76,24 @@ var SPEC = [
 ]
 },
 {
+"k": "list",
+"t": "Figures and numbers",
+"items": [
+[
+"Follow one detail",
+"a dot or a corner"
+],
+[
+"Arrows",
+"right becomes left"
+],
+[
+"Digits 0, 1, 8",
+"stay the same"
+]
+]
+},
+{
 "k": "mcq",
 "q": "A mirror shows 9:10. The real time is:",
 "opts": [
