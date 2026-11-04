@@ -1,0 +1,10 @@
+# SSC CGL Quant — Data interpretation
+Welcome! This SSC CGL lesson is about data interpretation. || Welcome! This S S C C G L lesson is about data interpretation: reading tables, bar charts, pie charts and line graphs.
+Read the title and the units before you calculate. || Before you calculate, read the title, the units and what each axis means. Most mistakes come from using the wrong base or the wrong unit.
+% change = (new − old) ÷ old × 100. || Most questions ask for percentage change. Sales rose from one hundred and twenty to one hundred and fifty. That is thirty on one hundred and twenty, or twenty five percent.
+The biggest jump is not always the biggest percentage. || The biggest jump in value is not always the biggest percentage. A rise of forty five from one hundred and thirty five is thirty three percent, more than a rise of thirty six from one hundred and eighty.
+Pie charts: 1% = 3.6°. || In a pie chart, the whole circle is three hundred and sixty degrees, so one percent is three point six degrees. Twenty five percent is ninety degrees. A fifty four degree sector is fifteen percent of the total.
+“What % of” divides by the second; “% more than” divides the difference. || Watch the wording. A is what percent of B divides A by B. A is what percent more than B divides the difference by B. Seven fifty out of two thousand is thirty seven and a half percent.
+Approximate when the options are far apart. || When the options are far apart, round the numbers and estimate. To compare two fractions, cross multiply instead of dividing.
+Try this: 120 to 150. The answer is A, 25%. || Try this. Sales rose from one hundred and twenty to one hundred and fifty. What is the percentage increase? The answer is A, twenty five percent.
+Recap. Now try the tools and the drill below. || To recap. Check units and the base. Use percentage change, ratios and averages. One percent of a pie is three point six degrees. Now try the tools and the random data drill below this video.

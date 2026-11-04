@@ -182,9 +182,25 @@
     var pts = []; for (var i = 0; i < n; i++) { var t = -Math.PI / 2 + i * 2 * Math.PI / n; pts.push((60 + 50 * Math.cos(t)).toFixed(1) + "," + (60 + 50 * Math.sin(t)).toFixed(1)); }
     return '<svg class="geo sm" viewBox="0 0 120 120" role="img" aria-label="Regular polygon"><polygon points="' + pts.join(" ") + '" fill="#EEF0FF" stroke="#4F46E5" stroke-width="2.5"/></svg>';
   }
+  function barsSvg(L, V, cap) {
+    var n = V.length, mx = Math.max.apply(null, V) || 1, W = 320, H = 160, bw = W / n * 0.6, g = W / n;
+    return '<svg class="dich" viewBox="0 0 ' + W + " " + (H + 34) + '" role="img" aria-label="' + esc(cap || "Bar chart") + '">' + (cap ? '<text x="0" y="12" font-size="11" fill="#6E6C94">' + esc(cap) + "</text>" : "") + V.map(function (v, i) { var h = v / mx * (H - 20), x = i * g + (g - bw) / 2; return '<rect x="' + x + '" y="' + (H + 14 - h) + '" width="' + bw + '" height="' + h + '" rx="4" fill="' + SHC[i % 6] + '"/><text x="' + (x + bw / 2) + '" y="' + (H + 10 - h) + '" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">' + fmtN(v) + '</text><text x="' + (x + bw / 2) + '" y="' + (H + 30) + '" text-anchor="middle" font-size="11" fill="#4A4878">' + esc(L[i]) + "</text>"; }).join("") + '<line x1="0" y1="' + (H + 14) + '" x2="' + W + '" y2="' + (H + 14) + '" stroke="#C7C9F2"/></svg>';
+  }
+  function pieSvg(L, P) {
+    var a0 = -Math.PI / 2, out = "", tot = P.reduce(function (a, b) { return a + b; }, 0) || 1;
+    P.forEach(function (p, i) {
+      var a1 = a0 + p / tot * 2 * Math.PI, la = a1 - a0 > Math.PI ? 1 : 0, x0 = 80 + 70 * Math.cos(a0), y0 = 80 + 70 * Math.sin(a0), x1 = 80 + 70 * Math.cos(a1), y1 = 80 + 70 * Math.sin(a1), m = (a0 + a1) / 2;
+      out += p >= tot - 1e-9 ? '<circle cx="80" cy="80" r="70" fill="' + SHC[i % 6] + '"/>' : '<path d="M80 80 L' + x0.toFixed(2) + " " + y0.toFixed(2) + " A70 70 0 " + la + " 1 " + x1.toFixed(2) + " " + y1.toFixed(2) + ' Z" fill="' + SHC[i % 6] + '" stroke="#fff" stroke-width="1.5"/>';
+      if (p / tot > 0.06) out += '<text x="' + (80 + 45 * Math.cos(m)).toFixed(1) + '" y="' + (84 + 45 * Math.sin(m)).toFixed(1) + '" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">' + fmtN(p) + "%</text>";
+      a0 = a1;
+    });
+    return '<svg class="dich pie" viewBox="0 0 160 160" role="img" aria-label="Pie chart">' + out + "</svg>";
+  }
   function viz(x) {
     if (!x) return "";
     if (x.type === "share") return shareBar(x.r, x.total);
+    if (x.type === "bars") return barsSvg(x.l, x.v);
+    if (x.type === "pie") return '<div class="grid g2" style="align-items:center">' + pieSvg(x.l, x.v) + '<div class="small">' + x.l.map(function (n, i) { return '<div><i class="sw2" style="background:' + SHC[i % 6] + '"></i>' + esc(n) + " " + x.v[i] + "%</div>"; }).join("") + "</div></div>";
     if (x.type === "cone") return '<svg class="geo sm" viewBox="0 0 220 120" role="img" aria-label="Cylinder and cone"><ellipse cx="55" cy="22" rx="40" ry="10" fill="#EEF0FF" stroke="#4F46E5" stroke-width="2"/><path d="M15 22 V98 A40 10 0 0 0 95 98 V22" fill="#EEF0FF" stroke="#4F46E5" stroke-width="2"/><line x1="55" y1="22" x2="95" y2="22" stroke="#F59E0B" stroke-width="2"/><text x="72" y="17" font-size="11" fill="#1E1B4B" font-weight="700">r</text><text x="100" y="62" font-size="11" fill="#1E1B4B" font-weight="700">h</text><path d="M125 98 L165 14 L205 98 A40 10 0 0 1 125 98" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/><line x1="165" y1="14" x2="165" y2="98" stroke="#94A3B8" stroke-dasharray="3 3"/><text x="187" y="50" font-size="11" fill="#1E1B4B" font-weight="700">l</text></svg>';
     if (x.type === "rt") return rtSvg(x.a, x.b, Math.hypot(x.a, x.b));
     if (x.type === "sq") return sqViz(x.a, x.b);
@@ -1254,6 +1270,75 @@
           o.innerHTML = "Height = " + fmtN(h) + (Math.abs(k - Math.round(k)) < 1e-6 ? " (= " + fmtN(Math.round(k)) + "√3)" : "") + "<small>h × cot " + fmtN(a) + "° − h × cot " + fmtN(b) + "° = gap → h = " + fmtN(g) + " ÷ (" + fmtN(ca) + " − " + fmtN(cb) + "). The nearer point is " + fmtN(h * cb) + " from the foot.</small>";
         }
         $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
+    }
+    ,
+    ditable: {
+      title: "Table to chart, with % change", html: '<p class="small muted">Edit the labels and values. Growth, average and the best year update at once.</p><div class="grid g2"><div class="field"><label for="dtl">Labels (comma separated)</label><input type="text" id="dtl" value="2019, 2020, 2021, 2022, 2023"></div><div class="field"><label for="dtv">Values</label><input type="text" id="dtv" value="120, 150, 135, 180, 216"></div></div><div id="dtc"></div><div class="tscroll"><table class="pt" id="dtt"></table></div><div class="out" id="dto"></div>',
+      init: function (el) {
+        function up() {
+          var L = $("#dtl", el).value.split(",").map(function (s) { return s.trim(); }), V = $("#dtv", el).value.split(/[,\s]+/).filter(Boolean).map(Number), o = $("#dto", el);
+          if (V.length < 2 || V.length > 12 || !V.every(function (x) { return x >= 0; })) { $("#dtc", el).innerHTML = $("#dtt", el).innerHTML = ""; o.textContent = "Enter 2 to 12 values"; return; }
+          while (L.length < V.length) L.push(String(L.length + 1));
+          $("#dtc", el).innerHTML = barsSvg(L.slice(0, V.length), V);
+          var g = V.map(function (v, i) { return i && V[i - 1] ? (v - V[i - 1]) / V[i - 1] * 100 : null; }), best = -1;
+          g.forEach(function (x, i) { if (x !== null && (best < 0 || x > g[best])) best = i; });
+          $("#dtt", el).innerHTML = "<tr><th>" + "Label</th><th>Value</th><th>Change</th><th>% change</th></tr>" + V.map(function (v, i) { return "<tr" + (i === best ? ' class="hl"' : "") + "><td>" + esc(L[i]) + "</td><td>" + fmtN(v) + "</td><td>" + (i ? (v - V[i - 1] >= 0 ? "+" : "") + fmtN(v - V[i - 1]) : "—") + "</td><td>" + (g[i] === null ? "—" : (g[i] >= 0 ? "+" : "") + fmtN(g[i]) + "%") + "</td></tr>"; }).join("");
+          var sum = V.reduce(function (a, b) { return a + b; }, 0);
+          o.innerHTML = "Average " + fmtN(sum / V.length) + " · total " + fmtN(sum) + "<small>Highest % growth: " + esc(L[best]) + " (" + fmtN(g[best]) + "%). Overall change " + esc(L[0]) + " → " + esc(L[V.length - 1]) + ": " + (V[0] ? fmtN((V[V.length - 1] - V[0]) / V[0] * 100) + "%" : "—") + ".</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
+    },
+    pietool: {
+      title: "Pie chart converter", html: '<div class="grid g2"><div class="field"><label for="ptk">Values are in…</label><select id="ptk"><option value="p">percent</option><option value="d">degrees</option><option value="a">amounts</option></select></div><div class="field"><label for="ptt">Total amount (₹ or units)</label><input type="number" id="ptt" value="40000"></div></div><div class="grid g2"><div class="field"><label for="ptl">Categories</label><input type="text" id="ptl" value="Rent, Food, Savings, Education, Transport"></div><div class="field"><label for="ptv">Values</label><input type="text" id="ptv" value="30, 25, 20, 15, 10"></div></div><div id="ptz"></div><div class="tscroll"><table class="pt" id="ptb"></table></div><div class="out" id="pto3"></div>',
+      init: function (el) {
+        function up() {
+          var k = $("#ptk", el).value, T = parseFloat($("#ptt", el).value), L = $("#ptl", el).value.split(",").map(function (s) { return s.trim(); }), V = $("#ptv", el).value.split(/[,\s]+/).filter(Boolean).map(Number), o = $("#pto3", el);
+          if (!V.length || V.length > 10 || !V.every(function (x) { return x >= 0; })) { o.textContent = "Enter up to 10 values"; $("#ptz", el).innerHTML = $("#ptb", el).innerHTML = ""; return; }
+          while (L.length < V.length) L.push("Item " + (L.length + 1));
+          var S = V.reduce(function (a, b) { return a + b; }, 0), pc = V.map(function (v) { return k === "p" ? v : k === "d" ? v / 3.6 : v / S * 100; }), tot = k === "a" ? S : T;
+          $("#ptz", el).innerHTML = pieSvg(L.slice(0, V.length), pc);
+          $("#ptb", el).innerHTML = "<tr><th>Category</th><th>%</th><th>Degrees</th><th>Amount</th></tr>" + pc.map(function (p, i) { return '<tr><td><i class="sw2" style="background:' + SHC[i % 6] + '"></i>' + esc(L[i]) + "</td><td>" + fmtN(p) + "%</td><td>" + fmtN(p * 3.6) + "°</td><td>" + (tot > 0 ? fmtN(p / 100 * tot) : "—") + "</td></tr>"; }).join("");
+          var sp = pc.reduce(function (a, b) { return a + b; }, 0);
+          o.innerHTML = "Total " + fmtN(sp) + "% = " + fmtN(sp * 3.6) + "°" + (Math.abs(sp - 100) > 0.01 ? " (should be 100%)" : "") + "<small>% × 3.6 = degrees; degrees ÷ 360 × total = amount.</small>";
+        }
+        $$("input,select", el).forEach(function (i) { i.oninput = up; i.onchange = up; }); up();
+      }
+    },
+    fraccmp: {
+      title: "Which fraction is bigger?", html: '<p class="small muted">Compare two ratios without dividing, by cross-multiplying.</p><div class="grid g2"><div class="field"><label>First a / b</label><div class="row"><input type="number" id="fa" value="45"><b>/</b><input type="number" id="fb" value="135"></div></div><div class="field"><label>Second c / d</label><div class="row"><input type="number" id="fc" value="36"><b>/</b><input type="number" id="fd" value="180"></div></div></div><div class="out" id="fco"></div>',
+      init: function (el) {
+        function up() {
+          var a = parseFloat($("#fa", el).value), b = parseFloat($("#fb", el).value), c = parseFloat($("#fc", el).value), d = parseFloat($("#fd", el).value), o = $("#fco", el);
+          if (![a, b, c, d].every(isFinite) || !(b > 0 && d > 0)) { o.textContent = "Enter four numbers with positive denominators"; return; }
+          var L = a * d, R = b * c;
+          o.innerHTML = (Math.abs(L - R) < 1e-9 ? "They are equal" : (L > R ? fmtN(a) + "/" + fmtN(b) : fmtN(c) + "/" + fmtN(d)) + " is bigger") + "<small>a × d = " + fmtN(L) + " and b × c = " + fmtN(R) + ". As decimals: " + fmtN(a / b) + " and " + fmtN(c / d) + " (" + fmtN(a / b * 100) + "% vs " + fmtN(c / d * 100) + "%).</small>";
+        }
+        $$("input", el).forEach(function (i) { i.oninput = up; }); up();
+      }
+    },
+    didrill: {
+      title: "Random DI drill", html: '<p class="small muted">A new made-up chart every round. Read it and answer.</p><div id="ddc"></div><div class="qtext" id="ddq" style="font-weight:700;margin:6px 0"></div><div class="opts" id="ddo"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score: <b id="dds">0</b> / <b id="ddn">0</b></span><button class="btn btn-accent btn-sm" id="ddg">Next chart</button></div><div class="why" id="ddw" hidden></div>',
+      init: function (el) {
+        var sc = 0, n = 0;
+        function rnd(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
+        function round() {
+          var names = ["Mon", "Tue", "Wed", "Thu", "Fri"], V = names.map(function () { return rnd(4, 20) * 5; }), i = rnd(0, 3), j = i + 1 + rnd(0, 3 - i), q, ans, why, ops;
+          $("#ddc", el).innerHTML = barsSvg(names, V, "Units sold (made-up data)");
+          var t = rnd(0, 3);
+          if (t === 0) { ans = (V[j] - V[i]) / V[i] * 100; q = "% change from " + names[i] + " to " + names[j] + "?"; why = "(" + V[j] + " − " + V[i] + ") ÷ " + V[i] + " × 100"; ops = [ans, -ans, (V[j] - V[i]) / V[j] * 100, ans + 10]; }
+          else if (t === 1) { var s = V.reduce(function (a, b) { return a + b; }, 0); ans = s / 5; q = "Average units per day?"; why = s + " ÷ 5"; ops = [ans, ans + 5, ans - 5, s / 4]; }
+          else if (t === 2) { ans = V[i] / V.reduce(function (a, b) { return a + b; }, 0) * 100; q = names[i] + "'s share of the week's total?"; why = V[i] + " ÷ total × 100"; ops = [ans, ans + 5, ans * 1.5, ans / 2]; }
+          else { ans = V[i] + V[j]; q = "Total for " + names[i] + " and " + names[j] + "?"; why = V[i] + " + " + V[j]; ops = [ans, ans + 5, ans - 10, Math.abs(V[i] - V[j])]; }
+          var seen = {}; ops = ops.map(function (x) { return Math.round(x * 100) / 100; }).filter(function (x) { if (seen[x]) return false; seen[x] = 1; return true; });
+          var ord = shuffle(ops.length), unit = t === 0 || t === 2 ? "%" : "";
+          $("#ddq", el).textContent = q; $("#ddw", el).hidden = true;
+          $("#ddo", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-ok="' + (k === 0 ? 1 : 0) + '">' + fmtN(ops[k]) + unit + "</button>"; }).join("");
+          $$("#ddo .opt", el).forEach(function (b) { b.onclick = function () { if ($("#ddo", el).getAttribute("data-done")) return; $("#ddo", el).setAttribute("data-done", 1); n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#ddo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#dds", el).textContent = sc; $("#ddn", el).textContent = n; $("#ddw", el).hidden = false; $("#ddw", el).textContent = "Working: " + why + " = " + fmtN(ans) + unit; }; });
+          $("#ddo", el).removeAttribute("data-done");
+        }
+        $("#ddg", el).onclick = round; round();
       }
     }
   };
