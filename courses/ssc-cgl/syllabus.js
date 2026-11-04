@@ -42,7 +42,7 @@ window.SSC = {
         ["algebra", "Algebra", "live"],
         ["geometry", "Geometry", "live"],
         ["mensuration", "Mensuration", "live"],
-        ["trigonometry", "Trigonometry, heights & distances", "soon"],
+        ["trigonometry", "Trigonometry, heights & distances", "live"],
         ["di", "Data interpretation", "soon"],
         ["stats-prob", "Statistics & probability (Tier 2)", "soon"]
       ]
