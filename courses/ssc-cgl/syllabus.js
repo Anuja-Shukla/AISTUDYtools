@@ -66,7 +66,7 @@ window.SSC = {
       id: "english", name: "English Language & Comprehension", short: "English", color: "#B45309", soft: "#FEF3C7", t1: 25, t2: 45,
       blurb: "Grammar, vocabulary, sentence skills and reading comprehension.",
       units: [
-        ["error", "Spot the error", "soon"], ["blanks", "Fill in the blanks", "soon"],
+        ["error", "Spot the error", "live"], ["blanks", "Fill in the blanks", "soon"],
         ["syn-ant", "Synonyms & antonyms", "soon"], ["one-word", "One-word substitution", "soon"],
         ["idioms", "Idioms & phrases", "soon"], ["spelling", "Spelling", "soon"],
         ["improvement", "Sentence improvement", "soon"], ["voice", "Active & passive voice", "soon"],
