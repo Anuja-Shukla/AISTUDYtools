@@ -2747,6 +2747,42 @@
         $("#rtk", el).onchange = up; up();
       }
     }
+    ,
+    owsdrill: {
+      title: "One-word drill", html: '<div class="big" id="owq" style="text-align:center;font-size:18px;font-weight:800;margin:6px 0">…</div><div class="opts" id="owo"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="ows">0</b> / <b id="own">0</b></span><button class="btn btn-accent btn-sm" id="owg">Next</button></div><div class="why" id="oww" hidden></div>',
+      init: function (el) {
+        var W = [["killing of one's father", "patricide", "cide"], ["killing of one's mother", "matricide", "cide"], ["killing of one's brother", "fratricide", "cide"], ["killing of a human being", "homicide", "cide"], ["killing of a whole people", "genocide", "cide"], ["fear of heights", "acrophobia", "phobia"], ["fear of water", "hydrophobia", "phobia"], ["fear of closed spaces", "claustrophobia", "phobia"], ["fear of open or crowded places", "agoraphobia", "phobia"], ["rule by the people", "democracy", "cracy"], ["rule by one person with total power", "autocracy", "cracy"], ["rule by the rich", "plutocracy", "cracy"], ["rule by officials", "bureaucracy", "cracy"], ["study of the stars", "astronomy", "logy"], ["study of rocks and the earth", "geology", "logy"], ["study of plants", "botany", "logy"], ["study of birds", "ornithology", "logy"], ["a place where birds are kept", "aviary", "place"], ["a place where bees are kept", "apiary", "place"], ["a place where fish are kept", "aquarium", "place"], ["a place where dogs are kept", "kennel", "place"], ["one who knows many languages", "polyglot", "person"], ["one who walks in sleep", "somnambulist", "person"], ["one who cannot sleep", "insomniac", "person"], ["one who loves mankind", "philanthropist", "person"], ["one who hates mankind", "misanthrope", "person"], ["one who does not believe in God", "atheist", "person"], ["one who is not sure God exists", "agnostic", "person"], ["handwriting that cannot be read", "illegible", "in"], ["that which cannot be erased", "indelible", "in"], ["that which cannot be heard", "inaudible", "in"], ["not qualified to be chosen", "ineligible", "in"]], sc = 0, n = 0;
+        function round() {
+          var i = Math.floor(Math.random() * W.length), w = W[i], same = W.filter(function (x) { return x[2] === w[2] && x !== w; }), pool = [w[1]], done = false;
+          shuffle(same.length).forEach(function (k) { if (pool.length < 4) pool.push(same[k][1]); });
+          while (pool.length < 4) { var r = W[Math.floor(Math.random() * W.length)][1]; if (pool.indexOf(r) < 0) pool.push(r); }
+          var ord = shuffle(4);
+          $("#owq", el).textContent = w[0][0].toUpperCase() + w[0].slice(1) + "?"; $("#oww", el).hidden = true;
+          $("#owo", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-ok="' + (k === 0 ? 1 : 0) + '">' + pool[k] + "</button>"; }).join("");
+          $$("#owo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#owo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#ows", el).textContent = sc; $("#own", el).textContent = n; $("#oww", el).hidden = false; $("#oww", el).textContent = w[1] + " — " + w[0] + "."; }; });
+        }
+        $("#owg", el).onclick = round; round();
+      }
+    },
+    owsparts: {
+      title: "Word-part decoder", html: '<div class="field"><label for="opw">Type a word</label><input type="text" id="opw" value="claustrophobia"></div><div class="out" id="opo"></div>',
+      init: function (el) {
+        var PARTS = [["cide", "killing"], ["phobia", "fear of"], ["cracy", "rule by"], ["crat", "ruler / supporter of a kind of rule"], ["logy", "study of"], ["nomy", "law or study of"], ["ist", "a person who"], ["ian", "a person who"], ["vore", "eater of"], ["graphy", "writing about"], ["phile", "lover of"], ["auto", "self"], ["bio", "life"], ["poly", "many"], ["mono", "one"], ["omni", "all"], ["homo", "same"], ["hetero", "different"], ["patri", "father"], ["matri", "mother"], ["frat", "brother"], ["hydro", "water"], ["acro", "height"], ["claustro", "closed space"], ["agora", "open place"], ["demo", "people"], ["pluto", "wealth"], ["astro", "star"], ["geo", "earth"], ["avi", "bird"], ["api", "bee"], ["herbi", "plant"], ["carni", "flesh"], ["somn", "sleep"], ["ambul", "walk"], ["phil", "love"], ["mis", "hate / wrong"], ["anthrop", "mankind"], ["theo", "God"], ["glot", "tongue / language"]];
+        function up() {
+          var w = $("#opw", el).value.trim().toLowerCase(), o = $("#opo", el), found = PARTS.filter(function (p) { return w.indexOf(p[0]) >= 0; });
+          found = found.filter(function (p) { return !found.some(function (q) { return q !== p && q[0].length > p[0].length && q[0].indexOf(p[0]) >= 0; }); });
+          o.innerHTML = found.length ? found.map(function (p) { return p[0] + " = " + p[1]; }).join(" · ") + "<small>Join the parts to guess the meaning.</small>" : "No common parts found<small>Try words like matricide, polyglot, plutocracy or ornithology.</small>";
+        }
+        $("#opw", el).oninput = up; up();
+      }
+    },
+    owsbuild: {
+      title: "Build the word", html: '<div class="grid2"><div class="field"><label for="obf">Who / what</label><select id="obf"><option value="patri">father</option><option value="matri">mother</option><option value="fratri">brother</option><option value="sorori">sister</option><option value="infanti">infant</option><option value="homi">human being</option><option value="regi">king</option><option value="geno">a whole people</option></select></div><div class="field"><label for="obs">Ending</label><select id="obs"><option value="cide">-cide (killing)</option></select></div></div><div class="out" id="obo"></div>',
+      init: function (el) {
+        function up() { var f = $("#obf", el).value; $("#obo", el).innerHTML = f + "cide<small>Killing of " + $("#obf", el).selectedOptions[0].textContent + (f === "geno" ? "" : "") + ".</small>"; }
+        $$("select", el).forEach(function (s) { s.onchange = up; }); up();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
