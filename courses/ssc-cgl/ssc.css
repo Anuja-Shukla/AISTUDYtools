@@ -298,3 +298,4 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 .rcpass{background:var(--soft);border-radius:12px;padding:12px 14px;line-height:1.6;font-size:15px;margin:8px 0}.rcpass mark{background:var(--sun);padding:0 2px;border-radius:3px}
 .tline div{display:flex;gap:12px;padding:6px 0;border-bottom:1px dashed var(--border)}.tline b{min-width:84px;color:var(--accent-dk)}
 .fcard{min-height:130px;border:2px solid var(--border);border-radius:16px;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;cursor:pointer;font-size:17px;font-weight:700;margin:8px 0;background:#fff}.fcard.back{background:var(--soft);border-color:var(--accent)}.fcard small{display:block;font-size:12px;font-weight:500;color:var(--muted);margin-top:6px}
+.phbar{height:14px;border-radius:7px;margin:4px 0 10px;background:linear-gradient(90deg,#d62828,#f77f00,#fcbf49,#90be6d,#43aa8b,#4d908e,#577590,#6a4c93)}

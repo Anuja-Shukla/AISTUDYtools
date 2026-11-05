@@ -3275,6 +3275,27 @@
         $("#ulq", el).oninput = up; up();
       }
     }
+    ,
+    elemfind: {
+      title: "Element finder (1–30)", html: '<div class="field"><label for="efq">Name, symbol or atomic number</label><input type="text" id="efq" value="Fe"></div><div class="out" id="efo"></div>',
+      init: function (el) {
+        var E = ["Hydrogen H", "Helium He", "Lithium Li", "Beryllium Be", "Boron B", "Carbon C", "Nitrogen N", "Oxygen O", "Fluorine F", "Neon Ne", "Sodium Na", "Magnesium Mg", "Aluminium Al", "Silicon Si", "Phosphorus P", "Sulphur S", "Chlorine Cl", "Argon Ar", "Potassium K", "Calcium Ca", "Scandium Sc", "Titanium Ti", "Vanadium V", "Chromium Cr", "Manganese Mn", "Iron Fe", "Cobalt Co", "Nickel Ni", "Copper Cu", "Zinc Zn"].map(function (s, i) { var p = s.split(" "); return [i + 1, p[0], p[1]]; });
+        function up() {
+          var q = $("#efq", el).value.trim(), o = $("#efo", el), l = q.toLowerCase(), r = E.filter(function (e) { return String(e[0]) === q || e[2].toLowerCase() === l || e[1].toLowerCase() === l; })[0] || (l.length > 2 ? E.filter(function (e) { return e[1].toLowerCase().indexOf(l) === 0; })[0] : null);
+          o.innerHTML = r ? r[1] + " · " + r[2] + " · atomic number " + r[0] + "<small>" + (r[0] <= 20 ? "Electrons in shells (K, L, M, N): " + shells(r[0]) + "." : "A transition element (21–30); its electrons fill an inner shell, so it is not a simple 2-8-8 pattern.") + "</small>" : "Not in elements 1–30<small>Try Fe, 6, sodium or Cu.</small>";
+        }
+        function shells(z) { var s = [], cap = [2, 8, 8, 2]; for (var i = 0; z > 0 && i < cap.length; i++) { var t = Math.min(z, cap[i]); s.push(t); z -= t; } return s.join(", "); }
+        $("#efq", el).oninput = up; up();
+      }
+    },
+    phscale: {
+      title: "pH scale", html: '<div class="field"><label for="phv">pH = <b id="phn">7</b></label><input type="range" id="phv" min="0" max="14" value="7"></div><div class="phbar"></div><div class="out" id="pho"></div>',
+      init: function (el) {
+        var EX = { 0: "battery acid", 1: "stomach acid", 2: "lemon juice", 3: "vinegar", 4: "tomato juice", 5: "black coffee", 6: "milk (slightly acidic)", 7: "pure water", 8: "sea water", 9: "baking soda solution", 10: "milk of magnesia", 11: "ammonia solution", 12: "soapy water", 13: "bleach", 14: "caustic soda (NaOH) solution" };
+        function up() { var v = +$("#phv", el).value; $("#phn", el).textContent = v; $("#pho", el).innerHTML = (v < 7 ? "Acidic" : v === 7 ? "Neutral" : "Basic") + "<small>Example near pH " + v + ": " + EX[v] + ". " + (v < 7 ? "Turns blue litmus red." : v > 7 ? "Turns red litmus blue." : "No change in litmus.") + " Values are approximate.</small>"; }
+        $("#phv", el).oninput = up; up();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
