@@ -1,0 +1,10 @@
+# SSC CGL Computer — Software and MS Office
+Welcome! This SSC CGL lesson is about software and MS Office. || Welcome! This S S C C G L computer knowledge lesson is about software and M S Office.
+System, application and utility software. || There are three kinds of software. System software runs the computer, like Windows or Linux. Application software does a task, like Word or a browser. Utility software looks after the system, like antivirus.
+Office programs and extensions. || Learn the Office programs. Word is for documents, with the extension dot d o c x. Excel is for spreadsheets, dot x l s x. PowerPoint is for presentations, dot p p t x.
+Editing shortcuts. || Editing shortcuts: control C copies, control X cuts, and control V pastes. Control Z undoes, and control Y redoes.
+File and format shortcuts. || File shortcuts: control S saves, control P prints, and control A selects all. Format shortcuts: control B for bold, control I for italic, and control U for underline.
+Excel cells and formulas. || In Excel, a cell address is the column letter and then the row number, so B three is column B, row three. Every formula starts with an equals sign.
+Common Excel functions. || Common functions are SUM to add, AVERAGE for the mean, MAX and MIN for the largest and smallest, and COUNT to count numbers.
+Try this: control Z does what? The answer is A, undo. || Try this. What does control Z do? The answer is A, undo.
+Recap. Now try the tools and the practice questions below. || To recap. Know the three kinds of software, the Office extensions, the shortcuts in groups, and the basic Excel functions. Now try the tools and the practice questions below this video.

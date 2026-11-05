@@ -3404,6 +3404,58 @@
         $("#dvg", el).onclick = round; round();
       }
     }
+    ,
+    shortcutdrill: {
+      title: "Shortcut drill", html: '<div class="big" id="sdq2" style="text-align:center;font-size:20px;font-weight:800;margin:6px 0">…</div><div class="opts" id="sdo3" style="grid-template-columns:repeat(2,1fr)"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="sds">0</b> / <b id="sdn">0</b></span><button class="btn btn-accent btn-sm" id="sdg">Next</button></div>',
+      init: function (el) {
+        var K = [["Ctrl + C", "Copy"], ["Ctrl + X", "Cut"], ["Ctrl + V", "Paste"], ["Ctrl + Z", "Undo"], ["Ctrl + Y", "Redo"], ["Ctrl + A", "Select all"], ["Ctrl + S", "Save"], ["Ctrl + P", "Print"], ["Ctrl + B", "Bold"], ["Ctrl + I", "Italic"], ["Ctrl + U", "Underline"], ["Ctrl + N", "New file"], ["Ctrl + O", "Open"], ["Ctrl + F", "Find"], ["Ctrl + H", "Replace (Word)"], ["F7", "Spelling check (Word)"], ["F5", "Start slide show (PowerPoint)"], ["Alt + F4", "Close the window"], ["Ctrl + Home", "Go to the start of the document"]], sc = 0, n = 0;
+        function round() {
+          var i = Math.floor(Math.random() * K.length), rev = Math.random() < 0.5, k = K[i], pool = [i], done = false;
+          while (pool.length < 4) { var r = Math.floor(Math.random() * K.length); if (pool.indexOf(r) < 0) pool.push(r); }
+          var ord = shuffle(4);
+          $("#sdq2", el).textContent = rev ? "Shortcut for: " + k[1] + "?" : k[0] + " = ?";
+          $("#sdo3", el).innerHTML = ord.map(function (j) { var q = K[pool[j]]; return '<button class="opt" data-ok="' + (j === 0 ? 1 : 0) + '">' + (rev ? q[0] : q[1]) + "</button>"; }).join("");
+          $$("#sdo3 .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#sdo3 .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#sds", el).textContent = sc; $("#sdn", el).textContent = n; }; });
+        }
+        $("#sdg", el).onclick = round; round();
+      }
+    },
+    minisheet: {
+      title: "Mini spreadsheet", html: '<p class="note">Edit the numbers, then type a formula such as =SUM(A1:A3), =AVERAGE(B1:B3), =MAX(A1:C3) or =A1+B2*2.</p><div class="tscroll"><table class="pt msheet" id="mst"></table></div><div class="field"><label for="msf">Formula</label><input type="text" id="msf" value="=SUM(A1:A3)"></div><div class="out" id="mso"></div>',
+      init: function (el) {
+        var V = [[10, 4, 7], [20, 5, 3], [30, 6, 8]], C = "ABC";
+        function draw() {
+          $("#mst", el).innerHTML = "<tr><th></th>" + C.split("").map(function (c) { return "<th>" + c + "</th>"; }).join("") + "</tr>" + V.map(function (row, r) { return "<tr><th>" + (r + 1) + "</th>" + row.map(function (v, c) { return '<td><input type="number" data-r="' + r + '" data-c="' + c + '" value="' + v + '" aria-label="' + C[c] + (r + 1) + '"></td>'; }).join("") + "</tr>"; }).join("");
+          $$("#mst input", el).forEach(function (i) { i.oninput = function () { V[+i.getAttribute("data-r")][+i.getAttribute("data-c")] = +i.value || 0; calc(); }; });
+        }
+        function cell(ref) { var m = ref.match(/^([A-C])([1-3])$/); if (!m) throw new Error("Cells A1 to C3 only"); return V[+m[2] - 1][C.indexOf(m[1])]; }
+        function range(a, b) { var A = a.match(/^([A-C])([1-3])$/), B = b.match(/^([A-C])([1-3])$/); if (!A || !B) throw new Error("Use cells A1 to C3"); var out = []; for (var r = Math.min(+A[2], +B[2]); r <= Math.max(+A[2], +B[2]); r++) for (var c = Math.min(C.indexOf(A[1]), C.indexOf(B[1])); c <= Math.max(C.indexOf(A[1]), C.indexOf(B[1])); c++) out.push(V[r - 1][c]); return out; }
+        function calc() {
+          var f = $("#msf", el).value.trim().toUpperCase().replace(/\s+/g, ""), o = $("#mso", el);
+          if (f[0] !== "=") { o.innerHTML = "A formula must start with ="; return; }
+          try {
+            var e = f.slice(1).replace(/(SUM|AVERAGE|MAX|MIN|COUNT)\(([A-C][1-3]):([A-C][1-3])\)/g, function (_, fn, a, b) { var R = range(a, b), s = R.reduce(function (x, y) { return x + y; }, 0); return "(" + ({ SUM: s, AVERAGE: s / R.length, MAX: Math.max.apply(null, R), MIN: Math.min.apply(null, R), COUNT: R.length }[fn]) + ")"; }).replace(/[A-C][1-3]/g, function (m) { return "(" + cell(m) + ")"; });
+            if (!/^[\d.+\-*/()]+$/.test(e)) throw new Error("Use SUM, AVERAGE, MAX, MIN, COUNT, cell names and + − × ÷");
+            var v = Function("return " + e)();
+            o.innerHTML = f + " → " + fmtN(Math.round(v * 1000) / 1000) + "<small>Excel works out the range first, then the arithmetic (BODMAS).</small>";
+          } catch (err) { o.innerHTML = "Check the formula<small>" + esc(err.message) + "</small>"; }
+        }
+        draw(); $("#msf", el).oninput = calc; calc();
+      }
+    },
+    swtype: {
+      title: "What kind of software?", html: '<div class="big" id="swq" style="text-align:center;font-size:20px;font-weight:800;margin:6px 0">…</div><div class="opts" id="swo" style="grid-template-columns:repeat(3,1fr)"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="sws">0</b> / <b id="swn">0</b></span><button class="btn btn-accent btn-sm" id="swg">Next</button></div>',
+      init: function (el) {
+        var S = [["Windows", 0], ["Linux", 0], ["Android", 0], ["Device driver", 0], ["MS Word", 1], ["Excel", 1], ["Google Chrome", 1], ["Tally", 1], ["Photoshop", 1], ["Antivirus", 2], ["Disk cleanup", 2], ["Backup tool", 2], ["File compressor (zip)", 2]], L = ["System", "Application", "Utility"], sc = 0, n = 0;
+        function round() {
+          var s = S[Math.floor(Math.random() * S.length)], done = false;
+          $("#swq", el).textContent = s[0];
+          $("#swo", el).innerHTML = L.map(function (l, i) { return '<button class="opt" data-ok="' + (i === s[1] ? 1 : 0) + '">' + l + "</button>"; }).join("");
+          $$("#swo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#swo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#sws", el).textContent = sc; $("#swn", el).textContent = n; }; });
+        }
+        $("#swg", el).onclick = round; round();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
