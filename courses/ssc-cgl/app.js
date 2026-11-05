@@ -3032,6 +3032,48 @@
         $("#two", el).innerHTML = "Tap a word<small>Shows its form in indirect speech.</small>";
       }
     }
+    ,
+    pjarrange: {
+      title: "Arrange the paragraph", html: '<p class="note">Tap the sentences in the right order.</p><div id="pjs" class="errparts"></div><div id="pjo2" class="pjorder"></div><div class="row" style="gap:6px"><button class="btn btn-sm" id="pju">Undo</button><button class="btn btn-sm" id="pjn">New paragraph</button></div><div class="out" id="pjout"></div>',
+      init: function (el, T) {
+        var B = T.bank || [], p, ord, pick;
+        function load() { p = B[Math.floor(Math.random() * B.length)].s; ord = shuffle(4); pick = []; up(); }
+        function up() {
+          $("#pjs", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-k="' + k + '"' + (pick.indexOf(k) >= 0 ? " disabled style=\"opacity:.35\"" : "") + ">" + esc(p[k]) + "</button>"; }).join("");
+          $("#pjo2", el).innerHTML = pick.map(function (k, i) { return "<div>" + (i + 1) + ". " + esc(p[k]) + "</div>"; }).join("");
+          $$("#pjs .opt", el).forEach(function (b) { b.onclick = function () { var k = +b.getAttribute("data-k"); if (pick.indexOf(k) < 0) pick.push(k); up(); }; });
+          var o = $("#pjout", el);
+          if (pick.length < 4) o.innerHTML = (4 - pick.length) + " sentence(s) left<small>Start with the sentence that does not depend on any other.</small>";
+          else { var ok = pick.every(function (k, i) { return k === i; }); o.innerHTML = (ok ? "Correct order ✓" : "Not quite") + "<small>" + (ok ? "Every link fits." : "Correct order: " + p.map(esc).join(" ")) + "</small>"; }
+        }
+        $("#pju", el).onclick = function () { pick.pop(); up(); };
+        $("#pjn", el).onclick = load; if (B.length) load();
+      }
+    },
+    pjlinks: {
+      title: "Link-word spotter", html: '<div class="field"><label for="plt">Sentence</label><input type="text" id="plt" value="So he joined a class at the local pool."></div><div class="out" id="plo"></div>',
+      init: function (el) {
+        var R = [[/^(so|therefore|thus|hence|as a result)\b/i, "Shows a result — it comes after the cause."], [/^(however|but|yet|still|on the other hand)\b/i, "Shows a contrast — it comes after the idea it contrasts."], [/^(then|next|after that|later|finally|at last|in the end)\b/i, "Shows time order — it continues a sequence."], [/^(first|firstly|to begin with)\b/i, "Often the start of a sequence."], [/^(he|she|it|they|this|these|that|those|his|her|their|its)\b/i, "Starts with a pronoun — it points back to someone or something already named."], [/\balso\b|\btoo\b|\bmoreover\b|\bfurthermore\b/i, "Adds a point — it comes after a similar point."], [/\bfor example\b|\bfor instance\b/i, "Gives an example — it comes after the general idea."]];
+        function up() {
+          var s = $("#plt", el).value.trim(), h = R.filter(function (r) { return r[0].test(s); }), o = $("#plo", el);
+          o.innerHTML = h.length ? "Not an opener<small>" + h.map(function (x) { return x[1]; }).join(" ") + "</small>" : "Could be an opener<small>No pronoun or link word at the start; check whether it introduces the topic.</small>";
+        }
+        $("#plt", el).oninput = up; up();
+      }
+    },
+    pjgame: {
+      title: "Find the opening sentence", html: '<div class="errparts" id="pgo"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="pgs">0</b> / <b id="pgn">0</b></span><button class="btn btn-accent btn-sm" id="pgg">Next</button></div><div class="why" id="pgw" hidden></div>',
+      init: function (el, T) {
+        var B = T.bank || [], sc = 0, n = 0;
+        function round() {
+          var p = B[Math.floor(Math.random() * B.length)].s, ord = shuffle(4), done = false;
+          $("#pgw", el).hidden = true;
+          $("#pgo", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-ok="' + (k === 0 ? 1 : 0) + '">' + esc(p[k]) + "</button>"; }).join("");
+          $$("#pgo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#pgo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#pgs", el).textContent = sc; $("#pgn", el).textContent = n; $("#pgw", el).hidden = false; $("#pgw", el).textContent = "Full order: " + p.join(" "); }; });
+        }
+        $("#pgg", el).onclick = round; if (B.length) round();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';

@@ -292,3 +292,5 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 .pzq{line-height:1.55;margin-bottom:8px}.pzq ul{margin:6px 0 8px 18px}.pzseats{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.pzseats.fl{grid-template-columns:1fr;max-width:260px}.pzseats.fl{display:flex;flex-direction:column-reverse}.pzseats label{font-size:11px}@media(max-width:520px){.pzseats{grid-template-columns:repeat(2,1fr)}}.pzclues{margin:8px 0 8px 18px}.pzclues li.ok{color:var(--mint-fg)}.pzclues li.no{color:var(--red-fg);font-weight:700}
 /* english */
 .errparts{display:grid;grid-template-columns:1fr;gap:6px;margin:8px 0}
+.pjorder div{padding:4px 0;border-bottom:1px dashed var(--border);font-size:14px}
+.qtext{white-space:pre-line}
