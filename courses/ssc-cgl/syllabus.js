@@ -81,7 +81,7 @@ window.SSC = {
         ["history", "History & culture", "live"], ["polity", "Indian polity", "live"],
         ["geography", "Geography", "live"], ["economy", "Indian economy", "live"],
         ["physics", "Physics", "live"], ["chemistry", "Chemistry", "live"], ["biology", "Biology", "live"],
-        ["static-gk", "Static GK: books, days, awards, sports", "live"], ["schemes", "Government schemes", "soon"],
+        ["static-gk", "Static GK: books, days, awards, sports", "live"], ["schemes", "Government schemes", "live"],
         ["current", "Current affairs (monthly)", "soon"]
       ]
     },
