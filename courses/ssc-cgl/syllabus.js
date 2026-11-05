@@ -80,7 +80,7 @@ window.SSC = {
       units: [
         ["history", "History & culture", "live"], ["polity", "Indian polity", "live"],
         ["geography", "Geography", "live"], ["economy", "Indian economy", "live"],
-        ["physics", "Physics", "live"], ["chemistry", "Chemistry", "soon"], ["biology", "Biology", "soon"],
+        ["physics", "Physics", "live"], ["chemistry", "Chemistry", "live"], ["biology", "Biology", "soon"],
         ["static-gk", "Static GK: books, days, awards, sports", "soon"], ["schemes", "Government schemes", "soon"],
         ["current", "Current affairs (monthly)", "soon"]
       ]
