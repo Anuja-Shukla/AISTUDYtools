@@ -55,7 +55,7 @@ window.SSC = {
         ["series", "Number, letter & figure series", "live"], ["coding", "Coding-decoding", "live"],
         ["blood-relations", "Blood relations", "live"], ["direction", "Direction sense", "live"],
         ["ranking", "Order & ranking", "soon"], ["math-ops", "Mathematical operations", "soon"],
-        ["syllogism", "Syllogism", "soon"], ["venn", "Venn diagrams", "soon"],
+        ["syllogism", "Syllogism", "live"], ["venn", "Venn diagrams", "soon"],
         ["statement", "Statement & conclusion", "soon"], ["mirror", "Mirror & water images", "soon"],
         ["paper-folding", "Paper folding & cutting", "soon"], ["embedded", "Embedded figures & figure completion", "soon"],
         ["counting", "Counting figures", "soon"], ["puzzles", "Seating & puzzles", "soon"],
