@@ -54,12 +54,12 @@ window.SSC = {
         ["analogy", "Analogy", "live"], ["classification", "Classification (odd one out)", "live"],
         ["series", "Number, letter & figure series", "live"], ["coding", "Coding-decoding", "live"],
         ["blood-relations", "Blood relations", "live"], ["direction", "Direction sense", "live"],
-        ["ranking", "Order & ranking", "soon"], ["math-ops", "Mathematical operations", "soon"],
-        ["syllogism", "Syllogism", "live"], ["venn", "Venn diagrams", "soon"],
-        ["statement", "Statement & conclusion", "soon"], ["mirror", "Mirror & water images", "soon"],
-        ["paper-folding", "Paper folding & cutting", "soon"], ["embedded", "Embedded figures & figure completion", "soon"],
-        ["counting", "Counting figures", "soon"], ["puzzles", "Seating & puzzles", "soon"],
-        ["esi", "Emotional & social intelligence (Tier 2)", "soon"]
+        ["ranking", "Order & ranking", "live"], ["math-ops", "Mathematical operations", "live"],
+        ["syllogism", "Syllogism", "live"], ["venn", "Venn diagrams", "live"],
+        ["statement", "Statement & conclusion", "live"], ["mirror", "Mirror & water images", "live"],
+        ["paper-folding", "Paper folding & cutting", "live"], ["embedded", "Embedded figures & figure completion", "live"],
+        ["counting", "Counting figures", "live"], ["puzzles", "Seating & puzzles", "live"],
+        ["esi", "Emotional & social intelligence (Tier 2)", "live"]
       ]
     },
     {
