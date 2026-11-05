@@ -3263,6 +3263,18 @@
         $$("select", el).forEach(function (s) { s.onchange = up; }); up();
       }
     }
+    ,
+    unitlook: {
+      title: "Units and instruments", html: '<div class="field"><label for="ulq">Search a quantity, unit or instrument</label><input type="text" id="ulq" value=""></div><div class="tscroll"><table class="pt" id="ult"></table></div>',
+      init: function (el) {
+        var R = [["Force", "newton (N)", "spring balance"], ["Work / energy", "joule (J)", "—"], ["Power", "watt (W)", "wattmeter"], ["Electric current", "ampere (A)", "ammeter"], ["Potential difference", "volt (V)", "voltmeter"], ["Resistance", "ohm (Ω)", "ohmmeter"], ["Charge", "coulomb (C)", "—"], ["Frequency", "hertz (Hz)", "—"], ["Pressure", "pascal (Pa)", "barometer (air), manometer (gas)"], ["Temperature", "kelvin (K)", "thermometer"], ["Humidity", "— (%)", "hygrometer"], ["Density of liquids", "kg/m³", "hydrometer"], ["Purity of milk", "—", "lactometer"], ["Loudness", "decibel (dB)", "sound level meter"], ["Earthquakes", "Richter scale", "seismograph"], ["Distance travelled by a vehicle", "km", "odometer"], ["Magnetic field", "tesla (T)", "magnetometer"], ["Luminous intensity", "candela (cd)", "photometer"]];
+        function up() {
+          var q = $("#ulq", el).value.trim().toLowerCase(), r = R.filter(function (x) { return !q || x.join(" ").toLowerCase().indexOf(q) >= 0; });
+          $("#ult", el).innerHTML = "<tr><th>Quantity</th><th>SI unit</th><th>Instrument</th></tr>" + r.map(function (x) { return "<tr><td>" + x[0] + "</td><td>" + x[1] + "</td><td>" + x[2] + "</td></tr>"; }).join("");
+        }
+        $("#ulq", el).oninput = up; up();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
