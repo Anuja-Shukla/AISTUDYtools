@@ -51,7 +51,7 @@ window.SSC = {
       id: "reasoning", name: "General Intelligence & Reasoning", short: "Reasoning", color: "#0F766E", soft: "#CCFBF1", t1: 25, t2: 30,
       blurb: "Verbal and non-verbal reasoning: series, coding, relations, puzzles and figures.",
       units: [
-        ["analogy", "Analogy", "live"], ["classification", "Classification (odd one out)", "soon"],
+        ["analogy", "Analogy", "live"], ["classification", "Classification (odd one out)", "live"],
         ["series", "Number, letter & figure series", "soon"], ["coding", "Coding-decoding", "soon"],
         ["blood-relations", "Blood relations", "soon"], ["direction", "Direction sense", "soon"],
         ["ranking", "Order & ranking", "soon"], ["math-ops", "Mathematical operations", "soon"],
