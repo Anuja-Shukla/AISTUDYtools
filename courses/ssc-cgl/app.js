@@ -40,6 +40,7 @@
     else if (h[0] === "s") subject(h[1] || "quant");
     else if (h[0] === "t" && TOP[h[1]]) topic(TOP[h[1]], h[2] || "watch");
     else if (h[0] === "mocks") mocks();
+    else if (h[0] === "mock") startMock(h[1]);
     else if (h[0] === "progress") progress();
     else home();
     window.scrollTo(0, 0);
@@ -3603,17 +3604,25 @@
   /* ---------- exam engine (mini-tests now, mocks later) ---------- */
   function runTest(pane, cfg, onDone) {
     var Q = cfg.items, n = Q.length, cur = 0, t0 = Date.now(), total = cfg.minutes * 60, timer;
+    var SEC = cfg.sections || [{ name: "", start: 0, count: n, minutes: cfg.minutes }], si = 0, s0 = Date.now();
+    function secRange() { return [SEC[si].start, SEC[si].start + SEC[si].count - 1]; }
     var st = Q.map(function (q) { return { ord: shuffle(q.o.length), ans: -1, seen: false, mark: false, time: 0 }; });
     var qStart = Date.now();
     function cls(s) { if (s.mark) return s.ans >= 0 ? "ma" : "mr"; if (s.ans >= 0) return "an"; return s.seen ? "na" : "nv"; }
     function log() { st[cur].time += (Date.now() - qStart) / 1000; qStart = Date.now(); }
     function shell() {
       pane.innerHTML = '<div class="exambar"><b>' + esc(cfg.title) + '</b><span class="row"><span class="small">Time left</span><span class="timer" id="tm"></span></span></div>' +
-        '<div class="exam"><div class="card qcard" id="qa"></div><div class="card stack"><b>Question palette</b><div class="palette" id="pal"></div>' +
+        (SEC.length > 1 ? '<div class="card secbar" id="secbar"></div>' : "") + '<div class="exam"><div class="card qcard" id="qa"></div><div class="card stack"><b>Question palette</b><div class="palette" id="pal"></div>' +
         '<div class="legend"><span><i style="background:#86EFAC"></i>Answered</span><span><i style="background:#FCA5A5"></i>Not answered</span><span><i style="background:#fff"></i>Not visited</span><span><i style="background:#C4B5FD;border-radius:50%"></i>Marked for review</span></div>' +
         '<p class="small muted">+' + cfg.right + ' for a right answer, −' + cfg.wrong + ' for a wrong one, 0 if left blank.</p><div id="sub"><button class="btn btn-ink" id="sb" style="width:100%">Submit test</button></div></div></div>';
       $("#sb", pane).onclick = confirmSub;
     }
+    function secbar() {
+      var b = $("#secbar", pane); if (!b) return;
+      b.innerHTML = '<div class="row" style="justify-content:space-between;flex-wrap:wrap;gap:8px"><span class="row" style="gap:6px;flex-wrap:wrap">' + SEC.map(function (x, i) { return '<span class="tag' + (i === si ? " indigo" : i < si ? " live" : "") + '">' + (i < si ? "✓ " : "") + esc(x.name) + " · " + x.minutes + " min</span>"; }).join("") + "</span>" + (si < SEC.length - 1 ? '<span id="nsw"><button class="btn btn-line btn-sm" id="nsb">Next section →</button></span>' : "") + "</div>";
+      var nb = $("#nsb", pane); if (nb) nb.onclick = function () { $("#nsw", pane).innerHTML = '<span class="small">You cannot come back to this section. </span><button class="btn btn-ink btn-sm" id="nsy">Go on</button> <button class="btn btn-line btn-sm" id="nsn">Stay</button>'; $("#nsy", pane).onclick = nextSection; $("#nsn", pane).onclick = secbar; };
+    }
+    function nextSection() { log(); si++; s0 = Date.now(); cur = SEC[si].start; secbar(); draw(); }
     function draw() {
       var q = Q[cur], s = st[cur]; s.seen = true;
       $("#qa", pane).innerHTML = '<div class="row" style="justify-content:space-between"><span class="tag indigo">Question ' + (cur + 1) + ' of ' + n + '</span>' + (s.mark ? '<span class="tag" style="background:#EDE9FE;color:#5B21B6">Marked for review</span>' : "") + '</div><p class="qtext">' + esc(q.q) + '</p>' + (q.viz ? '<div class="qfig">' + viz(q.viz) + "</div>" : "") +
@@ -3626,24 +3635,26 @@
       $("#nx", pane).onclick = function () { if (s.mark && s.ans >= 0) s.mark = false; go(cur + 1); };
       pal();
     }
-    function pal() { $("#pal", pane).innerHTML = st.map(function (s, k) { return '<button class="' + cls(s) + (k === cur ? " cur" : "") + '" data-k="' + k + '" aria-label="Question ' + (k + 1) + '">' + (k + 1) + "</button>"; }).join(""); $$("#pal button", pane).forEach(function (b) { b.onclick = function () { go(+b.getAttribute("data-k")); }; }); }
-    function go(k) { log(); cur = Math.max(0, Math.min(n - 1, k)); draw(); }
+    function pal() { var R = secRange(); $("#pal", pane).innerHTML = st.map(function (s, k) { if (k < R[0] || k > R[1]) return ""; return '<button class="' + cls(s) + (k === cur ? " cur" : "") + '" data-k="' + k + '" aria-label="Question ' + (k + 1) + '">' + (k + 1) + "</button>"; }).join(""); $$("#pal button", pane).forEach(function (b) { b.onclick = function () { go(+b.getAttribute("data-k")); }; }); }
+    function go(k) { log(); var R = secRange(); cur = Math.max(R[0], Math.min(R[1], k)); draw(); }
     function confirmSub() {
       var un = st.filter(function (s) { return s.ans < 0; }).length;
-      $("#sub", pane).innerHTML = '<p class="small"><b>Submit now?</b> ' + (un ? un + " question" + (un > 1 ? "s are" : " is") + " unanswered." : "All questions answered.") + '</p><div class="row"><button class="btn btn-ink btn-sm" id="yes">Yes, submit</button><button class="btn btn-line btn-sm" id="no">Back</button></div>';
+      $("#sub", pane).innerHTML = '<p class="small"><b>Submit now?</b> ' + (si < SEC.length - 1 ? "This ends the whole test, including sections you have not opened. " : "") + (un ? un + " question" + (un > 1 ? "s are" : " is") + " unanswered." : "All questions answered.") + '</p><div class="row"><button class="btn btn-ink btn-sm" id="yes">Yes, submit</button><button class="btn btn-line btn-sm" id="no">Back</button></div>';
       $("#yes", pane).onclick = finish; $("#no", pane).onclick = function () { $("#sub", pane).innerHTML = '<button class="btn btn-ink" id="sb" style="width:100%">Submit test</button>'; $("#sb", pane).onclick = confirmSub; };
     }
-    function tick() { var left = total - (Date.now() - t0) / 1000; var el = $("#tm", pane); if (!el) return; el.textContent = mmss(left); el.classList.toggle("low", left < 60); if (left <= 0) finish(); }
+    function tick() { var left = SEC.length > 1 ? SEC[si].minutes * 60 - (Date.now() - s0) / 1000 : total - (Date.now() - t0) / 1000; var el = $("#tm", pane); if (!el) return; el.textContent = mmss(left); el.classList.toggle("low", left < 60); if (left <= 0) { if (si < SEC.length - 1) nextSection(); else finish(); } }
     function finish() {
       clearInterval(timer); log();
       var c = 0, w = 0; st.forEach(function (s) { if (s.ans === 0) c++; else if (s.ans >= 0) w++; });
       var score = c * cfg.right - w * cfg.wrong, used = Math.min(total, (Date.now() - t0) / 1000);
+      var secRows = SEC.length > 1 ? SEC.map(function (x) { var a = 0, b = 0; for (var k = x.start; k < x.start + x.count; k++) { if (st[k].ans === 0) a++; else if (st[k].ans >= 0) b++; } return "<tr><td>" + esc(x.name) + "</td><td>" + a + "</td><td>" + b + "</td><td>" + (x.count - a - b) + "</td><td><b>" + r2(a * cfg.right - b * cfg.wrong) + "</b> / " + x.count * cfg.right + "</td></tr>"; }).join("") : "";
       var res = { score: r2(score), max: n * cfg.right, c: c, w: w, skip: n - c - w, time: Math.round(used), when: Date.now() };
       track("ssc_test_submit", { test: cfg.id, score: res.score });
       onDone && onDone(res);
       var acc = c + w ? Math.round(c / (c + w) * 100) : 0;
       pane.innerHTML = '<div class="card stack"><h2>Your result</h2><div class="score">' +
         [[res.score + " / " + res.max, "score"], [c + " right · " + w + " wrong", res.skip + " left blank"], [acc + "%", "accuracy"], [mmss(used), "time used"]].map(function (x) { return '<div class="stat"><b style="font-size:22px">' + x[0] + "</b><span>" + x[1] + "</span></div>"; }).join("") + '</div>' +
+        (secRows ? '<div class="tscroll"><table class="pt"><tr><th>Section</th><th>Right</th><th>Wrong</th><th>Blank</th><th>Score</th></tr>' + secRows + "</table></div>" : "") +
         '<p class="muted">' + (w * cfg.wrong >= cfg.right ? "Wrong answers cost you " + r2(w * cfg.wrong) + " marks. In the real exam, skip a question when you cannot narrow it down to two options." : "Good control of negative marking.") + '</p>' +
         '<div class="row"><button class="btn btn-accent" id="again">Retake the test</button><button class="btn btn-line" id="rv">Review answers ↓</button></div></div>' +
         '<div class="review" id="review" style="margin-top:16px">' + Q.map(function (q, k) {
@@ -3653,7 +3664,7 @@
       $("#again", pane).onclick = function () { runTest(pane, cfg, onDone); };
       $("#rv", pane).onclick = function () { $("#review", pane).scrollIntoView({ behavior: "smooth" }); };
     }
-    shell(); draw(); tick(); timer = setInterval(tick, 500);
+    shell(); secbar(); draw(); tick(); timer = setInterval(tick, 500);
     var prev = cleanup; cleanup = function () { clearInterval(timer); if (prev) prev(); };
   }
 
@@ -3676,12 +3687,50 @@
   }
 
   /* ---------- mocks & progress ---------- */
+  var T2ONLY = ["esi", "stats-prob"];
+  function rng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+  function pickFrom(subj, count, seed, tier1) {
+    var R = rng(seed), tops = Object.keys(TOP).filter(function (k) { return TOP[k].subject === subj && !(tier1 && T2ONLY.indexOf(k) >= 0); }).sort();
+    var pools = tops.map(function (k) { var a = TOP[k].practice.concat(TOP[k].test.items).map(function (q) { return { q: q.q, o: q.o, why: q.why, viz: q.viz }; }); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(R() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; });
+    for (var i = pools.length - 1; i > 0; i--) { var j = Math.floor(R() * (i + 1)), t = pools[i]; pools[i] = pools[j]; pools[j] = t; }
+    var out = [], r = 0; while (out.length < count && pools.some(function (p) { return p.length; })) { var p = pools[r % pools.length]; if (p.length) out.push(p.pop()); r++; }
+    return out;
+  }
+  var MOCKS = [
+    { id: "sec-quant", kind: "Sectional", title: "Quantitative Aptitude sectional", parts: [["quant", "Quant", 25, 15]], right: 2, wrong: 0.5, tier1: true, seed: 11 },
+    { id: "sec-reasoning", kind: "Sectional", title: "Reasoning sectional", parts: [["reasoning", "Reasoning", 25, 15]], right: 2, wrong: 0.5, tier1: true, seed: 12 },
+    { id: "sec-english", kind: "Sectional", title: "English sectional", parts: [["english", "English", 25, 15]], right: 2, wrong: 0.5, tier1: true, seed: 13 },
+    { id: "sec-ga", kind: "Sectional", title: "General Awareness sectional", parts: [["ga", "GA", 25, 15]], right: 2, wrong: 0.5, tier1: true, seed: 14 }
+  ];
+  [1, 2, 3].forEach(function (k) { MOCKS.push({ id: "t1-" + k, kind: "Tier 1", title: "Tier 1 full mock " + k, parts: [["reasoning", "Reasoning", 25, 15], ["ga", "General Awareness", 25, 15], ["quant", "Quantitative Aptitude", 25, 15], ["english", "English", 25, 15]], right: 2, wrong: 0.5, tier1: true, seed: 100 + k }); });
+  [1, 2].forEach(function (k) { MOCKS.push({ id: "t2-" + k, kind: "Tier 2", title: "Tier 2 Paper I mock " + k, parts: [["quant", "Mathematical Abilities", 30, 30], ["reasoning", "Reasoning", 30, 30], ["english", "English", 45, 40], ["ga", "General Awareness", 25, 20], ["computer", "Computer Knowledge", 20, 15]], right: 3, wrong: 1, tier1: false, seed: 200 + k }); });
+  function buildMock(M) {
+    var items = [], sections = [];
+    M.parts.forEach(function (p, i) { var it = pickFrom(p[0], p[2], M.seed * 31 + i, M.tier1); sections.push({ name: p[1], start: items.length, count: it.length, minutes: p[3] }); items = items.concat(it); });
+    return { id: M.id, title: M.title, items: items, sections: sections.length > 1 ? sections : null, minutes: M.parts.reduce(function (a, p) { return a + p[3]; }, 0), right: M.right, wrong: M.wrong };
+  }
   function mocks() {
-    var h = '<h1>Mock tests</h1><p class="muted" style="margin:8px 0 18px">Every test uses the real exam screen: a question palette, mark for review, a timer and negative marking.</p><div class="grid g2">';
-    D.mocks.forEach(function (m) { h += '<div class="card stack"><div class="row" style="justify-content:space-between"><h3>' + esc(m[0]) + '</h3><span class="tag ' + m[2] + '">' + (m[2] === "live" ? "Live" : "Coming soon") + '</span></div><p class="muted small">' + esc(m[1]) + '</p></div>'; });
-    h += '</div><div class="sec"><h2>Topic mini-tests available now</h2></div><div class="grid g3">';
+    var h = '<h1>Mock tests</h1><p class="muted" style="margin:8px 0 18px">Every test uses the real exam screen: a question palette, mark for review, section timers and negative marking. Questions are drawn evenly from every topic; each numbered mock is always the same paper, so you can retake it and compare.</p>';
+    ["Sectional", "Tier 1", "Tier 2"].forEach(function (kind) {
+      h += '<div class="sec"><h2>' + (kind === "Sectional" ? "Sectional tests (Tier 1 style)" : kind === "Tier 1" ? "Tier 1 full mocks" : "Tier 2 Paper I mocks") + '</h2></div><div class="grid g3">';
+      MOCKS.filter(function (m) { return m.kind === kind; }).forEach(function (m) {
+        var p = store.get("mock-" + m.id), q = m.parts.reduce(function (a, x) { return a + x[2]; }, 0), mins = m.parts.reduce(function (a, x) { return a + x[3]; }, 0);
+        h += '<div class="card stack"><b>' + esc(m.title) + '</b><span class="small muted">' + q + " Qs · " + mins + " min · +" + m.right + " / −" + m.wrong + (m.parts.length > 1 ? " · " + m.parts.length + " timed sections" : "") + '</span>' + (p.test ? '<span class="tag live">Best ' + p.test.best + "/" + p.test.max + " · last " + p.test.last + "</span>" : '<span class="tag indigo">Not attempted</span>') + '<button class="btn btn-accent btn-sm" data-m="' + m.id + '" style="justify-self:start">Start</button></div>';
+      });
+      h += "</div>";
+    });
+    h += '<p class="small muted" style="margin-top:14px">Pattern as per the SSC CGL scheme (Tier 1: 100 Qs, 60 min, 15-minute sections, −0.50; Tier 2 Paper I: +3 / −1, module timers). Always check the latest official notice at ssc.gov.in.</p>';
+    h += '<div class="sec"><h2>Topic mini-tests</h2></div><div class="grid g3">';
     Object.keys(TOP).forEach(function (k) { var T = TOP[k], p = store.get(k); h += '<a class="card stack" style="text-decoration:none;color:inherit" href="#/t/' + k + '/test"><b>' + esc(T.title) + '</b><span class="small muted">' + T.test.items.length + ' Qs · ' + T.test.minutes + ' min</span>' + (p.test ? '<span class="tag live">Best ' + p.test.best + '/' + p.test.max + '</span>' : '<span class="tag indigo">Not attempted</span>') + '</a>'; });
     app.innerHTML = h + '</div>';
+    $$("button[data-m]", app).forEach(function (b) { b.onclick = function () { location.hash = "#/mock/" + b.getAttribute("data-m"); }; });
+  }
+  function startMock(id) {
+    var M = MOCKS.filter(function (m) { return m.id === id; })[0];
+    if (!M) { mocks(); return; }
+    var cfg = buildMock(M), q = cfg.items.length;
+    app.innerHTML = '<div class="crumb"><a href="#/mocks">Mock tests</a> › ' + esc(M.title) + '</div><div id="mockpane"><div class="card stack"><h2>' + esc(M.title) + '</h2><p class="muted">' + q + " questions · " + cfg.minutes + " minutes · +" + M.right + " for right, −" + M.wrong + " for wrong." + (cfg.sections ? " Sections: " + cfg.sections.map(function (x) { return esc(x.name) + " (" + x.count + " Qs, " + x.minutes + " min)"; }).join(", ") + ". Each section has its own timer; once you move on, you cannot go back." : "") + '</p><button class="btn btn-accent" id="mgo" style="justify-self:start">Start the test</button></div></div>';
+    $("#mgo").onclick = function () { runTest($("#mockpane"), cfg, function (res) { var old = store.get("mock-" + M.id).test || {}; store.set("mock-" + M.id, "test", { best: Math.max(old.best === undefined ? -999 : old.best, res.score), last: res.score, max: res.max }); }); };
   }
   function progress() {
     var h = '<h1>My progress</h1><p class="muted" style="margin:8px 0 18px">Saved in this browser only.</p><div class="grid g2">';

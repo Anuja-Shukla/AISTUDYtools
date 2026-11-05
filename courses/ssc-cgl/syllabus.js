@@ -97,9 +97,9 @@ window.SSC = {
   ],
   mocks: [
     ["Topic mini-tests", "10 questions after every topic, timed, with negative marking", "live"],
-    ["Sectional tests", "25-question tests for each Tier 1 subject, after the subject is complete", "soon"],
-    ["Tier 1 full mocks", "100 questions, 60 minutes, real exam screen", "soon"],
-    ["Tier 2 Paper I mocks", "Sections I, II and III with section timers", "soon"]
+    ["Sectional tests", "25-question tests for each Tier 1 subject, 15 minutes each", "live"],
+    ["Tier 1 full mocks", "100 questions, 60 minutes, four 15-minute sections, real exam screen", "live"],
+    ["Tier 2 Paper I mocks", "150 questions across five timed modules, +3 / −1", "live"]
   ]
 };
 window.SSC_TOPICS = window.SSC_TOPICS || {};
