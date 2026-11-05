@@ -91,7 +91,7 @@ window.SSC = {
       units: [
         ["basics", "Computer basics", "soon"], ["software", "Software & MS Office", "soon"],
         ["internet", "Internet & email", "soon"], ["networking", "Networking & cyber security", "soon"],
-        ["typing", "Data entry speed test practice", "soon"]
+        ["typing", "Data entry speed test practice", "live"]
       ]
     }
   ],
