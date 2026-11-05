@@ -294,3 +294,4 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 .errparts{display:grid;grid-template-columns:1fr;gap:6px;margin:8px 0}
 .pjorder div{padding:4px 0;border-bottom:1px dashed var(--border);font-size:14px}
 .qtext{white-space:pre-line}
+.cztext{line-height:2.1;margin:8px 0}.cztext select{font:inherit;padding:2px 4px;border:2px solid var(--border);border-radius:8px;max-width:150px}

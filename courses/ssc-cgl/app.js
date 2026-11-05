@@ -3074,6 +3074,36 @@
         $("#pgg", el).onclick = round; if (B.length) round();
       }
     }
+    ,
+    clozepass: {
+      title: "Fill the passage", html: '<div class="field"><label for="czp">Passage</label><select id="czp"></select></div><div id="czt" class="cztext"></div><div class="row" style="gap:6px"><button class="btn btn-accent btn-sm" id="czc">Check answers</button></div><div class="out" id="czo"></div>',
+      init: function (el, T) {
+        var B = T.bank || [];
+        $("#czp", el).innerHTML = B.map(function (p, i) { return '<option value="' + i + '">Passage ' + (i + 1) + "</option>"; }).join("");
+        function load() {
+          var p = B[+$("#czp", el).value], h = esc(p.t);
+          p.b.forEach(function (b, k) { var ord = shuffle(4); h = h.replace("(" + (k + 1) + ")", '<select data-k="' + k + '" aria-label="Blank ' + (k + 1) + '"><option value="">(' + (k + 1) + ")</option>" + ord.map(function (j) { return '<option value="' + j + '">' + esc(b[j]) + "</option>"; }).join("") + "</select>"); });
+          $("#czt", el).innerHTML = h; $("#czo", el).innerHTML = "Choose a word for each blank<small>Then press Check answers.</small>";
+        }
+        $("#czc", el).onclick = function () {
+          var p = B[+$("#czp", el).value], right = 0, notes = [];
+          $$("#czt select", el).forEach(function (s) { var k = +s.getAttribute("data-k"), ok = s.value === "0"; if (ok) right++; s.style.borderColor = s.value === "" ? "" : ok ? "var(--mint-fg)" : "var(--red-fg)"; if (!ok) notes.push("(" + (k + 1) + ") " + p.b[k][0] + " — " + p.b[k][4]); });
+          $("#czo", el).innerHTML = right + " of 5 correct<small>" + (notes.length ? notes.map(esc).join(" ") : "All blanks are right.") + "</small>";
+        };
+        $("#czp", el).onchange = load; if (B.length) load();
+      }
+    },
+    blankpos: {
+      title: "What fits this blank?", html: '<div class="field"><label for="bpw">Word just before the blank</label><input type="text" id="bpw" value="has"></div><div class="row" style="gap:6px;flex-wrap:wrap" id="bpx"></div><div class="out" id="bpo"></div>',
+      init: function (el) {
+        var R = [[/^(a|an|the|this|that|my|your|his|her|their|our|its)$/, "A noun, or an adjective + noun", "a great help · the river"], [/^(very|too|so|quite|more|most|less|rather)$/, "An adjective or adverb", "very patient · so quickly"], [/^(can|could|will|would|shall|should|may|might|must|to|do|does|did)$/, "The base form of a verb", "can send · to start"], [/^(has|have|had)$/, "A past participle (V3)", "has changed · had built"], [/^(is|am|are|was|were|be|been|being)$/, "An adjective, a V3 (passive) or a verb + -ing", "been important · was built · is running"], [/^(stop|stopped|enjoy|enjoys|avoid|avoided|finish|finished|mind|keep|kept|suggest|suggested)$/, "A verb + -ing", "stop dumping · enjoy reading"], [/^(depend|depends|depended|rely|insist)$/, "on", "depend on"], [/^(of|in|on|at|for|with|by|from|about)$/, "A noun or a verb + -ing", "fond of reading · in the morning"]];
+        var EX = ["a", "very", "can", "has", "been", "stop", "depend", "of"];
+        $("#bpx", el).innerHTML = EX.map(function (e) { return '<button class="chip">' + e + "</button>"; }).join("");
+        function up() { var w = $("#bpw", el).value.trim().toLowerCase(), r = R.filter(function (x) { return x[0].test(w); })[0], o = $("#bpo", el); o.innerHTML = r ? r[1] + "<small>Example: " + r[2] + "</small>" : "Read the word after the blank too<small>Try words like a, very, can, has, been, stop, depend, of.</small>"; }
+        $$("#bpx .chip", el).forEach(function (b) { b.onclick = function () { $("#bpw", el).value = b.textContent; up(); }; });
+        $("#bpw", el).oninput = up; up();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
