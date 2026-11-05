@@ -5,5 +5,5 @@
   Leave a lesson empty ("") to show the built-in animated walkthrough instead.
 */
 window.CSBC_VIDEOS = {
-  "1.1": "videos/CSBC_1-1_Grammar_Essentials.mp4", "1.2": "videos/CSBC_1-2_Vocabulary.mp4", "1.3": "", "2.1": "", "2.2": "", "3.1": "", "3.2": "", "4.1": ""
+  "1.1": "videos/CSBC_1-1_Grammar_Essentials.mp4", "1.2": "videos/CSBC_1-2_Vocabulary.mp4", "1.3": "", "2.1": "videos/CSBC_2-1_Communication.mp4", "2.2": "", "3.1": "", "3.2": "", "4.1": ""
 };
