@@ -2783,6 +2783,56 @@
         $$("select", el).forEach(function (s) { s.onchange = up; }); up();
       }
     }
+    ,
+    idiomdrill: {
+      title: "Idiom drill", html: '<div class="big" id="idq" style="text-align:center;font-size:20px;font-weight:800;margin:6px 0">…</div><div class="opts" id="ido"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="ids">0</b> / <b id="idn">0</b></span><button class="btn btn-accent btn-sm" id="idg">Next</button></div><div class="why" id="idw" hidden></div>',
+      init: function (el, T) {
+        var B = T.bank || [], sc = 0, n = 0;
+        function round() {
+          var i = Math.floor(Math.random() * B.length), w = B[i], pool = [w[1]], done = false;
+          while (pool.length < 4) { var r = B[Math.floor(Math.random() * B.length)][1]; if (pool.indexOf(r) < 0) pool.push(r); }
+          var ord = shuffle(4);
+          $("#idq", el).textContent = "“" + w[0] + "”"; $("#idw", el).hidden = true;
+          $("#ido", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-ok="' + (k === 0 ? 1 : 0) + '">' + esc(pool[k]) + "</button>"; }).join("");
+          $$("#ido .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#ido .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#ids", el).textContent = sc; $("#idn", el).textContent = n; $("#idw", el).hidden = false; $("#idw", el).textContent = "Example: " + w[3]; }; });
+        }
+        $("#idg", el).onclick = round; if (B.length) round();
+      }
+    },
+    idiomfit: {
+      title: "Which idiom fits?", html: '<div id="ifq" style="font-weight:700;line-height:1.5;margin:6px 0">…</div><div class="opts" id="ifo"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="ifs">0</b> / <b id="ifn">0</b></span><button class="btn btn-accent btn-sm" id="ifg">Next</button></div><div class="why" id="ifw" hidden></div>',
+      init: function (el, T) {
+        var B = (T.bank || []).filter(function (b) { return b[3].toLowerCase().indexOf(b[0].split(" ")[0]) >= 0; }), sc = 0, n = 0;
+        function blank(b) {
+          var words = b[0].replace(/one’s/, "").split(/\s+/).filter(Boolean), s = b[3], lo = s.toLowerCase(), mm = new RegExp("(^|[^a-z])" + words[0].replace(/[^a-z]/g, ""), "i").exec(s), start = mm ? mm.index + mm[1].length : -1, lastW = words[words.length - 1], end = lo.lastIndexOf(lastW); if (end < start) end = -1;
+          if (start < 0 || end < 0) return null;
+          end += lastW.length; while (end < s.length && /[a-z’]/i.test(s[end])) end++;
+          return s.slice(0, start) + "_____" + s.slice(end);
+        }
+        function round() {
+          var b, q, t = 0; do { b = B[Math.floor(Math.random() * B.length)]; q = blank(b); t++; } while (!q && t < 30);
+          var pool = [b[0]], done = false; while (pool.length < 4) { var r = B[Math.floor(Math.random() * B.length)][0]; if (pool.indexOf(r) < 0) pool.push(r); }
+          var ord = shuffle(4);
+          $("#ifq", el).textContent = q; $("#ifw", el).hidden = true;
+          $("#ifo", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-ok="' + (k === 0 ? 1 : 0) + '">' + esc(pool[k]) + "</button>"; }).join("");
+          $$("#ifo .opt", el).forEach(function (bt) { bt.onclick = function () { if (done) return; done = true; n++; var ok = bt.getAttribute("data-ok") === "1"; if (ok) sc++; bt.classList.add(ok ? "right" : "wrong"); $$("#ifo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#ifs", el).textContent = sc; $("#ifn", el).textContent = n; $("#ifw", el).hidden = false; $("#ifw", el).textContent = "“" + b[0] + "” = " + b[1] + "."; }; });
+        }
+        $("#ifg", el).onclick = round; if (B.length) round();
+      }
+    },
+    idiomtheme: {
+      title: "Idioms by theme", html: '<div class="row" id="itc" style="gap:6px;flex-wrap:wrap"></div><div class="tscroll"><table class="pt" id="itt"></table></div>',
+      init: function (el, T) {
+        var B = T.bank || [], th = ["secrets", "talk", "time", "effort", "feelings", "trouble", "money"], cur = "time";
+        $("#itc", el).innerHTML = th.map(function (t) { return '<button class="chip" data-t="' + t + '">' + t + "</button>"; }).join("");
+        function up() {
+          $$("#itc .chip", el).forEach(function (c) { c.style.borderColor = c.getAttribute("data-t") === cur ? "var(--accent)" : ""; });
+          $("#itt", el).innerHTML = "<tr><th>Idiom</th><th>Meaning</th></tr>" + B.filter(function (b) { return b[2] === cur; }).map(function (b) { return "<tr><td><b>" + esc(b[0]) + "</b></td><td>" + esc(b[1]) + "</td></tr>"; }).join("");
+        }
+        $$("#itc .chip", el).forEach(function (c) { c.onclick = function () { cur = c.getAttribute("data-t"); up(); }; });
+        up();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
