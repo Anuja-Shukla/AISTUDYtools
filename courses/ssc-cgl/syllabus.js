@@ -52,7 +52,7 @@ window.SSC = {
       blurb: "Verbal and non-verbal reasoning: series, coding, relations, puzzles and figures.",
       units: [
         ["analogy", "Analogy", "live"], ["classification", "Classification (odd one out)", "live"],
-        ["series", "Number, letter & figure series", "soon"], ["coding", "Coding-decoding", "soon"],
+        ["series", "Number, letter & figure series", "live"], ["coding", "Coding-decoding", "soon"],
         ["blood-relations", "Blood relations", "soon"], ["direction", "Direction sense", "soon"],
         ["ranking", "Order & ranking", "soon"], ["math-ops", "Mathematical operations", "soon"],
         ["syllogism", "Syllogism", "soon"], ["venn", "Venn diagrams", "soon"],
