@@ -3249,6 +3249,20 @@
       title: "Layers of the atmosphere", html: '<div class="tscroll"><table class="pt"><tr><th>Layer</th><th>Height (approx.)</th><th>Key fact</th></tr><tr><td>Exosphere</td><td>above ~600 km</td><td>Thinnest; merges into space</td></tr><tr><td>Thermosphere</td><td>~80–600 km</td><td>Includes the ionosphere, which reflects radio waves</td></tr><tr><td>Mesosphere</td><td>~50–80 km</td><td>Coldest layer; meteors burn up</td></tr><tr><td>Stratosphere</td><td>~12–50 km</td><td>Ozone layer; jets fly in its lower part</td></tr><tr><td>Troposphere</td><td>0–~12 km</td><td>All weather happens here</td></tr></table></div>',
       init: function () {}
     }
+    ,
+    ratelever: {
+      title: "What does the RBI lever do?", html: '<div class="grid2"><div class="field"><label for="rll">Lever</label><select id="rll"><option value="repo">Repo rate</option><option value="rrepo">Reverse repo rate</option><option value="crr">CRR</option><option value="slr">SLR</option></select></div><div class="field"><label for="rld">Change</label><select id="rld"><option value="up">Raise</option><option value="down">Cut</option></select></div></div><div class="tscroll"><table class="pt" id="rlt"></table></div><div class="out" id="rlo"></div>',
+      init: function (el) {
+        var D = { repo: "the rate at which the RBI lends to banks", rrepo: "the rate the RBI pays banks for money parked with it", crr: "the share of deposits banks must keep with the RBI", slr: "the share of deposits banks must keep in liquid assets" };
+        function up() {
+          var l = $("#rll", el).value, up_ = $("#rld", el).value === "up", tight = up_;
+          var rows = [["Money banks can lend", tight ? "falls ↓" : "rises ↑"], ["Interest on loans", tight ? "rises ↑" : "falls ↓"], ["Spending and demand", tight ? "slow down ↓" : "pick up ↑"], ["Inflation", tight ? "eases ↓" : "may rise ↑"]];
+          $("#rlt", el).innerHTML = "<tr><th>Effect</th><th>Direction</th></tr>" + rows.map(function (r) { return "<tr><td>" + r[0] + "</td><td>" + r[1] + "</td></tr>"; }).join("");
+          $("#rlo", el).innerHTML = (tight ? "Tight money policy" : "Easy money policy") + "<small>" + ({ repo: "Repo", rrepo: "Reverse repo", crr: "CRR", slr: "SLR" }[l]) + " is " + D[l] + ". " + (tight ? "Raising it is used to fight inflation." : "Cutting it is used to boost growth.") + "</small>";
+        }
+        $$("select", el).forEach(function (s) { s.onchange = up; }); up();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
