@@ -1322,7 +1322,7 @@
   /* spread quick-check answers across positions (the final test is shuffled per attempt) */
   (function () { var T = [1, 0, 2, 3, 2, 1, 0, 3, 3, 1, 2, 0, 1, 3]; var k = 0; LESSONS.forEach(function (l) { l.qc.forEach(function (q) { var t = T[k++ % T.length], a = q.a, o = q.o[a]; q.o[a] = q.o[t]; q.o[t] = o; q.a = t; }); }); })();
 
-  /* ================= GENERIC TOOLS (shared by all CA Foundation papers) =================
+  /* ================= GENERIC TOOLS (shared by all papers) =================
      sort:  l.tcfg = { d, buckets: [..], items: [[text, bucket, why], ..] }  — classify each item
      cases: l.tcfg = { d, cases: [{ q, o: [..], a, e }, ..] }                  — scenario trainer   */
   function shuffleCopy(a) { var b = a.slice(); for (var i = b.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = b[i]; b[i] = b[j]; b[j] = t; } return b; }
@@ -1353,7 +1353,7 @@
     d: function (l) { return l.tcfg.d || "Work through each case. Choose an answer to see the explanation, then move to the next case."; },
     b: function () { return ""; },
     wire: function (l, cout) {
-      var cs = l.tcfg.cases, k = 0, ans = {};
+      var cs = l.tcfg.cases.map(function (c) { var p = shuffleCopy(c.o.map(function (_, i) { return i; })); return { q: c.q, e: c.e, o: p.map(function (i) { return c.o[i]; }), a: p.indexOf(c.a) }; }), k = 0, ans = {};
       function draw() {
         var c = cs[k], a = ans[k], right = Object.keys(ans).filter(function (i) { return ans[i] === cs[i].a; }).length;
         cout.innerHTML = '<div class="row" style="justify-content:space-between"><span class="tag indigo">Case ' + (k + 1) + " of " + cs.length + '</span><span class="small muted">' + right + " correct so far</span></div>" +
@@ -1386,6 +1386,7 @@
     card.addEventListener("click", function (e) { if (e.target.closest("[data-run]")) run(); });
     run();
   }
+  var BODY = CFG.body || { name: "ICAI", full: "the Institute of Chartered Accountants of India (ICAI)", site: "icai.org", home: "https://www.icai.org/", exam: "CA Foundation" };
   /* ================= STATE ================= */
   var KEY = CFG.key;
   var st;
@@ -1424,7 +1425,7 @@
     var h = '<section class="hero"><div><span class="tag">Free course · about ' + CFG.hours + ' hours · ' + LESSONS.length + ' lessons</span><h1 style="margin-top:14px">' + CFG.title + '</h1>' +
       '<p class="lead">' + CFG.lead + '</p>' +
       '<p class="muted" style="margin-top:12px">' + CFG.intro + '</p>' +
-      '<p class="small muted" style="margin-top:10px">' + CFG.exam + ' Always confirm the current scheme on <a href="https://www.icai.org/" target="_blank" rel="noopener">icai.org</a>.</p>' +
+      '<p class="small muted" style="margin-top:10px">' + CFG.exam + ' Always confirm the current scheme on <a href="' + BODY.home + '" target="_blank" rel="noopener">' + BODY.site + '</a>.</p>' +
       '<div class="row" style="margin-top:18px">' + cta + '<a class="btn btn-soft" href="#/path">See the course path</a></div></div>' +
       '<div class="card" style="text-align:center">' + progressRing() + '<div class="stack small" style="margin-top:14px;text-align:left">' +
       "<div>📘 Lessons completed: <b>" + doneCount() + " of " + LESSONS.length + "</b></div>" +
@@ -1486,7 +1487,7 @@
     h += '<div class="sec"><div class="card">' + l.extra() + "</div></div>";
     h += '<div class="sec"><h3>Try it yourself</h3>' + toolBlock(l) + "</div>";
     h += '<div class="sec"><h3>When to use it · common mistakes</h3>' + list(l.use) + "</div>";
-    h += '<div class="sec"><div class="note">📗 <b>Official study material:</b> this lesson covers the topics of ' + l.ch + ' of the CA Foundation ' + CFG.paper + ' syllabus (' + CFG.edition + '). For the full official text and more practice questions, read ICAI\'s free study material on <a href="' + ICAI_URL + '" target="_blank" rel="noopener">icai.org</a>.</div></div>';
+    h += '<div class="sec"><div class="note">📗 <b>Official study material:</b> this lesson covers the topics of ' + l.ch + ' of the ' + BODY.exam + ' ' + CFG.paper + ' syllabus (' + CFG.edition + '). For the full official text and more practice questions, read ' + BODY.name + '\'s study material on <a href="' + ICAI_URL + '" target="_blank" rel="noopener">' + BODY.site + '</a>.</div></div>';
     h += '<div class="sec"><h3>Quick check</h3><div class="stack" id="qc">' + quizBlock(l.qc, id) + "</div></div>";
     var next = LESSONS[i + 1];
     h += '<div class="sec card" id="donebox"></div>';
@@ -1627,7 +1628,7 @@
       '<p class="muted small" style="margin-top:6px">' + CFG.certSub + '</p><p style="margin-top:12px">with a final test score of <b>' + c.score + "%</b></p>" +
       '<div class="row" style="justify-content:space-between;margin-top:26px;text-align:left"><div class="small"><b>Date:</b> ' + esc(c.date) + "<br><b>Certificate ID:</b> " + esc(c.id) + '</div><div class="small" style="text-align:right;width:220px;max-width:100%">' + SIG_SVG + '<div style="border-top:1px solid #C9CCF7;padding-top:4px;margin-top:2px"><b>Founder</b><br>Intellique Research School</div></div></div></div>' +
       '<div class="row noprint" style="justify-content:center;margin-top:18px"><button class="btn btn-accent" id="cpdf">Download certificate (PDF)</button><button class="btn btn-soft" id="cprint">Print</button></div>' +
-      '<p class="small muted noprint" style="text-align:center;margin-top:10px">This is a certificate of completion issued by AIStudyTools, a subsidiary of Intellique Research School Private Limited. It is not an accredited qualification, and it is not issued by or affiliated with the Institute of Chartered Accountants of India (ICAI).</p>';
+      '<p class="small muted noprint" style="text-align:center;margin-top:10px">This is a certificate of completion issued by AIStudyTools, a subsidiary of Intellique Research School Private Limited. It is not an accredited qualification, and it is not issued by or affiliated with ' + BODY.full + '.</p>';
   }
   function certWire() {
     var g = document.getElementById("cgo2");
@@ -1667,7 +1668,7 @@ var SIG_SVG = '<svg style="width:100%;height:auto;display:block" xmlns="http://w
     doc.text("Date: " + c.date, 30, H - 30); doc.text("Certificate ID: " + c.id, 30, H - 24);
     doc.setFont("helvetica", "bold"); doc.setTextColor(30, 27, 75); doc.text("Founder", W - 30, H - 30, { align: "right" });
     doc.setFont("helvetica", "normal"); doc.setTextColor(74, 72, 120); doc.text("Intellique Research School", W - 30, H - 24, { align: "right" });
-    doc.setFontSize(8.5); doc.setTextColor(150, 150, 170); doc.text("Certificate of completion issued by AIStudyTools (www.aistudytools.com), a subsidiary of Intellique Research School Private Limited.", W / 2, H - 17, { align: "center" }); doc.text("Not an accredited qualification. Not issued by or affiliated with the Institute of Chartered Accountants of India (ICAI).", W / 2, H - 13, { align: "center" });
+    doc.setFontSize(8.5); doc.setTextColor(150, 150, 170); doc.text("Certificate of completion issued by AIStudyTools (www.aistudytools.com), a subsidiary of Intellique Research School Private Limited.", W / 2, H - 17, { align: "center" }); doc.text("Not an accredited qualification. Not issued by or affiliated with " + BODY.full + ".", W / 2, H - 13, { align: "center" });
     sigPng(function (png) {
       if (png) doc.addImage(png, "PNG", W - 86, H - 48.5, 56, 12.4);
       doc.setDrawColor(201, 204, 247); doc.setLineWidth(0.4); doc.line(W - 86, H - 35, W - 30, H - 35);
