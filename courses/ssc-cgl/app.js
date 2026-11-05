@@ -3296,6 +3296,25 @@
         $("#phv", el).oninput = up; up();
       }
     }
+    ,
+    vitatable: {
+      title: "Vitamins at a glance", html: '<div class="tscroll"><table class="pt"><tr><th>Vitamin</th><th>Good sources</th><th>Lack causes</th></tr><tr><td>A</td><td>carrot, milk, green leafy vegetables</td><td>night blindness</td></tr><tr><td>B1 (thiamine)</td><td>whole grains, pulses</td><td>beriberi</td></tr><tr><td>B3 (niacin)</td><td>meat, nuts, grains</td><td>pellagra</td></tr><tr><td>B12</td><td>milk, eggs, meat</td><td>anaemia</td></tr><tr><td>C</td><td>citrus fruits, amla, tomato</td><td>scurvy</td></tr><tr><td>D</td><td>sunlight, fish oil, egg yolk</td><td>rickets (children), osteomalacia (adults)</td></tr><tr><td>E</td><td>nuts, vegetable oils</td><td>weakness, fertility problems</td></tr><tr><td>K</td><td>green leafy vegetables</td><td>poor blood clotting</td></tr></table></div><p class="note">Fat-soluble: A, D, E, K. Water-soluble: B group and C.</p>',
+      init: function () {}
+    },
+    bloodcheck: {
+      title: "Blood donor checker", html: '<div class="grid2"><div class="field"><label for="bcd">Donor</label><select id="bcd"></select></div><div class="field"><label for="bcr">Recipient</label><select id="bcr"></select></div></div><div class="out" id="bco"></div>',
+      init: function (el) {
+        var G = ["O−", "O+", "A−", "A+", "B−", "B+", "AB−", "AB+"];
+        $("#bcd", el).innerHTML = G.map(function (g) { return "<option>" + g + "</option>"; }).join(""); $("#bcr", el).innerHTML = $("#bcd", el).innerHTML; $("#bcr", el).value = "AB+";
+        function ag(g) { return { A: /A/.test(g.replace("+", "").replace("−", "")) && g.indexOf("A") === 0 || g.indexOf("AB") === 0, B: g.indexOf("B") >= 0, Rh: g.indexOf("+") >= 0 }; }
+        function up() {
+          var d = $("#bcd", el).value, r = $("#bcr", el).value, D = ag(d), R = ag(r), ok = (!D.A || R.A) && (!D.B || R.B) && (!D.Rh || R.Rh);
+          var can = G.filter(function (x) { var X = ag(x); return (!D.A || X.A) && (!D.B || X.B) && (!D.Rh || X.Rh); });
+          $("#bco", el).innerHTML = (ok ? "Compatible ✓" : "Not compatible ✗") + "<small>" + d + " red cells can go to: " + can.join(", ") + ". The recipient must not lack any antigen (A, B, Rh) that the donor has.</small>";
+        }
+        $$("select", el).forEach(function (s) { s.onchange = up; }); up();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
