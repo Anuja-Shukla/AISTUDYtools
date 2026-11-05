@@ -4,7 +4,7 @@ window.SSC_TOPICS["biology"] = {
   id: "biology", subject: "ga", num: 7, title: "Biology",
   minutes: 30,
   why: "Biology gives 2–4 GA marks: the cell, vitamins and deficiency diseases, blood groups, human organs and common diseases. Learn the tables — they cover most questions.",
-  video: "videos/SSC_G07_Biology.mp4",
+  video: "videos/SSC_G07_Biology.mp4?v=2",
   slides: [
     { h: "The cell", body: "<ul><li>The <b>cell</b> is the basic unit of life.</li><li>Mitochondria – “powerhouse of the cell” (energy).</li><li>Chloroplasts – photosynthesis (plants only).</li><li>Nucleus – controls the cell and holds DNA.</li></ul>" },
     { h: "Vitamins", body: "<table class=\"pt\"><tr><th>Vitamin</th><th>Deficiency</th></tr><tr><td>A</td><td>night blindness</td></tr><tr><td>B1</td><td>beriberi</td></tr><tr><td>C</td><td>scurvy</td></tr><tr><td>D</td><td>rickets (made by skin in sunlight)</td></tr><tr><td>K</td><td>poor blood clotting</td></tr></table>",
