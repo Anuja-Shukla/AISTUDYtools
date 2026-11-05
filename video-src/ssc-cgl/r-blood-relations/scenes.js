@@ -33,7 +33,7 @@ var SPEC = [
 {
 "k": "chips",
 "t": "Draw the tree",
-"chips": [
+"items": [
 "One row per generation",
 "Parents above",
 "Children below",

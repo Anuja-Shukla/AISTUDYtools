@@ -15,7 +15,7 @@ var SPEC = [
 {
 "k": "chips",
 "t": "The compass",
-"chips": [
+"items": [
 "N ↑",
 "E →",
 "S ↓",

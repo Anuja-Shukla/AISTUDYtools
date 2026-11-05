@@ -52,7 +52,7 @@ var SPEC = [
 {
 "k": "chips",
 "t": "Exception",
-"chips": [
+"items": [
 "Hole on the fold line",
 "→",
 "opens as one hole"

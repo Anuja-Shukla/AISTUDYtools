@@ -47,7 +47,7 @@ var SPEC = [
 {
 "k": "chips",
 "t": "Strong words",
-"chips": [
+"items": [
 "all",
 "only",
 "always",

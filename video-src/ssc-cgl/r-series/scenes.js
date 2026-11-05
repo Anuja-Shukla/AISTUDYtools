@@ -76,7 +76,7 @@ var SPEC = [
 {
 "k": "chips",
 "t": "Standard families",
-"chips": [
+"items": [
 "n²: 1, 4, 9, 16",
 "n³: 1, 8, 27, 64",
 "n(n+1): 2, 6, 12, 20",

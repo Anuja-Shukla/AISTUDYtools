@@ -15,7 +15,7 @@ var SPEC = [
 {
 "k": "chips",
 "t": "How it works",
-"chips": [
+"items": [
 "(a) part",
 "(b) part",
 "(c) part",

@@ -29,7 +29,7 @@ var SPEC = [
 {
 "k": "chips",
 "t": "For each pair, ask",
-"chips": [
+"items": [
 "Inside?",
 "Overlap?",
 "Apart?"

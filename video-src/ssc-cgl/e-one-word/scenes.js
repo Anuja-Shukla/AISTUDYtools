@@ -82,7 +82,7 @@ var SPEC = [
 {
 "k": "chips",
 "t": "Places",
-"chips": [
+"items": [
 "aviary – birds",
 "apiary – bees",
 "aquarium – fish",

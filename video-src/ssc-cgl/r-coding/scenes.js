@@ -27,7 +27,7 @@ var SPEC = [
 {
 "k": "chips",
 "t": "Know the positions",
-"chips": [
+"items": [
 "E = 5",
 "J = 10",
 "O = 15",

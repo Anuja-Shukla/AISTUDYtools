@@ -15,7 +15,7 @@ var SPEC = [
 {
 "k": "chips",
 "t": "Look for the clue",
-"chips": [
+"items": [
 "Fixed preposition",
 "Time word",
 "Contrast word",

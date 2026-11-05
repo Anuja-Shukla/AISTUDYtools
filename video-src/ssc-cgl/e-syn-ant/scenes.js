@@ -78,7 +78,7 @@ var SPEC = [
 {
 "k": "chips",
 "t": "Prefixes for opposites",
-"chips": [
+"items": [
 "un-",
 "dis-",
 "in-",

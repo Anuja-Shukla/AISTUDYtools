@@ -59,7 +59,7 @@ var SPEC = [
 {
 "k": "chips",
 "t": "Comparison chain",
-"chips": [
+"items": [
 "D",
 ">",
 "A",

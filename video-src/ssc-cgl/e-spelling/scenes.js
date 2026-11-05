@@ -15,7 +15,7 @@ var SPEC = [
 {
 "k": "chips",
 "t": "Double letters",
-"chips": [
+"items": [
 "accommodate",
 "embarrass",
 "committee",

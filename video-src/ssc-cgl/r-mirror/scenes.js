@@ -68,7 +68,7 @@ var SPEC = [
 {
 "k": "chips",
 "t": "Special cases",
-"chips": [
+"items": [
 "12:00 → 12:00",
 "6:00 → 6:00",
 "12:20 → 11:40",

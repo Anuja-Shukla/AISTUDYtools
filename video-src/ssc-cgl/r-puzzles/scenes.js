@@ -80,7 +80,7 @@ var SPEC = [
 {
 "k": "chips",
 "t": "Possibilities shrink",
-"chips": [
+"items": [
 "120",
 "→ 48",
 "→ 8",

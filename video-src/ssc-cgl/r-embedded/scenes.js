@@ -29,7 +29,7 @@ var SPEC = [
 {
 "k": "chips",
 "t": "The hidden shape must be",
-"chips": [
+"items": [
 "Same size",
 "Same turn",
 "Not flipped",
@@ -49,7 +49,7 @@ var SPEC = [
 {
 "k": "chips",
 "t": "Reject these",
-"chips": [
+"items": [
 "Turned copy ✗",
 "Mirrored copy ✗",
 "Exact copy ✓"

@@ -25,7 +25,7 @@ var SPEC = [
 {
 "k": "chips",
 "t": "Five components",
-"chips": [
+"items": [
 "Self-awareness",
 "Self-regulation",
 "Motivation",

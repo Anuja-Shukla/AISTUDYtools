@@ -80,7 +80,7 @@ var SPEC = [
 {
 "k": "chips",
 "t": "Patterns",
-"chips": [
+"items": [
 "insist on going",
 "prefer A to B",
 "senior to",

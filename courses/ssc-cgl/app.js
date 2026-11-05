@@ -2914,6 +2914,59 @@
         $("#ttw", el).onchange = up; up();
       }
     }
+    ,
+    voicemaker: {
+      title: "Voice converter", html: '<div class="grid2"><div class="field"><label for="vms">Subject (doer)</label><select id="vms"><option>I</option><option>We</option><option>You</option><option>He</option><option selected>She</option><option>They</option><option>Ram</option><option>The teacher</option><option>The workers</option></select></div><div class="field"><label for="vmv">Verb</label><select id="vmv"></select></div><div class="field"><label for="vmo">Object</label><select id="vmo"><option>a letter</option><option>the songs</option><option>the bridge</option><option>me</option><option>him</option><option>her</option><option>them</option><option>us</option><option>the boy</option><option>the apples</option></select></div><div class="field"><label for="vmt">Tense</label><select id="vmt"><option value="sp">Simple present</option><option value="pc">Present continuous</option><option value="pp">Present perfect</option><option value="spa">Simple past</option><option value="pac">Past continuous</option><option value="pap">Past perfect</option><option value="sf">Simple future</option><option value="fp">Future perfect</option></select></div></div><div class="out" id="vmout"></div>',
+      init: function (el) {
+        var V = { write: ["writes", "wrote", "written", "writing"], sing: ["sings", "sang", "sung", "singing"], build: ["builds", "built", "built", "building"], help: ["helps", "helped", "helped", "helping"], teach: ["teaches", "taught", "taught", "teaching"], catch: ["catches", "caught", "caught", "catching"], eat: ["eats", "ate", "eaten", "eating"], take: ["takes", "took", "taken", "taking"], make: ["makes", "made", "made", "making"], see: ["sees", "saw", "seen", "seeing"], call: ["calls", "called", "called", "calling"], punish: ["punishes", "punished", "punished", "punishing"], read: ["reads", "read", "read", "reading"], give: ["gives", "gave", "given", "giving"], buy: ["buys", "bought", "bought", "buying"] };
+        $("#vmv", el).innerHTML = Object.keys(V).map(function (k) { return "<option" + (k === "write" ? " selected" : "") + ">" + k + "</option>"; }).join("");
+        var OBJ = { I: "me", We: "us", You: "you", He: "him", She: "her", They: "them" }, SUBJ = { me: "I", us: "we", him: "he", her: "she", them: "they" };
+        function person(s) { var l = s.toLowerCase(); if (l === "i") return "1s"; if (l === "we" || l === "you" || l === "they" || /s$/.test(l) && /^the /.test(l) && !/glass$/.test(l)) return "pl"; return "3s"; }
+        function be(p, t) { return t === "pres" ? (p === "1s" ? "am" : p === "3s" ? "is" : "are") : (p === "pl" ? "were" : "was"); }
+        function has(p) { return p === "3s" ? "has" : "have"; }
+        function active(s, v, o, t) {
+          var p = person(s), f = V[v];
+          return s + " " + ({ sp: p === "3s" ? f[0] : v, pc: be(p, "pres") + " " + f[3], pp: has(p) + " " + f[2], spa: f[1], pac: be(p, "past") + " " + f[3], pap: "had " + f[2], sf: "will " + v, fp: "will have " + f[2] }[t]) + " " + o + ".";
+        }
+        function passive(s, v, o, t) {
+          var ns = SUBJ[o] || o, p = person(ns), f = V[v], agent = OBJ[s] || (s === "Ram" ? s : s.replace(/^The /, "the "));
+          var aux = { sp: be(p, "pres"), pc: be(p, "pres") + " being", pp: has(p) + " been", spa: be(p, "past"), pac: be(p, "past") + " being", pap: "had been", sf: "will be", fp: "will have been" }[t];
+          ns = ns.charAt(0).toUpperCase() + ns.slice(1);
+          return ns + " " + aux + " " + f[2] + " by " + agent + ".";
+        }
+        var PV = ["help", "teach", "catch", "see", "call", "punish"], THING = ["a letter", "the songs", "the bridge", "the apples"];
+        function fitVerbs() {
+          var o = $("#vmo", el).value, cur = $("#vmv", el).value, list = THING.indexOf(o) < 0 ? PV : o === "the songs" ? ["sing", "write", "read", "make", "teach"] : o === "the bridge" ? ["build", "make", "see"] : o === "the apples" ? ["eat", "buy", "take", "give", "see"] : ["write", "read", "take", "give", "make", "see"];
+          $("#vmv", el).innerHTML = list.map(function (k) { return "<option" + (k === cur ? " selected" : "") + ">" + k + "</option>"; }).join("");
+        }
+        function up() {
+          var s = $("#vms", el).value, v = $("#vmv", el).value, o = $("#vmo", el).value, t = $("#vmt", el).value;
+          $("#vmout", el).innerHTML = passive(s, v, o, t) + "<small>Active: " + active(s, v, o, t) + " The tense stays the same; the helping verb agrees with the new subject.</small>";
+        }
+        $$("select", el).forEach(function (x) { x.onchange = up; }); $("#vmo", el).onchange = function () { fitVerbs(); up(); }; fitVerbs(); up();
+      }
+    },
+    voicetable: {
+      title: "Passive helping verbs", html: '<div class="field"><label for="vtt">Tense</label><select id="vtt"><option value="0">Simple present</option><option value="1">Present continuous</option><option value="2">Present perfect</option><option value="3">Simple past</option><option value="4">Past continuous</option><option value="5">Past perfect</option><option value="6">Simple future</option><option value="7">Future perfect</option><option value="8">Modal (can / must / should)</option></select></div><div class="out" id="vto"></div>',
+      init: function (el) {
+        var R = [["is / am / are + V3", "The work is done."], ["is / am / are being + V3", "The work is being done."], ["has / have been + V3", "The work has been done."], ["was / were + V3", "The work was done."], ["was / were being + V3", "The work was being done."], ["had been + V3", "The work had been done."], ["will be + V3", "The work will be done."], ["will have been + V3", "The work will have been done."], ["modal + be + V3", "The work must be done."]];
+        function up() { var r = R[+$("#vtt", el).value]; $("#vto", el).innerHTML = r[0] + "<small>Example: " + r[1] + " (Present perfect continuous and future continuous are not usually changed to passive.)</small>"; }
+        $("#vtt", el).onchange = up; up();
+      }
+    },
+    voicegame: {
+      title: "Pick the passive", html: '<div id="vgq2" style="font-weight:700;margin:6px 0">…</div><div class="opts" id="vgo2"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="vgs2">0</b> / <b id="vgn2">0</b></span><button class="btn btn-accent btn-sm" id="vgg2">Next</button></div><div class="why" id="vgw2" hidden></div>',
+      init: function (el) {
+        var Q = [["She bakes cakes.", "Cakes are baked by her.", ["Cakes is baked by her.", "Cakes were baked by her.", "Cakes are being baked by her."]], ["The boys are flying kites.", "Kites are being flown by the boys.", ["Kites are flown by the boys.", "Kites were being flown by the boys.", "Kites are being flew by the boys."]], ["He has broken the window.", "The window has been broken by him.", ["The window had been broken by him.", "The window has been broke by him.", "The window was broken by him."]], ["I drew a picture.", "A picture was drawn by me.", ["A picture is drawn by me.", "A picture was drew by me.", "A picture was drawn by I."]], ["They will announce the result.", "The result will be announced by them.", ["The result would be announced by them.", "The result will announced by them.", "The result will be announce by them."]], ["Open the window.", "Let the window be opened.", ["The window is opened.", "Let open the window.", "The window be opened."]], ["Who broke the glass?", "By whom was the glass broken?", ["Who was the glass broken?", "By whom the glass was broken?", "By whom was the glass broke?"]], ["Mohan had sold the car.", "The car had been sold by Mohan.", ["The car has been sold by Mohan.", "The car was sold by Mohan.", "The car had sold by Mohan."]]], sc = 0, n = 0;
+        function round() {
+          var q = Q[Math.floor(Math.random() * Q.length)], opts = [q[1]].concat(q[2]), ord = shuffle(4), done = false;
+          $("#vgq2", el).textContent = "Passive of: " + q[0]; $("#vgw2", el).hidden = true;
+          $("#vgo2", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-ok="' + (k === 0 ? 1 : 0) + '">' + esc(opts[k]) + "</button>"; }).join("");
+          $$("#vgo2 .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#vgo2 .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#vgs2", el).textContent = sc; $("#vgn2", el).textContent = n; $("#vgw2", el).hidden = false; $("#vgw2", el).textContent = q[1]; }; });
+        }
+        $("#vgg2", el).onclick = round; round();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
