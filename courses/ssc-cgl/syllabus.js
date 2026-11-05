@@ -70,7 +70,7 @@ window.SSC = {
         ["syn-ant", "Synonyms & antonyms", "live"], ["one-word", "One-word substitution", "live"],
         ["idioms", "Idioms & phrases", "live"], ["spelling", "Spelling", "live"],
         ["improvement", "Sentence improvement", "live"], ["voice", "Active & passive voice", "live"],
-        ["narration", "Direct & indirect speech", "soon"], ["para-jumbles", "Sentence rearrangement", "soon"],
+        ["narration", "Direct & indirect speech", "live"], ["para-jumbles", "Sentence rearrangement", "soon"],
         ["cloze", "Cloze test", "live"], ["rc", "Reading comprehension", "live"]
       ]
     },
