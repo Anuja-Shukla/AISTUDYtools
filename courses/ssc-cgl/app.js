@@ -3495,6 +3495,45 @@
         $("#nag", el).onclick = round; round();
       }
     }
+    ,
+    pwcheck: {
+      title: "Password strength checker", html: '<p class="note">Runs only in your browser — nothing you type is sent anywhere. Do not type a real password.</p><div class="field"><label for="pwi">Try a sample password</label><input type="text" id="pwi" value="sunshine2026" autocomplete="off"></div><div class="pwbar"><span id="pwb"></span></div><div class="out" id="pwo"></div>',
+      init: function (el) {
+        var COMMON = ["password", "123456", "12345678", "qwerty", "abc123", "111111", "iloveyou", "admin", "welcome", "india123", "sunshine", "football", "cricket", "monkey", "dragon", "letmein"];
+        function up() {
+          var p = $("#pwi", el).value, s = 0, tips = [];
+          if (p.length >= 8) s++; else tips.push("use at least 8 characters");
+          if (p.length >= 12) s++; else if (p.length >= 8) tips.push("12 or more is better");
+          if (/[a-z]/.test(p) && /[A-Z]/.test(p)) s++; else tips.push("mix upper and lower case");
+          if (/\d/.test(p)) s++; else tips.push("add numbers");
+          if (/[^A-Za-z0-9]/.test(p)) s++; else tips.push("add a symbol");
+          if (COMMON.some(function (c) { return p.toLowerCase().indexOf(c) >= 0; }) || /(.)\1\1/.test(p)) { s = Math.min(s, 1); tips.unshift("avoid common words and repeats"); }
+          var L = ["Very weak", "Weak", "Fair", "Good", "Strong", "Very strong"][s], c = ["#d62828", "#d62828", "#f77f00", "#fcbf49", "#43aa8b", "#2a9d8f"][s];
+          $("#pwb", el).style.width = (s / 5 * 100) + "%"; $("#pwb", el).style.background = c;
+          $("#pwo", el).innerHTML = L + "<small>" + (tips.length ? "To improve: " + tips.join("; ") + "." : "Long, varied and unpredictable.") + "</small>";
+        }
+        $("#pwi", el).oninput = up; up();
+      }
+    },
+    netsize: {
+      title: "Network types by size", html: '<div class="netsz"><div style="--w:22%"><b>PAN</b><small>your devices · Bluetooth</small></div><div style="--w:44%"><b>LAN</b><small>home, office, campus</small></div><div style="--w:70%"><b>MAN</b><small>a city</small></div><div style="--w:100%"><b>WAN</b><small>countries · the Internet</small></div></div>',
+      init: function () {}
+    },
+    threatgame: {
+      title: "Name the threat", html: '<div class="big" id="tgq" style="text-align:center;font-size:17px;font-weight:700;line-height:1.5;margin:6px 0">…</div><div class="opts" id="tgo" style="grid-template-columns:repeat(2,1fr)"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="tgs">0</b> / <b id="tgn">0</b></span><button class="btn btn-accent btn-sm" id="tgg">Next</button></div>',
+      init: function (el) {
+        var T = [["An email says your bank account is blocked and asks for your OTP.", "Phishing"], ["Your files are locked and a message demands money to unlock them.", "Ransomware"], ["A free game you installed secretly opens a back door for attackers.", "Trojan horse"], ["A program spreads from computer to computer over the network on its own.", "Worm"], ["Malicious code attached to a document runs when you open the file.", "Virus"], ["Software quietly records the websites you visit and sends them away.", "Spyware"], ["Thousands of unwanted advertising emails fill your inbox.", "Spam"]], L = ["Phishing", "Ransomware", "Trojan horse", "Worm", "Virus", "Spyware", "Spam"], sc = 0, n = 0;
+        function round() {
+          var t = T[Math.floor(Math.random() * T.length)], pool = [t[1]], done = false;
+          while (pool.length < 4) { var r = L[Math.floor(Math.random() * L.length)]; if (pool.indexOf(r) < 0) pool.push(r); }
+          var ord = shuffle(4);
+          $("#tgq", el).textContent = t[0];
+          $("#tgo", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-ok="' + (k === 0 ? 1 : 0) + '">' + pool[k] + "</button>"; }).join("");
+          $$("#tgo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#tgo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#tgs", el).textContent = sc; $("#tgn", el).textContent = n; }; });
+        }
+        $("#tgg", el).onclick = round; round();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';

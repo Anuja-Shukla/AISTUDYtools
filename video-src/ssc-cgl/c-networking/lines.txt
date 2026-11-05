@@ -1,0 +1,10 @@
+# SSC CGL Computer — Networking and cyber security
+Welcome! This SSC CGL lesson is about networking and cyber security. || Welcome! This S S C C G L computer knowledge lesson is about networking and cyber security.
+Networks by size: PAN, LAN, MAN, WAN. || Networks are named by size. A PAN links one person's devices, like Bluetooth. A LAN covers an office or campus. A MAN covers a city. And a WAN spans countries. The Internet is the largest WAN.
+Devices: router, switch, modem. || A router connects networks and routes data. A switch connects devices within a LAN. A modem converts digital signals to analog and back.
+Topologies. || In a star topology, every device connects to a central hub. In a bus topology, all devices share one cable. Ring and mesh are the other common shapes.
+Malware: virus, worm, Trojan. || A virus attaches to a host file. A worm spreads by itself across networks. A Trojan horse is harmful software disguised as something useful. Spyware secretly collects information.
+Ransomware and phishing. || Ransomware locks your data and demands payment. Phishing uses fake messages to trick you into giving passwords or O T Ps.
+Defences. || A firewall blocks unauthorised access. Encryption turns data into a code. Two factor authentication adds a second check, like an O T P. Use long passwords, and never share your O T P.
+Try this: what is a firewall used for? The answer is A. || Try this. What is a firewall used for? The answer is A, to block unauthorised network access.
+Recap. Now try the tools and the practice questions below. || To recap. Learn network sizes, devices and topologies, each kind of malware, and the main defences. Now try the tools and the practice questions below this video.
