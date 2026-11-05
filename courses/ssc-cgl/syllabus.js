@@ -79,7 +79,7 @@ window.SSC = {
       blurb: "History, polity, geography, economy, science, static GK and current affairs.",
       units: [
         ["history", "History & culture", "live"], ["polity", "Indian polity", "live"],
-        ["geography", "Geography", "soon"], ["economy", "Indian economy", "soon"],
+        ["geography", "Geography", "live"], ["economy", "Indian economy", "soon"],
         ["physics", "Physics", "soon"], ["chemistry", "Chemistry", "soon"], ["biology", "Biology", "soon"],
         ["static-gk", "Static GK: books, days, awards, sports", "soon"], ["schemes", "Government schemes", "soon"],
         ["current", "Current affairs (monthly)", "soon"]
