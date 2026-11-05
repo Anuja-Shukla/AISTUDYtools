@@ -3342,6 +3342,26 @@
         $("#sfq", el).oninput = up; up();
       }
     }
+    ,
+    catracker: {
+      title: "My current-affairs notes", html: '<p class="note">Saved only in this browser. Write who, what, where, when.</p><div class="grid2"><div class="field"><label for="cat2">Tag</label><select id="cat2"><option>Appointment</option><option>Award</option><option>Sports</option><option>Index / ranking</option><option>Scheme</option><option>Science & space</option><option>Summit</option><option>Other</option></select></div><div class="field"><label for="cad">Date</label><input type="date" id="cad"></div></div><div class="field"><label for="cax">Fact</label><input type="text" id="cax" maxlength="200" placeholder="e.g. X appointed as head of Y"></div><div class="row" style="gap:6px;flex-wrap:wrap"><button class="btn btn-accent btn-sm" id="caa">Add note</button><select id="caf" aria-label="Filter"><option value="">All tags</option></select><button class="btn btn-sm" id="cac">Copy all</button></div><div class="tscroll"><table class="pt" id="cal"></table></div><div class="out" id="cao2"></div>',
+      init: function (el) {
+        var tags = $$("#cat2 option", el).map(function (o) { return o.textContent; });
+        $("#caf", el).innerHTML += tags.map(function (t) { return "<option>" + t + "</option>"; }).join("");
+        try { $("#cad", el).value = new Date().toISOString().slice(0, 10); } catch (e) {}
+        function get() { return store.get("current").notes || []; }
+        function put(a) { store.set("current", "notes", a); }
+        function up() {
+          var f = $("#caf", el).value, N = get().filter(function (n) { return !f || n.t === f; });
+          $("#cal", el).innerHTML = "<tr><th>Date</th><th>Tag</th><th>Fact</th><th></th></tr>" + (N.length ? N.map(function (n) { return "<tr><td>" + esc(n.d) + "</td><td>" + esc(n.t) + "</td><td>" + esc(n.x) + '</td><td><button class="btn btn-sm" data-id="' + n.id + '" aria-label="Delete">✕</button></td></tr>'; }).join("") : '<tr><td colspan="4">No notes yet</td></tr>');
+          $$("#cal button[data-id]", el).forEach(function (b) { b.onclick = function () { put(get().filter(function (n) { return String(n.id) !== b.getAttribute("data-id"); })); up(); }; });
+          $("#cao2", el).innerHTML = get().length + " note(s) saved<small>Revise them weekly; make a one-page summary each month.</small>";
+        }
+        $("#caa", el).onclick = function () { var x = $("#cax", el).value.trim(); if (!x) return; var a = get(); a.unshift({ id: Date.now(), d: $("#cad", el).value || "", t: $("#cat2", el).value, x: x }); put(a.slice(0, 500)); $("#cax", el).value = ""; up(); };
+        $("#cac", el).onclick = function () { var txt = get().map(function (n) { return n.d + " [" + n.t + "] " + n.x; }).join("\n"); try { navigator.clipboard.writeText(txt); $("#cao2", el).innerHTML = "Copied<small>Paste into your notes app.</small>"; } catch (e) { $("#cao2", el).innerHTML = "Copy not available<small>Select the table and copy it by hand.</small>"; } };
+        $("#caf", el).onchange = up; up();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
