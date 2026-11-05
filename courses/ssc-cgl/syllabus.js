@@ -44,14 +44,14 @@ window.SSC = {
         ["mensuration", "Mensuration", "live"],
         ["trigonometry", "Trigonometry, heights & distances", "live"],
         ["di", "Data interpretation", "live"],
-        ["stats-prob", "Statistics & probability (Tier 2)", "soon"]
+        ["stats-prob", "Statistics & probability (Tier 2)", "live"]
       ]
     },
     {
       id: "reasoning", name: "General Intelligence & Reasoning", short: "Reasoning", color: "#0F766E", soft: "#CCFBF1", t1: 25, t2: 30,
       blurb: "Verbal and non-verbal reasoning: series, coding, relations, puzzles and figures.",
       units: [
-        ["analogy", "Analogy", "soon"], ["classification", "Classification (odd one out)", "soon"],
+        ["analogy", "Analogy", "live"], ["classification", "Classification (odd one out)", "soon"],
         ["series", "Number, letter & figure series", "soon"], ["coding", "Coding-decoding", "soon"],
         ["blood-relations", "Blood relations", "soon"], ["direction", "Direction sense", "soon"],
         ["ranking", "Order & ranking", "soon"], ["math-ops", "Mathematical operations", "soon"],
