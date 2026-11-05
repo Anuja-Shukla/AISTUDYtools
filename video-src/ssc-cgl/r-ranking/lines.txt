@@ -1,10 +1,10 @@
 # SSC CGL Reasoning — Order and ranking
 Welcome! This SSC CGL lesson is about order and ranking. || Welcome! This S S C C G L lesson is about order and ranking.
-One formula: left + right − 1 = total. || Almost every question uses one formula. Position from the left, plus position from the right, minus one, equals the total. We subtract one because the person is counted from both ends.
-7th from top, 18th from bottom → 24. || If Ravi is seventh from the top and eighteenth from the bottom, the class has seven plus eighteen minus one, which is twenty four students.
+One formula: left + right − 1 = total. 7th and 18th → 24. || Almost every question uses one formula. Position from the left, plus position from the right, minus one, equals the total. If Ravi is seventh from the top and eighteenth from the bottom, the class has twenty four students.
 Other end = total − position + 1. || To find the position from the other end, take the total, subtract the position, and add one. In a row of forty, fifteenth from the left is twenty sixth from the right.
 Between: convert to the same end, then subtract 1. || To count people between two persons, first change both positions to the same end. Then take the difference and subtract one.
 Interchange: one takes the other's old place. || In interchange questions, after the swap, each person stands in the other's old place. If Riya becomes eighteenth from the left, Meena was eighteenth from the left. With Meena eighth from the right, the total is twenty five.
 Comparisons: write one chain. || For comparisons, write one chain with the tallest on the left. D is taller than A, A than B, B than C, and C than E. So D is the tallest, E is the shortest, and B is in the middle.
+Quick results: 2k − 1, ahead and behind. || Remember a few quick results. If someone is k th from both ends, the total is two k minus one. Ahead of X by n means X minus n. Behind X by n means X plus n.
 Try this: 13th from both ends. The answer is A, 25. || Try this. A girl is thirteenth from both ends of a row. How many are in the row? The answer is A, twenty five, because two times thirteen minus one is twenty five.
 Recap. Now try the tools and the practice questions below. || To recap. Left plus right minus one is the total. Convert positions to the same end. In a swap, each takes the other's place. And write one chain for comparisons. Now try the tools and the practice questions below this video.
