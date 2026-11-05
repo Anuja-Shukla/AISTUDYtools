@@ -3315,6 +3315,21 @@
         $$("select", el).forEach(function (s) { s.onchange = up; }); up();
       }
     }
+    ,
+    daycal: {
+      title: "Important days by month", html: '<div class="row" id="dcm" style="gap:4px;flex-wrap:wrap"></div><div id="dcz" class="tline"></div>',
+      init: function (el, T) {
+        var B = T.bank || [], M = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], cur = M[new Date().getMonth()];
+        $("#dcm", el).innerHTML = M.map(function (m) { return '<button class="chip" data-m="' + m + '">' + m + "</button>"; }).join("");
+        function up() {
+          $$("#dcm .chip", el).forEach(function (c) { c.style.borderColor = c.getAttribute("data-m") === cur ? "var(--accent)" : ""; });
+          var r = B.filter(function (b) { return b[0] === cur; });
+          $("#dcz", el).innerHTML = r.length ? r.map(function (b) { return "<div><b>" + b[1] + " " + b[0] + "</b><span>" + esc(b[2]) + "</span></div>"; }).join("") : "<div><span>No days from this list in " + cur + ".</span></div>";
+        }
+        $$("#dcm .chip", el).forEach(function (c) { c.onclick = function () { cur = c.getAttribute("data-m"); up(); }; });
+        up();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
