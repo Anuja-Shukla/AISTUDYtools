@@ -301,3 +301,4 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 .phbar{height:14px;border-radius:7px;margin:4px 0 10px;background:linear-gradient(90deg,#d62828,#f77f00,#fcbf49,#90be6d,#43aa8b,#4d908e,#577590,#6a4c93)}
 .msheet input{width:64px;padding:4px 6px;border:1px solid var(--border);border-radius:6px;font:inherit}
 .pwbar{height:10px;border-radius:5px;background:var(--soft);overflow:hidden;margin:6px 0 10px}.pwbar span{display:block;height:100%;width:0;transition:width .2s}.netsz div{width:var(--w);min-width:150px;max-width:100%;background:var(--soft);border:1px solid var(--border);border-radius:12px;padding:8px 12px;margin:6px 0;box-sizing:border-box}.netsz b{color:var(--accent-dk)}.netsz small{display:block;color:var(--muted)}
+.ttbox{width:100%;box-sizing:border-box;font:inherit;font-size:16px;padding:10px;border:2px solid var(--border);border-radius:12px;margin:6px 0}

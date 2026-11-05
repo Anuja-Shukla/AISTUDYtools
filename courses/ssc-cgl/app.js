@@ -3534,6 +3534,36 @@
         $("#tgg", el).onclick = round; round();
       }
     }
+    ,
+    typetest: {
+      title: "Typing speed test", html: '<div class="grid2"><div class="field"><label for="ttm">Time</label><select id="ttm"><option value="60">1 minute</option><option value="120">2 minutes</option><option value="300">5 minutes</option></select></div><div class="field"><label>&nbsp;</label><button class="btn btn-sm" id="ttn">New passage</button></div></div><div class="rcpass" id="ttp"></div><textarea id="tti" rows="5" class="ttbox" placeholder="Start typing to begin the timer" aria-label="Type the passage here" spellcheck="false" autocomplete="off"></textarea><div class="row" style="justify-content:space-between"><span class="tag indigo" id="ttc">Time left: 60 s</span><span class="tag" id="ttk">Keys: 0</span></div><div class="out" id="tto2"></div>',
+      init: function (el, T) {
+        var B = T.bank || [""], p = B[0], start = 0, timer = null, keys = 0, done = false;
+        function reset() {
+          clearInterval(timer); timer = null; start = 0; keys = 0; done = false;
+          p = B[Math.floor(Math.random() * B.length)]; $("#ttp", el).textContent = p; $("#tti", el).value = ""; $("#tti", el).disabled = false;
+          $("#ttc", el).textContent = "Time left: " + $("#ttm", el).value + " s"; $("#ttk", el).textContent = "Keys: 0";
+          $("#tto2", el).innerHTML = "Ready<small>The timer starts with your first key.</small>";
+        }
+        function finish() {
+          clearInterval(timer); done = true; $("#tti", el).disabled = true;
+          var typed = $("#tti", el).value, secs = Math.max(1, Math.min(+$("#ttm", el).value, (Date.now() - start) / 1000)), right = 0;
+          for (var i = 0; i < typed.length; i++) if (typed[i] === p[i]) right++;
+          var acc = typed.length ? right / typed.length * 100 : 0, kdph = Math.round(keys / secs * 3600), wpm = Math.round(typed.length / 5 / (secs / 60));
+          $("#tto2", el).innerHTML = fmtN(kdph) + " KDPH · " + wpm + " WPM · " + acc.toFixed(1) + "% accurate<small>" + (kdph >= 8000 ? "At or above the usual 8,000 KDPH benchmark." : "Below 8,000 KDPH — keep practising daily.") + " Accuracy counts characters typed in the right place.</small>";
+        }
+        $("#tti", el).onkeydown = function (e) { if (done) return; if (e.key.length === 1 || e.key === "Backspace" || e.key === "Enter") keys++; $("#ttk", el).textContent = "Keys: " + keys; if (!start) { start = Date.now(); timer = setInterval(function () { var left = +$("#ttm", el).value - Math.floor((Date.now() - start) / 1000); $("#ttc", el).textContent = "Time left: " + Math.max(0, left) + " s"; if (left <= 0) finish(); }, 250); } };
+        $("#tti", el).oninput = function () { if ($("#tti", el).value.length >= p.length && !done && start) finish(); };
+        $("#ttn", el).onclick = reset; $("#ttm", el).onchange = reset; reset();
+      }
+    },
+    kdphcalc: {
+      title: "KDPH calculator", html: '<div class="grid2"><div class="field"><label for="kdk">Key depressions</label><input type="number" id="kdk" value="2000" min="0"></div><div class="field"><label for="kdm">Minutes</label><input type="number" id="kdm" value="15" min="1"></div></div><div class="out" id="kdo"></div>',
+      init: function (el) {
+        function up() { var k = +$("#kdk", el).value || 0, m = +$("#kdm", el).value || 1, v = Math.round(k / m * 60); $("#kdo", el).innerHTML = fmtN(v) + " KDPH<small>" + k + " ÷ " + m + " × 60. Benchmark: about 8,000 KDPH (check your notice). Needed in 15 minutes for 8,000: 2,000 keys.</small>"; }
+        $$("input", el).forEach(function (x) { x.oninput = up; }); up();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';

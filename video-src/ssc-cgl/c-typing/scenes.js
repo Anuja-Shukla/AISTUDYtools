@@ -1,0 +1,144 @@
+/* SSC CGL lesson video */
+var META = {"crumb": "SSC CGL \u00b7 Computer Knowledge \u00b7 <b>Data entry speed test</b>"};
+var SPEC = [
+{
+"k": "intro",
+"title": "Data Entry Speed Test",
+"sub": "SSC CGL · Computer Knowledge · Tier 2",
+"pills": [
+"KDPH",
+"Home row",
+"Posture",
+"Practice"
+]
+},
+{
+"k": "eq",
+"t": "How speed is measured",
+"lines": [
+"Key depressions per hour",
+"Every key counts, even spaces"
+],
+"box": "KDPH = keys per minute × 60",
+"note": "WPM: 5 characters = 1 word"
+},
+{
+"k": "eq",
+"t": "The benchmark",
+"lines": [
+"≈ 2,000 keys in 15 minutes",
+"check the exam notice"
+],
+"box": "8,000 KDPH",
+"note": "2,000 × 4"
+},
+{
+"k": "two",
+"t": "Home row",
+"a": [
+"Left hand",
+"A S D F",
+"bump on F"
+],
+"b": [
+"Right hand",
+"J K L ;",
+"bump on J"
+]
+},
+{
+"k": "chips",
+"t": "Fingers",
+"items": [
+"Thumbs: space bar",
+"Little fingers: Shift",
+"Eyes on the screen"
+]
+},
+{
+"k": "list",
+"t": "Posture",
+"items": [
+[
+"Feet",
+"flat on the floor"
+],
+[
+"Wrists",
+"straight, relaxed"
+],
+[
+"Screen",
+"at eye level"
+]
+]
+},
+{
+"k": "flow",
+"t": "Practice plan",
+"steps": [
+"Drills 5 min",
+"Passages 10 min",
+"Track KDPH"
+],
+"note": "Accuracy first (98%+)"
+},
+{
+"k": "mcq",
+"q": "2,000 keys in 15 minutes = ? per hour",
+"opts": [
+"8,000",
+"6,000",
+"2,000",
+"30,000"
+],
+"why": "2,000 × 4"
+},
+{
+"k": "recap",
+"items": [
+[
+"KDPH",
+"keys × 60 per minute"
+],
+[
+"Home row",
+"ASDF · JKL;"
+],
+[
+"Posture",
+"straight and relaxed"
+],
+[
+"Practice",
+"daily, accuracy first"
+]
+]
+}
+];
+function R(s) {
+  var T_ = s.t ? (s.t.length > 34 ? T2(s.t) : T(s.t)) : "";
+  switch (s.k) {
+    case "intro": return null;
+    case "list": return T(s.t) + sp(24) + listOf(s.items, 0.1, 0.6 / s.items.length, s.w || 720, s.size || 25) + (s.note ? sp(20) + note(s.note, 0.85, true) : "");
+    case "grid": return T(s.t) + sp(26) + grid(s.cards, s.cols || Math.min(3, s.cards.length), 0.1, 0.55 / s.cards.length, s.w || (s.cards.length >= 3 ? 250 : 330)) + (s.note ? sp(20) + note(s.note, 0.85) : "");
+    case "table": return T(s.t) + sp(18) + table(s.head, s.rows, 0.06, 0.6 / (s.rows.length + 1), s.hl === undefined ? -1 : s.hl, s.w || 760) + (s.note ? sp(14) + note(s.note, 0.88, true) : "");
+    case "eq": var n = s.lines.length, h = T(s.t) + sp(22);
+      s.lines.forEach(function (l, i) { h += eq(l, 0.08 + i * (0.5 / Math.max(n, 1)), s.size || 27); });
+      if (s.box) h += sp(16) + boxed(s.box, 0.66, 30);
+      if (s.note) h += sp(14) + note(s.note, 0.84, true);
+      return h;
+    case "two": return T(s.t) + sp(30) + '<div class="row" style="gap:24px;align-items:stretch">' + cardT(s.a[0], s.a[1], s.a[2] || "", 0.12, 360, "var(--teal)") + cardT(s.b[0], s.b[1], s.b[2] || "", 0.45, 360, "var(--orange)") + "</div>" + (s.note ? sp(24) + note(s.note, 0.8) : "");
+    case "flow": var f = '<div class="row" style="gap:6px;flex-wrap:wrap;justify-content:center">', m = s.steps.length;
+      s.steps.forEach(function (x, i) { f += pill(x, 0.08 + i * (0.6 / m), i % 2 ? "n" : ""); if (i < m - 1) f += arrow(0.12 + i * (0.6 / m)); });
+      return T(s.t) + sp(34) + f + "</div>" + (s.note ? sp(30) + note(s.note, 0.82) : "");
+    case "chips": return T(s.t) + sp(34) + chipsRow(s.items, 0.1, 0.6 / s.items.length) + (s.note ? sp(28) + note(s.note, 0.84, true) : "");
+  }
+  return T(s.t || "");
+}
+var SCENES = SPEC.map(function (s) {
+  if (s.k === "intro") return introScene(s.title, s.sub, s.pills);
+  if (s.k === "mcq") return mcqScene(s.q, s.opts, 0, s.why);
+  if (s.k === "recap") return recapScene(s.items, s.last);
+  return { tag: s.tag || "Lesson", draw: function () { return R(s); } };
+});
