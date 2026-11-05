@@ -3330,6 +3330,18 @@
         up();
       }
     }
+    ,
+    schemefind: {
+      title: "Scheme finder", html: '<div class="field"><label for="sfq">Search by name, year or area</label><input type="text" id="sfq" value=""></div><div class="tscroll"><table class="pt" id="sft2"></table></div><p class="note">Launch years and aims. Check india.gov.in or pib.gov.in for current amounts.</p>',
+      init: function (el, T) {
+        var B = T.bank || [];
+        function up() {
+          var q = $("#sfq", el).value.trim().toLowerCase(), r = B.filter(function (b) { return !q || b.join(" ").toLowerCase().indexOf(q) >= 0; }).sort(function (a, b) { return a[1] - b[1]; });
+          $("#sft2", el).innerHTML = "<tr><th>Scheme</th><th>Year</th><th>Aim</th></tr>" + r.map(function (b) { return "<tr><td><b>" + esc(b[0]) + "</b></td><td>" + b[1] + "</td><td>" + esc(b[2]) + "</td></tr>"; }).join("");
+        }
+        $("#sfq", el).oninput = up; up();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
