@@ -1,0 +1,10 @@
+# SSC CGL Computer — Computer basics
+Welcome! This SSC CGL lesson is about computer basics. || Welcome! This S S C C G L computer knowledge lesson is about computer basics, for Tier 2.
+The CPU is the brain. || The C P U, or central processing unit, is the brain of the computer. Inside it are the A L U for arithmetic and logic, the control unit, and registers.
+Input and output devices. || Input devices send data in: a keyboard, a mouse, a scanner or a microphone. Output devices give results out: a monitor, a printer or a speaker.
+Memory: RAM is volatile; ROM is not. || R A M is the main memory, and it is volatile, so its data is lost when the power goes off. R O M is non volatile and holds the start up instructions, called the BIOS.
+The speed ladder. || Memory speed goes in a ladder. Registers are fastest, then cache, then R A M, and then the hard disk or S S D, which is secondary storage.
+Units of storage. || A bit is a zero or a one. Eight bits make one byte. One kilobyte is one thousand and twenty four bytes, and each larger unit is one thousand and twenty four of the one below.
+Number systems. || Binary uses only zero and one. Five in binary is one zero one, because it is four plus one. Hexadecimal uses zero to nine and A to F.
+Try this: 1 byte equals? The answer is A, 8 bits. || Try this. One byte equals how many bits? The answer is A, eight bits.
+Recap. Now try the tools and the practice questions below. || To recap. Learn the full forms, the memory ladder, the storage units and binary conversion. Now try the tools and the practice questions below this video.

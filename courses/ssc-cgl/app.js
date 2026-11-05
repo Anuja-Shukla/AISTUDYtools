@@ -3362,6 +3362,48 @@
         $("#caf", el).onchange = up; up();
       }
     }
+    ,
+    baseconv: {
+      title: "Number system converter", html: '<div class="grid2"><div class="field"><label for="bcv">Number</label><input type="text" id="bcv" value="45"></div><div class="field"><label for="bcb">Its base</label><select id="bcb"><option value="10">Decimal (10)</option><option value="2">Binary (2)</option><option value="8">Octal (8)</option><option value="16">Hexadecimal (16)</option></select></div></div><div class="tscroll"><table class="pt" id="bct"></table></div><div class="out" id="bco2"></div>',
+      init: function (el) {
+        function up() {
+          var s = $("#bcv", el).value.trim().toUpperCase(), b = +$("#bcb", el).value, o = $("#bco2", el), digits = "0123456789ABCDEF".slice(0, b);
+          if (!s || s.split("").some(function (c) { return digits.indexOf(c) < 0; })) { o.innerHTML = "Not a valid base-" + b + " number<small>Allowed digits: " + digits.split("").join(" ") + "</small>"; $("#bct", el).innerHTML = ""; return; }
+          var n = parseInt(s, b);
+          if (n > 1e9) { o.textContent = "Use a smaller number"; return; }
+          var steps = [], m = n; if (m === 0) steps.push("0 ÷ 2 = 0 r 0"); while (m > 0 && steps.length < 32) { steps.push(m + " ÷ 2 = " + Math.floor(m / 2) + " r " + (m % 2)); m = Math.floor(m / 2); }
+          $("#bct", el).innerHTML = "<tr><th>Base</th><th>Value</th></tr><tr><td>Decimal</td><td>" + n + "</td></tr><tr><td>Binary</td><td>" + n.toString(2) + "</td></tr><tr><td>Octal</td><td>" + n.toString(8) + "</td></tr><tr><td>Hexadecimal</td><td>" + n.toString(16).toUpperCase() + "</td></tr>";
+          o.innerHTML = "Decimal " + n + " = binary " + n.toString(2) + "<small>Divide by 2 and read remainders bottom-up: " + steps.slice(0, 8).join(" · ") + (steps.length > 8 ? " …" : "") + "</small>";
+        }
+        $$("input,select", el).forEach(function (x) { x.oninput = up; }); up();
+      }
+    },
+    storeconv: {
+      title: "Storage unit converter", html: '<div class="grid2"><div class="field"><label for="scv">Amount</label><input type="number" id="scv" value="2" min="0"></div><div class="field"><label for="scu">Unit</label><select id="scu"><option value="0">bit</option><option value="1">byte</option><option value="2">KB</option><option value="3">MB</option><option value="4" selected>GB</option><option value="5">TB</option></select></div></div><div class="tscroll"><table class="pt" id="sct"></table></div><p class="note">Uses 1 KB = 1024 bytes, as in exam questions.</p>',
+      init: function (el) {
+        var U = ["bit", "byte", "KB", "MB", "GB", "TB"];
+        function bytes(v, u) { return u === 0 ? v / 8 : v * Math.pow(1024, u - 1); }
+        function up() {
+          var v = +$("#scv", el).value || 0, u = +$("#scu", el).value, B = bytes(v, u);
+          $("#sct", el).innerHTML = "<tr><th>Unit</th><th>Value</th></tr>" + U.map(function (n, i) { var x = i === 0 ? B * 8 : B / Math.pow(1024, i - 1); return "<tr><td>" + n + "</td><td>" + (x >= 1e15 ? x.toExponential(3) : x >= 1 || x === 0 ? fmtN(Math.round(x * 1000) / 1000) : x >= 1e-6 ? String(+x.toPrecision(3)) : x.toExponential(3)) + "</td></tr>"; }).join("");
+        }
+        $$("input,select", el).forEach(function (x) { x.oninput = up; }); up();
+      }
+    },
+    devgame: {
+      title: "Input or output?", html: '<div class="big" id="dvq" style="text-align:center;font-size:20px;font-weight:800;margin:6px 0">…</div><div class="opts" id="dvo" style="grid-template-columns:repeat(3,1fr)"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="dvs">0</b> / <b id="dvn">0</b></span><button class="btn btn-accent btn-sm" id="dvg">Next</button></div><div class="why" id="dvw" hidden></div>',
+      init: function (el) {
+        var D = [["Keyboard", 0], ["Mouse", 0], ["Scanner", 0], ["Microphone", 0], ["Webcam", 0], ["Joystick", 0], ["Barcode reader", 0], ["Light pen", 0], ["Monitor", 1], ["Printer", 1], ["Speaker", 1], ["Projector", 1], ["Plotter", 1], ["Headphones", 1], ["Touchscreen", 2], ["Modem", 2], ["Hard disk", 3], ["Pen drive", 3], ["RAM", 3]], L = ["Input", "Output", "Both", "Storage"], sc = 0, n = 0;
+        $("#dvo", el).style.gridTemplateColumns = "repeat(2,1fr)";
+        function round() {
+          var d = D[Math.floor(Math.random() * D.length)], done = false;
+          $("#dvq", el).textContent = d[0]; $("#dvw", el).hidden = true;
+          $("#dvo", el).innerHTML = L.map(function (l, i) { return '<button class="opt" data-ok="' + (i === d[1] ? 1 : 0) + '">' + l + "</button>"; }).join("");
+          $$("#dvo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#dvo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#dvs", el).textContent = sc; $("#dvn", el).textContent = n; $("#dvw", el).hidden = false; $("#dvw", el).textContent = d[0] + " is " + L[d[1]].toLowerCase() + (d[1] === 2 ? " (input and output)." : "."); }; });
+        }
+        $("#dvg", el).onclick = round; round();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
