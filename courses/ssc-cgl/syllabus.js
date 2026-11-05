@@ -78,7 +78,7 @@ window.SSC = {
       id: "ga", name: "General Awareness", short: "GA", color: "#BE185D", soft: "#FCE7F3", t1: 25, t2: 25,
       blurb: "History, polity, geography, economy, science, static GK and current affairs.",
       units: [
-        ["history", "History & culture", "live"], ["polity", "Indian polity", "soon"],
+        ["history", "History & culture", "live"], ["polity", "Indian polity", "live"],
         ["geography", "Geography", "soon"], ["economy", "Indian economy", "soon"],
         ["physics", "Physics", "soon"], ["chemistry", "Chemistry", "soon"], ["biology", "Biology", "soon"],
         ["static-gk", "Static GK: books, days, awards, sports", "soon"], ["schemes", "Government schemes", "soon"],
