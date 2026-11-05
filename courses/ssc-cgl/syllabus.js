@@ -68,7 +68,7 @@ window.SSC = {
       units: [
         ["error", "Spot the error", "live"], ["blanks", "Fill in the blanks", "live"],
         ["syn-ant", "Synonyms & antonyms", "live"], ["one-word", "One-word substitution", "live"],
-        ["idioms", "Idioms & phrases", "live"], ["spelling", "Spelling", "soon"],
+        ["idioms", "Idioms & phrases", "live"], ["spelling", "Spelling", "live"],
         ["improvement", "Sentence improvement", "soon"], ["voice", "Active & passive voice", "soon"],
         ["narration", "Direct & indirect speech", "soon"], ["para-jumbles", "Sentence rearrangement", "soon"],
         ["cloze", "Cloze test", "live"], ["rc", "Reading comprehension", "live"]
