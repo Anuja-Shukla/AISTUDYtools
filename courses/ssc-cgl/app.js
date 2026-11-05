@@ -2833,6 +2833,53 @@
         up();
       }
     }
+    ,
+    spelldrill: {
+      title: "Spelling drill", html: '<p class="note">Pick the correct spelling.</p><div class="opts" id="spo"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="sps">0</b> / <b id="spn">0</b></span><button class="btn btn-accent btn-sm" id="spg">Next</button></div><div class="why" id="spw" hidden></div>',
+      init: function (el) {
+        var W = [["accommodate", "acommodate", "accomodate"], ["necessary", "neccessary", "necesary"], ["separate", "seperate", "seprate"], ["receive", "recieve", "receeve"], ["embarrass", "embarass", "embaras"], ["definitely", "definately", "definitly"], ["government", "goverment", "governmant"], ["occurrence", "occurence", "ocurrence"], ["beginning", "begining", "beggining"], ["pronunciation", "pronounciation", "pronunsiation"], ["committee", "comittee", "commitee"], ["privilege", "priviledge", "privelege"], ["maintenance", "maintainance", "maintenence"], ["guarantee", "garantee", "guarentee"], ["rhythm", "rythm", "rhythem"], ["entrepreneur", "entrepeneur", "enterpreneur"], ["recommend", "recomend", "reccommend"], ["questionnaire", "questionaire", "questionnare"], ["mischievous", "mischievious", "mischevous"], ["colleague", "collegue", "colleage"], ["conscience", "concience", "conscence"], ["millennium", "millenium", "milennium"], ["liaison", "liasion", "liason"], ["occasion", "occassion", "ocassion"], ["achieve", "acheive", "achive"], ["believe", "beleive", "belive"], ["foreign", "foriegn", "forein"], ["weird", "wierd", "weard"], ["environment", "enviroment", "enviornment"], ["tomorrow", "tommorow", "tomorow"], ["argument", "arguement", "argumant"], ["calendar", "calender", "calandar"], ["cemetery", "cemetary", "cematery"], ["parliament", "parliment", "parlament"], ["restaurant", "restaraunt", "resturant"], ["exaggerate", "exagerate", "exaggarate"], ["harass", "harrass", "haras"], ["independent", "independant", "indipendent"], ["noticeable", "noticable", "noticeble"], ["professor", "proffesor", "proffessor"]], sc = 0, n = 0;
+        function round() {
+          var w = W[Math.floor(Math.random() * W.length)], ord = shuffle(3), done = false, cap = function (s) { return s[0].toUpperCase() + s.slice(1); };
+          $("#spw", el).hidden = true;
+          $("#spo", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-ok="' + (k === 0 ? 1 : 0) + '">' + cap(w[k]) + "</button>"; }).join("");
+          $$("#spo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#spo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#sps", el).textContent = sc; $("#spn", el).textContent = n; $("#spw", el).hidden = false; $("#spw", el).textContent = "Correct: " + w[0] + "."; }; });
+        }
+        $("#spg", el).onclick = round; round();
+      }
+    },
+    ierule: {
+      title: "ie or ei?", html: '<div class="field"><label for="iew">Type a word with ie or ei</label><input type="text" id="iew" value="receive"></div><div class="out" id="ieo"></div>',
+      init: function (el) {
+        var EXC = ["seize", "weird", "protein", "either", "neither", "their", "foreign", "leisure", "height", "weight", "eight", "vein", "reign", "heir", "forfeit", "counterfeit", "caffeine", "science", "species", "sufficient", "efficient", "ancient", "society", "conscience"];
+        function up() {
+          var w = $("#iew", el).value.trim().toLowerCase(), o = $("#ieo", el), m = w.match(/(.)?(ie|ei)/);
+          if (!m) { o.textContent = "Type a word containing ie or ei"; return; }
+          if (EXC.indexOf(w) >= 0) { o.innerHTML = w + " — an exception<small>Learn it by heart; it does not follow “i before e except after c”.</small>"; return; }
+          var afterC = m[1] === "c", rule = afterC ? "ei" : "ie";
+          o.innerHTML = (m[2] === rule ? "Follows the rule ✓" : "Check this spelling") + "<small>" + (afterC ? "After c, write ei (receive, ceiling)." : "Not after c, write ie (believe, piece).") + " Exceptions include seize, weird, either, neither, foreign.</small>";
+        }
+        $("#iew", el).oninput = up; up();
+      }
+    },
+    suffixjoin: {
+      title: "Add an ending", html: '<div class="grid2"><div class="field"><label for="sjw">Word</label><input type="text" id="sjw" value="begin"></div><div class="field"><label for="sjs">Ending</label><select id="sjs"><option>ing</option><option>ed</option><option>er</option><option>able</option><option>ness</option><option>ful</option><option>ment</option><option>ly</option></select></div></div><div class="out" id="sjo"></div>',
+      init: function (el) {
+        var STRESSED = ["begin", "refer", "occur", "prefer", "admit", "commit", "permit", "forget", "regret", "control", "compel", "excel", "omit", "submit", "transfer", "deter", "equip", "upset", "propel", "rebel"], BR_L = ["travel", "cancel", "label", "level", "model", "quarrel", "signal", "marvel", "fuel", "dial", "jewel", "total", "counsel"];
+        function up() {
+          var w = $("#sjw", el).value.trim().toLowerCase(), s = $("#sjs", el).value, o = $("#sjo", el), out, why, V = /^[aeiouy]/.test(s);
+          if (!/^[a-z]+$/.test(w)) { o.textContent = "Type one word"; return; }
+          if (V && /[^aeiou]e$/.test(w) && !/(ce|ge)$/.test(w + "") ) { out = w.slice(0, -1) + s; why = "Drop the silent e before a vowel ending."; }
+          else if (V && /(ce|ge)$/.test(w) && /^(able|ous)/.test(s)) { out = w + s; why = "Keep the e after c or g before -able/-ous to keep the soft sound (noticeable)."; }
+          else if (V && /(ce|ge)$/.test(w)) { out = w.slice(0, -1) + s; why = "Drop the silent e before a vowel ending."; }
+          else if (/[^aeiou]y$/.test(w) && s !== "ing") { out = w.slice(0, -1) + "i" + s; why = "Consonant + y: change y to i (but keep y before -ing)."; }
+          else if (V && (BR_L.indexOf(w) >= 0) && s !== "able") { out = w + "l" + s; why = "British spelling doubles the final l (travelled, cancelled)."; }
+          else if (V && /[^aeiou][aeiou][^aeiouwxy]$/.test(w) && ((w.match(/[aeiouy]+/g) || []).length === 1 || STRESSED.indexOf(w) >= 0)) { out = w + w.slice(-1) + s; why = "Stressed last syllable ending consonant-vowel-consonant: double the consonant."; }
+          else { out = w + s; why = V ? "No change needed." : "Consonant ending: just add it (hope → hopeful)."; }
+          o.innerHTML = w + " + " + s + " = " + out + "<small>" + why + "</small>";
+        }
+        $$("input,select", el).forEach(function (x) { x.oninput = up; }); up();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
