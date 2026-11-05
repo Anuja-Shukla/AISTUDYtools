@@ -2880,6 +2880,40 @@
         $$("input,select", el).forEach(function (x) { x.oninput = up; }); up();
       }
     }
+    ,
+    impgame: {
+      title: "Improve it", html: '<div id="igq" style="font-weight:700;line-height:1.5;margin:6px 0">…</div><div class="opts" id="igo"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="igs">0</b> / <b id="ign">0</b></span><button class="btn btn-accent btn-sm" id="igg">Next</button></div><div class="why" id="igw" hidden></div>',
+      init: function (el) {
+        var Q = [["She is good “in maths”.", ["at maths", "on maths", "with maths"], "good at."], ["He “enjoys to swim”.", ["enjoys swimming", "enjoy swimming", "enjoys swim"], "enjoy + -ing."], ["“No sooner did he leave when” it rained.", ["No sooner did he leave than", "No sooner he left when", "No sooner had he leave than"], "no sooner … than."], ["The number of cars “are rising”.", ["is rising", "were rising", "have risen"], "The number of: singular."], ["We “reached at” the station late.", ["reached", "reached to", "reached on"], "No preposition after reach."], ["He gave me “many advices”.", ["much advice", "many advice", "much advices"], "Advice is uncountable."], ["“Walk fast lest you will miss” the bus.", ["Walk fast lest you should miss", "Walk fast lest you do not miss", "Walk fast unless you miss"], "lest … should."], ["She “has gone to Delhi last week”.", ["went to Delhi last week", "had gone to Delhi last week", "goes to Delhi last week"], "Past time word: simple past."], ["The book is “lying on the table”.", null, "Correct."], ["“Despite of the rain”, we played.", ["Despite the rain", "In spite the rain", "Despite of rain"], "despite (no ‘of’) or in spite of."]], sc = 0, n = 0;
+        function round() {
+          var q = Q[Math.floor(Math.random() * Q.length)], opts = q[1] ? q[1].concat(["No improvement"]) : ["No improvement", "lying at the table", "laying on the table", "lain on the table"], ord = shuffle(4), done = false;
+          $("#igq", el).textContent = q[0]; $("#igw", el).hidden = true;
+          $("#igo", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-ok="' + (k === 0 ? 1 : 0) + '">' + esc(opts[k]) + "</button>"; }).join("");
+          $$("#igo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#igo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#igs", el).textContent = sc; $("#ign", el).textContent = n; $("#igw", el).hidden = false; $("#igw", el).textContent = q[2]; }; });
+        }
+        $("#igg", el).onclick = round; round();
+      }
+    },
+    pairclash: {
+      title: "Clashing-pair detector", html: '<div class="field"><label for="pct">Sentence</label><input type="text" id="pct" value="Although he was tired, but he kept working."></div><div class="out" id="pco"></div>',
+      init: function (el) {
+        var R = [[/\bunless\b[^.]*\b(not|don’t|don't|doesn’t|doesn't|didn’t|didn't|never)\b/i, "“Unless” already means “if not”; remove the extra negative."], [/\b(although|though)\b[^.]*\bbut\b/i, "Use either “although” or “but”, not both."], [/\btoo\b\s+\w+\s+that\b/i, "Use “so … that” or “too … to”, not “too … that”."], [/\bhardly\b[^.]*\bthan\b/i, "“Hardly” pairs with “when”."], [/\bscarcely\b[^.]*\bthan\b/i, "“Scarcely” pairs with “when”."], [/\bno sooner\b[^.]*\bwhen\b/i, "“No sooner” pairs with “than”."], [/\blest\b[^.]*\bnot\b/i, "“Lest” already means “so that … not”; use “lest … should”."], [/\bdespite of\b/i, "Say “despite” or “in spite of”, not “despite of”."], [/\bboth\b[^.]*\bas well as\b/i, "Use “both … and”."], [/\bneither\b[^.]*\bor\b/i, "“Neither” pairs with “nor”."], [/\beither\b[^.]*\bnor\b/i, "“Either” pairs with “or”."], [/\bnot only\b(?![^.]*\bbut also\b)/i, "“Not only” pairs with “but also”."], [/\breason\b[^.]*\bis because\b/i, "Say “the reason is that”, not “because”."], [/\breturn back\b|\brepeat again\b|\bmore better\b|\bmost best\b/i, "Repeated meaning; drop the extra word."]];
+        function up() {
+          var s = $("#pct", el).value, hit = R.filter(function (r) { return r[0].test(s); }), o = $("#pco", el);
+          o.innerHTML = hit.length ? "Clash found<small>" + hit.map(function (h) { return h[1]; }).join(" ") + "</small>" : "No clashing pair found<small>This checks only fixed pairs; other errors may still exist.</small>";
+        }
+        $("#pct", el).oninput = up; up();
+      }
+    },
+    tensetime: {
+      title: "Time word → tense", html: '<div class="field"><label for="ttw">Time word in the sentence</label><select id="ttw"></select></div><div class="out" id="tto"></div>',
+      init: function (el) {
+        var R = [["yesterday / last week / ago / in 2015", "Simple past", "I met him yesterday."], ["since / for (still going on)", "Present perfect (continuous)", "She has lived here since 2019."], ["already / just / yet / ever / never", "Present perfect", "He has already left."], ["every day / always / usually / often", "Simple present", "She walks every day."], ["now / at present / look! / listen!", "Present continuous", "Look! It is raining."], ["tomorrow / next week / soon", "Simple future (will)", "We will start tomorrow."], ["by the time + past / before + past", "Past perfect for the earlier action", "The train had left before we arrived."], ["by next year / by 2030", "Future perfect", "By 2030 she will have finished."], ["when / while + past (two actions)", "Past continuous for the longer action", "I was reading when he called."]];
+        $("#ttw", el).innerHTML = R.map(function (r, i) { return '<option value="' + i + '">' + r[0] + "</option>"; }).join("");
+        function up() { var r = R[+$("#ttw", el).value]; $("#tto", el).innerHTML = r[1] + "<small>Example: " + r[2] + "</small>"; }
+        $("#ttw", el).onchange = up; up();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
