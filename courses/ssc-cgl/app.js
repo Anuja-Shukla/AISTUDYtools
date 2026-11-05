@@ -2967,6 +2967,71 @@
         $("#vgg2", el).onclick = round; round();
       }
     }
+    ,
+    narrator: {
+      title: "Indirect speech maker", html: '<p class="note">For simple sentences. The speaker is a man (he); the listener is “me”.</p><div class="field"><label for="nrt">Type</label><select id="nrt"><option value="s">Statement</option><option value="q">Question</option><option value="c">Command</option><option value="r">Request (please)</option></select></div><div class="field"><label for="nrw">Words spoken (by him, to me)</label><input type="text" id="nrw" value="I will meet you tomorrow."></div><div class="out" id="nro"></div>',
+      init: function (el) {
+        var IRR = { leave: ["left", "left"], go: ["went", "gone"], come: ["came", "come"], see: ["saw", "seen"], eat: ["ate", "eaten"], write: ["wrote", "written"], take: ["took", "taken"], buy: ["bought", "bought"], do: ["did", "done"], get: ["got", "got"], make: ["made", "made"], say: ["said", "said"], tell: ["told", "told"], give: ["gave", "given"], know: ["knew", "known"], meet: ["met", "met"], find: ["found", "found"], think: ["thought", "thought"], bring: ["brought", "brought"], run: ["ran", "run"], have: ["had", "had"], read: ["read", "read"], sing: ["sang", "sung"], swim: ["swam", "swum"], win: ["won", "won"], lose: ["lost", "lost"], sell: ["sold", "sold"], speak: ["spoke", "spoken"], break: ["broke", "broken"], want: ["wanted", "wanted"] };
+        function past(v) { v = v.toLowerCase(); if (IRR[v]) return IRR[v][0]; if (/e$/.test(v)) return v + "d"; if (/[^aeiou]y$/.test(v)) return v.slice(0, -1) + "ied"; return v + "ed"; }
+        function pp(v) { v = v.toLowerCase(); return IRR[v] ? IRR[v][1] : past(v); }
+        var AUX = { am: "was", is: "was", are: "were", will: "would", shall: "should", can: "could", may: "might", has: "had", have: "had", was: "had been", were: "had been" };
+        var TW = { now: "then", today: "that day", tonight: "that night", tomorrow: "the next day", yesterday: "the day before", ago: "before", here: "there", "this": "that", these: "those", "next week": "the following week", "last week": "the previous week" };
+        var PR = { i: "he", me: "him", my: "his", mine: "his", myself: "himself", your: "my", yours: "mine", yourself: "myself", we: "they", us: "them", our: "their" };
+        function shift(s, subjYou) {
+          return s.replace(/\b(next week|last week|am|is|are|will|shall|can|may|has|have|was|were|now|today|tonight|tomorrow|yesterday|ago|here|this|these|I|me|my|mine|myself|you|your|yours|yourself|we|us|our)\b/gi, function (m, w, off) {
+            var l = m.toLowerCase();
+            if (AUX[l]) return AUX[l];
+            if (TW[l]) return TW[l];
+            if (l === "you") return off === 0 && subjYou ? "I" : "me";
+            return PR[l] || m;
+          }).replace(/\bhad (\w+)\b/g, function (m, v) { return /^(been|had)$/.test(v) || /ed$|en$/.test(v) || IRR[v] === undefined && !/^(do|go|eat|see)$/.test(v) ? m : "had " + pp(v); });
+        }
+        function up() {
+          var t = $("#nrt", el).value, w = $("#nrw", el).value.trim().replace(/[“”"]/g, ""), o = $("#nro", el), body = w.replace(/[.?!]+$/, ""), res;
+          if (!body) { o.textContent = "Type what was said"; return; }
+          if (t === "s") {
+            var b2 = body.charAt(0) === "I" && body.charAt(1) === " " ? body : body.charAt(0).toLowerCase() + body.slice(1);
+            b2 = b2.replace(/^(I|we|you|he|she|they)\s+(\w+)\b/i, function (m, s, v) { var lv = v.toLowerCase(); if (AUX[lv] || /^(do|does|did)$/.test(lv)) return m; return s + " " + (/ed$/.test(lv) || (Object.keys(IRR).some(function (k) { return IRR[k][0] === lv; })) ? "had " + pp(Object.keys(IRR).filter(function (k) { return IRR[k][0] === lv; })[0] || lv.replace(/ed$/, "")) : past(lv.replace(/s$/, ""))); });
+            res = "He told me that " + shift(b2, true) + ".";
+          } else if (t === "q") {
+            var m = body.match(/^(what|where|when|why|who|how|which)\s+(am|is|are|was|were|will|can|do|does|did|have|has)\s+(\w+)\s*(.*)$/i), y = body.match(/^(am|is|are|was|were|will|can|do|does|did|have|has)\s+(\w+)\s*(.*)$/i), lead, aux, subj, rest;
+            if (m) { lead = "He asked me " + m[1].toLowerCase() + " "; aux = m[2].toLowerCase(); subj = m[3]; rest = m[4]; }
+            else if (y) { lead = "He asked me if "; aux = y[1].toLowerCase(); subj = y[2]; rest = y[3]; }
+            if (lead) {
+              var S2 = shift(subj, true), verb = rest.split(/\s+/)[0] || "", after = rest.slice(verb.length);
+              if (aux === "do" || aux === "does") res = lead + S2 + " " + past(verb) + shift(after);
+              else if (aux === "did") res = lead + S2 + " had " + pp(verb) + shift(after);
+              else res = lead + S2 + " " + AUX[aux] + " " + shift(rest);
+              res += ".";
+            } else res = "He asked me " + shift(body) + ".";
+          } else {
+            var neg = /^(do not|don't|don’t)\s+/i.test(body), core = body.replace(/^(please,?\s*)/i, "").replace(/^(do not|don't|don’t)\s+/i, "").replace(/,?\s*please$/i, "");
+            res = "He " + (t === "r" ? "requested" : "told") + " me " + (neg ? "not " : "") + "to " + shift(core.charAt(0).toLowerCase() + core.slice(1)) + ".";
+          }
+          res = res.replace(/\s+/g, " ").replace(/ \./, ".").replace(/\b(I|he|she|it) were\b/g, "$1 was");
+          o.innerHTML = esc(res) + "<small>A helper for simple sentences — always check the result. Universal truths keep their tense.</small>";
+        }
+        $$("select,input", el).forEach(function (x) { x.oninput = up; }); up();
+      }
+    },
+    backshift: {
+      title: "Tense backshift", html: '<div class="field"><label for="bst">Tense in the direct speech</label><select id="bst"></select></div><div class="out" id="bso"></div>',
+      init: function (el) {
+        var R = [["Simple present (I play)", "Simple past (he played)"], ["Present continuous (I am playing)", "Past continuous (he was playing)"], ["Present perfect (I have played)", "Past perfect (he had played)"], ["Present perfect continuous (I have been playing)", "Past perfect continuous (he had been playing)"], ["Simple past (I played)", "Past perfect (he had played)"], ["Past continuous (I was playing)", "Past perfect continuous (he had been playing)"], ["will / shall", "would / should"], ["can / may", "could / might"], ["must", "must or had to"], ["Past perfect (I had played)", "No change"]];
+        $("#bst", el).innerHTML = R.map(function (r, i) { return '<option value="' + i + '">' + r[0] + "</option>"; }).join("");
+        function up() { var r = R[+$("#bst", el).value]; $("#bso", el).innerHTML = r[1] + "<small>Only when the reporting verb is in the past (said). With “says”, keep the tense.</small>"; }
+        $("#bst", el).onchange = up; up();
+      }
+    },
+    timewords: {
+      title: "Time and place words", html: '<div class="row" id="twc" style="gap:6px;flex-wrap:wrap"></div><div class="out" id="two"></div>',
+      init: function (el) {
+        var W = [["now", "then"], ["today", "that day"], ["tonight", "that night"], ["tomorrow", "the next day / the following day"], ["yesterday", "the day before / the previous day"], ["next week", "the following week"], ["last week", "the previous week"], ["ago", "before"], ["here", "there"], ["this", "that"], ["these", "those"], ["come", "go (often)"], ["thus", "so"]];
+        $("#twc", el).innerHTML = W.map(function (w, i) { return '<button class="chip" data-i="' + i + '">' + w[0] + "</button>"; }).join("");
+        $$("#twc .chip", el).forEach(function (b) { b.onclick = function () { var w = W[+b.getAttribute("data-i")]; $("#two", el).innerHTML = w[0] + " → " + w[1] + "<small>These change because the time and place of reporting differ from when the words were spoken.</small>"; }; });
+        $("#two", el).innerHTML = "Tap a word<small>Shows its form in indirect speech.</small>";
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
