@@ -67,7 +67,7 @@ window.SSC = {
       blurb: "Grammar, vocabulary, sentence skills and reading comprehension.",
       units: [
         ["error", "Spot the error", "live"], ["blanks", "Fill in the blanks", "live"],
-        ["syn-ant", "Synonyms & antonyms", "soon"], ["one-word", "One-word substitution", "soon"],
+        ["syn-ant", "Synonyms & antonyms", "live"], ["one-word", "One-word substitution", "soon"],
         ["idioms", "Idioms & phrases", "soon"], ["spelling", "Spelling", "soon"],
         ["improvement", "Sentence improvement", "soon"], ["voice", "Active & passive voice", "soon"],
         ["narration", "Direct & indirect speech", "soon"], ["para-jumbles", "Sentence rearrangement", "soon"],
