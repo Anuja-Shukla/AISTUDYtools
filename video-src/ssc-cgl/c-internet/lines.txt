@@ -1,0 +1,10 @@
+# SSC CGL Computer — Internet and email
+Welcome! This SSC CGL lesson is about the internet and email. || Welcome! This S S C C G L computer knowledge lesson is about the internet and email.
+The web, browsers and search engines. || The World Wide Web was invented by Tim Berners Lee. A browser, like Chrome, shows web pages, and a search engine, like Google, finds them. An I S P is your Internet Service Provider.
+HTTP for web pages; HTTPS is secure. || H T T P is the HyperText Transfer Protocol, used for web pages. In H T T P S, the S means secure. F T P transfers files.
+Email protocols: SMTP sends, POP3 receives. || For email, S M T P sends messages, and P O P three or I M A P receives them. D N S turns a domain name into an I P address.
+Parts of a URL. || A U R L, or Uniform Resource Locator, has parts. The protocol, like https. The domain, like example dot gov dot in. And the path to the page.
+Domain endings. || Domain endings tell you the type of site. Dot gov is government, dot edu is education, dot org is an organisation, and dot in is India.
+Email features: CC and BCC. || In an email address, the at sign separates the user name from the domain. C C sends a visible copy, and B C C sends a hidden copy. Unwanted bulk email is called spam.
+Try this: which protocol sends email? The answer is A, SMTP. || Try this. Which protocol is used to send email? The answer is A, S M T P.
+Recap. Now try the tools and the practice questions below. || To recap. Learn the full forms, pair each protocol with its job, and know the parts of a U R L. Now try the tools and the practice questions below this video.

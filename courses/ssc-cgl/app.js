@@ -3456,6 +3456,45 @@
         $("#swg", el).onclick = round; round();
       }
     }
+    ,
+    urlparts: {
+      title: "Break down a web address", html: '<div class="field"><label for="upu">Web address (URL)</label><input type="text" id="upu" value="https://www.example.gov.in/exams/notice.html?year=2026"></div><div class="tscroll"><table class="pt" id="upt"></table></div>',
+      init: function (el) {
+        var TLD = { gov: "government", edu: "education", org: "organisation", com: "commercial", net: "network", mil: "military", ac: "academic", "in": "India", uk: "United Kingdom", int: "international organisation" };
+        function up() {
+          var s = $("#upu", el).value.trim(), u, t = $("#upt", el);
+          try { u = new URL(/^[a-z]+:\/\//i.test(s) ? s : "http://" + s); } catch (e) { t.innerHTML = "<tr><td>Not a valid web address</td></tr>"; return; }
+          var parts = u.hostname.split("."), ends = parts.slice(-2).filter(function (p) { return TLD[p]; }).map(function (p) { return "." + p + " = " + TLD[p]; });
+          t.innerHTML = "<tr><th>Part</th><th>Value</th></tr><tr><td>Protocol</td><td>" + esc(u.protocol.replace(":", "")) + (u.protocol === "https:" ? " (secure)" : "") + "</td></tr><tr><td>Domain</td><td>" + esc(u.hostname) + "</td></tr><tr><td>Domain ending</td><td>" + (ends.join(", ") || esc("." + parts[parts.length - 1])) + "</td></tr><tr><td>Path</td><td>" + esc(u.pathname) + "</td></tr><tr><td>Query</td><td>" + (esc(u.search) || "—") + "</td></tr>";
+        }
+        $("#upu", el).oninput = up; up();
+      }
+    },
+    emailparts: {
+      title: "Email address check", html: '<div class="field"><label for="epe">Email address</label><input type="text" id="epe" value="student.name@example.ac.in"></div><div class="out" id="epo"></div>',
+      init: function (el) {
+        function up() {
+          var e = $("#epe", el).value.trim(), o = $("#epo", el), m = e.match(/^([^@\s]+)@([^@\s]+\.[a-z]{2,})$/i);
+          o.innerHTML = m ? "Looks valid<small>User name: " + esc(m[1]) + " · domain: " + esc(m[2]) + ". The “@” separates them.</small>" : "Not a valid email address<small>Format: name@domain.ending — exactly one “@” and no spaces.</small>";
+        }
+        $("#epe", el).oninput = up; up();
+      }
+    },
+    netacro: {
+      title: "Full-form quiz", html: '<div class="big" id="naq" style="text-align:center;font-size:22px;font-weight:800;margin:6px 0">…</div><div class="opts" id="nao"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="nas">0</b> / <b id="nan">0</b></span><button class="btn btn-accent btn-sm" id="nag">Next</button></div>',
+      init: function (el) {
+        var A = [["WWW", "World Wide Web"], ["HTTP", "HyperText Transfer Protocol"], ["HTML", "HyperText Markup Language"], ["URL", "Uniform Resource Locator"], ["DNS", "Domain Name System"], ["ISP", "Internet Service Provider"], ["IP", "Internet Protocol"], ["FTP", "File Transfer Protocol"], ["SMTP", "Simple Mail Transfer Protocol"], ["POP", "Post Office Protocol"], ["IMAP", "Internet Message Access Protocol"], ["LAN", "Local Area Network"], ["WAN", "Wide Area Network"], ["Wi-Fi", "Wireless Fidelity"], ["PDF", "Portable Document Format"], ["USB", "Universal Serial Bus"], ["OTP", "One-Time Password"], ["VPN", "Virtual Private Network"]], sc = 0, n = 0;
+        function round() {
+          var i = Math.floor(Math.random() * A.length), pool = [i], done = false;
+          while (pool.length < 4) { var r = Math.floor(Math.random() * A.length); if (pool.indexOf(r) < 0) pool.push(r); }
+          var ord = shuffle(4);
+          $("#naq", el).textContent = A[i][0];
+          $("#nao", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-ok="' + (k === 0 ? 1 : 0) + '">' + A[pool[k]][1] + "</button>"; }).join("");
+          $$("#nao .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#nao .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#nas", el).textContent = sc; $("#nan", el).textContent = n; }; });
+        }
+        $("#nag", el).onclick = round; round();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
