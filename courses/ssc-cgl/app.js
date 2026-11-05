@@ -3104,6 +3104,44 @@
         $("#bpw", el).oninput = up; up();
       }
     }
+    ,
+    rcreader: {
+      title: "Passage practice", html: '<div class="field"><label for="rcp">Passage</label><select id="rcp"></select></div><div id="rct" class="rcpass"></div><div id="rcq"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="rcs">0</b> / <b id="rcn">0</b></span><button class="btn btn-accent btn-sm" id="rcg">Next question</button></div><div class="why" id="rcw" hidden></div>',
+      init: function (el, T) {
+        var B = T.bank || [], i = 0, sc = 0, n = 0;
+        $("#rcp", el).innerHTML = B.map(function (p, k) { return '<option value="' + k + '">' + esc(p.title) + "</option>"; }).join("");
+        function show() {
+          var P = B[+$("#rcp", el).value], q = P.qs[i % P.qs.length], ord = shuffle(4), done = false;
+          $("#rct", el).textContent = P.t; $("#rcw", el).hidden = true;
+          $("#rcq", el).innerHTML = '<p style="font-weight:700;margin:8px 0"><span class="tag">' + q[0] + "</span> " + esc(q[1]) + '</p><div class="opts">' + ord.map(function (k) { return '<button class="opt" data-ok="' + (k === 0 ? 1 : 0) + '">' + esc(q[2][k]) + "</button>"; }).join("") + "</div>";
+          $$("#rcq .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#rcq .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#rcs", el).textContent = sc; $("#rcn", el).textContent = n; $("#rcw", el).hidden = false; $("#rcw", el).textContent = q[3]; }; });
+        }
+        $("#rcg", el).onclick = function () { i++; show(); };
+        $("#rcp", el).onchange = function () { i = 0; show(); };
+        if (B.length) show();
+      }
+    },
+    keyfind: {
+      title: "Keyword finder", html: '<div class="grid2"><div class="field"><label for="kfp">Passage</label><select id="kfp"></select></div><div class="field"><label for="kfw">Keyword from the question</label><input type="text" id="kfw" value="cool"></div></div><div id="kft" class="rcpass"></div><div class="out" id="kfo"></div>',
+      init: function (el, T) {
+        var B = T.bank || [];
+        $("#kfp", el).innerHTML = B.map(function (p, k) { return '<option value="' + k + '">' + esc(p.title) + "</option>"; }).join("");
+        function up() {
+          var P = B[+$("#kfp", el).value], w = $("#kfw", el).value.trim().toLowerCase(), S = P.t.match(/[^.!?]+[.!?]+/g) || [P.t], hits = 0;
+          $("#kft", el).innerHTML = S.map(function (s) { var on = w.length > 2 && s.toLowerCase().indexOf(w) >= 0; if (on) hits++; return on ? "<mark>" + esc(s) + "</mark>" : esc(s); }).join(" ");
+          $("#kfo", el).innerHTML = (w.length > 2 ? hits + " sentence(s) contain “" + esc(w) + "”" : "Type at least three letters") + "<small>Read the highlighted lines and the line before and after them.</small>";
+        }
+        $("#kfp", el).onchange = up; $("#kfw", el).oninput = up; if (B.length) up();
+      }
+    },
+    qtypeguide: {
+      title: "Question type guide", html: '<div class="field"><label for="qtg">The question says…</label><select id="qtg"><option value="0">“What is the main idea / best title…?”</option><option value="1">“According to the passage…”</option><option value="2">“It can be inferred / suggests…”</option><option value="3">“The word X means…”</option><option value="4">“The tone / attitude of the writer is…”</option></select></div><div class="out" id="qto"></div>',
+      init: function (el) {
+        var R = [["Main idea", "Choose the option that covers the whole passage. Reject options that are only one detail, too broad, or the opposite of the writer’s view."], ["Detail", "Find the keyword in the passage and read that sentence. The answer is usually a paraphrase of it."], ["Inference", "The answer is not written directly, but must follow from the text. Reject anything that needs outside facts."], ["Vocabulary in context", "Put each option in place of the word and reread the sentence. Choose the meaning that fits this passage."], ["Tone", "Look at the writer’s word choices: praise (positive), warnings (critical), facts only (neutral)."]];
+        function up() { var r = R[+$("#qtg", el).value]; $("#qto", el).innerHTML = r[0] + "<small>" + r[1] + "</small>"; }
+        $("#qtg", el).onchange = up; up();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';

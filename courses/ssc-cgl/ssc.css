@@ -295,3 +295,4 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 .pjorder div{padding:4px 0;border-bottom:1px dashed var(--border);font-size:14px}
 .qtext{white-space:pre-line}
 .cztext{line-height:2.1;margin:8px 0}.cztext select{font:inherit;padding:2px 4px;border:2px solid var(--border);border-radius:8px;max-width:150px}
+.rcpass{background:var(--soft);border-radius:12px;padding:12px 14px;line-height:1.6;font-size:15px;margin:8px 0}.rcpass mark{background:var(--sun);padding:0 2px;border-radius:3px}
