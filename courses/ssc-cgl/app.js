@@ -3142,6 +3142,51 @@
         $("#qtg", el).onchange = up; up();
       }
     }
+    ,
+    histline: {
+      title: "Timeline", html: '<div class="row" id="hlc" style="gap:6px;flex-wrap:wrap"><button class="chip" data-r="a">Ancient</button><button class="chip" data-r="m">Medieval</button><button class="chip" data-r="b">British rule</button><button class="chip" data-r="f">Freedom struggle</button></div><div id="hlz" class="tline"></div>',
+      init: function (el, T) {
+        var B = T.bank || [], R = { a: [-3000, 1199], m: [1200, 1756], b: [1757, 1904], f: [1905, 1950] }, cur = "f";
+        function yr(y) { return y < 0 ? -y + " BCE" : y + (y < 1000 ? " CE" : ""); }
+        function up() {
+          var r = R[cur];
+          $$("#hlc .chip", el).forEach(function (c) { c.style.borderColor = c.getAttribute("data-r") === cur ? "var(--accent)" : ""; });
+          $("#hlz", el).innerHTML = B.filter(function (b) { return b[1] >= r[0] && b[1] <= r[1]; }).sort(function (a, b) { return a[1] - b[1]; }).map(function (b) { return "<div><b>" + yr(b[1]) + "</b><span>" + esc(b[0]) + "</span></div>"; }).join("");
+        }
+        $$("#hlc .chip", el).forEach(function (c) { c.onclick = function () { cur = c.getAttribute("data-r"); up(); }; });
+        up();
+      }
+    },
+    histfirst: {
+      title: "Which came first?", html: '<div class="opts" id="hfo"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="hfs">0</b> / <b id="hfn">0</b></span><button class="btn btn-accent btn-sm" id="hfg">Next</button></div><div class="why" id="hfw" hidden></div>',
+      init: function (el, T) {
+        var B = T.bank || [], sc = 0, n = 0;
+        function yr(y) { return y < 0 ? -y + " BCE" : String(y); }
+        function round() {
+          var a, b; do { a = B[Math.floor(Math.random() * B.length)]; b = B[Math.floor(Math.random() * B.length)]; } while (a === b || a[1] === b[1]);
+          var first = a[1] < b[1] ? a : b, pair = shuffle(2).map(function (k) { return [a, b][k]; }), done = false;
+          $("#hfw", el).hidden = true;
+          $("#hfo", el).innerHTML = pair.map(function (p) { return '<button class="opt" data-ok="' + (p === first ? 1 : 0) + '">' + esc(p[0]) + "</button>"; }).join("");
+          $$("#hfo .opt", el).forEach(function (bt) { bt.onclick = function () { if (done) return; done = true; n++; var ok = bt.getAttribute("data-ok") === "1"; if (ok) sc++; bt.classList.add(ok ? "right" : "wrong"); $$("#hfo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#hfs", el).textContent = sc; $("#hfn", el).textContent = n; $("#hfw", el).hidden = false; $("#hfw", el).textContent = a[0] + ": " + yr(a[1]) + " · " + b[0] + ": " + yr(b[1]); }; });
+        }
+        $("#hfg", el).onclick = round; if (B.length) round();
+      }
+    },
+    histyear: {
+      title: "Name the year", html: '<div class="big" id="hyq" style="text-align:center;font-size:18px;font-weight:800;margin:6px 0">…</div><div class="opts" id="hyo" style="grid-template-columns:repeat(4,1fr)"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="hys">0</b> / <b id="hyn">0</b></span><button class="btn btn-accent btn-sm" id="hyg">Next</button></div>',
+      init: function (el, T) {
+        var B = (T.bank || []).filter(function (b) { return b[1] > 1000; }), sc = 0, n = 0;
+        function round() {
+          var e = B[Math.floor(Math.random() * B.length)], ops = [e[1]], done = false;
+          while (ops.length < 4) { var r = B[Math.floor(Math.random() * B.length)][1]; if (ops.indexOf(r) < 0) ops.push(r); }
+          var ord = shuffle(4);
+          $("#hyq", el).textContent = e[0];
+          $("#hyo", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-ok="' + (k === 0 ? 1 : 0) + '">' + ops[k] + "</button>"; }).join("");
+          $$("#hyo .opt", el).forEach(function (bt) { bt.onclick = function () { if (done) return; done = true; n++; var ok = bt.getAttribute("data-ok") === "1"; if (ok) sc++; bt.classList.add(ok ? "right" : "wrong"); $$("#hyo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#hys", el).textContent = sc; $("#hyn", el).textContent = n; }; });
+        }
+        $("#hyg", el).onclick = round; if (B.length) round();
+      }
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
