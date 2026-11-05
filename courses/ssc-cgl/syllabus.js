@@ -89,7 +89,7 @@ window.SSC = {
       id: "computer", name: "Computer Knowledge", short: "Computer", color: "#0369A1", soft: "#E0F2FE", t1: 0, t2: 20,
       blurb: "Tier 2 only: computer basics, MS Office, internet, networking, cyber security and typing.",
       units: [
-        ["basics", "Computer basics", "soon"], ["software", "Software & MS Office", "soon"],
+        ["basics", "Computer basics", "soon"], ["software", "Software & MS Office", "live"],
         ["internet", "Internet & email", "live"], ["networking", "Networking & cyber security", "live"],
         ["typing", "Data entry speed test practice", "live"]
       ]
