@@ -4,7 +4,7 @@ window.SSC_TOPICS["polity"] = {
   id: "polity", subject: "ga", num: 2, title: "Indian polity",
   minutes: 40,
   why: "Polity gives 3–4 GA marks in Tier 1: the Constitution’s making, Parts and key Articles, Fundamental Rights and Duties, Parliament, the President and the courts. Most questions test a number: an Article, an age, a year or an amendment.",
-  video: "videos/SSC_G02_Polity.mp4",
+  video: "videos/SSC_G02_Polity.mp4?v=2",
   slides: [
     { h: "Making of the Constitution", body: "<ul><li>Adopted on <b>26 November 1949</b>; in force from <b>26 January 1950</b>.</li><li>Dr B. R. Ambedkar chaired the Drafting Committee.</li><li>The 42nd Amendment (1976) added “socialist”, “secular” and the Fundamental Duties.</li></ul>" },
     { h: "Key Parts", body: "<table class=\"pt\"><tr><th>Part</th><th>Subject</th></tr><tr><td>III</td><td>Fundamental Rights (Art. 12–35)</td></tr><tr><td>IV</td><td>Directive Principles (Art. 36–51)</td></tr><tr><td>IV-A</td><td>Fundamental Duties (Art. 51A)</td></tr><tr><td>V</td><td>The Union (President, Parliament, Supreme Court)</td></tr><tr><td>VI</td><td>The States</td></tr></table>" },
