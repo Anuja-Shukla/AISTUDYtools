@@ -3218,6 +3218,37 @@
       title: "Numbers to remember", html: '<div class="tscroll"><table class="pt"><tr><th>Item</th><th>Number</th></tr><tr><td>Minimum age: Lok Sabha member</td><td>25</td></tr><tr><td>Minimum age: Rajya Sabha member</td><td>30</td></tr><tr><td>Minimum age: President / Vice-President</td><td>35</td></tr><tr><td>Lok Sabha term</td><td>5 years</td></tr><tr><td>Rajya Sabha member term</td><td>6 years (one-third retire every 2 years)</td></tr><tr><td>Rajya Sabha maximum members</td><td>250</td></tr><tr><td>Schedules in the Constitution</td><td>12</td></tr><tr><td>Fundamental Duties</td><td>11</td></tr><tr><td>Fundamental Rights (categories)</td><td>6</td></tr><tr><td>Voting age (since 61st Amendment, 1989)</td><td>18</td></tr></table></div>',
       init: function () {}
     }
+    ,
+    factquiz: {
+      title: "Quick quiz", html: '<div class="big" id="fqq" style="text-align:center;font-size:17px;font-weight:800;margin:6px 0">…</div><div class="opts" id="fqo"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="fqs">0</b> / <b id="fqn">0</b></span><button class="btn btn-accent btn-sm" id="fqg">Next</button></div><div class="why" id="fqw" hidden></div>',
+      init: function (el, T) {
+        var B = T.facts || [], sc = 0, n = 0, last = -1;
+        function round() {
+          var i; do { i = Math.floor(Math.random() * B.length); } while (B.length > 1 && i === last); last = i;
+          var f = B[i], ops = [f[1]].concat(f[2]), ord = shuffle(ops.length), done = false;
+          $("#fqq", el).textContent = f[0]; $("#fqw", el).hidden = true;
+          $("#fqo", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-ok="' + (k === 0 ? 1 : 0) + '">' + esc(ops[k]) + "</button>"; }).join("");
+          $$("#fqo .opt", el).forEach(function (b) { b.onclick = function () { if (done) return; done = true; n++; var ok = b.getAttribute("data-ok") === "1"; if (ok) sc++; b.classList.add(ok ? "right" : "wrong"); $$("#fqo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#fqs", el).textContent = sc; $("#fqn", el).textContent = n; if (f[3]) { $("#fqw", el).hidden = false; $("#fqw", el).textContent = f[3]; } }; });
+        }
+        $("#fqg", el).onclick = round; if (B.length) round();
+      }
+    },
+    factcards: {
+      title: "Flashcards", html: '<div class="fcard" id="fcc" tabindex="0" role="button" aria-label="Flip card"><div id="fcf"></div></div><div class="row" style="gap:6px;justify-content:center"><button class="btn btn-sm" id="fcp">◀</button><span class="tag" id="fci">1 / 1</span><button class="btn btn-sm" id="fcn">▶</button></div>',
+      init: function (el, T) {
+        var B = T.facts || [], i = 0, back = false;
+        function up() { var f = B[i]; $("#fcf", el).innerHTML = back ? "<b>" + esc(f[1]) + "</b>" + (f[3] ? "<small>" + esc(f[3]) + "</small>" : "") : esc(f[0]) + "<small>Tap to see the answer</small>"; $("#fcc", el).classList.toggle("back", back); $("#fci", el).textContent = (i + 1) + " / " + B.length; }
+        $("#fcc", el).onclick = function () { back = !back; up(); };
+        $("#fcc", el).onkeydown = function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); back = !back; up(); } };
+        $("#fcn", el).onclick = function () { i = (i + 1) % B.length; back = false; up(); };
+        $("#fcp", el).onclick = function () { i = (i - 1 + B.length) % B.length; back = false; up(); };
+        if (B.length) up();
+      }
+    },
+    atmlayers: {
+      title: "Layers of the atmosphere", html: '<div class="tscroll"><table class="pt"><tr><th>Layer</th><th>Height (approx.)</th><th>Key fact</th></tr><tr><td>Exosphere</td><td>above ~600 km</td><td>Thinnest; merges into space</td></tr><tr><td>Thermosphere</td><td>~80–600 km</td><td>Includes the ionosphere, which reflects radio waves</td></tr><tr><td>Mesosphere</td><td>~50–80 km</td><td>Coldest layer; meteors burn up</td></tr><tr><td>Stratosphere</td><td>~12–50 km</td><td>Ozone layer; jets fly in its lower part</td></tr><tr><td>Troposphere</td><td>0–~12 km</td><td>All weather happens here</td></tr></table></div>',
+      init: function () {}
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
