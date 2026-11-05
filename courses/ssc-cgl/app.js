@@ -3187,6 +3187,37 @@
         $("#hyg", el).onclick = round; if (B.length) round();
       }
     }
+    ,
+    artfind: {
+      title: "Article finder", html: '<div class="field"><label for="afq">Article number or keyword</label><input type="text" id="afq" value="21"></div><div class="tscroll"><table class="pt" id="aft"></table></div>',
+      init: function (el, T) {
+        var B = T.bank || [];
+        function up() {
+          var q = $("#afq", el).value.trim().toLowerCase(), r = B.filter(function (b) { return !q || String(b[0]).toLowerCase() === q || (q.length > 2 && b[1].toLowerCase().indexOf(q) >= 0); });
+          $("#aft", el).innerHTML = "<tr><th>Article</th><th>Subject</th></tr>" + (r.length ? r.map(function (b) { return "<tr><td><b>" + b[0] + "</b></td><td>" + esc(b[1]) + "</td></tr>"; }).join("") : '<tr><td colspan="2">Not in this list of common Articles</td></tr>');
+        }
+        $("#afq", el).oninput = up; up();
+      }
+    },
+    artquiz: {
+      title: "Article quiz", html: '<div class="big" id="aqq" style="text-align:center;font-size:17px;font-weight:800;margin:6px 0">…</div><div class="opts" id="aqo" style="grid-template-columns:repeat(4,1fr)"></div><div class="row" style="justify-content:space-between"><span class="tag indigo">Score <b id="aqs">0</b> / <b id="aqn">0</b></span><button class="btn btn-accent btn-sm" id="aqg">Next</button></div>',
+      init: function (el, T) {
+        var B = T.bank || [], sc = 0, n = 0;
+        function round() {
+          var e = B[Math.floor(Math.random() * B.length)], ops = [e[0]], done = false;
+          while (ops.length < 4) { var r = B[Math.floor(Math.random() * B.length)][0]; if (ops.indexOf(r) < 0) ops.push(r); }
+          var ord = shuffle(4);
+          $("#aqq", el).textContent = e[1] + "?";
+          $("#aqo", el).innerHTML = ord.map(function (k) { return '<button class="opt" data-ok="' + (k === 0 ? 1 : 0) + '">Art. ' + ops[k] + "</button>"; }).join("");
+          $$("#aqo .opt", el).forEach(function (bt) { bt.onclick = function () { if (done) return; done = true; n++; var ok = bt.getAttribute("data-ok") === "1"; if (ok) sc++; bt.classList.add(ok ? "right" : "wrong"); $$("#aqo .opt", el).forEach(function (x) { if (x.getAttribute("data-ok") === "1") x.classList.add("right"); }); $("#aqs", el).textContent = sc; $("#aqn", el).textContent = n; }; });
+        }
+        $("#aqg", el).onclick = round; if (B.length) round();
+      }
+    },
+    polnums: {
+      title: "Numbers to remember", html: '<div class="tscroll"><table class="pt"><tr><th>Item</th><th>Number</th></tr><tr><td>Minimum age: Lok Sabha member</td><td>25</td></tr><tr><td>Minimum age: Rajya Sabha member</td><td>30</td></tr><tr><td>Minimum age: President / Vice-President</td><td>35</td></tr><tr><td>Lok Sabha term</td><td>5 years</td></tr><tr><td>Rajya Sabha member term</td><td>6 years (one-third retire every 2 years)</td></tr><tr><td>Rajya Sabha maximum members</td><td>250</td></tr><tr><td>Schedules in the Constitution</td><td>12</td></tr><tr><td>Fundamental Duties</td><td>11</td></tr><tr><td>Fundamental Rights (categories)</td><td>6</td></tr><tr><td>Voting age (since 61st Amendment, 1989)</td><td>18</td></tr></table></div>',
+      init: function () {}
+    }
   };
   function tryIt(T, pane) {
     pane.innerHTML = '<div class="grid g2">' + T.tools.map(function (k, i) { return '<div class="card tool" id="tool' + i + '"><h3>' + esc(TOOLS[k].title) + '</h3>' + TOOLS[k].html + '</div>'; }).join("") + '</div><div class="row" style="margin-top:16px;justify-content:flex-end">' + nextBtn(T, "practice", "Practice questions") + '</div>';
