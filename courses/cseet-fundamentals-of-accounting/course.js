@@ -1399,7 +1399,7 @@
     d: function (l) { return l.tcfg.d || "Work through each case. Choose an answer to see the explanation, then move to the next case."; },
     b: function () { return ""; },
     wire: function (l, cout) {
-      var cs = l.tcfg.cases, k = 0, ans = {};
+      var cs = l.tcfg.cases.map(function (c) { var p = shuffleCopy(c.o.map(function (_, i) { return i; })); return { q: c.q, e: c.e, o: p.map(function (i) { return c.o[i]; }), a: p.indexOf(c.a) }; }), k = 0, ans = {};
       function draw() {
         var c = cs[k], a = ans[k], right = Object.keys(ans).filter(function (i) { return ans[i] === cs[i].a; }).length;
         cout.innerHTML = '<div class="row" style="justify-content:space-between"><span class="tag indigo">Case ' + (k + 1) + " of " + cs.length + '</span><span class="small muted">' + right + " correct so far</span></div>" +
