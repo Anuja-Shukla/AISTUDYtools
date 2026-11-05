@@ -71,7 +71,7 @@ window.SSC = {
         ["idioms", "Idioms & phrases", "soon"], ["spelling", "Spelling", "soon"],
         ["improvement", "Sentence improvement", "soon"], ["voice", "Active & passive voice", "soon"],
         ["narration", "Direct & indirect speech", "soon"], ["para-jumbles", "Sentence rearrangement", "soon"],
-        ["cloze", "Cloze test", "live"], ["rc", "Reading comprehension", "soon"]
+        ["cloze", "Cloze test", "live"], ["rc", "Reading comprehension", "live"]
       ]
     },
     {
