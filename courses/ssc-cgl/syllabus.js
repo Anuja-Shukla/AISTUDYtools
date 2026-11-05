@@ -90,7 +90,7 @@ window.SSC = {
       blurb: "Tier 2 only: computer basics, MS Office, internet, networking, cyber security and typing.",
       units: [
         ["basics", "Computer basics", "soon"], ["software", "Software & MS Office", "soon"],
-        ["internet", "Internet & email", "soon"], ["networking", "Networking & cyber security", "live"],
+        ["internet", "Internet & email", "live"], ["networking", "Networking & cyber security", "live"],
         ["typing", "Data entry speed test practice", "live"]
       ]
     }
