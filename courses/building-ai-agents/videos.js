@@ -10,5 +10,5 @@ window.AGT_VIDEOS = {
   "1.3": "",
   "2.1": "videos/AGT_2-1_Designing_Your_Agent.mp4",
   "2.2": "",
-  "2.3": ""
+  "2.3": "videos/AGT_2-3_Testing_Safety_and_Value.mp4"
 };
