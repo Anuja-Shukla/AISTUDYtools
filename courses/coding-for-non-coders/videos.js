@@ -8,7 +8,7 @@ window.CNC_VIDEOS = {
   "1.1": "",
   "1.2": "videos/CNC_1-2_Variables_Conditions_Loops.mp4",
   "1.3": "",
-  "2.1": "",
+  "2.1": "videos/CNC_2-1_Prompting_AI_to_Write_Code.mp4",
   "2.2": "",
   "2.3": ""
 };
