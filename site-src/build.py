@@ -52,7 +52,7 @@ I = {
 
 NAV = [("/", "Home", "home"), ("/services/", "Services", "services"), ("/tools/", "Faculty Corner", "tools"),
        ("/practice/", "Student Corner", "practice"), ("/research/", "Researcher", "research"), ("/courses/", "Courses", "courses"),
-       ("/instructors/", "Instructors", "instructors"), ("/webinars/", "Webinars", "webinars"), ("/contact/", "Contact", "contact")]
+       ("/k12/", "K-12", "k12"), ("/instructors/", "Instructors", "instructors"), ("/webinars/", "Webinars", "webinars"), ("/contact/", "Contact", "contact")]
 NAV_PARENT = {"learnx": "services", "evaluator": "services", "usecases": "tools"}
 
 def head(title, desc, path):
@@ -593,6 +593,56 @@ cs += f'''<section class="white" id="available" style="padding-top:40px">
 cs += cta("Want a course for your institution?", "We run courses and faculty development programmes for universities and training teams.", "Talk to us", "#demo:Courses")
 cs += FOOT
 write("/courses/", cs)
+
+# ---------------- K-12 ----------------
+K12_CLASSES = [
+    ("Class 9", "i-indigo", "pencil", ["Mathematics", "Science", "Social Science", "English"]),
+    ("Class 10", "i-sun", "target", ["Mathematics", "Science", "Social Science", "English"]),
+    ("Class 11", "i-sky", "flask", ["Science stream", "Commerce stream", "Humanities stream", "Computer Science / IP"]),
+    ("Class 12", "i-pink", "cap", ["Science stream", "Commerce stream", "Humanities stream", "Board exam practice"]),
+]
+def k12_classes():
+    out = ""
+    for t, col, ic, subs in K12_CLASSES:
+        chips = "".join(f'<span class="tag">{html.escape(x)}</span>' for x in subs)
+        out += f'<div class="card rv" style="text-align:left;align-items:flex-start;gap:10px"><div class="ico {col}" style="margin:0">{I[ic]}</div><span class="tag sun">Coming soon</span><h3>CBSE {t}</h3><div style="display:flex;gap:6px;flex-wrap:wrap">{chips}</div><a class="btn btn-soft btn-sm" href="#demo:K-12 {t}" style="margin-top:auto">Register interest</a></div>'
+    return f'<div class="grid g4">{out}</div>'
+
+k12 = head("K-12 Learning for CBSE Classes 9–12 | AIStudyTools",
+           "Interactive, concept-first learning for CBSE Classes 9 to 12: explainer videos, try-it tools, practice questions and board-style tests.", "/k12/") + header("k12")
+k12 += hero("K-12 · CBSE", 'Learn by <span class="hl">doing</span>, Classes 9–12.',
+            "Interactive lessons for CBSE students: short explainer videos, try-it tools you can play with, practice questions and board-style tests. Built to help students understand, not just memorise.",
+            [("Register interest", "#demo:K-12", "btn-ink"), ("Ask on WhatsApp", "https://wa.me/917303559258?text=" + "Hi%2C%20please%20tell%20me%20about%20AIStudyTools%20K-12%20courses.", "btn-soft")],
+            mindmap("CBSE 9–12", ["Mathematics", "Science", "Commerce", "Social Science", "Board prep"], "K-12 areas: mathematics, science, commerce, social science and board exam preparation"))
+k12 += f"""<section class="white">
+  <div class="wrap">
+    {sec_head("Choose your class", "Courses for each class are being built now, subject by subject. Register interest and we will tell you as soon as yours opens.", "Classes")}
+    {k12_classes()}
+  </div>
+</section>
+<section>
+  <div class="wrap">
+    {sec_head("How every lesson works", "", "Approach")}
+    {cards([("play", "Short explainer videos", "Each concept explained in a few minutes, with captions."), ("puzzle", "Try-it tools", "Change the numbers and see what happens: graphs, calculators and simulations."), ("pencil", "Practice with feedback", "Quick checks after every lesson, with worked solutions."), ("target", "Board-style tests", "Timed tests in the CBSE pattern, with a score and review.")], "g4")}
+  </div>
+</section>
+<section class="white">
+  <div class="wrap">
+    {sec_head("Start now with free courses", "These live courses already help with parts of the senior-secondary syllabus.", "Available today")}
+    {cards([("bars", "Basics of Statistics", 'Mean, median, mode and dispersion, useful for Class 11 Economics and Mathematics. <a href="/courses/basics-of-statistics/">Open the course</a>'), ("puzzle", "Coding for Non-Coders", 'Variables, loops and data in plain language, a gentle start for Computer Science and IP. <a href="/courses/coding-for-non-coders/">Open the course</a>'), ("chat", "Prompt Engineering", 'Use AI as a study partner, responsibly, without letting it do your thinking. <a href="/courses/prompt-engineering/">Open the course</a>')], "g3")}
+  </div>
+</section>
+<section>
+  <div class="wrap">
+    {sec_head("For parents and schools", "", "Partners")}
+    {cards([("users", "Parents", "Track what your child has completed and where they need more practice."), ("school", "Schools", "Use our lessons and tools in class, or ask for a programme built around your timetable."), ("teacher", "Teachers", "Free classroom tools in the Faculty Corner, and a place to list yourself as a tutor.")], "g3")}
+    <p style="text-align:center;margin-top:22px;font-size:15px;color:var(--muted)">Our lessons follow the CBSE curriculum but are written by us. For the official syllabus and textbooks, see <a href="https://cbseacademic.nic.in/" target="_blank" rel="noopener">CBSE Academic</a> and <a href="https://ncert.nic.in/textbook.php" target="_blank" rel="noopener">NCERT textbooks</a>.</p>
+  </div>
+</section>
+"""
+k12 += cta("Want K-12 lessons for your school?", "We build interactive lessons and teacher training for schools.", "Talk to us", "#demo:K-12 Schools")
+k12 += FOOT
+write("/k12/", k12)
 
 # ---------------- NEWSLETTER ----------------
 def read_issue(path):
