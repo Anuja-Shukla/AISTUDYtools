@@ -10,5 +10,5 @@ window.PMC_VIDEOS = {
   "1.3": "videos/PMC_1-3_Market_Sizing.mp4",
   "2.1": "videos/PMC_2-1_RICE_Prioritisation.mp4",
   "2.2": "",
-  "2.3": ""
+  "2.3": "videos/PMC_2-3_Funnels_and_A_B_Testing.mp4"
 };
