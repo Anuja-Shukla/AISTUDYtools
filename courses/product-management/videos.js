@@ -7,7 +7,7 @@
 window.PMC_VIDEOS = {
   "1.1": "videos/PMC_1-1_Product_Thinking.mp4",
   "1.2": "videos/PMC_1-2_Customer_Discovery.mp4",
-  "1.3": "",
+  "1.3": "videos/PMC_1-3_Market_Sizing.mp4",
   "2.1": "videos/PMC_2-1_RICE_Prioritisation.mp4",
   "2.2": "",
   "2.3": ""
