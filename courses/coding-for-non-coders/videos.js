@@ -6,7 +6,7 @@
 */
 window.CNC_VIDEOS = {
   "1.1": "",
-  "1.2": "",
+  "1.2": "videos/CNC_1-2_Variables_Conditions_Loops.mp4",
   "1.3": "",
   "2.1": "",
   "2.2": "",
