@@ -8,7 +8,7 @@ window.GEO_VIDEOS = {
   "1.1": "videos/GEO_1-1_SEO_Foundations.mp4",
   "1.2": "videos/GEO_1-2_How_AI_Search_Works.mp4",
   "1.3": "",
-  "2.1": "",
+  "2.1": "videos/GEO_2-1_Answer_First_Content.mp4",
   "2.2": "",
   "2.3": ""
 };
