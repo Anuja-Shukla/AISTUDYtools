@@ -7,7 +7,7 @@
 window.HRA_VIDEOS = {
   "1.1": "videos/HRA_1-1_Fundamentals.mp4",
   "1.2": "videos/HRA_1-2_Frameworks.mp4",
-  "1.3": "",
+  "1.3": "videos/HRA_1-3_Types_of_HR_Analytics.mp4",
   "2.1": "",
   "2.2": "",
   "2.3": ""
