@@ -562,7 +562,6 @@ def catalog_html():
 #fcount{{font-weight:600;color:var(--muted);margin:4px 0 16px}}#fcount a{{margin-left:8px}}
 #fnone{{display:none;text-align:center;padding:30px}}
 </style>
-<div class="fwrap"><p class="flab">I am a…</p><div class="frow" role="group" aria-label="Audience">{auds}</div></div>
 <div class="fwrap"><p class="flab">Subject</p><div class="frow" role="group" aria-label="Subject">{tabs}</div></div>
 <p id="fcount" aria-live="polite"></p>
 <div class="grid g3" id="cgrid">{cards_}</div>
@@ -577,12 +576,11 @@ document.getElementById("fnone").style.display=n?"none":"block";var cl=document.
 if(push)try{{history.replaceState(null,"",f?"#for:"+A+":"+S:location.pathname);}}catch(e){{}}}}
 document.querySelectorAll(".ftab").forEach(function(b){{b.onclick=function(){{S=b.dataset.s;apply(true);}};}});
 document.querySelectorAll(".faud").forEach(function(b){{b.onclick=function(){{A=b.dataset.a;apply(true);}};}});
-var m=location.hash.match(/^#for:([a-z]+):([a-z]+)$/);if(m){{if(M[m[1]])A=m[1];if(N[m[2]])S=m[2];}}apply(false);}})();
+var m=location.hash.match(/^#for:([a-z]+):([a-z]+)$/);if(m){{if(N[m[2]])S=m[2];}}apply(false);}})();
 </script>"""
 
-cs += f'''<section class="white" id="available">
+cs += f'''<section class="white" id="available" style="padding-top:40px">
   <div class="wrap">
-    {sec_head("Find your course", "", "Courses")}
     {catalog_html()}
   </div>
 </section>
