@@ -9,6 +9,6 @@ window.AGT_VIDEOS = {
   "1.2": "videos/AGT_1-2_The_Agent_Loop.mp4",
   "1.3": "videos/AGT_1-3_Tools_Knowledge_Memory.mp4",
   "2.1": "videos/AGT_2-1_Designing_Your_Agent.mp4",
-  "2.2": "",
+  "2.2": "videos/AGT_2-2_No_Code_Building_and_Patterns.mp4",
   "2.3": "videos/AGT_2-3_Testing_Safety_and_Value.mp4"
 };
