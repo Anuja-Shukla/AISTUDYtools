@@ -10,5 +10,5 @@ window.GEO_VIDEOS = {
   "1.3": "videos/GEO_1-3_What_Is_GEO.mp4",
   "2.1": "videos/GEO_2-1_Answer_First_Content.mp4",
   "2.2": "",
-  "2.3": ""
+  "2.3": "videos/GEO_2-3_Measuring_AI_Visibility.mp4"
 };
