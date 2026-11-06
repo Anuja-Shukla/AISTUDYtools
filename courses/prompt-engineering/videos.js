@@ -10,5 +10,5 @@ window.PE_VIDEOS = {
   "1.3": "videos/PE_1-3_Examples_and_Reasoning.mp4",
   "2.1": "videos/PE_2-1_Iterate_Chain_Structure.mp4",
   "2.2": "",
-  "2.3": ""
+  "2.3": "videos/PE_2-3_Responsible_AI_Use.mp4"
 };
