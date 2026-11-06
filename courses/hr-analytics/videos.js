@@ -11,5 +11,6 @@ window.HRA_VIDEOS = {
   "2.1": "videos/HRA_2-1_Capturing_HR_Data.mp4",
   "2.2": "videos/HRA_2-2_Power_BI.mp4",
   "2.3": "",
-  "1.4": "videos/HRA_1-4_HR_Metrics_and_Data.mp4"
+  "1.4": "videos/HRA_1-4_HR_Metrics_and_Data.mp4",
+  "2.4": "videos/HRA_2-4_Talent_Management.mp4"
 };
