@@ -10,5 +10,5 @@ window.CNC_VIDEOS = {
   "1.3": "",
   "2.1": "videos/CNC_2-1_Prompting_AI_to_Write_Code.mp4",
   "2.2": "",
-  "2.3": ""
+  "2.3": "videos/CNC_2-3_Your_First_Mini_App.mp4"
 };
