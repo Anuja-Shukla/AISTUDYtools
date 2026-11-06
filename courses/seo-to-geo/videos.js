@@ -5,7 +5,7 @@
   Leave a lesson empty ("") to show the built-in animated walkthrough instead.
 */
 window.GEO_VIDEOS = {
-  "1.1": "",
+  "1.1": "videos/GEO_1-1_SEO_Foundations.mp4",
   "1.2": "videos/GEO_1-2_How_AI_Search_Works.mp4",
   "1.3": "",
   "2.1": "",
