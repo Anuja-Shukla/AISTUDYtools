@@ -5,8 +5,8 @@
   Leave a lesson empty ("") to show the built-in animated walkthrough instead.
 */
 window.HRA_VIDEOS = {
-  "1.1": "",
-  "1.2": "",
+  "1.1": "videos/HRA_1-1_Fundamentals.mp4",
+  "1.2": "videos/HRA_1-2_Frameworks.mp4",
   "1.3": "",
   "2.1": "",
   "2.2": "",
