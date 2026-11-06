@@ -5,10 +5,10 @@
   Leave a lesson empty ("") to show the built-in animated walkthrough instead.
 */
 window.AGT_VIDEOS = {
-  "1.1": "",
+  "1.1": "videos/AGT_1-1_What_Is_an_AI_Agent.mp4",
   "1.2": "videos/AGT_1-2_The_Agent_Loop.mp4",
   "1.3": "",
-  "2.1": "",
+  "2.1": "videos/AGT_2-1_Designing_Your_Agent.mp4",
   "2.2": "",
   "2.3": ""
 };
