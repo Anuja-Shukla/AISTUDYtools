@@ -594,6 +594,80 @@ cs += cta("Want a course for your institution?", "We run courses and faculty dev
 cs += FOOT
 write("/courses/", cs)
 
+# ---------------- FREE COURSES LANDING (LinkedIn funnel) ----------------
+FREE_LP = [
+    ("prompt-engineering", "Prompt Engineering", "Write prompts that get reliable answers, and use AI responsibly."),
+    ("building-ai-agents", "Building AI Agents", "Design, build and test your first AI agent, no coding needed."),
+    ("seo-to-geo", "SEO to GEO", "Make your content easy for AI search engines to find, trust and cite."),
+    ("product-management", "Product Management", "From customer discovery and market sizing to RICE, MVPs and A/B tests."),
+    ("hr-analytics", "HR Analytics", "HR metrics, Power BI dashboards, workforce planning and talent analytics."),
+    ("basics-of-statistics", "Basics of Statistics", "Averages and spread, with calculators and teaching videos."),
+    ("coding-for-non-coders", "Coding for Non-Coders", "Think like a programmer and build real tools with AI."),
+]
+def free_lp():
+    opts = "".join(f'<option value="{k}">{html.escape(t)}</option>' for k, t, _ in FREE_LP)
+    tiles = "".join(f'<a class="card rv lpc" href="/courses/{k}/" data-c="{k}"><h3>{html.escape(t)}</h3><p>{html.escape(d)}</p><span class="tag indigo">Free · Certificate</span></a>' for k, t, d in FREE_LP)
+    names = json.dumps({k: t for k, t, _ in FREE_LP})
+    return f"""<style>
+.lp{{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:start}}@media(max-width:860px){{.lp{{grid-template-columns:1fr}}}}
+.lp ul{{margin:14px 0 0;padding-left:20px;line-height:1.8}}.lpc{{text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:8px;text-align:left;align-items:flex-start}}
+#lp-form label{{display:block;font-weight:600;font-size:14px;margin:12px 0 4px}}#lp-form input,#lp-form select{{width:100%;box-sizing:border-box;font:inherit;padding:11px 12px;border:1.5px solid var(--border);border-radius:10px;background:#fff}}
+#lp-form .ck{{display:flex;gap:8px;align-items:flex-start;font-weight:400;font-size:14px}}#lp-form .ck input{{width:auto;margin-top:3px}}
+#lp-done{{display:none}}.lp-err{{color:#B91C1C;font-size:14px;min-height:20px;margin-top:8px}}
+</style>
+<section class="white" style="padding-top:44px">
+  <div class="wrap lp">
+    <div>
+      <span class="tag indigo">Free · Self-paced · Certificate</span>
+      <h1 style="margin-top:12px;font-size:clamp(32px,4.4vw,48px);line-height:1.1">Learn AI and analytics skills, <span class="hl">free</span>.</h1>
+      <p class="lead">Short courses built by educators for students, faculty and working professionals. Each lesson has a teaching video, a try-it tool and quick checks, and you get a certificate when you pass the final test.</p>
+      <ul><li>No sign-up needed to start a course</li><li>Learn at your own pace, on phone or laptop</li><li>Leave your details to get a learning path and new-course updates</li></ul>
+    </div>
+    <div class="card" style="text-align:left;align-items:stretch">
+      <form id="lp-form" novalidate>
+        <h3 style="margin:0">Get your free learning path</h3>
+        <label for="lp-name">Name</label><input id="lp-name" name="name" autocomplete="name" required>
+        <label for="lp-email">Email</label><input id="lp-email" name="email" type="email" autocomplete="email" required>
+        <label for="lp-phone">WhatsApp number (optional)</label><input id="lp-phone" name="phone" type="tel" autocomplete="tel">
+        <label for="lp-role">I am a</label><select id="lp-role" name="role"><option>Student</option><option>Faculty / Researcher</option><option>Working professional</option></select>
+        <label for="lp-course">Course I want to start with</label><select id="lp-course" name="course">{opts}</select>
+        <label class="ck"><input type="checkbox" id="lp-ok" required><span>I agree to receive course updates from AIStudyTools. I can unsubscribe any time. <a href="/privacy/">Privacy policy</a></span></label>
+        <button class="btn btn-accent" type="submit" style="margin-top:14px;width:100%">Send me the learning path</button>
+        <p class="lp-err" role="status" aria-live="polite"></p>
+      </form>
+      <div id="lp-done"><h3>Thank you! You're on the list.</h3><p style="margin:8px 0 14px">We'll email your learning path. You can start right now:</p><a class="btn btn-accent" id="lp-go" href="/courses/">Start the course</a></div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="wrap">
+    {sec_head("All free courses", "", "Courses")}
+    <div class="grid g3">{tiles}</div>
+  </div>
+</section>
+<script>
+(function(){{var N={names},q=new URLSearchParams(location.search),f=document.getElementById("lp-form"),err=f.querySelector(".lp-err");
+var src={{source:q.get("utm_source")||"direct",medium:q.get("utm_medium")||"",campaign:q.get("utm_campaign")||"",content:q.get("utm_content")||""}};
+var c=q.get("course");if(c&&N[c])f.course.value=c;
+document.querySelectorAll(".lpc").forEach(function(a){{a.href+=(location.search||"");}});
+f.addEventListener("submit",function(e){{e.preventDefault();err.textContent="";
+var name=f.name.value.trim(),email=f.email.value.trim();
+if(!name||!/^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(email)){{err.textContent="Please enter your name and a valid email.";return;}}
+if(!document.getElementById("lp-ok").checked){{err.textContent="Please tick the box to receive updates.";return;}}
+var course=f.course.value,btn=f.querySelector("button");btn.disabled=true;btn.textContent="Sending…";
+var data={{_subject:"Lead ("+src.source+"): "+N[course],_template:"table",_captcha:"false",name:name,email:email,whatsapp:f.phone.value.trim(),role:f.role.value,course:N[course],source:src.source,medium:src.medium,campaign:src.campaign,post:src.content,page:location.href}};
+fetch("https://formsubmit.co/ajax/intelliqueresearchschool@gmail.com",{{method:"POST",headers:{{"Content-Type":"application/json",Accept:"application/json"}},body:JSON.stringify(data)}}).then(function(r){{if(!r.ok)throw 0;return r.json();}}).then(function(){{
+try{{gtag("event","generate_lead",{{lead_source:src.source,campaign:src.campaign,course:course}});}}catch(x){{}}
+f.style.display="none";var d=document.getElementById("lp-done");d.style.display="block";var g=document.getElementById("lp-go");g.href="/courses/"+course+"/";g.textContent="Start "+N[course];}})
+.catch(function(){{btn.disabled=false;btn.textContent="Send me the learning path";err.innerHTML='Sorry, that did not go through. Please try again or <a href="https://wa.me/917303559258">message us on WhatsApp</a>.';}});}});}})();
+</script>"""
+
+fl = head("Free AI and Analytics Courses with Certificates | AIStudyTools",
+          "Free self-paced courses in prompt engineering, AI agents, SEO to GEO, product management, HR analytics, statistics and coding, with certificates.", "/free/") + header("courses")
+fl += free_lp()
+fl += FOOT
+write("/free/", fl)
+
 # ---------------- NEWSLETTER ----------------
 def read_issue(path):
     raw = open(path, encoding="utf-8").read()
