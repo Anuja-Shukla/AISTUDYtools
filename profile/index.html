@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My profile and certificates | AIStudyTools</title>
+<meta name="description" content="Your AIStudyTools profile, certificates and course progress.">
+<link rel="canonical" href="https://www.aistudytools.com/profile/">
+<meta property="og:title" content="My profile and certificates | AIStudyTools">
+<meta property="og:description" content="Your AIStudyTools profile, certificates and course progress.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#4F46E5">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/site.css?v=39">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B375R6SXP9"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-B375R6SXP9');</script>
+<meta name="robots" content="noindex"></head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="hdr">
+  <div class="wrap">
+    <a class="logo" href="/" aria-label="AIStudyTools home"><span class="logo-mark"></span><span><b>AIStudyTools</b><small>AI for teaching &amp; learning</small></span></a>
+    <nav class="nav" aria-label="Main"><a href="/">Home</a><a href="/services/">Services</a><a href="/tools/">Faculty Corner</a><a href="/practice/">Student Corner</a><a href="/research/">Researcher</a><a href="/courses/">Courses</a><a href="/instructors/">Instructors</a><a href="/webinars/">Webinars</a><a href="/contact/">Contact</a></nav>
+    <div class="hdr-cta">
+      
+      <a class="me-btn on" href="/profile/" aria-label="My profile and certificates" title="My profile and certificates"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></a>
+      <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+</header>
+<main id="main">
+<style>
+.pf{max-width:980px}.pf h1{font-size:clamp(30px,4.5vw,44px)}.pf h2{font-size:24px;margin:34px 0 12px}
+.pf .card{padding:22px}.pf dl{display:grid;grid-template-columns:150px 1fr;gap:8px 14px;margin:14px 0 0}.pf dt{font-weight:700;color:var(--muted)}.pf dd{margin:0;word-break:break-word}
+@media(max-width:560px){.pf dl{grid-template-columns:1fr;gap:2px}.pf dd{margin-bottom:8px}}
+.pf .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.pf .grid2{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.pf .cert{border-left:6px solid #4F46E5}.pf .cert h3{font-size:19px;margin:8px 0 6px}.pf .cert p{margin:2px 0;color:var(--muted);font-size:15px}
+.pf .bar{height:10px;border-radius:999px;background:#EEF0FF;overflow:hidden;margin:10px 0 6px}.pf .bar i{display:block;height:100%;background:#4F46E5;border-radius:999px}
+.pf .cp h3{font-size:18px;margin:6px 0 2px}.pf .cp p{margin:0;color:var(--muted);font-size:14.5px}
+.pf .empty{color:var(--muted)}.pf .field{margin-top:10px}.pf .field label{display:block;font-weight:700;font-size:14px;margin-bottom:5px}
+.pf .field input,.pf .field select{width:100%;box-sizing:border-box;font:inherit;font-size:16px;padding:10px 12px;border:2px solid var(--border);border-radius:12px;background:#fff}
+.pf .msg{font-weight:600;margin-top:10px;min-height:20px}.pf .ok{color:#067647}.pf .bad{color:#B42318}
+</style>
+<section class="white" style="padding-top:40px"><div class="wrap pf">
+<span class="tag indigo">My profile</span>
+<h1 style="margin-top:10px">Your profile and certificates</h1>
+<p class="muted" style="max-width:720px">Your details, the certificates you have earned and your progress in each course. Courses save progress and certificates in this browser, so open this page on the same device and browser you study on.</p>
+
+<h2>Your details</h2>
+<div class="card" id="pf-me"></div>
+
+<h2>My certificates</h2>
+<div id="pf-certs"></div>
+
+<h2>My courses</h2>
+<div id="pf-courses"></div>
+
+<h2 id="pf-paid-h" hidden>Paid course access</h2>
+<div id="pf-paid"></div>
+
+<h2>Move to another device</h2>
+<div class="card"><p style="margin:0">Download a backup of your profile, progress and certificates, then restore it on another device or browser. Keep the file private. For a paid course, enter your access code again on the new device.</p>
+<div class="row"><button class="btn btn-accent" id="pf-dl">Download my backup</button><label class="btn btn-soft" style="cursor:pointer">Restore from a backup<input type="file" id="pf-up" accept="application/json,.json" hidden></label></div>
+<div class="msg" id="pf-bmsg" aria-live="polite"></div></div>
+</div></section>
+<script>
+(function(){
+var C=[{"slug": "basics-of-statistics", "title": "Basics of Statistics", "key": "bos_progress_v1", "n": 6}, {"slug": "hr-analytics", "title": "HR Analytics", "key": "hra_progress_v1", "n": 8}, {"slug": "prompt-engineering", "title": "Prompt Engineering", "key": "pe_progress_v1", "n": 6}, {"slug": "building-ai-agents", "title": "Building AI Agents", "key": "agt_progress_v1", "n": 6}, {"slug": "product-management", "title": "Product Management", "key": "pmc_progress_v1", "n": 6}, {"slug": "coding-for-non-coders", "title": "Coding for Non-Coders", "key": "cnc_progress_v1", "n": 6}, {"slug": "seo-to-geo", "title": "SEO to GEO", "key": "geo_progress_v1", "n": 6}, {"slug": "ca-foundation-accounting", "title": "CA Foundation: Accounting", "key": "caf_acc_progress_v1", "n": 33}, {"slug": "ca-foundation-business-laws", "title": "CA Foundation: Business Laws", "key": "caf_law_progress_v1", "n": 20}, {"slug": "ca-foundation-quantitative-aptitude", "title": "CA Foundation: Quantitative Aptitude", "key": "caq_progress_v1", "n": 19}, {"slug": "ca-foundation-business-economics", "title": "CA Foundation: Business Economics", "key": "caf_eco_progress_v1", "n": 26}, {"slug": "cseet-business-communication", "title": "CSEET: Business Communication", "key": "cseet_bc_progress_v1", "n": 8}, {"slug": "cseet-fundamentals-of-accounting", "title": "CSEET: Fundamentals of Accounting", "key": "cseet_fa_progress_v1", "n": 25}, {"slug": "cseet-economic-and-business-environment", "title": "CSEET: Economic and Business Environment", "key": "cseet_ebe_progress_v1", "n": 16}, {"slug": "cseet-business-laws-and-management", "title": "CSEET: Business Laws and Management", "key": "cseet_blm_progress_v1", "n": 24}, {"slug": "ssc-cgl", "title": "SSC CGL", "key": "aistudytools-ssc-cgl-v1", "n": 61}];
+var PAID={"ca-foundation":["CA Foundation Course","/courses/ca-foundation/"],"cseet":["CSEET Course","/courses/cseet/"],"ssc-cgl":["SSC CGL Course","/courses/ssc-cgl/"]};
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+function rd(k){try{return JSON.parse(localStorage.getItem(k)||"null");}catch(e){return null;}}
+function day(iso){try{return new Date(iso).toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});}catch(e){return iso;}}
+function user(){return (window.ASTUser&&window.ASTUser.get())||rd("ast_user");}
+
+function me(edit){
+  var u=user(),el=document.getElementById("pf-me");
+  if(!u){el.innerHTML='<p class="empty" style="margin:0">You have not registered in this browser yet. Fill in the registration form to see your profile.</p>';return;}
+  if(!edit){
+    el.innerHTML='<dl><dt>Name</dt><dd>'+esc(u.name)+'</dd><dt>Email</dt><dd>'+esc(u.email)+'</dd><dt>Mobile</dt><dd>'+(u.phone?esc(u.phone):'<span class="empty">Not given</span>')+'</dd><dt>I am a</dt><dd>'+esc(u.role||"")+'</dd><dt>Registered on</dt><dd>'+(u.at?day(u.at):"")+'</dd></dl><div class="row"><button class="btn btn-soft" id="pf-ed">Edit details</button></div>';
+    document.getElementById("pf-ed").onclick=function(){me(true);};return;}
+  var roles=["Student","Exam aspirant","Faculty / Researcher","Working professional","Other"];
+  el.innerHTML='<div class="field"><label for="pe-n">Full name</label><input id="pe-n" value="'+esc(u.name)+'"></div><div class="field"><label for="pe-e">Email</label><input id="pe-e" type="email" value="'+esc(u.email)+'"></div><div class="field"><label for="pe-p">Mobile / WhatsApp (optional)</label><input id="pe-p" type="tel" value="'+esc(u.phone||"")+'"></div><div class="field"><label for="pe-r">I am a</label><select id="pe-r">'+roles.map(function(r){return'<option'+(r===u.role?" selected":"")+'>'+r+'</option>';}).join("")+'</select></div><p class="small muted" style="margin-top:10px">Certificates you have already created keep the name printed on them.</p><div class="row"><button class="btn btn-accent" id="pe-s">Save</button><button class="btn btn-soft" id="pe-c">Cancel</button></div><div class="msg" id="pe-m"></div>';
+  document.getElementById("pe-c").onclick=function(){me(false);};
+  document.getElementById("pe-s").onclick=function(){
+    var n=document.getElementById("pe-n").value.trim(),e=document.getElementById("pe-e").value.trim().toLowerCase(),p=document.getElementById("pe-p").value.trim(),m=document.getElementById("pe-m");
+    if(n.length<2){m.className="msg bad";m.textContent="Please enter your full name.";return;}
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)){m.className="msg bad";m.textContent="Please enter a valid email.";return;}
+    if(p&&!/^[+()\d\s-]{8,18}$/.test(p)){m.className="msg bad";m.textContent="Please check your mobile number.";return;}
+    var nu=Object.assign({},u,{name:n,email:e,phone:p,role:document.getElementById("pe-r").value,updated:new Date().toISOString()});
+    try{localStorage.setItem("ast_user",JSON.stringify(nu));}catch(x){}
+    if(window.ASTUser)window.ASTUser.save(nu);
+    if(e!==u.email||n!==u.name||p!==(u.phone||"")){fetch("https://formsubmit.co/ajax/intelliqueresearchschool@gmail.com",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({_subject:"Profile updated: "+n,_template:"table",_captcha:"false",name:n,email:e,whatsapp:p,role:nu.role,previous_email:u.email})}).catch(function(){});}
+    me(false);};
+}
+
+function courses(){
+  var certs=[],rows=[];
+  C.forEach(function(c){
+    var s=rd(c.key);if(!s)return;
+    var done=0,best=null,cert=null;
+    if(c.slug==="ssc-cgl"){var t=s.t||{};done=Object.keys(t).filter(function(k){var p=t[k];return p&&(p.watch||p.slides||p.try||p.practice||p.test);}).length;}
+    else{done=Object.keys(s.done||{}).filter(function(k){return s.done[k];}).length;best=s.test&&(s.test.passScore||s.test.best);cert=s.cert;}
+    if(!done&&!best&&!cert)return;
+    if(cert)certs.push({c:c,cert:cert});
+    rows.push({c:c,done:Math.min(done,c.n),best:best,passed:!!(s.test&&s.test.passed),cert:cert});
+  });
+  var ce=document.getElementById("pf-certs");
+  ce.innerHTML=certs.length?'<div class="grid2">'+certs.map(function(x){var k=x.cert;return'<div class="card cert"><span class="tag mint">Certificate of Completion</span><h3>'+esc(x.c.title)+'</h3><p>Awarded to <b>'+esc(k.name)+'</b>'+(k.inst?', '+esc(k.inst):'')+'</p><p>Certificate ID: <b>'+esc(k.id)+'</b></p><p>Issued: '+esc(k.date)+(k.score?' · Score '+esc(k.score)+'%':'')+'</p><div class="row"><a class="btn btn-accent btn-sm" href="/courses/'+x.c.slug+'/#/certificate">View and download PDF</a></div></div>';}).join("")+'</div>'
+    :'<div class="card"><p class="empty" style="margin:0">No certificates in this browser yet. Finish a course and pass its final test (70%) to earn one. <a href="/courses/">Browse courses</a>.</p></div>';
+  var co=document.getElementById("pf-courses");
+  co.innerHTML=rows.length?'<div class="grid2">'+rows.map(function(r){var pct=Math.round(r.done/r.c.n*100),unit=r.c.slug==="ssc-cgl"?"topics started":"lessons complete";
+    var st=r.cert?'<span class="tag mint">Certificate earned</span>':r.passed?'<span class="tag mint">Test passed</span>':'<span class="tag indigo">In progress</span>';
+    return'<div class="card cp">'+st+'<h3>'+esc(r.c.title)+'</h3><div class="bar" role="img" aria-label="'+pct+'% complete"><i style="width:'+pct+'%"></i></div><p>'+r.done+' of '+r.c.n+' '+unit+(r.best!=null?' · Best test score '+esc(r.best)+'%':'')+'</p><div class="row" style="margin-top:12px"><a class="btn btn-soft btn-sm" href="/courses/'+r.c.slug+'/">'+(r.cert?"Open course":"Continue")+'</a></div></div>';}).join("")+'</div>'
+    :'<div class="card"><p class="empty" style="margin:0">You have not started a course in this browser yet. <a href="/courses/">See all courses</a>.</p></div>';
+  var pd=[];Object.keys(PAID).forEach(function(g){var u=rd("ast_unlock_"+g);if(u&&u.until)pd.push([g,u]);});
+  document.getElementById("pf-paid-h").hidden=!pd.length;
+  document.getElementById("pf-paid").innerHTML=pd.length?'<div class="grid2">'+pd.map(function(x){var live=new Date(x[1].until)>new Date();return'<div class="card cp"><span class="tag '+(live?"mint":"")+'">'+(live?"Active":"Expired")+'</span><h3>'+esc(PAID[x[0]][0])+'</h3><p>'+(live?"Access until ":"Ended on ")+day(x[1].until)+'</p><div class="row" style="margin-top:12px"><a class="btn btn-soft btn-sm" href="'+PAID[x[0]][1]+'">Open course</a></div></div>';}).join("")+'</div>':"";
+}
+
+function keys(){var out=[];for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k==="ast_user"||/_progress_v\d+$/.test(k)||k==="aistudytools-ssc-cgl-v1")out.push(k);}return out;}
+document.getElementById("pf-dl").onclick=function(){
+  var d={app:"AIStudyTools",version:1,saved:new Date().toISOString(),data:{}};
+  try{keys().forEach(function(k){d.data[k]=localStorage.getItem(k);});}catch(e){}
+  var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(d,null,1)],{type:"application/json"}));a.download="aistudytools-backup-"+new Date().toISOString().slice(0,10)+".json";document.body.appendChild(a);a.click();a.remove();
+  var m=document.getElementById("pf-bmsg");m.className="msg ok";m.textContent="Backup downloaded ("+Object.keys(d.data).length+" items).";};
+document.getElementById("pf-up").onchange=function(){
+  var f=this.files[0],m=document.getElementById("pf-bmsg");if(!f)return;
+  var r=new FileReader();r.onload=function(){try{var d=JSON.parse(r.result);if(d.app!=="AIStudyTools"||!d.data)throw 0;var n=0;
+    Object.keys(d.data).forEach(function(k){if(k==="ast_user"||/_progress_v\d+$/.test(k)||k==="aistudytools-ssc-cgl-v1"){localStorage.setItem(k,d.data[k]);n++;}});
+    m.className="msg ok";m.textContent="Restored "+n+" items.";me(false);courses();}catch(e){m.className="msg bad";m.textContent="That file is not an AIStudyTools backup.";}};r.readAsText(f);this.value="";};
+
+me(false);courses();
+if(window.ASTUser)window.ASTUser.ready(function(){me(false);});
+})();
+</script></main>
+<footer class="ftr">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="logo" href="/"><span class="logo-mark"></span><span><b>AIStudyTools</b></span></a>
+        <p style="margin-top:10px;max-width:300px;font-size:15px">AI tools and courses for teaching and learning. A platform of Intellique Research School Pvt Ltd.</p>
+      </div>
+      
+      <div><h4>Contact</h4><a href="mailto:intelliqueresearchschool@gmail.com">intelliqueresearchschool@gmail.com</a><a href="https://wa.me/917303559258" target="_blank" rel="noopener">WhatsApp +91 73035 59258</a><a href="tel:+917303559258">Call +91 73035 59258</a></div>
+      <div><h4>Sister sites</h4><a href="https://www.theresearchschool.com/">The Research School</a><a href="https://aijuggernauts.com/">AIjuggernauts</a><a href="https://intelliqueresearchschool.com/">Intellique Research School</a></div>
+    </div>
+    <div class="copy"><span>© <span id="yr">2026</span> Intellique Research School Pvt Ltd. All rights reserved.</span><span>Made for teachers, learners and institutions. · <a href="/terms/" style="display:inline">Terms</a> · <a href="/profile/" style="display:inline">My profile</a> · <a href="/copyright/" style="display:inline">Copyright</a> · <a href="/privacy/" style="display:inline">Privacy</a> · <a href="/refund-policy/" style="display:inline">Refunds</a></span></div>
+    <p class="ipn" style="margin-top:12px;font-size:13px;line-height:1.5;opacity:.85">All tools, code and course content on AIStudyTools are protected under the Copyright Act, 1957 and the Information Technology Act, 2000. Copying, cloning or republishing any tool or content without written permission is prohibited. <a href="/copyright/" style="display:inline;text-decoration:underline">Copyright and IP Policy</a></p>
+  </div>
+</footer>
+<script src="/static/site.js?v=39" defer></script>
+<script src="/static/register.js?v=1" defer></script>
+</body>
+</html>

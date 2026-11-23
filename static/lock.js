@@ -33,12 +33,15 @@
     try { (window.SSC.subjects || []).forEach(function (s) { s.units.slice(0, 2).forEach(function (u) { freeTopics[u[0]] = 1; }); }); } catch (e) {}
     return freeTopics;
   }
+  var CKEY = { "ca-foundation-accounting": "caf_acc_progress_v1", "ca-foundation-business-laws": "caf_law_progress_v1", "ca-foundation-quantitative-aptitude": "caq_progress_v1", "ca-foundation-business-economics": "caf_eco_progress_v1", "cseet-business-communication": "cseet_bc_progress_v1", "cseet-fundamentals-of-accounting": "cseet_fa_progress_v1", "cseet-economic-and-business-environment": "cseet_ebe_progress_v1", "cseet-business-laws-and-management": "cseet_blm_progress_v1" };
+  function hasCert() { try { var k = CKEY[location.pathname.split("/")[2]]; var s = k && JSON.parse(localStorage.getItem(k) || "null"); return !!(s && s.cert); } catch (e) { return false; } }
   function parts(h) { return String(h == null ? location.hash : h).replace(/^#\/?/, "").split("/").filter(Boolean); }
   function lockedRoute(h) {
     if (unlocked()) return false;
     var p = parts(h);
     if (SSC) return (p[0] === "t" && p[1] && !sscFree()[p[1]]) || p[0] === "mock";
     if (p[0] === "lesson") return !(p[1] === "1.1" || p[1] === "1.2");
+    if (p[0] === "certificate" && hasCert()) return false; /* certificates earned before the course became paid stay available */
     return p[0] === "test" || p[0] === "certificate" || p[0] === "recap";
   }
 

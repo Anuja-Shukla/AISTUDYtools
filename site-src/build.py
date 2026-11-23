@@ -4,7 +4,7 @@ import os, html, re, glob, json
 import markdown
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "38"  # cache-buster for css/js
+V = "39"  # cache-buster for css/js
 PAY_API = ""  # payment server (Cloudflare Worker) URL; empty = paid-course enrolment shows "opens soon"
 
 def svg(paths, extra=""):
@@ -91,6 +91,7 @@ def header(active):
     <nav class="nav" aria-label="Main">{links}</nav>
     <div class="hdr-cta">
       {demo_btn}
+      <a class="me-btn{' on' if active == 'profile' else ''}" href="/profile/" aria-label="My profile and certificates" title="My profile and certificates"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></a>
       <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     </div>
   </div>
@@ -110,7 +111,7 @@ FOOT = f'''</main>
       <div><h4>Contact</h4><a href="mailto:intelliqueresearchschool@gmail.com">intelliqueresearchschool@gmail.com</a><a href="https://wa.me/917303559258" target="_blank" rel="noopener">WhatsApp +91 73035 59258</a><a href="tel:+917303559258">Call +91 73035 59258</a></div>
       <div><h4>Sister sites</h4><a href="https://www.theresearchschool.com/">The Research School</a><a href="https://aijuggernauts.com/">AIjuggernauts</a><a href="https://intelliqueresearchschool.com/">Intellique Research School</a></div>
     </div>
-    <div class="copy"><span>© <span id="yr">2026</span> Intellique Research School Pvt Ltd. All rights reserved.</span><span>Made for teachers, learners and institutions. · <a href="/terms/" style="display:inline">Terms</a> · <a href="/copyright/" style="display:inline">Copyright</a> · <a href="/privacy/" style="display:inline">Privacy</a> · <a href="/refund-policy/" style="display:inline">Refunds</a></span></div>
+    <div class="copy"><span>© <span id="yr">2026</span> Intellique Research School Pvt Ltd. All rights reserved.</span><span>Made for teachers, learners and institutions. · <a href="/terms/" style="display:inline">Terms</a> · <a href="/profile/" style="display:inline">My profile</a> · <a href="/copyright/" style="display:inline">Copyright</a> · <a href="/privacy/" style="display:inline">Privacy</a> · <a href="/refund-policy/" style="display:inline">Refunds</a></span></div>
     <p class="ipn" style="margin-top:12px;font-size:13px;line-height:1.5;opacity:.85">All tools, code and course content on AIStudyTools are protected under the Copyright Act, 1957 and the Information Technology Act, 2000. Copying, cloning or republishing any tool or content without written permission is prohibited. <a href="/copyright/" style="display:inline;text-decoration:underline">Copyright and IP Policy</a></p>
   </div>
 </footer>
@@ -834,6 +835,7 @@ exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "paid.py"), e
 exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "award.py"), encoding="utf-8").read())
 exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "instructors.py"), encoding="utf-8").read())
 exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "research.py"), encoding="utf-8").read())
+exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "profile.py"), encoding="utf-8").read())
 
 # ---------------- 404 ----------------
 nf = head("Page not found | AIStudyTools", "The page you are looking for could not be found.", "/404.html") + header("")

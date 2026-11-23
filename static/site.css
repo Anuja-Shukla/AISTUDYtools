@@ -284,3 +284,5 @@ section{padding:88px 0}
 @media (min-width:1301px){.hdr .wrap:has(.hdr-cta .btn){max-width:1300px}}
 @media (min-width:1024px) and (max-width:1300px){.nav a{padding:7px 5px;font-size:13.5px}.logo b{font-size:18px}.hdr .wrap:has(.hdr-cta .btn) .nav a{padding:6px 3px;font-size:12.5px}.hdr .wrap:has(.hdr-cta .btn) .hdr-cta .btn{padding:8px 10px;font-size:12.5px}}
 @media (min-width:1024px) and (max-width:1160px){.nav a{padding:6px 4px;font-size:12.5px}.logo b{font-size:16px}.logo-mark{width:28px;height:28px}.hdr .wrap:has(.hdr-cta .btn) .logo b{display:none}.hdr .wrap:has(.hdr-cta .btn) .nav a{padding:6px 3px;font-size:12px}}
+
+.me-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;flex:none;border-radius:12px;border:1px solid var(--border);background:#fff;color:var(--ink)}.me-btn:hover,.me-btn.on{border-color:#4F46E5;color:#4F46E5}
