@@ -51,7 +51,7 @@
   function home() {
     var units = 0, live = 0;
     D.subjects.forEach(function (s) { s.units.forEach(function (u) { units++; if (u[2] === "live") live++; }); });
-    var h = '<section class="hero"><div><span class="tag indigo">Free interactive course · updated ' + esc(D.updated) + '</span>' +
+    var h = '<section class="hero"><div><span class="tag indigo">2 free topics per subject · full course ₹1,999/year · updated ' + esc(D.updated) + '</span>' +
       '<h1 style="margin-top:12px">SSC CGL: learn it, try it, test it</h1>' +
       '<p class="lead">The full Tier 1 and Tier 2 syllabus, one topic at a time. Each topic has a teaching video, self-paced slides, hands-on tools, practice questions and a timed test with negative marking.</p>' +
       '<div class="row" style="margin-top:18px"><a class="btn btn-accent" href="#/t/percentages">Start with Percentages</a><a class="btn btn-soft" href="#syllabus">See the syllabus</a></div></div>' +

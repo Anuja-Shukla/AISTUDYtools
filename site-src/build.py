@@ -4,7 +4,7 @@ import os, html, re, glob, json
 import markdown
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "37"  # cache-buster for css/js
+V = "38"  # cache-buster for css/js
 PAY_API = ""  # payment server (Cloudflare Worker) URL; empty = paid-course enrolment shows "opens soon"
 
 def svg(paths, extra=""):
@@ -185,7 +185,10 @@ def hook(title, name, label, tag="40-second watch", ver="1"):
 def checks(items):
     return '<ul class="checks">' + "".join(f"<li>{x}</li>" for x in items) + "</ul>"
 
+REG_PAGES = {"/ai-evaluator/", "/research/reference-mapper/"}  # tools that ask visitors to register first (static/register.js)
 def write(path, content):
+    if path in REG_PAGES and "register.js" not in content:
+        content = content.replace("</body>", '<script src="/static/register.js?v=1" defer></script>\n</body>', 1)
     p = os.path.join(OUT, path.strip("/"), "index.html") if not path.endswith(".html") else os.path.join(OUT, path.strip("/"))
     os.makedirs(os.path.dirname(p), exist_ok=True)
     open(p, "w", encoding="utf-8").write(content)
@@ -206,7 +209,13 @@ COURSES = [
 ]
 def course_cards(items):
     pal = ["i-indigo", "i-sun", "i-sky", "i-pink", "i-mint"]
-    return '<div class="grid g3">' + "".join(f'<a class="card tool rv" href="{h}"><div class="ico {pal[n % 5]}">{I[ic]}</div><h3>{t}</h3><p>{d}</p><span class="tag indigo" style="align-self:flex-start;font-size:13px;padding:5px 12px">Free · Certificate</span><span class="go">Start the course {I["arrow"]}</span></a>' for n, (ic, t, d, h) in enumerate(items)) + "</div>"
+    out = ""
+    for n, it in enumerate(items):
+        ic, t, d, h = it[:4]
+        badge = it[4] if len(it) > 4 else "Free · Certificate"
+        btn = it[5] if len(it) > 5 else "Start the course"
+        out += f'<a class="card tool rv" href="{h}"><div class="ico {pal[n % 5]}">{I[ic]}</div><h3>{t}</h3><p>{d}</p><span class="tag indigo" style="align-self:flex-start;font-size:13px;padding:5px 12px">{badge}</span><span class="go">{btn} {I["arrow"]}</span></a>'
+    return '<div class="grid g3">' + out + "</div>"
 
 home = head("AIStudyTools | Free AI Courses and Tools for Teaching and Learning",
             "Free self-paced courses with certificates, AI tools for faculty and students, an AI evaluator for rubric-based feedback, webinars, and LearnX for institutions.", "/") + header("home")
@@ -219,7 +228,7 @@ home += f'''<section id="products" class="white">
   <div class="wrap">
     {sec_head("Everything in one place", "For faculty who want livelier classes, students who want to practise, professionals who want new skills, and institutions that want it at scale.", "What we offer")}
     <div class="grid g2">
-      <a class="prod p-course rv" href="/courses/"><span class="kicker">Free · with certificate</span><div class="ico i-pink" style="background:#fff">{I["calendar"]}</div><h3>Courses</h3><p>Self-paced courses with interactive tools, quick checks, a final test and a certificate.</p><ul><li>Statistics</li><li>Prompt Engineering</li><li>Product Management</li><li>HR Analytics</li><li>SEO to GEO</li><li>Building AI Agents</li><li>Coding for Non-Coders</li><li>CA Foundation Course</li></ul><span class="go">See all courses {I["arrow"]}</span></a>
+      <a class="prod p-course rv" href="/courses/"><span class="kicker">Free and paid · with certificate</span><div class="ico i-pink" style="background:#fff">{I["calendar"]}</div><h3>Courses</h3><p>Self-paced courses with interactive tools, quick checks, a final test and a certificate.</p><ul><li>Statistics</li><li>Prompt Engineering</li><li>Product Management</li><li>HR Analytics</li><li>SEO to GEO</li><li>Building AI Agents</li><li>Coding for Non-Coders</li><li>CA Foundation Course</li></ul><span class="go">See all courses {I["arrow"]}</span></a>
       <a class="prod p-skill rv" href="/tools/"><span class="kicker">Free for faculty</span><div class="ico i-sun" style="background:#fff">{I["teacher"]}</div><h3>Faculty Corner</h3><p>Turn a concept or chapter into something students do, not just read.</p><ul><li>Simulation Creator</li><li>Quick Case Generator</li><li>Interactive Game Creator</li><li>AI Presentation Creator</li></ul><span class="go">Open the Faculty Corner {I["arrow"]}</span></a>
       <a class="prod p-health rv" href="/practice/"><span class="kicker">Free for students</span><div class="ico i-sky" style="background:#fff">{I["student"]}</div><h3>Student Corner</h3><p>Make decisions, see consequences, get feedback and try again.</p><ul><li>Branching simulations</li><li>Learning games</li><li>Course comparison</li></ul><span class="go">Start practising {I["arrow"]}</span></a>
       <a class="prod p-learn rv" href="/research/"><span class="kicker">New · free for researchers</span><div class="ico i-mint" style="background:#fff">{I["search"]}</div><h3>Researcher</h3><p>Map every citation to its reference, fix gaps and switch styles in one click. Then pick the right journal.</p><ul><li>Reference Mapper</li><li>APA, Harvard, MLA, IEEE</li><li>Journal Finder</li></ul><span class="go">Open Researcher tools {I["arrow"]}</span></a>
@@ -231,8 +240,8 @@ home += f'''<section id="products" class="white">
 </section>
 <section id="courses-home">
   <div class="wrap">
-    {sec_head("Free courses, with certificates", "Learn at your own pace. Every lesson has a walkthrough, clear notes, a worked example and an interactive tool. Pass the final test to download your certificate.", "Start learning today")}
-    {course_cards([c for c in COURSES if not c[3].startswith("/courses/ca-foundation")] + [("cap", "CA Foundation Course", "All four CA Foundation papers (May 2027 onwards): Accounting, Business Laws, Quantitative Aptitude and Business Economics.", "/courses/ca-foundation/")])}
+    {sec_head("Courses, with certificates", "Seven courses are completely free. CA Foundation, CSEET and SSC CGL let you try the first 2 lessons of each paper free before you enrol. Every lesson has a teaching video, clear notes, a worked example and an interactive tool. Pass the final test to download your certificate.", "Start learning today")}
+    {course_cards([c for c in COURSES if not c[3].startswith("/courses/ca-foundation")] + [("cap", "CA Foundation Course", "All four CA Foundation papers (May 2027 onwards): Accounting, Business Laws, Quantitative Aptitude and Business Economics.", "/courses/ca-foundation/", "₹4,999/year · 2 lessons per paper free", "Try 2 lessons free"), ("chat", "CSEET Course", "All four CSEET papers (June 2026 onwards), with interactive tools, final tests and certificates.", "/courses/cseet/", "₹2,999/year · 2 lessons per paper free", "Try 2 lessons free"), ("target", "SSC CGL Course", "Full Tier 1 and Tier 2 syllabus with teaching videos, practice and timed mock tests.", "/courses/ssc-cgl/", "₹1,999/year · 2 topics per subject free", "Try 2 topics free")])}
     <p class="rv" style="text-align:center;margin-top:22px"><a class="btn btn-ink" href="/courses/">See all courses and upcoming ones {I["arrow"]}</a></p>
   </div>
 </section>
@@ -530,7 +539,7 @@ CATALOG = [
     # icon, colour, title, description, link, subject, audiences ("all" = everyone), badge, button, status
     ("bars", "i-indigo", "Basics of Statistics", "Central tendency and dispersion with teaching videos, calculators, quick checks and a final test.", "/courses/basics-of-statistics/", "data", ["student", "faculty", "pro"], "Free · Videos", "Start the course", "live"),
     ("users", "i-sun", "HR Analytics", "HR metrics, Power BI dashboards, workforce planning and talent analytics.", "/courses/hr-analytics/", "data", ["pro", "student"], "Free", "Start the course", "live"),
-    ("bars", "i-mint", "Data Analysis and Visualisation", "Clean data, find patterns and make clear charts and dashboards with AI and spreadsheet tools.", "#demo:Courses", "data", ["student", "pro"], "Coming soon", "Register interest", "soon"),
+    ("bars", "i-mint", "Data Analysis and Visualisation", "Clean data, find patterns and make clear charts and dashboards with AI and spreadsheet tools.", "#demo:Courses", "data", ["student", "pro"], "Coming soon · Free", "Register interest", "soon"),
     ("chat", "i-pink", "Prompt Engineering", "Write prompts that get reliable answers, and use AI responsibly.", "/courses/prompt-engineering/", "ai", ["all"], "Free", "Start the course", "live"),
     ("bot", "i-indigo", "Building AI Agents", "Design, build and test your first AI agent, no coding needed.", "/courses/building-ai-agents/", "ai", ["pro", "faculty", "student"], "Free", "Start the course", "live"),
     ("bot", "i-sky", "Agentic AI", "Multi-agent systems, MCP, evaluation, guardrails and deployment.", "/courses/agentic-ai/", "ai", ["pro"], "Paid · ₹499", "View course", "live"),
@@ -539,9 +548,9 @@ CATALOG = [
     ("target", "i-sky", "Product Management", "From customer discovery and market sizing to RICE, MVPs and A/B tests.", "/courses/product-management/", "biz", ["student", "pro"], "Free", "Start the course", "live"),
     ("search", "i-sky", "SEO to GEO", "Make your content easy for AI search engines to find, trust and cite.", "/courses/seo-to-geo/", "biz", ["pro"], "Free", "Start the course", "live"),
     ("puzzle", "i-sun", "Coding for Non-Coders", "Think like a programmer and build real tools with AI, no experience needed.", "/courses/coding-for-non-coders/", "tech", ["all"], "Free", "Start the course", "live"),
-    ("cap", "i-mint", "CA Foundation Course", "All four papers (May 2027 onwards): Accounting, Business Laws, Quantitative Aptitude and Business Economics.", "/courses/ca-foundation/", "exam", ["exam", "student"], "Free · 4 papers", "Open the course", "live"),
-    ("chat", "i-sky", "CSEET Course", "CS Executive Entrance Test (restructured, June 2026 onwards): all four papers, with interactive tools, final tests and certificates.", "/courses/cseet/", "exam", ["exam", "student"], "Free · 4 papers", "Open the course", "live"),
-    ("target", "i-pink", "SSC CGL Course", "Full Tier 1 and Tier 2 syllabus with teaching videos, try-it tools, practice and timed tests with negative marking. New topics added regularly.", "/courses/ssc-cgl/", "exam", ["exam", "student"], "Free · New", "Open the course", "live"),
+    ("cap", "i-mint", "CA Foundation Course", "All four papers (May 2027 onwards): Accounting, Business Laws, Quantitative Aptitude and Business Economics.", "/courses/ca-foundation/", "exam", ["exam", "student"], "₹4,999/year · 2 lessons per paper free", "Try 2 lessons free", "live"),
+    ("chat", "i-sky", "CSEET Course", "CS Executive Entrance Test (restructured, June 2026 onwards): all four papers, with interactive tools, final tests and certificates.", "/courses/cseet/", "exam", ["exam", "student"], "₹2,999/year · 2 lessons per paper free", "Try 2 lessons free", "live"),
+    ("target", "i-pink", "SSC CGL Course", "Full Tier 1 and Tier 2 syllabus with teaching videos, try-it tools, practice and timed tests with negative marking. New topics added regularly.", "/courses/ssc-cgl/", "exam", ["exam", "student"], "₹1,999/year · 2 topics per subject free", "Try 2 topics free", "live"),
     ("teacher", "i-sun", "AI in Teaching and Research", "Build simulations, quick cases and quiz games for your own course, and use AI responsibly in assessment.", "#demo:Courses", "edu", ["faculty"], "Coming soon", "Register interest", "soon"),
     ("search", "i-indigo", "AI for Research and Literature Review", "Find, read and summarise papers faster, and use AI responsibly in writing and publishing.", "#demo:Courses", "edu", ["faculty"], "Coming soon", "Register interest", "soon"),
 ]
@@ -659,6 +668,7 @@ var course=f.course.value,btn=f.querySelector("button");btn.disabled=true;btn.te
 var data={{_subject:"Lead ("+src.source+"): "+N[course],_template:"table",_captcha:"false",name:name,email:email,whatsapp:f.phone.value.trim(),role:f.role.value,course:N[course],source:src.source,medium:src.medium,campaign:src.campaign,post:src.content,page:location.href}};
 fetch("https://formsubmit.co/ajax/intelliqueresearchschool@gmail.com",{{method:"POST",headers:{{"Content-Type":"application/json",Accept:"application/json"}},body:JSON.stringify(data)}}).then(function(r){{if(!r.ok)throw 0;return r.json();}}).then(function(){{
 try{{gtag("event","generate_lead",{{lead_source:src.source,campaign:src.campaign,course:course}});}}catch(x){{}}
+try{{localStorage.setItem("ast_user",JSON.stringify({{name:name,email:email.toLowerCase(),phone:f.phone.value.trim(),role:f.role.value,at:new Date().toISOString(),first_page:"/free/"}}));}}catch(x){{}}
 f.style.display="none";var d=document.getElementById("lp-done");d.style.display="block";var g=document.getElementById("lp-go");g.href="/courses/"+course+"/";g.textContent="Start "+N[course];}})
 .catch(function(){{btn.disabled=false;btn.textContent="Send me the learning path";err.innerHTML='Sorry, that did not go through. Please try again or <a href="https://wa.me/917303559258">message us on WhatsApp</a>.';}});}});}})();
 </script>"""

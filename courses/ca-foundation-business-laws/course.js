@@ -997,7 +997,7 @@
     var nl = nextLesson();
     var cta = nl ? '<a class="btn btn-accent" href="#/lesson/' + nl.id + '">' + (doneCount() ? "Continue: Lesson " + nl.id : "Start the course") + "</a>" :
       (passed() ? '<a class="btn btn-accent" href="#/certificate">Get your certificate</a>' : '<a class="btn btn-accent" href="#/test">Take the final test</a>');
-    var h = '<section class="hero"><div><span class="tag">Free course · about ' + CFG.hours + ' hours · ' + LESSONS.length + ' lessons</span><h1 style="margin-top:14px">' + CFG.title + '</h1>' +
+    var h = '<section class="hero"><div><span class="tag">2 free lessons · full course ₹4,999/year · about ' + CFG.hours + ' hours · ' + LESSONS.length + ' lessons</span><h1 style="margin-top:14px">' + CFG.title + '</h1>' +
       '<p class="lead">' + CFG.lead + '</p>' +
       '<p class="muted" style="margin-top:12px">' + CFG.intro + '</p>' +
       '<p class="small muted" style="margin-top:10px">' + CFG.exam + ' Always confirm the current scheme on <a href="' + BODY.home + '" target="_blank" rel="noopener">' + BODY.site + '</a>.</p>' +

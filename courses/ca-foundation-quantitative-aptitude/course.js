@@ -1563,7 +1563,7 @@
     var nl = nextLesson();
     var cta = nl ? '<a class="btn btn-accent" href="#/lesson/' + nl.id + '">' + (doneCount() ? "Continue: Lesson " + nl.id : "Start the course") + "</a>" :
       (passed() ? '<a class="btn btn-accent" href="#/certificate">Get your certificate</a>' : '<a class="btn btn-accent" href="#/test">Take the final test</a>');
-    var h = '<section class="hero"><div><span class="tag">Free course · about 5 hours · 19 lessons</span><h1 style="margin-top:14px">CA Foundation: Quantitative Aptitude</h1>' +
+    var h = '<section class="hero"><div><span class="tag">2 free lessons · full course ₹4,999/year · about 5 hours · 19 lessons</span><h1 style="margin-top:14px">CA Foundation: Quantitative Aptitude</h1>' +
       '<p class="lead">Business Mathematics, Logical Reasoning and Statistics, explained step by step with calculators you can check your answers on.</p>' +
       '<p class="muted" style="margin-top:12px">For CA Foundation students preparing for Paper 3, and for anyone who wants a solid base in business maths and statistics. The course follows the topics of the CA Foundation Paper 3 syllabus in three modules. Every lesson has an animated walkthrough, clear notes, a worked example, an interactive tool and two quick checks. Then pass the final test to earn your certificate.</p>' +
       '<p class="small muted" style="margin-top:10px">The exam paper is objective, 100 marks: Business Mathematics 40, Logical Reasoning 20, Statistics 40, with ¼ mark deducted for each wrong answer. Always confirm the current scheme on <a href="https://www.icai.org/" target="_blank" rel="noopener">icai.org</a>.</p>' +
