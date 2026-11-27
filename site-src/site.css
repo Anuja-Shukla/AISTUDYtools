@@ -286,3 +286,8 @@ section{padding:88px 0}
 @media (min-width:1024px) and (max-width:1160px){.nav a{padding:6px 4px;font-size:12.5px}.logo b{font-size:16px}.logo-mark{width:28px;height:28px}.hdr .wrap:has(.hdr-cta .btn) .logo b{display:none}.hdr .wrap:has(.hdr-cta .btn) .nav a{padding:6px 3px;font-size:12px}}
 
 .me-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;flex:none;border-radius:12px;border:1px solid var(--border);background:#fff;color:var(--ink)}.me-btn:hover,.me-btn.on{border-color:#4F46E5;color:#4F46E5}
+
+/* decluttered header (Nov 2026): 6 items, Contact as a pill */
+@media (min-width:1024px){.nav{gap:4px}.nav a{padding:9px 13px;font-size:15.5px}.nav a[href="/contact/"]{border:1.5px solid var(--border);margin-left:8px;padding:8px 16px}.nav a[href="/contact/"]:hover{border-color:var(--accent)}}
+@media (min-width:1024px) and (max-width:1160px){.nav a{padding:8px 9px;font-size:14.5px}}
+.wa-label{display:none!important}

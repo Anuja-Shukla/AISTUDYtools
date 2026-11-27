@@ -4,7 +4,7 @@ import os, html, re, glob, json
 import markdown
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "40"  # cache-buster for css/js
+V = "41"  # cache-buster for css/js
 PAY_API = ""  # payment server (Cloudflare Worker) URL; empty = paid-course enrolment shows "opens soon"
 
 def svg(paths, extra=""):
@@ -50,10 +50,9 @@ I = {
  "arrow": svg('<path d="M5 12h14M13 6l6 6-6 6"/>', ' width="18" height="18"'),
 }
 
-NAV = [("/", "Home", "home"), ("/services/", "Services", "services"), ("/tools/", "Faculty", "tools"),
-       ("/practice/", "Student", "practice"), ("/research/", "Researcher", "research"), ("/courses/", "Courses", "courses"),
-       ("/instructors/", "Instructors", "instructors"), ("/webinars/", "Webinars", "webinars"), ("/contact/", "Contact", "contact")]
-NAV_PARENT = {"learnx": "services", "evaluator": "services", "usecases": "tools"}
+NAV = [("/courses/", "Courses", "courses"), ("/tools/", "Faculty", "tools"), ("/practice/", "Student", "practice"),
+       ("/research/", "Researcher", "research"), ("/services/", "For institutions", "services"), ("/contact/", "Contact", "contact")]
+NAV_PARENT = {"learnx": "services", "evaluator": "services", "usecases": "tools", "instructors": "courses", "webinars": "tools", "award": "tools", "newsletter": "tools"}
 
 def head(title, desc, path):
     return f'''<!doctype html>
@@ -107,7 +106,7 @@ FOOT = f'''</main>
         <a class="logo" href="/"><span class="logo-mark"></span><span><b>AIStudyTools</b></span></a>
         <p style="margin-top:10px;max-width:300px;font-size:15px">AI tools and courses for teaching and learning. A platform of Intellique Research School Pvt Ltd.</p>
       </div>
-      
+      <div><h4>Explore</h4><a href="/courses/">Courses</a><a href="/tools/">Faculty tools</a><a href="/practice/">Student practice</a><a href="/research/">Researcher</a><a href="/services/">For institutions</a><a href="/instructors/">Instructors</a><a href="/webinars/">Webinars</a><a href="/faculty-award/">Faculty Innovation Award</a><a href="/newsletter/">Newsletter</a></div>
       <div><h4>Contact</h4><a href="mailto:intelliqueresearchschool@gmail.com">intelliqueresearchschool@gmail.com</a><a href="https://wa.me/917303559258" target="_blank" rel="noopener">WhatsApp +91 73035 59258</a><a href="tel:+917303559258">Call +91 73035 59258</a></div>
       <div><h4>Sister sites</h4><a href="https://www.theresearchschool.com/">The Research School</a><a href="https://aijuggernauts.com/">AIjuggernauts</a><a href="https://intelliqueresearchschool.com/">Intellique Research School</a></div>
     </div>
@@ -219,68 +218,48 @@ def course_cards(items):
     return '<div class="grid g3">' + out + "</div>"
 
 home = head("AIStudyTools | Free AI Courses and Tools for Teaching and Learning",
-            "Free self-paced courses with certificates, AI tools for faculty and students, an AI evaluator for rubric-based feedback, webinars, and LearnX for institutions.", "/") + header("home")
-home += hero("Free courses · Tools · LearnX",
+            "Self-paced courses with certificates, and AI tools for faculty, students and researchers. Seven courses are free.", "/") + header("home")
+home += hero("Courses · Tools · For institutions",
              'AI courses and tools for <span class="hl">teaching</span> and learning.',
-             "Free self-paced courses with certificates, tools that turn lessons into simulations, cases and games, an AI evaluator for fair, rubric-based feedback, and LearnX for institutions.",
-             [("Explore free courses", "/courses/", "btn-ink"), ("Open Faculty tools", "/tools/", "btn-soft"), ("Watch how LearnX works", "video:/videos/aistudytools-explainer.mp4?v=1", "btn-soft")],
-             mindmap("You", ["Free courses", "Faculty", "Student", "AI evaluator", "LearnX"], "Free courses, Faculty, Student, AI evaluator and LearnX"))
+             "Self-paced courses with certificates, and AI tools that turn lessons into simulations, cases and games.",
+             [("Explore courses", "/courses/", "btn-ink"), ("Faculty tools", "/tools/", "btn-soft")],
+             mindmap("You", ["Courses", "Faculty", "Student", "Researcher", "Institutions"], "Courses, Faculty, Student, Researcher and Institutions"))
+HOME_OFFER = [
+    ("calendar", "i-pink", "Courses", "Self-paced courses with videos, try-it tools and a certificate.", "/courses/", "Browse courses"),
+    ("teacher", "i-sun", "Faculty", "Build simulations, quick cases, quiz games and slides for your class.", "/tools/", "Open tools"),
+    ("student", "i-sky", "Student", "Practise with simulations and games, and check your work with the AI evaluator.", "/practice/", "Start practising"),
+    ("search", "i-mint", "Researcher", "Map citations to references, switch styles and find the right journal.", "/research/", "Open tools"),
+]
+HOME_FEATURED = ["/courses/prompt-engineering/", "/courses/building-ai-agents/", "/courses/basics-of-statistics/"]
+HOME_FAQ = [
+    ("Are the courses free?", "Seven courses are completely free, with a certificate. CA Foundation, CSEET and SSC CGL are paid (from ₹1,999 a year), and you can try the first 2 lessons of each paper free."),
+    ("How do I get a certificate?", "Finish the lessons and score at least 70% in the final test. Your certificate is ready to download straight away, and it stays in My profile."),
+    ("Do I need to create an account?", "Just register once with your name and email. It takes 20 seconds, and you can see your details and certificates any time in My profile."),
+    ("Do the faculty tools need an API key?", "Some do. The Simulation Creator and AI evaluator work without one; others use your own free Google Gemini key, which stays on your device."),
+    ("Can my institution use AIStudyTools?", "Yes. We set up courses, tools and AI-assisted evaluation for departments and whole institutions. See For institutions or talk to us."),
+]
 home += f'''<section id="products" class="white">
   <div class="wrap">
-    {sec_head("Everything in one place", "For faculty who want livelier classes, students who want to practise, professionals who want new skills, and institutions that want it at scale.", "What we offer")}
-    <div class="grid g2">
-      <a class="prod p-course rv" href="/courses/"><span class="kicker">Free and paid · with certificate</span><div class="ico i-pink" style="background:#fff">{I["calendar"]}</div><h3>Courses</h3><p>Self-paced courses with interactive tools, quick checks, a final test and a certificate.</p><ul><li>Statistics</li><li>Prompt Engineering</li><li>Product Management</li><li>HR Analytics</li><li>SEO to GEO</li><li>Building AI Agents</li><li>Coding for Non-Coders</li><li>CA Foundation Course</li></ul><span class="go">See all courses {I["arrow"]}</span></a>
-      <a class="prod p-skill rv" href="/tools/"><span class="kicker">Free for faculty</span><div class="ico i-sun" style="background:#fff">{I["teacher"]}</div><h3>Faculty</h3><p>Turn a concept or chapter into something students do, not just read.</p><ul><li>Simulation Creator</li><li>Quick Case Generator</li><li>Interactive Game Creator</li><li>AI Presentation Creator</li></ul><span class="go">Open Faculty tools {I["arrow"]}</span></a>
-      <a class="prod p-health rv" href="/practice/"><span class="kicker">Free for students</span><div class="ico i-sky" style="background:#fff">{I["student"]}</div><h3>Student</h3><p>Make decisions, see consequences, get feedback and try again.</p><ul><li>Branching simulations</li><li>Learning games</li><li>Course comparison</li></ul><span class="go">Start practising {I["arrow"]}</span></a>
-      <a class="prod p-learn rv" href="/research/"><span class="kicker">New · free for researchers</span><div class="ico i-mint" style="background:#fff">{I["search"]}</div><h3>Researcher</h3><p>Map every citation to its reference, fix gaps and switch styles in one click. Then pick the right journal.</p><ul><li>Reference Mapper</li><li>APA, Harvard, MLA, IEEE</li><li>Journal Finder</li></ul><span class="go">Open Researcher tools {I["arrow"]}</span></a>
-      <a class="prod p-learn rv" href="/ai-evaluator/"><span class="kicker">New · free</span><div class="ico i-indigo" style="background:#fff">{I["clip"]}</div><h3>AI evaluator</h3><p>Score student answers or AI-generated text against a rubric, check key points and claims, and copy ready-to-share feedback.</p><ul><li>Rubric presets</li><li>Key-point check</li><li>Claims to verify</li><li>Feedback in one click</li></ul><span class="go">Evaluate a response {I["arrow"]}</span></a>
-      <a class="prod p-learn rv" href="/learnx/"><span class="kicker">For institutions</span><div class="ico i-indigo" style="background:#fff">{I["cap"]}</div><h3>LearnX: Transform content</h3><p>Your lectures and PDFs become games, mind maps, AI video chat and AI-assisted evaluation, on your own system.</p><ul><li>AI tutor</li><li>Question generator</li><li>Mind maps</li><li>Games &amp; simulations</li></ul><span class="go">Explore LearnX {I["arrow"]}</span></a>
-      <a class="prod p-course rv" href="/webinars/"><span class="kicker">Live and on demand</span><div class="ico i-pink" style="background:#fff">{I["play"]}</div><h3>Webinars and use cases</h3><p>Live sessions on AI in teaching and research, plus real ways faculty, students and institutions use these tools.</p><ul><li>Live webinars</li><li>Use cases</li><li>Newsletter</li></ul><span class="go">See webinars {I["arrow"]}</span></a>
-    </div>
+    {sec_head("What we offer", "", "Start here")}
+    <div class="grid g4">{"".join(f'<a class="card tool rv" href="{h}"><div class="ico {c}">{I[ic]}</div><h3>{t_}</h3><p>{d}</p><span class="go">{g} {I["arrow"]}</span></a>' for ic, c, t_, d, h, g in HOME_OFFER)}</div>
   </div>
 </section>
 <section id="courses-home">
   <div class="wrap">
-    {sec_head("Courses, with certificates", "Seven courses are completely free. CA Foundation, CSEET and SSC CGL let you try the first 2 lessons of each paper free before you enrol. Every lesson has a teaching video, clear notes, a worked example and an interactive tool. Pass the final test to download your certificate.", "Start learning today")}
-    {course_cards([c for c in COURSES if not c[3].startswith("/courses/ca-foundation")] + [("cap", "CA Foundation Course", "All four CA Foundation papers (May 2027 onwards): Accounting, Business Laws, Quantitative Aptitude and Business Economics.", "/courses/ca-foundation/", "₹4,999/year · 2 lessons per paper free", "Try 2 lessons free"), ("chat", "CSEET Course", "All four CSEET papers (June 2026 onwards), with interactive tools, final tests and certificates.", "/courses/cseet/", "₹2,999/year · 2 lessons per paper free", "Try 2 lessons free"), ("target", "SSC CGL Course", "Full Tier 1 and Tier 2 syllabus with teaching videos, practice and timed mock tests.", "/courses/ssc-cgl/", "₹1,999/year · 2 topics per subject free", "Try 2 topics free")])}
-    <p class="rv" style="text-align:center;margin-top:22px"><a class="btn btn-ink" href="/courses/">See all courses and upcoming ones {I["arrow"]}</a></p>
+    {sec_head("Popular courses", "Free courses, and exam courses you can try before you enrol.", "Courses")}
+    {course_cards([c for c in COURSES if c[3] in HOME_FEATURED] + [("cap", "CA Foundation Course", "All four CA Foundation papers (May 2027 onwards).", "/courses/ca-foundation/", "₹4,999/year · 2 lessons per paper free", "Try 2 lessons free"), ("chat", "CSEET Course", "All four CSEET papers (June 2026 onwards).", "/courses/cseet/", "₹2,999/year · 2 lessons per paper free", "Try 2 lessons free"), ("target", "SSC CGL Course", "Tier 1 and Tier 2 syllabus with videos and mock tests.", "/courses/ssc-cgl/", "₹1,999/year · 2 topics per subject free", "Try 2 topics free")])}
+    <p class="rv" style="text-align:center;margin-top:22px"><a class="btn btn-ink" href="/courses/">See all courses {I["arrow"]}</a></p>
   </div>
 </section>
-<section id="gamification" class="tint">
-  <div class="wrap">
-    {sec_head("Why gamification works", "Games are not just fun. When game elements serve the learning goal, students learn more, stay motivated and keep coming back.", "The science")}
-    <div class="grid g3">
-      <div class="stat rv"><b>Learning ↑</b><span>Better knowledge and understanding<br><small style="color:var(--faint)">effect size g = 0.49</small></span></div>
-      <div class="stat rv"><b>Motivation ↑</b><span>More interest and engagement<br><small style="color:var(--faint)">effect size g = 0.36</small></span></div>
-      <div class="stat rv"><b>Participation ↑</b><span>More active learning behaviour<br><small style="color:var(--faint)">effect size g = 0.25</small></span></div>
-    </div>
-    <p class="rv" style="text-align:center;color:var(--muted);font-size:15px;margin-top:14px">Source: Sailer &amp; Homner (2020), <i>The gamification of learning: a meta-analysis</i>, Educational Psychology Review. Positive effects were found on all three types of outcome. <a href="https://link.springer.com/article/10.1007/s10648-019-09498-w" target="_blank" rel="noopener">Read the study</a></p>
-    <div style="margin-top:36px">{cards([("chat", "Instant feedback", "Students know straight away what they got right and what to fix, while the idea is still fresh."), ("spark", "Recall, not re-reading", "Quizzes and challenges make students pull ideas from memory, which strengthens long-term learning."), ("trend", "Visible progress", "Points, levels and progress bars turn a long syllabus into small, achievable goals."), ("users", "Story and teamwork", "A game story and team challenges that mix competition with collaboration keep learners involved.")], "g4", "rotate")}</div>
-    <div class="note rv" style="margin-top:22px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:#fff;color:var(--ink);border:2px solid var(--border)">
-      <span><b style="color:var(--ink)">How we use it:</b> the Faculty page, our courses and LearnX turn lessons into simulations, quiz games and quick cases, with instant feedback built in.</span>
-      <a class="btn btn-ink btn-sm" href="/tools/">Open Faculty tools {I["arrow"]}</a>
-    </div>
-  </div>
-</section>
-<section class="white">
-  <div class="wrap">
-    {sec_head("See it in action", "A few of the ways educators, students and professionals use AIStudyTools.", "Use cases")}
-    <div class="grid g3">
-      <a class="card tool rv" href="/tools/#use-cases"><div class="ico i-sun">{I["teacher"]}</div><h3>Turn a lecture into a role-play</h3><p>A marketing professor uses the Simulation Creator to let students negotiate with an AI client, then debriefs in class.</p><span class="go">Faculty use cases {I["arrow"]}</span></a>
-      <a class="card tool rv" href="/practice/#use-cases"><div class="ico i-sky">{I["student"]}</div><h3>Check a draft before submitting</h3><p>A student runs an AI-assisted draft through the AI evaluator to find missing points and claims that need a source.</p><span class="go">Student use cases {I["arrow"]}</span></a>
-      <a class="card tool rv" href="/services/#institutions"><div class="ico i-indigo">{I["building"]}</div><h3>Bring AI to a whole department</h3><p>A business school uses LearnX and our courses to train faculty and turn course content into games and AI tutors.</p><span class="go">Institution use cases {I["arrow"]}</span></a>
-    </div>
-  </div>
-</section>
-<section>
-  <div class="wrap">
-    {sec_head("Why AIStudyTools?", "", "Why us")}
-    {cards([("puzzle", "Practice over memory", "Students apply concepts to realistic decisions and see the consequences."), ("teacher", "Built by educators", "Designed by faculty who use these tools in their own classrooms."), ("target", "Free to start", "Courses, certificates and most tools are free. Paste a topic and get something you can use in class today."), ("lock", "Private by design", "Tools run in your browser and keep any API key on your device. LearnX can run on your own system.")])}
-    <div style="margin-top:28px">{stats([("7", "Free courses with certificates"), ("100K+", "Learning interactions"), ("10K+", "AI simulations"), ("500+", "Subjects covered")])}</div>
+<section class="white" id="faq">
+  <div class="wrap" style="max-width:820px">
+    {sec_head("Questions", "", "FAQ")}
+    <style>.faq details{{border-bottom:1px solid var(--border);padding:16px 4px}}.faq summary{{cursor:pointer;font-weight:700;font-size:18px;color:var(--ink);list-style:none;display:flex;justify-content:space-between;gap:12px}}.faq summary::-webkit-details-marker{{display:none}}.faq summary::after{{content:"+";font-size:24px;line-height:1;color:var(--accent)}}.faq details[open] summary::after{{content:"–"}}.faq p{{margin:10px 0 0;color:var(--muted)}}</style>
+    <div class="faq">{"".join(f'<details><summary>{q}</summary><p>{a}</p></details>' for q, a in HOME_FAQ)}</div>
   </div>
 </section>
 '''
-home += cta("See your own lesson come alive", "Send us one topic and see it turned into a video, mind map and game. Free, with no obligation.", "Talk to us", "/contact/")
+home += cta("Bring AIStudyTools to your institution", "Courses, faculty tools and AI-assisted evaluation for your department, on your own system.", "See how we work", "/services/")
 home += FOOT
 write("/", home)
 
@@ -291,8 +270,7 @@ lx += hero("Brain-science based learning", 'Turn dull content into <span class="
            "Upload a lecture or PDF. Learners get games, mind maps, notes and an AI they can chat with, in their own language. Learn smarter, research faster, achieve more.",
            [("Discover how it works", "video:/videos/aistudytools-explainer.mp4?v=1", "btn-ink"), ("See AI evaluation", "#evaluate", "btn-soft")],
            mindmap("Your lecture", ["Simulation game", "Mind map", "AI video chat", "Quiz + scoreboard", "AI evaluation"], "A lecture becomes a simulation game, mind map, AI video chat, quiz and AI evaluation"))
-lx += f'''<section class="white"><div class="wrap">{stats([("100K+", "Learning sessions"), ("25K+", "Research queries"), ("500+", "Subjects covered"), ("24/7", "AI learning support")])}</div></section>
-<section>
+lx += f'''<section>
   <div class="wrap">
     {sec_head("LearnX solutions", "Helping learners, educators and researchers achieve more with intelligent AI support.", "What you get")}
     {cards([("bot", "AI tutor &amp; study companion", "Personalised explanations, examples and guidance across subjects, available any time."), ("play", "Interactive learning", "AI-supported animated videos with interactive learning experiences."), ("puzzle", "Simulations", "Develop critical thinking using realistic, game-based simulations."), ("mic", "Audio questionnaire", "Create qualitative surveys with audio inputs and improve assignments and writing.")], "g4", "rotate")}
@@ -472,13 +450,6 @@ tl += f'''<section class="white">
       <li><div><b>Assess</b><span>Evaluate responses and spot strengths, gaps and areas to improve.</span></div></li>
       <li><div><b>Guide</b><span>Use the feedback to help students improve and build practical skills.</span></div></li>
     </ol>
-  </div>
-</section>
-<section class="white">
-  <div class="wrap">
-    {sec_head("Practice across business disciplines", "", "Subjects")}
-    {cards([("trend", "Marketing", "STP · 4Ps · Consumer behaviour · Branding · Digital marketing"), ("target", "Strategy", "Five Forces · Blue Ocean · Competitive strategy · Growth"), ("spark", "Entrepreneurship", "Business models · Innovation · Startup strategy · Venture decisions"), ("bars", "Finance", "Investment decisions · Valuation · Risk · Financial strategy"),
-            ("layers", "Operations", "Supply chain · Capacity · Process · Quality"), ("users", "Leadership &amp; HR", "Leadership · Change management · Conflict · Motivation"), ("bot", "AI &amp; Digital", "AI strategy · Digital transformation · AI adoption · AI ethics"), ("puzzle", "Product &amp; Innovation", "Product strategy · Product-market fit · Innovation · Pricing")], color="rotate")}
   </div>
 </section>
 '''

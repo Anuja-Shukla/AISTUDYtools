@@ -80,24 +80,15 @@ write("/services/", sv)
 _fac = f'''<section class="white" id="use-cases" style="scroll-margin-top:80px">
   <div class="wrap">
     {sec_head("Use cases for faculty", "Common teaching problems, the tool that solves each one, and what you will have at the end.", "Use cases")}
-    <div class="grid g3">{"".join(uc_card(c) for c in USE_CASES if c[0] == "faculty")}</div>
-  </div>
-</section>
-<section id="newsletter" style="scroll-margin-top:80px">
-  <div class="wrap">
-    {sec_head("From the newsletter", "Practical notes for educators on simulations, cases, gamification and teaching with AI.", "Newsletter")}
-    <div style="display:grid;gap:14px;max-width:820px;margin:0 auto">
-''' + "".join(f'''      <a class="card issue rv" href="/newsletter/{it["slug"]}/"><span class="date">{nice_date(it["date"])}</span><h3>{html.escape(it["title"])}</h3><p>{html.escape(it["description"])}</p></a>
-''' for it in ISSUES[:3]) + f'''    </div>
-    <p class="rv" style="text-align:center;margin-top:22px"><a class="btn btn-soft" href="/newsletter/">All newsletter issues {I["arrow"]}</a></p>
+    <div class="grid g3">{"".join(uc_card(c) for c in [c for c in USE_CASES if c[0] == "faculty"][:3])}</div>
   </div>
 </section>
 '''
 _stu = f'''<section id="use-cases" style="scroll-margin-top:80px">
   <div class="wrap">
     {sec_head("Use cases for students", "Common problems, the course or tool that helps, and what you will have at the end.", "Use cases")}
-    <div class="grid g2">{"".join(uc_card(c) for c in USE_CASES if c[0] == "students")}</div>
-    <div id="professionals" style="scroll-margin-top:90px;margin-top:40px">{sec_head("For working professionals", "", "Use cases")}<div class="grid g2">{"".join(uc_card(c) for c in USE_CASES if c[0] == "professionals")}</div></div>
+    <div class="grid g3">{"".join(uc_card(c) for c in [c for c in USE_CASES if c[0] == "students"][:3])}</div>
+    <div id="professionals" style="scroll-margin-top:90px;margin-top:40px">{sec_head("For working professionals", "", "Use cases")}<div class="grid g3">{"".join(uc_card(c) for c in [c for c in USE_CASES if c[0] == "professionals"][:3])}</div></div>
   </div>
 </section>
 '''

@@ -8,7 +8,7 @@
     "#wa-float{position:fixed;right:20px;bottom:20px;z-index:9998;display:flex;align-items:center;gap:10px;text-decoration:none;font-family:Inter,ui-sans-serif,system-ui,sans-serif}" +
     "#wa-float .wa-btn{width:58px;height:58px;border-radius:50%;background:#25D366;display:grid;place-items:center;box-shadow:0 10px 25px -6px rgba(0,0,0,.35);transition:transform .15s}" +
     "#wa-float:hover .wa-btn{transform:scale(1.07)}" +
-    "#wa-float .wa-label{background:#fff;color:#111827;font-size:14px;font-weight:600;padding:9px 14px;border-radius:999px;box-shadow:0 8px 22px -8px rgba(0,0,0,.3);white-space:nowrap}" +
+    "#wa-float .wa-label{display:none;background:#fff;color:#111827;font-size:14px;font-weight:600;padding:9px 14px;border-radius:999px;box-shadow:0 8px 22px -8px rgba(0,0,0,.3);white-space:nowrap}" +
     "#wa-float .wa-btn::after{content:'';position:absolute;width:58px;height:58px;border-radius:50%;background:#25D366;opacity:.45;z-index:-1;animation:wa-pulse 2.4s ease-out infinite}" +
     "@keyframes wa-pulse{0%{transform:scale(1);opacity:.45}100%{transform:scale(1.6);opacity:0}}" +
     "@media (max-width:640px){#wa-float{right:14px;bottom:14px}#wa-float .wa-label{display:none}#wa-float .wa-btn{width:54px;height:54px}}" +
