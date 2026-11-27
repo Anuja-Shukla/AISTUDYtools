@@ -67,7 +67,7 @@ aw += f'''<section class="white">
   <div class="wrap">
     {sec_head("How it works", "", "Four steps")}
     <ol class="steps rv" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
-      <li><div><b>Create</b><span>Build something with any <a href="/tools/">Faculty Corner</a> tool or LearnX: a simulation, quick case, quiz game, presentation or rubric.</span></div></li>
+      <li><div><b>Create</b><span>Build something with any <a href="/tools/">Faculty</a> tool or LearnX: a simulation, quick case, quiz game, presentation or rubric.</span></div></li>
       <li><div><b>Use it</b><span>Try it with your students, or plan exactly how you will. Tell us what they learned.</span></div></li>
       <li><div><b>Submit</b><span>Fill in the form below with a link to your entry. It is free, and there is no limit on entries.</span></div></li>
       <li><div><b>Get published</b><span>We review entries within 7 working days. Approved entries appear in the gallery with a certificate of publication.</span></div></li>
@@ -120,7 +120,7 @@ aw += f'''<section class="white">
   </div>
 </section>
 '''
-aw += cta("New to the tools?", "Start with the Simulation Creator or the Quick Case Generator. Both are free and take a few minutes.", "Open Faculty Corner", "/tools/")
+aw += cta("New to the tools?", "Start with the Simulation Creator or the Quick Case Generator. Both are free and take a few minutes.", "Open Faculty", "/tools/")
 aw = aw + FOOT.replace("</body>", "<script>" + AWARD_JS + "</script>\n</body>")
 write("/faculty-award/", aw)
 

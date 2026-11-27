@@ -50,8 +50,8 @@ I = {
  "arrow": svg('<path d="M5 12h14M13 6l6 6-6 6"/>', ' width="18" height="18"'),
 }
 
-NAV = [("/", "Home", "home"), ("/services/", "Services", "services"), ("/tools/", "Faculty Corner", "tools"),
-       ("/practice/", "Student Corner", "practice"), ("/research/", "Researcher", "research"), ("/courses/", "Courses", "courses"),
+NAV = [("/", "Home", "home"), ("/services/", "Services", "services"), ("/tools/", "Faculty", "tools"),
+       ("/practice/", "Student", "practice"), ("/research/", "Researcher", "research"), ("/courses/", "Courses", "courses"),
        ("/instructors/", "Instructors", "instructors"), ("/webinars/", "Webinars", "webinars"), ("/contact/", "Contact", "contact")]
 NAV_PARENT = {"learnx": "services", "evaluator": "services", "usecases": "tools"}
 
@@ -223,15 +223,15 @@ home = head("AIStudyTools | Free AI Courses and Tools for Teaching and Learning"
 home += hero("Free courses · Tools · LearnX",
              'AI courses and tools for <span class="hl">teaching</span> and learning.',
              "Free self-paced courses with certificates, tools that turn lessons into simulations, cases and games, an AI evaluator for fair, rubric-based feedback, and LearnX for institutions.",
-             [("Explore free courses", "/courses/", "btn-ink"), ("Open the Faculty Corner", "/tools/", "btn-soft"), ("Watch how LearnX works", "video:/videos/aistudytools-explainer.mp4?v=1", "btn-soft")],
-             mindmap("You", ["Free courses", "Faculty Corner", "Student Corner", "AI evaluator", "LearnX"], "Free courses, Faculty Corner, Student Corner, AI evaluator and LearnX"))
+             [("Explore free courses", "/courses/", "btn-ink"), ("Open Faculty tools", "/tools/", "btn-soft"), ("Watch how LearnX works", "video:/videos/aistudytools-explainer.mp4?v=1", "btn-soft")],
+             mindmap("You", ["Free courses", "Faculty", "Student", "AI evaluator", "LearnX"], "Free courses, Faculty, Student, AI evaluator and LearnX"))
 home += f'''<section id="products" class="white">
   <div class="wrap">
     {sec_head("Everything in one place", "For faculty who want livelier classes, students who want to practise, professionals who want new skills, and institutions that want it at scale.", "What we offer")}
     <div class="grid g2">
       <a class="prod p-course rv" href="/courses/"><span class="kicker">Free and paid · with certificate</span><div class="ico i-pink" style="background:#fff">{I["calendar"]}</div><h3>Courses</h3><p>Self-paced courses with interactive tools, quick checks, a final test and a certificate.</p><ul><li>Statistics</li><li>Prompt Engineering</li><li>Product Management</li><li>HR Analytics</li><li>SEO to GEO</li><li>Building AI Agents</li><li>Coding for Non-Coders</li><li>CA Foundation Course</li></ul><span class="go">See all courses {I["arrow"]}</span></a>
-      <a class="prod p-skill rv" href="/tools/"><span class="kicker">Free for faculty</span><div class="ico i-sun" style="background:#fff">{I["teacher"]}</div><h3>Faculty Corner</h3><p>Turn a concept or chapter into something students do, not just read.</p><ul><li>Simulation Creator</li><li>Quick Case Generator</li><li>Interactive Game Creator</li><li>AI Presentation Creator</li></ul><span class="go">Open the Faculty Corner {I["arrow"]}</span></a>
-      <a class="prod p-health rv" href="/practice/"><span class="kicker">Free for students</span><div class="ico i-sky" style="background:#fff">{I["student"]}</div><h3>Student Corner</h3><p>Make decisions, see consequences, get feedback and try again.</p><ul><li>Branching simulations</li><li>Learning games</li><li>Course comparison</li></ul><span class="go">Start practising {I["arrow"]}</span></a>
+      <a class="prod p-skill rv" href="/tools/"><span class="kicker">Free for faculty</span><div class="ico i-sun" style="background:#fff">{I["teacher"]}</div><h3>Faculty</h3><p>Turn a concept or chapter into something students do, not just read.</p><ul><li>Simulation Creator</li><li>Quick Case Generator</li><li>Interactive Game Creator</li><li>AI Presentation Creator</li></ul><span class="go">Open Faculty tools {I["arrow"]}</span></a>
+      <a class="prod p-health rv" href="/practice/"><span class="kicker">Free for students</span><div class="ico i-sky" style="background:#fff">{I["student"]}</div><h3>Student</h3><p>Make decisions, see consequences, get feedback and try again.</p><ul><li>Branching simulations</li><li>Learning games</li><li>Course comparison</li></ul><span class="go">Start practising {I["arrow"]}</span></a>
       <a class="prod p-learn rv" href="/research/"><span class="kicker">New · free for researchers</span><div class="ico i-mint" style="background:#fff">{I["search"]}</div><h3>Researcher</h3><p>Map every citation to its reference, fix gaps and switch styles in one click. Then pick the right journal.</p><ul><li>Reference Mapper</li><li>APA, Harvard, MLA, IEEE</li><li>Journal Finder</li></ul><span class="go">Open Researcher tools {I["arrow"]}</span></a>
       <a class="prod p-learn rv" href="/ai-evaluator/"><span class="kicker">New · free</span><div class="ico i-indigo" style="background:#fff">{I["clip"]}</div><h3>AI evaluator</h3><p>Score student answers or AI-generated text against a rubric, check key points and claims, and copy ready-to-share feedback.</p><ul><li>Rubric presets</li><li>Key-point check</li><li>Claims to verify</li><li>Feedback in one click</li></ul><span class="go">Evaluate a response {I["arrow"]}</span></a>
       <a class="prod p-learn rv" href="/learnx/"><span class="kicker">For institutions</span><div class="ico i-indigo" style="background:#fff">{I["cap"]}</div><h3>LearnX: Transform content</h3><p>Your lectures and PDFs become games, mind maps, AI video chat and AI-assisted evaluation, on your own system.</p><ul><li>AI tutor</li><li>Question generator</li><li>Mind maps</li><li>Games &amp; simulations</li></ul><span class="go">Explore LearnX {I["arrow"]}</span></a>
@@ -257,8 +257,8 @@ home += f'''<section id="products" class="white">
     <p class="rv" style="text-align:center;color:var(--muted);font-size:15px;margin-top:14px">Source: Sailer &amp; Homner (2020), <i>The gamification of learning: a meta-analysis</i>, Educational Psychology Review. Positive effects were found on all three types of outcome. <a href="https://link.springer.com/article/10.1007/s10648-019-09498-w" target="_blank" rel="noopener">Read the study</a></p>
     <div style="margin-top:36px">{cards([("chat", "Instant feedback", "Students know straight away what they got right and what to fix, while the idea is still fresh."), ("spark", "Recall, not re-reading", "Quizzes and challenges make students pull ideas from memory, which strengthens long-term learning."), ("trend", "Visible progress", "Points, levels and progress bars turn a long syllabus into small, achievable goals."), ("users", "Story and teamwork", "A game story and team challenges that mix competition with collaboration keep learners involved.")], "g4", "rotate")}</div>
     <div class="note rv" style="margin-top:22px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:#fff;color:var(--ink);border:2px solid var(--border)">
-      <span><b style="color:var(--ink)">How we use it:</b> the Faculty Corner, our courses and LearnX turn lessons into simulations, quiz games and quick cases, with instant feedback built in.</span>
-      <a class="btn btn-ink btn-sm" href="/tools/">Open the Faculty Corner {I["arrow"]}</a>
+      <span><b style="color:var(--ink)">How we use it:</b> the Faculty page, our courses and LearnX turn lessons into simulations, quiz games and quick cases, with instant feedback built in.</span>
+      <a class="btn btn-ink btn-sm" href="/tools/">Open Faculty tools {I["arrow"]}</a>
     </div>
   </div>
 </section>
@@ -488,7 +488,7 @@ tl += FOOT
 write("/tools/", tl)
 
 # ---------------- STUDENT PRACTICE (hub) ----------------
-pr = head("Student Corner: Simulations and Learning Games | AIStudyTools",
+pr = head("Student: Simulations and Learning Games | AIStudyTools",
           "Free practice for students: branching simulations, learning games and a course comparison helper.", "/practice/").replace("<body>", f"<body{GATE}>") + header("practice")
 pr += hero("Free for students", 'Stop memorising. Start <span class="hl">practising</span>.',
            "Apply what you learn to realistic situations. Make decisions with incomplete information, see the consequences, get feedback and try again.",
@@ -737,7 +737,7 @@ USE_CASES = [
     ("students", "Students", "Check a draft before submitting", "An AI-assisted draft may miss key points or contain unsupported claims.", "AI evaluator (AI-output preset)", "/ai-evaluator/", "A list of missing points and claims that need a source. Always follow your institution's AI-use policy."),
     ("students", "Students", "Learn to prompt before an internship", "Generic prompts give generic, unreliable answers.", "Prompt Engineering course", "/courses/prompt-engineering/", "A free certificate and reusable prompt templates for study and work."),
     ("students", "Students", "Prepare for a statistics test", "Formulas are easy to forget without practice.", "Basics of Statistics course", "/courses/basics-of-statistics/", "Calculators that show every step, quick checks and a certificate."),
-    ("students", "Students", "Practise decisions, not just theory", "Exams test recall; jobs need judgement.", "Student Corner simulations and games", "/practice/", "Branching simulations with instant feedback, and games for quick revision."),
+    ("students", "Students", "Practise decisions, not just theory", "Exams test recall; jobs need judgement.", "Student simulations and games", "/practice/", "Branching simulations with instant feedback, and games for quick revision."),
     ("professionals", "Professionals", "Get found in AI search", "Customers now ask ChatGPT and Google's AI answers instead of browsing.", "SEO to GEO course", "/courses/seo-to-geo/", "A checklist for answer-first, citable content, robots.txt rules and a way to track AI visibility."),
     ("professionals", "Professionals", "Automate routine enquiries", "Staff answer the same admissions or HR questions every day.", "Building AI Agents course", "/courses/building-ai-agents/", "An agent brief, instructions and a tested flow with human checkpoints, built without code."),
     ("professionals", "Professionals", "Plan hiring with data", "Hiring plans are guesses that ignore attrition.", "HR Analytics course", "/courses/hr-analytics/", "Workforce plans, HR metrics and a Power BI dashboard approach you can reuse."),

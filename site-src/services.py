@@ -1,4 +1,4 @@
-# Services page + use cases moved into Faculty Corner and Student Corner. Run by build.py (exec) after the use-cases block.
+# Services page + use cases moved into Faculty and Student. Run by build.py (exec) after the use-cases block.
 
 SVC_CSS = """<style>
 .svc{display:grid;grid-template-columns:1fr 1.15fr;gap:40px;align-items:center}
@@ -76,7 +76,7 @@ sv += cta("See your own lesson come alive", "Send us one topic and see it turned
 sv += FOOT
 write("/services/", sv)
 
-# ---- use cases inside the Faculty Corner and Student Corner ----
+# ---- use cases inside the Faculty page and Student ----
 _fac = f'''<section class="white" id="use-cases" style="scroll-margin-top:80px">
   <div class="wrap">
     {sec_head("Use cases for faculty", "Common teaching problems, the tool that solves each one, and what you will have at the end.", "Use cases")}
@@ -106,7 +106,7 @@ write("/tools/", tl.replace("<!--FACULTY-USES-->", _fac))
 write("/practice/", pr.replace("<!--STUDENT-USES-->", _stu))
 
 # ---- old /use-cases/ link: send each audience to its new home ----
-uc = head("Use cases have moved | AIStudyTools", "AIStudyTools use cases are now in the Faculty Corner, Student Corner and Services pages.", "/use-cases/").replace("<head>", '<head>\n<meta name="robots" content="noindex">') + header("tools")
+uc = head("Use cases have moved | AIStudyTools", "AIStudyTools use cases are now on the Faculty, Student and Services pages.", "/use-cases/").replace("<head>", '<head>\n<meta name="robots" content="noindex">') + header("tools")
 uc += f'''<section class="white"><div class="wrap" style="max-width:820px;text-align:center">
   <h1 style="font-size:clamp(32px,4.5vw,46px)">Use cases have moved</h1>
   <p class="lead" style="margin-top:10px">Pick where you want to go:</p>
