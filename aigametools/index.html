@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIgametools | AIStudyTools</title>
+<meta name="description" content="Classroom quiz games. Teachers upload a PDF or their own MCQs; students play Snakes &amp; Ladders, Ludo or Jump Quest and answer questions to earn coins, with a live leaderboard.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; background: linear-gradient(160deg, #F7F4EC 0%, #FBF9F3 55%, #F2EEE2 100%); background-attachment: fixed; color: #14213D; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.65; }
+.ast-wrap { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+.ast-head { border-bottom: 1px solid #E3DFD1; background: rgba(247,244,236,.92); }
+.ast-head .ast-wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 60px; flex-wrap: wrap; }
+.ast-brand { font-weight: 800; font-size: 1.2rem; color: #14213D; text-decoration: none; }
+.ast-brand span { color: #f5a623; }
+.ast-head a.home { color: #5B6472; text-decoration: none; font-size: .95rem; }
+main { padding: 28px 0 70px; }
+footer { border-top: 1px solid #E3DFD1; padding: 22px 0; text-align: center; color: #5B6472; font-size: .9rem; }
+footer a { color: #5B6472; }
+@media print { .ast-head, footer { display: none; } }
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B375R6SXP9"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-B375R6SXP9');</script>
+</head>
+<body>
+<header class="ast-head"><div class="ast-wrap"><a class="ast-brand" href="/">AIStudy<span>Tools</span></a><a class="home" href="/">← All study tools</a></div></header>
+<main class="ast-wrap">
+<style>
+.gt { --navy:#14213D; --gold:#f5a623; --coral:#ff8a65; --teal:#1f9e8f; --cream:#F7F4EC; --line:#e5dfcf; --muted:#5b6475; --ok:#1d8a4e; --bad:#c8432b; }
+.gt * { box-sizing: border-box; }
+.gt [hidden] { display: none !important; }
+.gt .scr { padding: 8px 0 48px; }
+.gt-hero { background: var(--navy); color: #fff; border-radius: 22px; padding: 40px 32px; position: relative; overflow: hidden; }
+.gt-hero h1 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(34px, 6vw, 56px); margin: 0 0 10px; color: #fff; }
+.gt-hero p { font-size: 18px; line-height: 1.5; max-width: 640px; color: #dfe5f1; margin: 0; }
+.gt-hero .dice { position: absolute; right: 26px; top: 22px; font-size: 64px; opacity: .9; transform: rotate(12deg); }
+.gt-roles { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin: 22px 0; }
+.gt-role { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 22px; text-align: left; cursor: pointer; font: inherit; color: var(--navy); transition: transform .15s, box-shadow .15s; }
+.gt-role:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(20,33,61,.12); }
+.gt-role b { display: block; font-size: 20px; margin: 8px 0 6px; }
+.gt-role span { color: var(--muted); font-size: 15px; line-height: 1.45; }
+.gt-role .ic { font-size: 30px; }
+.gt-role.primary { background: var(--gold); border-color: var(--gold); }
+.gt-role.primary span { color: #4a3305; }
+.gt h2 { font-family: 'Playfair Display', Georgia, serif; color: var(--navy); font-size: 28px; margin: 30px 0 12px; }
+.gt h3 { color: var(--navy); margin: 0 0 8px; font-size: 19px; }
+.gt-grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+.gt-card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+.gt-card p { margin: 0; color: var(--muted); line-height: 1.5; font-size: 15px; }
+.gt-card .big { font-size: 34px; }
+.gt-steps { counter-reset: s; display: grid; gap: 10px; padding: 0; list-style: none; }
+.gt-steps li { counter-increment: s; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px 12px 52px; position: relative; line-height: 1.45; }
+.gt-steps li::before { content: counter(s); position: absolute; left: 14px; top: 11px; width: 26px; height: 26px; border-radius: 50%; background: var(--navy); color: #fff; font-weight: 700; display: grid; place-items: center; font-size: 14px; }
+.gt-btn { font: inherit; font-weight: 700; border: 0; border-radius: 12px; padding: 12px 18px; background: var(--navy); color: #fff; cursor: pointer; font-size: 15px; }
+.gt-btn:disabled { opacity: .45; cursor: not-allowed; }
+.gt-btn.gold { background: var(--gold); color: #2b1d02; }
+.gt-btn.ghost { background: #fff; color: var(--navy); border: 1px solid var(--line); }
+.gt-btn.sm { padding: 8px 12px; font-size: 14px; border-radius: 10px; }
+.gt-btn.big { padding: 16px 26px; font-size: 18px; }
+.gt-back { background: none; border: 0; color: var(--muted); font: inherit; cursor: pointer; padding: 6px 0; margin-bottom: 6px; }
+.gt-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.gt-tab { font: inherit; border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 8px 14px; cursor: pointer; color: var(--navy); font-weight: 600; font-size: 14px; }
+.gt-tab.on { background: var(--navy); color: #fff; border-color: var(--navy); }
+.gt-panel { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+.gt-drop { display: block; border: 2px dashed #cfc6ae; border-radius: 14px; padding: 26px; text-align: center; cursor: pointer; background: var(--cream); color: var(--navy); }
+.gt-drop.over { border-color: var(--gold); background: #fff6e3; }
+.gt-drop input { display: none; }
+.gt textarea, .gt input[type=text], .gt input[type=number], .gt select { width: 100%; font: inherit; font-size: 15px; border: 1px solid #d8d1bf; border-radius: 10px; padding: 10px 12px; background: #fff; color: var(--navy); }
+.gt textarea { min-height: 170px; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13.5px; }
+.gt .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+.gt .note { color: var(--muted); font-size: 14px; line-height: 1.5; }
+.gt .status { margin-top: 10px; font-size: 14.5px; min-height: 1px; }
+.gt .status.err { color: var(--bad); } .gt .status.ok { color: var(--ok); }
+.gt-sets { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+.gt-set { font: inherit; text-align: left; background: var(--cream); border: 1px solid var(--line); border-radius: 12px; padding: 12px; cursor: pointer; color: var(--navy); }
+.gt-set b { display: block; } .gt-set small { color: var(--muted); }
+.gt-qlist { display: grid; gap: 8px; max-height: 420px; overflow: auto; margin-top: 10px; padding-right: 4px; }
+.gt-qi { border: 1px solid var(--line); border-radius: 12px; padding: 10px 40px 10px 12px; position: relative; background: #fff; font-size: 14.5px; }
+.gt-qi .qq { font-weight: 600; margin-bottom: 4px; }
+.gt-qi ol { margin: 0; padding-left: 20px; color: var(--muted); list-style: upper-alpha; }
+.gt-qi li.c { color: var(--ok); font-weight: 700; }
+.gt-qi .x { position: absolute; right: 8px; top: 8px; border: 0; background: #f3efe4; border-radius: 8px; width: 26px; height: 26px; cursor: pointer; color: var(--muted); font-size: 16px; }
+.gt-settings { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+.gt-settings label.l { display: block; font-weight: 700; color: var(--navy); margin-bottom: 6px; font-size: 14.5px; }
+.gt-chk { display: flex; gap: 8px; align-items: center; margin: 4px 0; font-size: 15px; }
+.gt-cols { display: grid; grid-template-columns: 1.2fr 1fr; gap: 18px; align-items: start; }
+@media (max-width: 820px) { .gt-cols { grid-template-columns: 1fr; } }
+/* lobby */
+.gt-code { background: var(--navy); color: #fff; border-radius: 20px; padding: 24px; text-align: center; }
+.gt-code .lbl { color: #b9c3d8; font-size: 15px; }
+.gt-code .c { font-size: clamp(48px, 10vw, 84px); font-weight: 800; letter-spacing: .14em; font-family: ui-monospace, Menlo, monospace; color: var(--gold); line-height: 1.1; margin: 6px 0; }
+.gt-code .url { font-size: 15px; color: #dfe5f1; word-break: break-all; }
+.gt-qr { width: 180px; height: 180px; margin: 14px auto 0; background: #fff; border-radius: 12px; padding: 8px; }
+.gt-qr svg { width: 100%; height: 100%; display: block; }
+.gt-players { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; min-height: 40px; }
+.gt-chip { background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 7px 12px; font-weight: 600; color: var(--navy); font-size: 15px; animation: pop .3s; }
+.gt-chip.off { opacity: .45; }
+@keyframes pop { from { transform: scale(.6); opacity: 0; } }
+/* live board */
+.gt-livehead { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.gt-timer { font-size: 40px; font-weight: 800; color: var(--navy); font-variant-numeric: tabular-nums; }
+.gt-timer.low { color: var(--bad); }
+.gt-board { display: grid; gap: 8px; }
+.gt-bar { display: grid; grid-template-columns: 34px 1fr auto; gap: 10px; align-items: center; background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 8px 12px; position: relative; overflow: hidden; transition: transform .3s; }
+.gt-bar .fill { position: absolute; inset: 0 auto 0 0; background: #fff1d6; z-index: 0; transition: width .6s; }
+.gt-bar > * { position: relative; z-index: 1; }
+.gt-bar .rk { font-weight: 800; color: var(--muted); text-align: center; }
+.gt-bar .nm { font-weight: 700; color: var(--navy); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gt-bar .nm small { font-weight: 500; color: var(--muted); margin-left: 6px; }
+.gt-bar .cn { font-weight: 800; color: #8a5a0e; font-variant-numeric: tabular-nums; }
+.gt-bar.me { border-color: var(--gold); box-shadow: 0 0 0 2px #f5a62355; }
+.gt-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 14px; }
+.gt-stat { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 12px; }
+.gt-stat b { display: block; font-size: 26px; color: var(--navy); }
+.gt-stat span { color: var(--muted); font-size: 13.5px; }
+/* play */
+.gt-hud { position: relative; z-index: 2; background: var(--navy); color: #fff; border-radius: 16px; padding: 10px 12px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; box-shadow: 0 8px 20px rgba(20,33,61,.2); }
+.gt-hud .coins { font-size: 22px; font-weight: 800; color: var(--gold); font-variant-numeric: tabular-nums; min-width: 92px; }
+.gt-hud .pill { background: rgba(255,255,255,.12); border-radius: 999px; padding: 5px 10px; font-size: 14px; font-weight: 600; }
+.gt-hud .sp { flex: 1; }
+.gt-hud .gt-btn { padding: 8px 12px; font-size: 14px; }
+.gt-hud .gt-btn.ghost { background: rgba(255,255,255,.1); color: #fff; border-color: rgba(255,255,255,.25); }
+.gt-playgrid { display: grid; grid-template-columns: 1fr 250px; gap: 16px; margin-top: 14px; align-items: start; }
+@media (max-width: 860px) { .gt-playgrid { grid-template-columns: 1fr; } }
+.gt-side .gt-bar { padding: 6px 10px; grid-template-columns: 26px 1fr auto; font-size: 14px; }
+.gt-games { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+.gt-game { font: inherit; text-align: left; border: 0; border-radius: 18px; padding: 20px; cursor: pointer; color: #fff; min-height: 170px; display: flex; flex-direction: column; justify-content: flex-end; position: relative; overflow: hidden; transition: transform .15s; }
+.gt-game:hover { transform: translateY(-3px); }
+.gt-game .em { position: absolute; right: 14px; top: 10px; font-size: 52px; }
+.gt-game b { font-size: 21px; } .gt-game span { font-size: 14px; opacity: .92; line-height: 1.4; margin-top: 4px; }
+.gt-game.snakes { background: linear-gradient(135deg, #2f7d4f, #1d5a39); }
+.gt-game.ludo { background: linear-gradient(135deg, #c8432b, #8f2a1a); }
+.gt-game.jump { background: linear-gradient(135deg, #2a6fb0, #1a4a7d); }
+.gt-stage { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 14px; }
+.gt-stage canvas { display: block; width: 100%; height: auto; border-radius: 12px; touch-action: manipulation; }
+.gt-stagebar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 12px; }
+.gt-stagebar .msg { flex: 1; min-width: 180px; color: var(--navy); font-size: 15px; line-height: 1.4; }
+.gt-die { width: 52px; height: 52px; border-radius: 12px; background: var(--cream); border: 2px solid var(--navy); display: grid; place-items: center; font-size: 28px; font-weight: 800; color: var(--navy); }
+.gt-die.roll { animation: shake .5s; }
+@keyframes shake { 25% { transform: rotate(-18deg); } 50% { transform: rotate(14deg) scale(1.08); } 75% { transform: rotate(-8deg); } }
+.gt-pad { display: none; gap: 10px; margin-top: 10px; user-select: none; -webkit-user-select: none; }
+.gt-pad button { flex: 1; font-size: 26px; padding: 14px 0; border-radius: 14px; border: 0; background: var(--navy); color: #fff; touch-action: none; }
+.gt-pad button.j { flex: 1.4; background: var(--gold); color: #2b1d02; }
+@media (hover: none), (max-width: 860px) { .gt-pad { display: flex; } }
+.gt-float { position: fixed; z-index: 60; font-weight: 800; font-size: 20px; pointer-events: none; animation: floatup 1.3s forwards; text-shadow: 0 1px 0 #fff; }
+@keyframes floatup { to { transform: translateY(-60px); opacity: 0; } }
+.gt-toast { position: fixed; left: 50%; bottom: 90px; transform: translateX(-50%); background: var(--navy); color: #fff; padding: 10px 16px; border-radius: 12px; z-index: 70; font-weight: 600; box-shadow: 0 8px 20px rgba(0,0,0,.2); max-width: 90vw; text-align: center; }
+/* question modal */
+.gt-qm { position: fixed; inset: 0; background: rgba(12,20,40,.72); z-index: 100; display: grid; place-items: center; padding: 16px; }
+.gt-qbox { background: #fff; border-radius: 20px; width: min(640px, 100%); max-height: 92vh; overflow: auto; padding: 22px; box-shadow: 0 20px 50px rgba(0,0,0,.35); animation: pop .25s; }
+.gt-qbox .kind { font-weight: 800; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; color: #8a5a0e; }
+.gt-qbox.rescue .kind { color: var(--bad); }
+.gt-qbox .sub { color: var(--muted); font-size: 14.5px; margin: 4px 0 12px; }
+.gt-qbox .qt { font-size: 19px; font-weight: 700; color: var(--navy); line-height: 1.4; margin-bottom: 14px; }
+.gt-opts { display: grid; gap: 8px; }
+.gt-opt { font: inherit; text-align: left; border: 2px solid var(--line); background: #fff; border-radius: 12px; padding: 11px 12px 11px 46px; cursor: pointer; position: relative; color: var(--navy); font-size: 15.5px; line-height: 1.35; }
+.gt-opt::before { content: attr(data-k); position: absolute; left: 10px; top: 9px; width: 26px; height: 26px; border-radius: 8px; background: var(--cream); display: grid; place-items: center; font-weight: 800; font-size: 13px; }
+.gt-opt:hover:not(:disabled) { border-color: var(--gold); }
+.gt-opt.ok { border-color: var(--ok); background: #e7f6ed; }
+.gt-opt.bad { border-color: var(--bad); background: #fdecea; }
+.gt-opt:disabled { cursor: default; }
+.gt-qfoot { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+.gt-fb { font-weight: 700; font-size: 16px; }
+.gt-fb.ok { color: var(--ok); } .gt-fb.bad { color: var(--bad); }
+/* results */
+.gt-podium { display: flex; justify-content: center; align-items: flex-end; gap: 12px; margin: 10px 0 20px; }
+.gt-pod { text-align: center; width: 140px; }
+.gt-pod .blk { border-radius: 12px 12px 0 0; color: #fff; font-weight: 800; font-size: 28px; display: grid; place-items: center; }
+.gt-pod .n { font-weight: 700; color: var(--navy); margin-bottom: 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gt-pod .c { color: #8a5a0e; font-weight: 700; font-size: 14px; }
+.gt table.t { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; font-size: 14.5px; }
+.gt table.t th, .gt table.t td { padding: 9px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.gt table.t th { background: var(--cream); color: var(--navy); }
+.gt .meter { height: 8px; background: #eee6d3; border-radius: 6px; overflow: hidden; min-width: 70px; }
+.gt .meter i { display: block; height: 100%; background: var(--teal); }
+.gt .tablewrap { overflow-x: auto; }
+.gt-review { display: grid; gap: 8px; }
+.gt-review div { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+.gt-review b { color: var(--ok); }
+.gt-me { text-align: center; padding: 26px; }
+.gt-me .rk { font-size: 64px; font-weight: 800; color: var(--navy); line-height: 1; }
+@media print { .site-header, .site-footer, .wa-float, .gt .noprint { display: none !important; } }
+</style>
+
+<div class="gt">
+
+<!-- ============ HOME ============ -->
+<section class="scr" id="scrHome">
+  <div class="gt-hero">
+    <div class="dice" aria-hidden="true">🎲</div>
+    <h1>AIgametools</h1>
+    <p>Turn any lesson into a classroom game. Upload a PDF or your own MCQs, share a code, and students play Snakes &amp; Ladders, Ludo or Jump Quest. They answer questions to earn coins, and a live leaderboard tracks the class.</p>
+  </div>
+  <div class="gt-roles">
+    <button class="gt-role primary" data-go="host"><div class="ic">👩‍🏫</div><b>Host a game</b><span>For teachers. Add questions, share a join code and watch the live leaderboard.</span></button>
+    <button class="gt-role" data-go="join"><div class="ic">🎮</div><b>Join a game</b><span>For students. Enter the code your teacher shows and pick a nickname.</span></button>
+    <button class="gt-role" data-go="solo"><div class="ic">🧠</div><b>Practise solo</b><span>Play on your own with sample sets or your notes. No teacher needed.</span></button>
+  </div>
+
+  <h2>Three games, one rule: answer to earn</h2>
+  <div class="gt-grid3">
+    <div class="gt-card"><div class="big">🐍</div><h3>Snakes &amp; Ladders</h3><p>Each roll costs coins. Land on a snake and answer a rescue question to escape it. Beat the bots to 100.</p></div>
+    <div class="gt-card"><div class="big">🎯</div><h3>Ludo</h3><p>Race your four tokens home against 1 or 3 bots. When a bot is about to capture you, answer correctly to defend your token.</p></div>
+    <div class="gt-card"><div class="big">🤖</div><h3>Jump Quest</h3><p>Run and jump with Jugg the robot. Collect coins, open quiz crates for bonus questions, and answer to save a life when you fall.</p></div>
+  </div>
+
+  <h2>How it works</h2>
+  <ol class="gt-steps">
+    <li><b>Add questions.</b> Upload a PDF and questions are made automatically, paste or upload your own MCQs, or pick a ready-made set.</li>
+    <li><b>Share the code.</b> Students join on their phones by scanning the QR code or typing the code. No sign-up and no app.</li>
+    <li><b>Play and learn.</b> Everyone starts with coins. Game moves cost coins and mistakes lose them, so students answer questions to earn more. Missed questions come back later.</li>
+    <li><b>See who learned what.</b> A live leaderboard during the game, then a report showing the hardest questions, which you can download as a CSV file.</li>
+  </ol>
+
+  <h2>Built for classrooms</h2>
+  <div class="gt-grid3">
+    <div class="gt-card"><h3>Rescue questions</h3><p>Learning is built into the danger moments: dodge a snake, save a token, or get a second life by answering correctly.</p></div>
+    <div class="gt-card"><h3>Streak bonus</h3><p>Correct answers in a row earn extra coins, up to +10 per question.</p></div>
+    <div class="gt-card"><h3>Smart repeat</h3><p>A question a student gets wrong comes back a few questions later until they get it right.</p></div>
+    <div class="gt-card"><h3>Private by design</h3><p>No accounts. Questions and scores pass directly between the teacher's browser and students' phones and are not stored on our servers.</p></div>
+  </div>
+</section>
+
+<!-- ============ SETUP (host + solo) ============ -->
+<section class="scr" id="scrSetup" hidden>
+  <button class="gt-back" data-go="home">← Back</button>
+  <h2 id="setupTitle" style="margin-top:0">Host a game</h2>
+  <div class="gt-cols">
+    <div>
+      <div class="gt-panel">
+        <h3>1. Add questions</h3>
+        <div class="gt-tabs" role="tablist">
+          <button class="gt-tab on" data-tab="pdf">From a PDF</button>
+          <button class="gt-tab" data-tab="mcq">My own MCQs</button>
+          <button class="gt-tab" data-tab="sets">Ready-made sets</button>
+        </div>
+        <div data-pane="pdf">
+          <label class="gt-drop" id="drop"><input type="file" id="pdfFile" accept="application/pdf,.pdf"><b>Upload lecture notes (PDF)</b><br><span class="note">Click or drop a file here. Questions are made automatically in your browser; your file is not uploaded anywhere.</span></label>
+          <div class="row" id="rangeRow" hidden><span id="pdfName" class="note"></span> Pages <input type="number" id="pFrom" min="1" value="1" style="width:76px"> to <input type="number" id="pTo" min="1" value="1" style="width:76px"> <button class="gt-btn sm" id="pdfGo">Make questions</button></div>
+          <p class="note" style="margin:10px 0 0">Works best with text-based notes that define key terms, lists and formulas. Scanned images can't be read. Always check the questions before you play.</p>
+        </div>
+        <div data-pane="mcq" hidden>
+          <textarea id="mcqText" placeholder="1. What does MVP stand for?
+A) Most valuable player
+B) Minimum viable product
+C) Maximum value proposition
+D) Market validation plan
+Answer: B
+
+2. Next question…"></textarea>
+          <div class="row">
+            <button class="gt-btn sm" id="mcqGo">Add these questions</button>
+            <label class="gt-btn sm ghost" style="cursor:pointer">Upload CSV or TXT<input type="file" id="mcqFile" accept=".csv,.txt,text/csv,text/plain" hidden></label>
+            <button class="gt-btn sm ghost" id="tplBtn">Download CSV template</button>
+          </div>
+          <p class="note" style="margin:10px 0 0">Format: question, then options A–D (2 to 6 options), then <b>Answer: B</b>. You can also mark the right option with a *. CSV columns: question, option A, option B, option C, option D, answer.</p>
+        </div>
+        <div data-pane="sets" hidden>
+          <div class="gt-sets" id="sets"></div>
+        </div>
+        <div class="status" id="qStatus"></div>
+      </div>
+      <div class="gt-panel" style="margin-top:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><h3 style="margin:0">Your questions <span id="qCount" class="note">(0)</span></h3><button class="gt-btn sm ghost" id="qClear">Clear all</button></div>
+        <div class="gt-qlist" id="qList"><p class="note">No questions yet. Add some above. You need at least 5.</p></div>
+      </div>
+    </div>
+    <div>
+      <div class="gt-panel">
+        <h3>2. Game settings</h3>
+        <div class="gt-settings">
+          <div><label class="l" for="sDur">Game time</label><select id="sDur"><option value="5">5 minutes</option><option value="10" selected>10 minutes</option><option value="15">15 minutes</option><option value="20">20 minutes</option><option value="30">30 minutes</option><option value="0">No time limit</option></select></div>
+          <div><label class="l" for="sCoins">Starting coins</label><select id="sCoins"><option value="25">25</option><option value="50" selected>50</option><option value="100">100</option></select></div>
+          <div><label class="l">Games allowed</label>
+            <label class="gt-chk"><input type="checkbox" class="sGame" value="snakes" checked> Snakes &amp; Ladders</label>
+            <label class="gt-chk"><input type="checkbox" class="sGame" value="ludo" checked> Ludo</label>
+            <label class="gt-chk"><input type="checkbox" class="sGame" value="jump" checked> Jump Quest</label>
+          </div>
+          <div id="boardOpt"><label class="l">Leaderboard on phones</label>
+            <label class="gt-chk"><input type="checkbox" id="sBoard" checked> Show players their rank</label>
+          </div>
+        </div>
+        <div class="gt-card" style="margin-top:14px;background:var(--cream)"><p><b>Coins:</b> correct answer +10 (plus up to +10 streak bonus) · dice roll −5 · Jump Quest level −10 · snake, capture or fall −10 if the rescue question is missed.</p></div>
+        <div class="row" style="margin-top:16px"><button class="gt-btn gold big" id="createBtn" disabled>Create game room</button></div>
+        <div class="status" id="createStatus"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LOBBY (host) ============ -->
+<section class="scr" id="scrLobby" hidden>
+  <div class="gt-cols">
+    <div class="gt-code">
+      <div class="lbl">Join at <b id="joinHost"></b> and enter</div>
+      <div class="c" id="lobbyCode">-----</div>
+      <div class="url" id="joinUrl"></div>
+      <div class="gt-qr" id="qr" hidden></div>
+    </div>
+    <div>
+      <h2 style="margin-top:0">Players <span id="pCount" class="note">(0)</span></h2>
+      <div class="gt-players" id="pList"><span class="note">Waiting for students to join…</span></div>
+      <div class="row" style="margin-top:18px"><button class="gt-btn gold big" id="startBtn" disabled>Start game</button><button class="gt-btn ghost" id="lobbyCancel">Cancel</button></div>
+      <p class="note" id="lobbyInfo"></p>
+      <div class="status" id="netStatus"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LIVE (host) ============ -->
+<section class="scr" id="scrLive" hidden>
+  <div class="gt-livehead">
+    <div><div class="note">Room <b id="liveCode"></b> · students can still join</div><div class="gt-timer" id="liveTimer">--:--</div></div>
+    <div class="row noprint" style="margin:0"><button class="gt-btn ghost sm" id="addTime">+2 min</button><button class="gt-btn sm" id="endBtn">End game</button></div>
+  </div>
+  <div class="gt-stats">
+    <div class="gt-stat"><b id="stPlayers">0</b><span>players</span></div>
+    <div class="gt-stat"><b id="stAnswers">0</b><span>questions answered</span></div>
+    <div class="gt-stat"><b id="stAcc">–</b><span>class accuracy</span></div>
+    <div class="gt-stat"><b id="stWins">0</b><span>games won</span></div>
+  </div>
+  <div class="gt-board" id="liveBoard"></div>
+</section>
+
+<!-- ============ REPORT (host) ============ -->
+<section class="scr" id="scrReport" hidden>
+  <h2 style="margin-top:0">Final results</h2>
+  <div class="gt-podium" id="podium"></div>
+  <div class="row noprint"><button class="gt-btn gold" id="csvBtn">Download report (CSV)</button><button class="gt-btn ghost" onclick="window.print()">Print</button><button class="gt-btn ghost" id="againBtn">Play again with same questions</button><button class="gt-btn ghost" data-go="home">Done</button></div>
+  <h2>Players</h2>
+  <div class="tablewrap"><table class="t" id="repPlayers"></table></div>
+  <h2>Questions, hardest first</h2>
+  <p class="note">Re-teach the topics at the top of this list.</p>
+  <div class="tablewrap"><table class="t" id="repQs"></table></div>
+</section>
+
+<!-- ============ JOIN (player) ============ -->
+<section class="scr" id="scrJoin" hidden>
+  <button class="gt-back" data-go="home">← Back</button>
+  <div class="gt-panel" style="max-width:460px;margin:0 auto;text-align:center">
+    <div style="font-size:44px">🎮</div>
+    <h2 style="margin:6px 0 14px">Join a game</h2>
+    <input type="text" id="jCode" placeholder="Game code" maxlength="5" autocomplete="off" style="text-align:center;font-size:28px;font-weight:800;letter-spacing:.2em;text-transform:uppercase">
+    <input type="text" id="jName" placeholder="Your nickname" maxlength="18" autocomplete="off" style="text-align:center;font-size:18px;margin-top:10px">
+    <button class="gt-btn gold big" id="jBtn" style="width:100%;margin-top:12px">Join</button>
+    <div class="status" id="jStatus"></div>
+  </div>
+</section>
+
+<!-- ============ WAIT (player) ============ -->
+<section class="scr" id="scrWait" hidden>
+  <div class="gt-panel gt-me">
+    <div style="font-size:52px">✅</div>
+    <h2 style="margin:8px 0">You're in, <span id="wName"></span>!</h2>
+    <p class="note">Look at the teacher's screen. The game starts when your teacher presses Start.</p>
+    <p class="note" id="wInfo"></p>
+  </div>
+</section>
+
+<!-- ============ PLAY (player + solo) ============ -->
+<section class="scr" id="scrPlay" hidden>
+  <div class="gt-hud">
+    <span class="coins" id="hCoins">🪙 0</span>
+    <span class="pill" id="hStreak" title="Correct answers in a row">🔥 0</span>
+    <span class="pill" id="hRank" hidden></span>
+    <span class="pill" id="hTime" hidden>⏱ --:--</span>
+    <span class="sp"></span>
+    <button class="gt-btn gold" id="earnBtn">Earn coins</button>
+    <button class="gt-btn ghost" id="pickBtn" hidden>Games</button>
+    <button class="gt-btn ghost" id="sfxBtn" title="Sound on/off" aria-label="Sound on or off">🔊</button>
+    <button class="gt-btn ghost" id="soloEnd" hidden>Finish</button>
+  </div>
+  <div class="gt-playgrid">
+    <div>
+      <div id="picker">
+        <h2 style="margin-top:6px">Pick a game</h2>
+        <div class="gt-games" id="gameCards"></div>
+        <p class="note" style="margin-top:12px">Dice rolls and new levels cost coins. Out of coins? Press <b>Earn coins</b> and answer questions. You can switch games any time and keep your coins.</p>
+      </div>
+      <div class="gt-stage" id="stage" hidden></div>
+    </div>
+    <aside class="gt-side" id="side">
+      <h3 id="sideTitle">Leaderboard</h3>
+      <div class="gt-board" id="sideBoard"><p class="note">Connecting…</p></div>
+      <p class="note" id="connNote" style="margin-top:8px"></p>
+    </aside>
+  </div>
+</section>
+
+<!-- ============ DONE (player + solo) ============ -->
+<section class="scr" id="scrDone" hidden>
+  <div class="gt-panel gt-me">
+    <div class="note" id="dLabel">Game over</div>
+    <div class="rk" id="dRank"></div>
+    <h2 style="margin:8px 0" id="dCoins"></h2>
+    <p class="note" id="dStats"></p>
+    <div class="row" style="justify-content:center"><button class="gt-btn gold" id="dAgain">Play again</button><button class="gt-btn ghost" data-go="home">Home</button></div>
+  </div>
+  <div id="dBoardWrap" hidden><h2>Top players</h2><div class="gt-board" id="dBoard"></div></div>
+  <h2 id="dRevTitle">Questions to review</h2>
+  <div class="gt-review" id="dReview"></div>
+</section>
+
+<!-- question modal -->
+<div class="gt-qm" id="qm" hidden role="dialog" aria-modal="true" aria-labelledby="qmQ">
+  <div class="gt-qbox" id="qbox">
+    <div class="kind" id="qmKind"></div>
+    <div class="sub" id="qmSub"></div>
+    <div class="qt" id="qmQ"></div>
+    <div class="gt-opts" id="qmOpts"></div>
+    <div class="gt-qfoot"><span class="gt-fb" id="qmFb"></span><span><button class="gt-btn ghost sm" id="qmClose" hidden>Back to game</button> <button class="gt-btn sm" id="qmNext" hidden>Next</button></span></div>
+  </div>
+</div>
+</div>
+
+<script src="aigt-qgen.js"></script>
+<script src="aigt-games.js"></script>
+<script src="aigt-app.js"></script>
+</main>
+<footer><div class="ast-wrap">© 2026 AIStudyTools · A platform of Intellique Research School Pvt Ltd.<div class="ipn" style="margin-top:8px;font-size:12.5px;line-height:1.5">All tools, code and course content on AIStudyTools are protected under the Copyright Act, 1957 and the Information Technology Act, 2000. Copying, cloning or republishing any tool or content without written permission is prohibited. <a href="/copyright/">Copyright and IP Policy</a> · <a href="/profile/">My profile</a></div></div></footer>
+<script src="/static/register.js?v=1" defer></script>
+</body>
+</html>
