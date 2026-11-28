@@ -31,7 +31,8 @@ const GAME_META = {
   tambola: { title: 'Tambola', em: '🎟️', blurb: 'Housie with answers on your ticket. Claim lines before the bots.' },
   tycoon: { title: 'Business Tycoon', em: '🏢', blurb: 'Buy companies, collect rent, answer to win deals.' },
   crossword: { title: 'Crossword', em: '✏️', blurb: 'The questions are the clues. Fill in the answers.' },
-  wordsearch: { title: 'Word Search', em: '🔎', blurb: 'Find each answer hidden in the letter grid.' }
+  wordsearch: { title: 'Word Search', em: '🔎', blurb: 'Find each answer hidden in the letter grid.' },
+  quest: { title: 'Campus Quest', em: '🎒', blurb: 'Run and jump through 4 worlds. Answer to beat the bosses.' }
 };
 const MODE_META = {
   free: { title: 'Free play', note: 'Each student picks a game on their phone and plays against bots. Questions pop up during play.' },
@@ -100,6 +101,7 @@ function openSetup() {
   $('boardOpt').hidden = setupMode !== 'host';
   $('modeOpt').hidden = setupMode !== 'host';
   const s = LS.get('aigt-settings-v1', null);
+  if (s && (s.v || 0) < 3 && !(s.games || []).includes('quest')) s.games = (s.games || []).concat(['quest']);
   if (s && !s.v) s.games = (s.games || []).concat(['tycoon', 'race', 'tambola', 'crossword', 'wordsearch']);
   if (s) { $('sDur').value = s.dur; $('sCoins').value = s.coins; document.querySelectorAll('.sGame').forEach(c => { c.checked = s.games.includes(c.value); }); $('sBoard').checked = s.board !== false; if (s.mode && MODE_META[s.mode]) $('sMode').value = s.mode; if (s.qsec) $('sQsec').value = s.qsec; if (s.csec != null) $('sCsec').value = s.csec; }
   if (setupMode !== 'host') $('sMode').value = 'free';
@@ -145,7 +147,7 @@ function updateMode() {
 document.querySelectorAll('.sGame').forEach(c => c.onchange = checkCreate);
 $('sMode').onchange = updateMode;
 function readSettings() {
-  const s = { dur: +$('sDur').value, coins: +$('sCoins').value, games: [...document.querySelectorAll('.sGame:checked')].map(c => c.value), board: $('sBoard').checked, mode: setupMode === 'host' ? $('sMode').value : 'free', qsec: +$('sQsec').value, csec: +$('sCsec').value, v: 2 };
+  const s = { dur: +$('sDur').value, coins: +$('sCoins').value, games: [...document.querySelectorAll('.sGame:checked')].map(c => c.value), board: $('sBoard').checked, mode: setupMode === 'host' ? $('sMode').value : 'free', qsec: +$('sQsec').value, csec: +$('sCsec').value, v: 3 };
   LS.set('aigt-settings-v1', s); return s;
 }
 

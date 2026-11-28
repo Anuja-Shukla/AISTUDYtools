@@ -138,6 +138,7 @@ footer a { color: #5B6472; }
 .gt-game.tambola { background: linear-gradient(135deg, #d68910, #9c640c); }
 .gt-game.tycoon { background: linear-gradient(135deg, #14213D, #34495e); }
 .gt-game.crossword { background: linear-gradient(135deg, #8e44ad, #5b2c6f); }
+.gt-game.quest { background: linear-gradient(135deg, #f5a623, #c86b0e); }
 .gt-game.wordsearch { background: linear-gradient(135deg, #1f9e8f, #13665c); }
 .gt-gamechk { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0 12px; }
 /* whole-class host view (projector) */
@@ -269,7 +270,7 @@ footer a { color: #5B6472; }
     <button class="gt-role" data-go="solo"><div class="ic">🧠</div><b>Practise solo</b><span>Play on your own with sample sets or your notes. No teacher needed.</span></button>
   </div>
 
-  <h2>Eight games, one rule: answer to earn</h2>
+  <h2>Nine games, one rule: answer to earn</h2>
   <h3 style="margin-top:4px">For the whole class, on your projector</h3>
   <div class="gt-grid3">
     <div class="gt-card"><div class="big">🏁</div><h3>Quiz Race</h3><p>Everyone gets the same question at once and answers on their phone. Faster correct answers score more, and the leaderboard moves after every question.</p></div>
@@ -279,6 +280,7 @@ footer a { color: #5B6472; }
   <div class="gt-grid3">
     <div class="gt-card"><div class="big">🐍</div><h3>Snakes &amp; Ladders</h3><p>Each roll costs coins. Land on a snake and answer a rescue question to escape it. Beat the bots to 100.</p></div>
     <div class="gt-card"><div class="big">🎯</div><h3>Ludo</h3><p>Race your four tokens home against 1 or 3 bots. When a bot is about to capture you, answer correctly to defend your token.</p></div>
+    <div class="gt-card"><div class="big">🎒</div><h3>Campus Quest</h3><p>A full platform adventure. Guide Vidya the student through the Library, Science Lab, Market and Exam Hall. Quiz crates give power-ups, and each world ends with a boss you beat by answering questions.</p></div>
     <div class="gt-card"><div class="big">🤖</div><h3>Jump Quest</h3><p>Run and jump with Jugg the robot. Collect coins, open quiz crates for bonus questions, and answer to save a life when you fall.</p></div>
     <div class="gt-card"><div class="big">🏢</div><h3>Business Tycoon</h3><p>Buy companies after a due-diligence question, collect rent from the bots, negotiate your own rent down and finish with the highest net worth.</p></div>
     <div class="gt-card"><div class="big">✏️</div><h3>Crossword</h3><p>Your questions become the clues. Type each answer into the grid; crossing words give you letters.</p></div>
@@ -361,6 +363,7 @@ Answer: B
             <div class="gt-gamechk">
               <label class="gt-chk"><input type="checkbox" class="sGame" value="snakes" checked> 🐍 Snakes &amp; Ladders</label>
               <label class="gt-chk"><input type="checkbox" class="sGame" value="ludo" checked> 🎯 Ludo</label>
+              <label class="gt-chk"><input type="checkbox" class="sGame" value="quest" checked> 🎒 Campus Quest (new)</label>
               <label class="gt-chk"><input type="checkbox" class="sGame" value="jump" checked> 🤖 Jump Quest</label>
               <label class="gt-chk"><input type="checkbox" class="sGame" value="tycoon" checked> 🏢 Business Tycoon</label>
               <label class="gt-chk"><input type="checkbox" class="sGame" value="race" checked> 🏁 Quiz Race (vs bots)</label>
@@ -538,7 +541,8 @@ Answer: B
 <script src="aigt-qgen.js"></script>
 <script src="aigt-games.js?v=3"></script>
 <script src="aigt-games2.js?v=3"></script>
-<script src="aigt-app.js?v=3"></script>
+<script src="aigt-quest.js?v=2"></script>
+<script src="aigt-app.js?v=4"></script>
 </main>
 <footer><div class="ast-wrap">© 2026 AIStudyTools · A platform of Intellique Research School Pvt Ltd.<div class="ipn" style="margin-top:8px;font-size:12.5px;line-height:1.5">All tools, code and course content on AIStudyTools are protected under the Copyright Act, 1957 and the Information Technology Act, 2000. Copying, cloning or republishing any tool or content without written permission is prohibited. <a href="/copyright/">Copyright and IP Policy</a> · <a href="/profile/">My profile</a></div></div></footer>
 <script src="/static/register.js?v=1" defer></script>
