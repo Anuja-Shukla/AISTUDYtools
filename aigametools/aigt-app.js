@@ -26,8 +26,19 @@ const GAMES = window.AIGT_GAMES || {};
 const GAME_META = {
   snakes: { title: 'Snakes & Ladders', em: '🐍', blurb: 'Race the bots to 100. Answer to escape snakes.' },
   ludo: { title: 'Ludo', em: '🎯', blurb: 'Get all four tokens home. Answer to defend them.' },
-  jump: { title: 'Jump Quest', em: '🤖', blurb: 'Run, jump and open quiz crates with Jugg the robot.' }
+  jump: { title: 'Jump Quest', em: '🤖', blurb: 'Run, jump and open quiz crates with Jugg the robot.' },
+  race: { title: 'Quiz Race', em: '🏁', blurb: 'Speed rounds against two bots. Faster right answers score more.' },
+  tambola: { title: 'Tambola', em: '🎟️', blurb: 'Housie with answers on your ticket. Claim lines before the bots.' },
+  tycoon: { title: 'Business Tycoon', em: '🏢', blurb: 'Buy companies, collect rent, answer to win deals.' },
+  crossword: { title: 'Crossword', em: '✏️', blurb: 'The questions are the clues. Fill in the answers.' },
+  wordsearch: { title: 'Word Search', em: '🔎', blurb: 'Find each answer hidden in the letter grid.' }
 };
+const MODE_META = {
+  free: { title: 'Free play', note: 'Each student picks a game on their phone and plays against bots. Questions pop up during play.' },
+  race: { title: 'Quiz Race', note: 'Everyone gets the same question at the same time. Show this screen on the projector; students tap answers on their phones. Faster correct answers score more.' },
+  tambola: { title: 'Tambola', note: 'Every student gets a ticket of answers. You call questions on the projector; students mark the answer if it is on their ticket and claim Early Five, lines and Full House.' }
+};
+const isClass = s => !!(s && s.mode && s.mode !== 'free');
 const fmtTime = ms => { if (ms == null) return '∞'; ms = Math.max(0, ms); const s = Math.ceil(ms / 1000); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
 
 /* ---------- sound & toasts ---------- */
@@ -62,7 +73,7 @@ function floatText(txt, color) {
 }
 
 /* ---------- screens ---------- */
-const SCR = ['Home', 'Setup', 'Lobby', 'Live', 'Report', 'Join', 'Wait', 'Play', 'Done'];
+const SCR = ['Home', 'Setup', 'Lobby', 'Live', 'Report', 'Join', 'Wait', 'Play', 'Class', 'Done'];
 function show(n) { SCR.forEach(s => { $('scr' + s).hidden = s !== n; }); window.scrollTo(0, 0); }
 document.addEventListener('click', e => { const g = e.target.closest('[data-go]'); if (g) { e.preventDefault(); go(g.dataset.go); } });
 function go(w) {
@@ -87,9 +98,12 @@ function openSetup() {
   $('setupTitle').textContent = setupMode === 'host' ? 'Host a game' : 'Practise solo';
   $('createBtn').textContent = setupMode === 'host' ? 'Create game room' : 'Start playing';
   $('boardOpt').hidden = setupMode !== 'host';
+  $('modeOpt').hidden = setupMode !== 'host';
   const s = LS.get('aigt-settings-v1', null);
-  if (s) { $('sDur').value = s.dur; $('sCoins').value = s.coins; document.querySelectorAll('.sGame').forEach(c => { c.checked = s.games.includes(c.value); }); $('sBoard').checked = s.board !== false; }
-  renderQs(); show('Setup');
+  if (s && !s.v) s.games = (s.games || []).concat(['tycoon', 'race', 'tambola', 'crossword', 'wordsearch']);
+  if (s) { $('sDur').value = s.dur; $('sCoins').value = s.coins; document.querySelectorAll('.sGame').forEach(c => { c.checked = s.games.includes(c.value); }); $('sBoard').checked = s.board !== false; if (s.mode && MODE_META[s.mode]) $('sMode').value = s.mode; if (s.qsec) $('sQsec').value = s.qsec; if (s.csec != null) $('sCsec').value = s.csec; }
+  if (setupMode !== 'host') $('sMode').value = 'free';
+  updateMode(); renderQs(); show('Setup');
 }
 document.querySelectorAll('.gt-tab').forEach(t => t.onclick = () => {
   document.querySelectorAll('.gt-tab').forEach(x => x.classList.toggle('on', x === t));
@@ -112,14 +126,26 @@ function renderQs() {
 $('qList').addEventListener('click', e => { const b = e.target.closest('[data-del]'); if (!b) return; Qs.splice(+b.dataset.del, 1); saveQs(); renderQs(); });
 $('qClear').onclick = () => { if (!Qs.length || confirm('Remove all ' + Qs.length + ' questions?')) { Qs = []; saveQs(); renderQs(); } };
 function checkCreate() {
-  const games = [...document.querySelectorAll('.sGame:checked')].length;
-  $('createBtn').disabled = Qs.length < 5 || !games;
+  const mode = $('sMode').value, games = [...document.querySelectorAll('.sGame:checked')].length;
+  const pool = window.AIGT_KIT ? window.AIGT_KIT.pool(Qs).length : 99;
+  const err = Qs.length < 5 ? `Add at least 5 questions (you have ${Qs.length}).` : mode === 'free' && !games ? 'Pick at least one game.' : mode === 'tambola' && pool < 9 ? `Tambola needs at least 9 questions with different answers (you have ${pool}).` : '';
+  $('createBtn').disabled = !!err;
   $('createStatus').className = 'status';
-  $('createStatus').textContent = Qs.length < 5 ? `Add at least 5 questions (you have ${Qs.length}).` : !games ? 'Pick at least one game.' : '';
+  $('createStatus').textContent = err;
+}
+function updateMode() {
+  const m = $('sMode').value;
+  $('modeNote').textContent = MODE_META[m].note;
+  $('gamesOpt').hidden = m !== 'free'; $('raceOpt').hidden = m !== 'race'; $('tamOpt').hidden = m !== 'tambola';
+  $('coinNote').innerHTML = m === 'race' ? '<b>Coins:</b> correct answer +10, plus up to +10 for speed. No answer or a wrong answer scores 0.'
+    : m === 'tambola' ? '<b>Coins:</b> each correct mark +3 · marking an answer that has not been called −2 · Early Five +20 · each line +25 · Full House +60 · a false claim (bogie) −10.'
+    : '<b>Coins:</b> correct answer +10 (plus up to +10 streak bonus) · dice roll −5 · Jump Quest level −10 · snake, capture or fall −10 if the rescue question is missed · Tycoon: buy companies and collect rent · word games: +10 a word.';
+  checkCreate();
 }
 document.querySelectorAll('.sGame').forEach(c => c.onchange = checkCreate);
+$('sMode').onchange = updateMode;
 function readSettings() {
-  const s = { dur: +$('sDur').value, coins: +$('sCoins').value, games: [...document.querySelectorAll('.sGame:checked')].map(c => c.value), board: $('sBoard').checked };
+  const s = { dur: +$('sDur').value, coins: +$('sCoins').value, games: [...document.querySelectorAll('.sGame:checked')].map(c => c.value), board: $('sBoard').checked, mode: setupMode === 'host' ? $('sMode').value : 'free', qsec: +$('sQsec').value, csec: +$('sCsec').value, v: 2 };
   LS.set('aigt-settings-v1', s); return s;
 }
 
@@ -248,6 +274,22 @@ function download(name, text, type) {
 /* --- ready-made sets --- */
 const mk = (q, right, ...wrong) => ({ q, options: [right, ...wrong], answer: 0 });
 const SETS = {
+  'Key terms (great for word games)': [
+    mk('The middle value of an ordered data set is the…', 'Median', 'Mean', 'Mode', 'Range'),
+    mk('The value that occurs most often in a data set is the…', 'Mode', 'Median', 'Mean', 'Range'),
+    mk('Largest value minus smallest value gives the…', 'Range', 'Variance', 'Median', 'Mode'),
+    mk('A clear, step-by-step set of instructions that solves a problem is an…', 'Algorithm', 'Database', 'Browser', 'Compiler'),
+    mk('The instruction you type to a generative AI tool is called a…', 'Prompt', 'Token', 'Dataset', 'Plugin'),
+    mk('The small unit of text a language model reads and writes is a…', 'Token', 'Prompt', 'Pixel', 'Byte'),
+    mk('Money a firm earns from sales before any costs are taken away is…', 'Revenue', 'Profit', 'Equity', 'Margin'),
+    mk('Revenue minus all costs is…', 'Profit', 'Revenue', 'Turnover', 'Capital'),
+    mk('Something a business owns that has economic value is an…', 'Asset', 'Liability', 'Expense', 'Invoice'),
+    mk('A general, sustained rise in prices in an economy is…', 'Inflation', 'Deflation', 'Recession', 'Depreciation'),
+    mk('The simplest version of a product used to test an idea with real users (short form)', 'MVP', 'KPI', 'ROI', 'CRM'),
+    mk('Customers who stop using a product in a period are measured as…', 'Churn', 'Retention', 'Conversion', 'Reach'),
+    mk('Dividing a market into groups of buyers with similar needs is…', 'Segmentation', 'Positioning', 'Branding', 'Pricing'),
+    mk('The marketing-mix P that covers where and how a product is sold is…', 'Place', 'Price', 'Promotion', 'People')
+  ],
   'AI basics': [
     mk('What does LLM stand for?', 'Large language model', 'Linear learning machine', 'Logical language module', 'Layered logic model'),
     mk('Machine learning systems mainly learn from…', 'Data and examples', 'Hand-written rules only', 'Random guesses', 'Faster hardware'),
@@ -382,7 +424,7 @@ const H = { net: null, code: '', questions: [], settings: null, phase: 'none', e
 let saveHT = null;
 function saveH() {
   clearTimeout(saveHT);
-  saveHT = setTimeout(() => LS.set('aigt-host-v1', { code: H.code, questions: H.questions, settings: H.settings, phase: H.phase, endsAt: H.endsAt, players: H.players, qstats: H.qstats, t: Date.now() }), 300);
+  saveHT = setTimeout(() => LS.set('aigt-host-v1', { code: H.code, questions: H.questions, settings: H.settings, phase: H.phase, endsAt: H.endsAt, players: H.players, qstats: H.qstats, cls: H.cls ? Object.assign({}, H.cls, { timer: null, auto: null }) : null, t: Date.now() }), 300);
 }
 async function hostOpen(code) {
   const handlers = {
@@ -412,7 +454,7 @@ function openLobby() {
   $('lobbyCode').textContent = H.code;
   $('joinHost').textContent = location.host + location.pathname;
   $('joinUrl').textContent = joinUrl(H.code);
-  $('lobbyInfo').innerHTML = `${H.questions.length} questions · ${H.settings.dur ? H.settings.dur + ' minutes' : 'no time limit'} · ${H.settings.games.map(g => GAME_META[g].title).join(', ')}.<br>Keep this tab open until the game ends. Students need internet on their phones.`;
+  $('lobbyInfo').innerHTML = `${H.questions.length} questions · ${H.settings.dur ? H.settings.dur + ' minutes' : 'no time limit'} · ${isClass(H.settings) ? MODE_META[H.settings.mode].title + ' for the whole class' : H.settings.games.map(g => GAME_META[g].title).join(', ')}.<br>Keep this tab open until the game ends. Students need internet on their phones.`;
   const qr = $('qr'); qr.hidden = true;
   loadScript(QRLIB).then(() => {
     const q = window.qrcode(0, 'M'); q.addData(joinUrl(H.code)); q.make();
@@ -443,10 +485,12 @@ function hostMsg(cid, d) {
     p.online = true; H.cids[cid] = pid;
     H.net.send(cid, { t: 'welcome', pid, name: p.name, questions: H.questions, settings: H.settings, phase: H.phase, left: remaining(), stats: pickStats(p) });
     if (H.phase === 'end') sendEnd(cid, pid);
+    else if (H.phase === 'play' && isClass(H.settings)) classJoin(cid, p);
     renderHost(); saveH();
     return;
   }
   const pid = H.cids[cid], p = pid && H.players[pid]; if (!p) return;
+  if (isClass(H.settings)) { classMsg(cid, p, d); return; }
   if (d.t === 'stat') { Object.assign(p, pickStats(d)); renderHostSoon(); saveH(); }
   else if (d.t === 'ans' && H.qstats[d.qi]) { H.qstats[d.qi].n++; if (d.ok) H.qstats[d.qi].ok++; renderHostSoon(); saveH(); }
 }
@@ -485,6 +529,7 @@ function hostStart() {
   H.phase = 'play'; H.endsAt = H.settings.dur ? Date.now() + H.settings.dur * 60000 : null;
   Object.keys(H.cids).forEach(cid => H.net.send(cid, { t: 'start', left: remaining() }));
   $('liveCode').textContent = H.code; show('Live'); renderHost(); saveH(); hostTicker();
+  if (isClass(H.settings)) classStart(); else { H.cls = null; $('classHost').hidden = true; }
 }
 function hostTicker() {
   clearInterval(H.tick); let k = 0;
@@ -502,6 +547,7 @@ function sendEnd(cid, pid) {
   H.net.send(cid, { t: 'end', rank: i + 1, n: ps.length, coins: i >= 0 ? ps[i].coins : 0, top: ps.slice(0, 5).map(p => ({ n: p.name, c: p.coins, me: p.pid === pid })) });
 }
 function hostEnd() {
+  classStop();
   clearInterval(H.tick); H.phase = 'end'; H.endsAt = null; saveH();
   Object.entries(H.cids).forEach(([cid, pid]) => sendEnd(cid, pid));
   sfx('win'); renderReport(); show('Report');
@@ -542,14 +588,14 @@ function renderResume() {
   $('discardBtn').onclick = () => { LS.del('aigt-host-v1'); el.remove(); };
   $('resumeBtn').onclick = async () => {
     $('resumeBtn').disabled = true; $('resumeBtn').textContent = 'Reconnecting…';
-    Object.assign(H, { questions: s.questions, settings: s.settings, phase: s.phase, endsAt: s.endsAt, players: s.players || {}, qstats: s.qstats || [], cids: {} });
+    Object.assign(H, { questions: s.questions, settings: s.settings, phase: s.phase, endsAt: s.endsAt, players: s.players || {}, qstats: s.qstats || [], cls: s.cls || null, cids: {} });
     Object.values(H.players).forEach(p => { p.online = false; });
     for (let i = 0; i < 6; i++) {
       try { await hostOpen(s.code); break; }
       catch (e) { if (i === 5) { el.innerHTML = 'Could not reopen that room. Please create a new game.'; LS.del('aigt-host-v1'); H.phase = 'none'; return; } await new Promise(r => setTimeout(r, 3000)); }
     }
     el.remove();
-    if (H.phase === 'lobby') openLobby(); else { if (H.endsAt && H.endsAt < Date.now()) { hostEnd(); return; } $('liveCode').textContent = H.code; show('Live'); renderHost(); hostTicker(); }
+    if (H.phase === 'lobby') openLobby(); else { if (H.endsAt && H.endsAt < Date.now()) { hostEnd(); return; } $('liveCode').textContent = H.code; show('Live'); renderHost(); hostTicker(); if (isClass(H.settings)) classResume(); else $('classHost').hidden = true; }
   };
 }
 
@@ -592,6 +638,14 @@ const api = {
   lose(n, why) { if (!P.over) { const d = Math.min(n, P.coins); setCoins(P.coins - d, d ? -d : 0, why); sfx('hit'); } },
   ask(kind, o) { return P.over ? Promise.resolve(false) : new Promise(res => openQ(kind, o || {}, res)); },
   won() { P.wins++; sfx('win'); saveP(); syncStat(); },
+  get questions() { return P.questions; },
+  record(qi, ok) {
+    if (P.over || !P.questions[qi]) return;
+    if (P.mode === 'net' && NETP.link) NETP.link.send({ t: 'ans', qi, ok: !!ok });
+    if (ok) { P.correct++; P.streak++; P.best = Math.max(P.best, P.streak); }
+    else { P.wrong++; P.streak = 0; if (!P.missed.includes(qi)) P.missed.push(qi); }
+    hud(); saveP(); syncStat();
+  },
   toast, sfx
 };
 
@@ -609,7 +663,7 @@ function showQ() {
   const { kind, o } = QM;
   const qi = QM.qi = nextQ(), q = P.questions[qi];
   QM.answered = false; QM.n = (QM.n || 0) + 1; QM.order = shuffle(q.options.map((_, i) => i));
-  $('qmKind').textContent = kind === 'earn' ? 'Earn coins' : kind === 'bonus' ? '⭐ Quiz crate' : '🛡 ' + (o.title || 'Rescue question');
+  $('qmKind').textContent = kind === 'earn' ? 'Earn coins' : kind === 'bonus' ? '⭐ ' + (o.title || 'Quiz crate') : '🛡 ' + (o.title || 'Rescue question');
   $('qmSub').textContent = kind === 'rescue' ? (o.sub || 'Answer correctly to save yourself.') + ' Correct: +5 coins.'
     : `Correct answer: +${reward()} coins${P.streak ? ' (streak bonus included)' : ''}.` + (kind === 'earn' && o.need && P.coins < o.need ? ` You need ${o.need} coins to continue.` : '');
   $('qmQ').textContent = q.q;
@@ -770,21 +824,22 @@ function playerMsg(d) {
     const s = LS.get('aigt-p-' + P.code + '-' + P.pid, null) || d.stats || {};
     if (P.over) Object.assign(P, { coins: s.coins != null ? s.coins : d.settings.coins, correct: s.correct || 0, wrong: s.wrong || 0, wins: s.wins || 0, best: s.best || 0, streak: s.streak || 0, missed: s.missed || [] });
     $('hRank').hidden = !d.settings.board; $('soloEnd').hidden = true; $('sideTitle').textContent = 'Leaderboard';
-    $('wName').textContent = d.name; $('wInfo').textContent = `${d.questions.length} questions · ${d.settings.games.map(g => GAME_META[g].title).join(', ')}`;
+    $('wName').textContent = d.name; $('wInfo').textContent = `${d.questions.length} questions · ${isClass(d.settings) ? MODE_META[d.settings.mode].title + ' with the whole class' : d.settings.games.map(g => GAME_META[g].title).join(', ')}`;
     if (d.phase === 'lobby') { if (P.over) show('Wait'); }
-    else if (d.phase === 'play') { setLeft(d.left); if (P.over) startPlayScreen(); }
-    saveP(); syncStat();
-  } else if (d.t === 'start') { setLeft(d.left); if (P.over) startPlayScreen(); }
+    else if (d.phase === 'play') { setLeft(d.left); if (isClass(d.settings)) pClassStart(); else if (P.over) startPlayScreen(); }
+    saveP(); if (!isClass(d.settings)) syncStat();
+  } else if (d.t === 'start') { setLeft(d.left); if (isClass(P.settings)) pClassStart(); else if (P.over) startPlayScreen(); }
+  else if (['rq', 'tk', 'call', 'me', 'won'].includes(d.t)) pClassMsg(d);
   else if (d.t === 'board') {
     setLeft(d.left);
     if (!P.settings) return;
     if (!P.settings.board || !d.top) { $('sideBoard').innerHTML = '<p class="note">Your teacher has hidden the leaderboard. Keep earning!</p>'; return; }
-    $('hRank').textContent = `🏆 #${d.rank} of ${d.n}`;
+    $('hRank').textContent = `🏆 #${d.rank} of ${d.n}`; $('cRank').hidden = false; $('cRank').textContent = `🏆 #${d.rank} of ${d.n}`;
     let h = d.top.map((p, i) => `<div class="gt-bar${p.me ? ' me' : ''}"><span class="rk">${i + 1}</span><span class="nm">${esc(p.n)}</span><span class="cn">${p.c}</span></div>`).join('');
     if (d.rank > 5) h += `<div class="note" style="text-align:center">…</div><div class="gt-bar me"><span class="rk">${d.rank}</span><span class="nm">${esc(P.name)}</span><span class="cn">${d.mine}</span></div>`;
     $('sideBoard').innerHTML = h;
   } else if (d.t === 'end') {
-    P.over = true; clearInterval(P.tick); closeQ(false); stopGame(); saveP();
+    P.over = true; clearInterval(P.tick); closeQ(false); stopGame(); pClassStop(); saveP();
     $('dLabel').textContent = 'Game over · your rank';
     $('dRank').textContent = d.rank ? '#' + d.rank : '–';
     $('dCoins').textContent = d.rank ? `of ${d.n} players · 🪙 ${(d.coins != null ? d.coins : P.coins).toLocaleString('en-IN')}` : 'This game has ended.';
@@ -798,6 +853,224 @@ function setLeft(left) {
   if (left == null) { P.endsAt = null; return; }
   const e = Date.now() + left;
   if (P.endsAt == null || Math.abs(P.endsAt - e) > 1500) P.endsAt = e;
+}
+
+/* ================= WHOLE-CLASS MODES: Quiz Race and Tambola =================
+   The teacher's screen (projector) drives the game; phones answer. The host keeps the score. */
+const KX = () => window.AIGT_KIT;
+const cidsOf = pid => Object.keys(H.cids).filter(c => H.cids[c] === pid);
+function sendMe(cid, p, extra) { H.net.send(cid, Object.assign({ t: 'me', coins: p.coins, correct: p.correct, wrong: p.wrong, best: p.best, wins: p.wins }, extra || {})); }
+function classStart() {
+  const mode = H.settings.mode;
+  if (mode === 'race') H.cls = { mode, order: shuffle(H.questions.map((_, i) => i)), n: -1, open: false, qi: -1, opts: [], t0: 0, ans: {}, lim: (H.settings.qsec || 20) * 1000 };
+  else {
+    H.cls = { mode, calls: shuffle(H.questions.map((_, i) => i)), called: [], won: {}, csec: H.settings.csec || 0, paused: false, showAns: false };
+    Object.values(H.players).forEach(classTicket);
+    Object.entries(H.cids).forEach(([cid, pid]) => sendTicket(cid, H.players[pid]));
+  }
+  $('classHost').hidden = false; renderClassHost(); saveH();
+}
+function classResume() {
+  const C = H.cls; if (!C) { classStart(); return; }
+  $('classHost').hidden = false;
+  if (C.mode === 'race' && C.open) { C.t0 = Date.now(); C.ans = {}; raceTimer(); }
+  if (C.mode === 'tambola') tamAuto();
+  renderClassHost();
+}
+function classStop() { const C = H.cls; if (!C) return; clearInterval(C.timer); clearTimeout(C.auto); }
+function classTicket(p) { if (!p.ticket) { p.ticket = KX().ticket(KX().pool(H.questions).length); p.marks = []; } }
+function sendTicket(cid, p) { H.net.send(cid, { t: 'tk', ticket: p.ticket, marks: p.marks, called: H.cls.called, won: H.cls.won }); sendMe(cid, p); }
+function classJoin(cid, p) {
+  const C = H.cls; if (!C) return;
+  if (C.mode === 'race') { sendMe(cid, p); if (C.open) sendRq(cid); }
+  else { classTicket(p); sendTicket(cid, p); saveH(); }
+}
+function classMsg(cid, p, d) {
+  const C = H.cls; if (!C || H.phase !== 'play') return;
+  if (C.mode === 'race' && d.t === 'ra') {
+    if (!C.open || d.n !== C.n || C.ans[p.pid] || !(d.i >= 0 && d.i < H.questions[C.qi].options.length)) return;
+    C.ans[p.pid] = { i: +d.i, ms: Date.now() - C.t0 };
+    renderClassHostSoon();
+    const online = Object.values(H.players).filter(x => x.online);
+    if (online.length && online.every(x => C.ans[x.pid])) setTimeout(raceReveal, 400);
+  } else if (C.mode === 'tambola' && d.t === 'mk') {
+    const c = +d.c, K = KX(), pool = K.pool(H.questions);
+    if (!p.ticket || !p.ticket.includes(c) || p.marks.includes(c)) return;
+    const hit = pool[c].qis.filter(q => C.called.includes(q)), last = C.called[C.called.length - 1];
+    if (hit.length) {
+      p.marks.push(c); p.coins += 3; p.correct++; p.streak = (p.streak || 0) + 1; p.best = Math.max(p.best, p.streak);
+      const qi = hit[hit.length - 1]; H.qstats[qi].n++; H.qstats[qi].ok++;
+      sendMe(cid, p, { mk: c, ok: 1 });
+    } else {
+      p.coins = Math.max(0, p.coins - 2); p.wrong++; p.streak = 0; if (last != null) H.qstats[last].n++;
+      sendMe(cid, p, { mk: c, ok: 0, miss: last });
+    }
+    renderHostSoon(); saveH();
+  } else if (C.mode === 'tambola' && d.t === 'claim') {
+    const K = KX(), pr = K.PRIZES.find(x => x.id === d.id); if (!pr || !p.ticket) return;
+    if (C.won[pr.id]) { sendMe(cid, p, { claim: pr.id, res: 'taken' }); return; }
+    if (pr.test(p.ticket, new Set(p.marks))) {
+      C.won[pr.id] = p.name; p.coins += pr.coins; p.wins++;
+      Object.keys(H.cids).forEach(x => H.net.send(x, { t: 'won', id: pr.id, name: p.name }));
+      sendMe(cid, p, { claim: pr.id, res: 'ok' }); sfx('win'); toast(`${p.name} claimed ${pr.name}!`, 3000); renderClassHost();
+      if (pr.id === 'full') { clearTimeout(C.auto); setTimeout(() => { if (H.phase === 'play') hostEnd(); }, 6000); }
+    } else { p.coins = Math.max(0, p.coins - 10); sendMe(cid, p, { claim: pr.id, res: 'bogie' }); }
+    renderHostSoon(); saveH();
+  }
+}
+/* --- race (host) --- */
+function sendRq(cid) { const C = H.cls; H.net.send(cid, { t: 'rq', n: C.n, qi: C.qi, opts: C.opts, left: Math.max(0, C.lim - (Date.now() - C.t0)), lim: C.lim, of: C.order.length }); }
+function raceNext() {
+  const C = H.cls; clearInterval(C.timer);
+  if (C.n + 1 >= C.order.length) { hostEnd(); return; }
+  C.n++; C.qi = C.order[C.n]; C.opts = shuffle(H.questions[C.qi].options.map((_, i) => i)); C.ans = {}; C.open = true; C.t0 = Date.now();
+  Object.keys(H.cids).forEach(sendRq);
+  raceTimer(); renderClassHost(); saveH(); sfx('roll');
+}
+function raceTimer() {
+  const C = H.cls; clearInterval(C.timer);
+  C.timer = setInterval(() => {
+    const left = C.lim - (Date.now() - C.t0), el = $('chTime');
+    if (el) el.textContent = Math.max(0, Math.ceil(left / 1000));
+    if (left <= 0) raceReveal();
+  }, 250);
+}
+function raceReveal() {
+  const C = H.cls; if (!C || !C.open) return;
+  clearInterval(C.timer); C.open = false;
+  const q = H.questions[C.qi], st = H.qstats[C.qi];
+  Object.values(H.players).forEach(p => {
+    const a = C.ans[p.pid], ok = !!a && a.i === q.answer, pts = ok ? 10 + Math.round(10 * Math.max(0, 1 - a.ms / C.lim)) : 0;
+    p.last = { ok, pts, answered: !!a };
+    if (!a && !p.online) return;
+    st.n++;
+    if (ok) { st.ok++; p.correct++; p.streak = (p.streak || 0) + 1; p.best = Math.max(p.best, p.streak); p.coins += pts; }
+    else { p.wrong++; p.streak = 0; }
+  });
+  const ps = ranked();
+  Object.entries(H.cids).forEach(([cid, pid]) => {
+    const p = H.players[pid]; if (!p) return; const r = ps.indexOf(p) + 1;
+    sendMe(cid, p, { rr: 1, n: C.n, ok: p.last.ok, gain: p.last.pts, answered: p.last.answered, answer: q.answer, qi: C.qi, rank: r, of: ps.length });
+  });
+  sfx('good'); renderClassHost(); renderHost(); saveH();
+}
+/* --- tambola (host) --- */
+function tamCall() {
+  const C = H.cls; clearTimeout(C.auto);
+  if (C.called.length >= C.calls.length) { toast('All questions have been called.'); return; }
+  const qi = C.calls[C.called.length]; C.called.push(qi);
+  Object.keys(H.cids).forEach(cid => H.net.send(cid, { t: 'call', qi, k: C.called.length, of: C.calls.length }));
+  sfx('roll'); renderClassHost(); saveH(); tamAuto();
+  if (C.called.length >= C.calls.length) setTimeout(() => { if (H.phase === 'play' && H.cls === C) { toast('Last call made. The game ends in 30 seconds.', 4000); C.auto = setTimeout(() => { if (H.phase === 'play') hostEnd(); }, 30000); } }, 500);
+}
+function tamAuto() { const C = H.cls; clearTimeout(C.auto); if (C.csec && !C.paused && H.phase === 'play' && C.called.length && C.called.length < C.calls.length) C.auto = setTimeout(tamCall, C.csec * 1000); }
+/* --- host view --- */
+let rchT = null; function renderClassHostSoon() { if (!rchT) rchT = setTimeout(() => { rchT = null; renderClassHost(); }, 300); }
+function renderClassHost() {
+  const el = $('classHost'), C = H.cls, K = KX(); if (!C || !el) return;
+  if (C.mode === 'race') {
+    if (C.n < 0 || C.qi < 0) { el.innerHTML = `<div class="ch-card"><div class="ch-kicker">🏁 Quiz Race</div><div class="ch-q">${H.questions.length} questions, ${C.lim / 1000} seconds each. Show this screen on the projector. Students answer on their phones; faster correct answers score more.</div><div class="row"><button class="gt-btn gold big" data-ch="next">Show the first question</button></div></div>`; return; }
+    const q = H.questions[C.qi], n = Object.keys(C.ans).length, on = Object.values(H.players).filter(p => p.online).length;
+    const opts = C.opts.map((oi, k) => { const cnt = Object.values(C.ans).filter(a => a.i === oi).length; return `<div class="ch-opt${!C.open && oi === q.answer ? ' ok' : !C.open ? ' dim' : ''}" style="background:${K.COLORS[k]}"><span class="s">${K.SHAPES[k]}</span><span class="t">${esc(q.options[oi])}</span>${!C.open ? `<span class="cnt">${cnt}</span>` : ''}</div>`; }).join('');
+    el.innerHTML = `<div class="ch-card"><div class="ch-top"><span class="ch-kicker">Question ${C.n + 1} of ${C.order.length}</span>${C.open ? `<span class="ch-time" id="chTime">${Math.max(0, Math.ceil((C.lim - (Date.now() - C.t0)) / 1000))}</span>` : '<span class="ch-kicker" style="color:#1d8a4e">Answer</span>'}<span class="ch-kicker">${n} of ${on} answered</span></div>
+      <div class="ch-q">${esc(q.q)}</div><div class="ch-opts">${opts}</div>
+      <div class="row">${C.open ? '<button class="gt-btn ghost" data-ch="reveal">Show the answer now</button>' : `<button class="gt-btn gold big" data-ch="next">${C.n + 1 >= C.order.length ? 'Finish and show results' : 'Next question'}</button>`}</div></div>`;
+  } else {
+    const cur = C.called.length ? H.questions[C.called[C.called.length - 1]] : null, prev = C.called.length > 1 ? H.questions[C.called[C.called.length - 2]] : null;
+    const list = C.showAns ? `<div class="ch-list">${C.called.slice().reverse().map((qi, k) => `<div><span class="note">${C.called.length - k}.</span> ${esc(H.questions[qi].q)} <b>${esc(H.questions[qi].options[H.questions[qi].answer])}</b></div>`).join('')}</div>` : '';
+    el.innerHTML = `<div class="ch-card"><div class="ch-top"><span class="ch-kicker">🎟️ Tambola · call ${C.called.length} of ${C.calls.length}</span><span class="ch-kicker">${C.csec ? (C.paused ? 'auto-call paused' : `auto-call every ${C.csec} s`) : 'you call each question'}</span></div>
+      <div class="ch-q">${cur ? esc(cur.q) : 'Press <b>Next call</b> to call the first question. Students mark its answer if it is on their ticket.'}</div>
+      ${prev ? `<div class="ch-last">Last answer: <b>${esc(prev.options[prev.answer])}</b></div>` : ''}
+      <div class="ch-prizes">${K.PRIZES.map(p => `<span class="ch-prize${C.won[p.id] ? ' won' : ''}">${p.name}${C.won[p.id] ? ': ' + esc(C.won[p.id]) : ' · +' + p.coins}</span>`).join('')}</div>
+      <div class="row"><button class="gt-btn gold big" data-ch="call" ${C.called.length >= C.calls.length || C.won.full ? 'disabled' : ''}>Next call</button>${C.csec ? `<button class="gt-btn ghost" data-ch="pause">${C.paused ? 'Resume auto-call' : 'Pause auto-call'}</button>` : ''}<button class="gt-btn ghost sm" data-ch="answers">${C.showAns ? 'Hide' : 'Show'} called answers</button></div>${list}</div>`;
+  }
+}
+$('classHost').addEventListener('click', e => {
+  const b = e.target.closest('[data-ch]'), C = H.cls; if (!b || !C || H.phase !== 'play') return;
+  const a = b.dataset.ch;
+  if (a === 'next') raceNext(); else if (a === 'reveal') raceReveal();
+  else if (a === 'call') tamCall();
+  else if (a === 'pause') { C.paused = !C.paused; tamAuto(); renderClassHost(); saveH(); }
+  else if (a === 'answers') { C.showAns = !C.showAns; renderClassHost(); }
+});
+
+/* --- player side of the whole-class modes --- */
+const PC = { ticket: null, marks: new Set(), pend: new Set(), called: [], won: {}, n: -1, k: 0, of: 0, answered: false, tm: null };
+function cHud() { $('cCoins').textContent = '🪙 ' + P.coins.toLocaleString('en-IN'); }
+function cMsg(t) { const m = $('cMsg'); if (m) m.innerHTML = t; }
+function pClassStart() {
+  const first = P.over; P.over = false; show('Class'); cHud();
+  $('cTitle').textContent = MODE_META[P.settings.mode].title;
+  if (first) { Object.assign(PC, { ticket: null, marks: new Set(), pend: new Set(), called: [], won: {}, n: -1 }); $('cStage').innerHTML = `<div class="g2 gt-me"><div style="font-size:48px">${P.settings.mode === 'race' ? '🏁' : '🎟️'}</div><h2 style="margin:6px 0">Look at your teacher's screen</h2><p class="note">${P.settings.mode === 'race' ? 'The question appears there and here. Tap your answer fast.' : 'Your ticket is on its way…'}</p></div>`; }
+  clearInterval(P.tick);
+  P.tick = setInterval(() => { if (P.endsAt == null) { $('cTime').hidden = true; return; } $('cTime').hidden = false; $('cTime').textContent = '⏱ ' + fmtTime(P.endsAt - Date.now()); }, 500);
+}
+function pClassStop() { clearInterval(PC.tm); }
+function pClassMsg(d) {
+  const K = KX(); if (!K || !P.settings) return;
+  if (d.t === 'me') {
+    Object.assign(P, { coins: d.coins, correct: d.correct, wrong: d.wrong, best: d.best, wins: d.wins }); cHud(); saveP();
+    if (d.rr) pRaceResult(d);
+    if (d.mk != null) {
+      PC.pend.delete(d.mk);
+      const cell = $('cStage').querySelector(`.g2-cell[data-c="${d.mk}"]`);
+      if (d.ok) { PC.marks.add(d.mk); if (cell) cell.classList.add('on'); sfx('good'); cMsg('Marked! +3 coins.'); }
+      else { if (cell) { cell.classList.remove('shake'); void cell.offsetWidth; cell.classList.add('shake'); } sfx('bad'); cMsg('That answer has not been called yet. −2 coins.'); if (d.miss != null && !P.missed.includes(d.miss)) P.missed.push(d.miss); }
+      pPrizes();
+    }
+    if (d.claim) { const pr = K.PRIZES.find(x => x.id === d.claim); cMsg(d.res === 'ok' ? `🎉 You won <b>${pr.name}</b>! +${pr.coins} coins.` : d.res === 'taken' ? `${pr.name} has already been won.` : `Bogie! Your ticket does not have ${pr.name} yet. −10 coins.`); if (d.res === 'ok') sfx('win'); else sfx('bad'); }
+    return;
+  }
+  if (d.t === 'rq') {
+    if (!P.questions[d.qi]) return;
+    PC.n = d.n; PC.answered = false; const q = P.questions[d.qi]; PC.qi = d.qi;
+    $('cStage').innerHTML = `<div class="g2"><div class="g2-head"><b>Question ${d.n + 1} of ${d.of}</b><span class="note" id="cSec"></span></div><div class="g2-tbar"><i id="cBar" style="width:100%"></i></div><div class="g2-q">${esc(q.q)}</div><div class="g2-kopts">${K.kopts(q, d.opts)}</div><div class="g2-msg" id="cMsg">Tap your answer. Faster correct answers score more.</div></div>`;
+    const end = Date.now() + d.left; clearInterval(PC.tm);
+    PC.tm = setInterval(() => { const left = end - Date.now(), bar = $('cBar'), sec = $('cSec'); if (bar) bar.style.width = Math.max(0, left / d.lim * 100) + '%'; if (sec) sec.textContent = Math.max(0, Math.ceil(left / 1000)) + ' s'; if (left <= 0) { clearInterval(PC.tm); if (!PC.answered) { $('cStage').querySelectorAll('.g2-kopt').forEach(b => { b.disabled = true; }); cMsg("Time's up. Look at the screen for the answer."); } } }, 100);
+    sfx('roll');
+  } else if (d.t === 'tk') {
+    PC.ticket = d.ticket; PC.marks = new Set(d.marks || []); PC.pend = new Set(); PC.called = d.called || []; PC.won = d.won || {};
+    PC.k = PC.called.length; pTicket();
+  } else if (d.t === 'call') {
+    if (!PC.called.includes(d.qi)) PC.called.push(d.qi); PC.k = d.k; PC.of = d.of; pCall(); sfx('roll');
+  } else if (d.t === 'won') {
+    PC.won[d.id] = d.name; pPrizes(); if (d.name !== P.name) toast(`${d.name} won ${K.PRIZES.find(x => x.id === d.id).name}`, 2500);
+  }
+}
+$('cStage').addEventListener('click', e => {
+  if (!P.settings || P.over || !NETP.link) return;
+  const o = e.target.closest('.g2-kopt'), cell = e.target.closest('.g2-cell'), pz = e.target.closest('.g2-prize');
+  if (o && !PC.answered) {
+    PC.answered = true; NETP.link.send({ t: 'ra', n: PC.n, i: +o.dataset.i });
+    $('cStage').querySelectorAll('.g2-kopt').forEach(b => { b.disabled = true; if (b !== o) b.classList.add('dim'); });
+    cMsg('Answer locked in. Look at the screen.'); sfx('coin');
+  } else if (cell) {
+    const c = +cell.dataset.c; if (PC.marks.has(c) || PC.pend.has(c)) return;
+    if (!PC.called.length) { cMsg('Wait for the first call.'); return; }
+    PC.pend.add(c); NETP.link.send({ t: 'mk', c });
+  } else if (pz && !pz.disabled) NETP.link.send({ t: 'claim', id: pz.dataset.p });
+});
+function pRaceResult(d) {
+  clearInterval(PC.tm);
+  const q = P.questions[d.qi]; if (!q) return;
+  if (!d.ok && !P.missed.includes(d.qi)) P.missed.push(d.qi);
+  $('cStage').querySelectorAll('.g2-kopt').forEach(b => { b.disabled = true; const bi = +b.dataset.i; b.classList.toggle('dim', bi !== d.answer); if (bi === d.answer) b.classList.add('ok'); });
+  cMsg(`<div style="font-size:22px;font-weight:800;margin-top:4px">${d.ok ? `✅ Correct! +${d.gain}` : d.answered ? '❌ Not this time' : '⏱ No answer'}</div>${d.ok ? '' : `The answer is <b>${esc(q.options[q.answer])}</b>. `}You are <b>#${d.rank}</b> of ${d.of}.`);
+  if (d.ok) sfx('good');
+}
+function pCall() {
+  const el = $('cCall'); if (!el) return;
+  const cur = PC.called.length ? P.questions[PC.called[PC.called.length - 1]] : null;
+  el.innerHTML = `<small>${cur ? `Call ${PC.k || PC.called.length}${PC.of ? ' of ' + PC.of : ''}` : 'Caller'}</small><div class="q">${cur ? esc(cur.q) : 'Waiting for the first call…'}</div>`;
+}
+function pPrizes() {
+  const el = $('cPrizes'), K = KX(); if (!el || !PC.ticket) return;
+  el.innerHTML = K.PRIZES.map(p => { const w = PC.won[p.id], ready = !w && p.test(PC.ticket, PC.marks); return `<button class="g2-prize${w ? (w === P.name ? ' mine' : ' gone') : ready ? ' ready' : ''}" data-p="${p.id}" ${w ? 'disabled' : ''}>${p.name}${w ? ' · ' + esc(w) : ' +' + p.coins}</button>`; }).join('');
+}
+function pTicket() {
+  const K = KX(), pool = K.pool(P.questions), w = PC.ticket.length / 3;
+  $('cStage').innerHTML = `<div class="g2"><div class="g2-call" id="cCall"></div><div class="g2-ticket" style="grid-template-columns:repeat(${w},1fr)">${PC.ticket.map(c => `<button class="g2-cell${pool[c] ? K.cellCls(pool[c].text) : ''}${PC.marks.has(c) ? ' on' : ''}" data-c="${c}">${esc(K.short(pool[c] ? pool[c].text : '?', 46))}</button>`).join('')}</div><div class="g2-prizes" id="cPrizes"></div><div class="g2-msg" id="cMsg">When a question is called, tap its answer if it is on your ticket. Claim a prize as soon as you have it.</div></div>`;
+  pCall(); pPrizes();
 }
 
 /* ---------- start-up ---------- */

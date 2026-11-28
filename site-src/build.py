@@ -4,7 +4,7 @@ import os, html, re, glob, json
 import markdown
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
-V = "41"  # cache-buster for css/js
+V = "42"  # cache-buster for css/js
 PAY_API = ""  # payment server (Cloudflare Worker) URL; empty = paid-course enrolment shows "opens soon"
 
 def svg(paths, extra=""):
@@ -432,7 +432,7 @@ tl += f'''<section class="white">
         ("doc", "Quick Case Generator", "Turn today's news into a Harvard-style, classroom-ready quick case plus a separate faculty teaching note.", "/tools/quick-case-generator.html", "Needs a Gemini key"),
         ("spark", "Interactive Game Creator", "Upload your lesson and get drag-and-drop quiz games your students play from one link.", "/tools/create-game.html", "Needs a Gemini key"),
         ("clip", "AI Evaluator", "Score student answers or AI-generated text against a rubric, check key points and claims, and get ready-to-share feedback.", "/ai-evaluator/", "No API key needed"),
-        ("layers", "AI Presentation Creator", "Paste your content, pick a style and download a designed PowerPoint with real charts.", "/tools/ai-presentation-creator.html", "Needs a Gemini key"),        ("bars", "AIgametools: classroom quiz games", "Upload a PDF or your own MCQs. Students join from their phones and play Snakes & Ladders, Ludo or Jump Quest, answering questions to earn coins on a live leaderboard.", "/aigametools/", "New · Live class games"),
+        ("layers", "AI Presentation Creator", "Paste your content, pick a style and download a designed PowerPoint with real charts.", "/tools/ai-presentation-creator.html", "Needs a Gemini key"),        ("bars", "AIgametools: classroom quiz games", "Upload a PDF or your own MCQs. Run Quiz Race or Tambola for the whole class on your projector, or let students play Snakes & Ladders, Ludo, Business Tycoon, Crossword and more on their phones.", "/aigametools/", "New · Live class games"),
     ])}
   </div>
 </section>
@@ -471,7 +471,7 @@ pr += f'''<section class="white">
     {tool_cards([
         ("map", "Prompt Engineering Basics", "A branching simulation: choose how to prompt the AI and see how the result changes.", "/practice/prompt-engineering-basics/", "Simulation"),
         ("puzzle", "Learning games", "Memory match, AI trivia and quick games for a mental break between cases and simulations.", "/tools/games.html", "Games"),
-        ("bars", "AIgametools", "Join your teacher's game with a code or QR, then play Snakes & Ladders, Ludo or Jump Quest by answering quiz questions.", "/aigametools/", "Class games"),
+        ("bars", "AIgametools", "Join your teacher's game with a code or QR: Quiz Race, Tambola, board games, crosswords and word searches, all powered by quiz questions.", "/aigametools/", "Class games"),
         ("search", "Course Comparison", "Tell the AI what you want to learn and compare how major platforms teach it: format, duration, certificate and cost.", "/tools/course-comparison.html", "Needs a Gemini key"),
     ])}
     <p class="rv" style="text-align:center;color:var(--muted);margin-top:28px">Faculty: build your own role-play for your class with the <a href="/tools/simulation-creator.html">Simulation Creator</a>.</p>
