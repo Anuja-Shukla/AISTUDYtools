@@ -492,6 +492,8 @@ function hostMsg(cid, d) {
   const pid = H.cids[cid], p = pid && H.players[pid]; if (!p) return;
   if (isClass(H.settings)) { classMsg(cid, p, d); return; }
   if (d.t === 'stat') { Object.assign(p, pickStats(d)); renderHostSoon(); saveH(); }
+  else if (d.t === 'pv') { p.pv = { s: String(d.s || '').slice(0, 80), p: Math.max(0, Math.min(100, +d.p || 0)) }; renderHostSoon(); }
+  else if (d.t === 'ev') { feedAdd(p.name, String(d.x || '').slice(0, 80)); }
   else if (d.t === 'ans' && H.qstats[d.qi]) { H.qstats[d.qi].n++; if (d.ok) H.qstats[d.qi].ok++; renderHostSoon(); saveH(); }
 }
 function pickStats(s) {
@@ -501,6 +503,7 @@ function pickStats(s) {
 const ranked = () => Object.values(H.players).sort((a, b) => b.coins - a.coins || b.correct - a.correct || a.joined - b.joined);
 let rhT = null; function renderHostSoon() { if (!rhT) rhT = setTimeout(() => { rhT = null; renderHost(); }, 400); }
 function renderHost() {
+  if (PJ.open) renderProj();
   const ps = ranked();
   if (H.phase === 'lobby') {
     $('pCount').textContent = `(${ps.length})`;
@@ -547,7 +550,7 @@ function sendEnd(cid, pid) {
   H.net.send(cid, { t: 'end', rank: i + 1, n: ps.length, coins: i >= 0 ? ps[i].coins : 0, top: ps.slice(0, 5).map(p => ({ n: p.name, c: p.coins, me: p.pid === pid })) });
 }
 function hostEnd() {
-  classStop();
+  classStop(); projClose();
   clearInterval(H.tick); H.phase = 'end'; H.endsAt = null; saveH();
   Object.entries(H.cids).forEach(([cid, pid]) => sendEnd(cid, pid));
   sfx('win'); renderReport(); show('Report');
@@ -611,6 +614,13 @@ function nextQ() {
 }
 function saveP() { if (P.mode === 'net') LS.set('aigt-p-' + P.code + '-' + P.pid, statsOf()); }
 const statsOf = () => ({ coins: P.coins, correct: P.correct, wrong: P.wrong, wins: P.wins, best: P.best, game: P.game, streak: P.streak, missed: P.missed });
+let pvT = null, pvLast = null;
+function pvSend(s, p) {
+  if (P.mode !== 'net') return;
+  pvLast = { t: 'pv', s, p };
+  if (!pvT) pvT = setTimeout(() => { pvT = null; if (NETP.link && pvLast) NETP.link.send(pvLast); }, 900);
+}
+function evSend(x) { if (P.mode === 'net' && NETP.link && !P.over) NETP.link.send({ t: 'ev', x: String(x).slice(0, 80) }); }
 let statT = null;
 function syncStat() {
   if (P.mode !== 'net' || statT) return;
@@ -637,8 +647,9 @@ const api = {
   gain(n, why) { if (!P.over) { setCoins(P.coins + n, n, why); sfx('coin'); } },
   lose(n, why) { if (!P.over) { const d = Math.min(n, P.coins); setCoins(P.coins - d, d ? -d : 0, why); sfx('hit'); } },
   ask(kind, o) { return P.over ? Promise.resolve(false) : new Promise(res => openQ(kind, o || {}, res)); },
-  won() { P.wins++; sfx('win'); saveP(); syncStat(); },
+  won() { P.wins++; sfx('win'); saveP(); syncStat(); evSend('🏆 won ' + (GAME_META[P.game] ? GAME_META[P.game].title : 'a game')); },
   get questions() { return P.questions; },
+  status(text, pct) { pvSend(String(text || '').slice(0, 80), Math.max(0, Math.min(100, Math.round(+pct || 0)))); },
   record(qi, ok) {
     if (P.over || !P.questions[qi]) return;
     if (P.mode === 'net' && NETP.link) NETP.link.send({ t: 'ans', qi, ok: !!ok });
@@ -680,7 +691,7 @@ function answerQ(i) {
   if (P.mode === 'net' && NETP.link) NETP.link.send({ t: 'ans', qi: QM.qi, ok });
   if (ok) {
     const r = QM.kind === 'rescue' ? 5 : reward();
-    P.correct++; P.streak++; P.best = Math.max(P.best, P.streak);
+    P.correct++; P.streak++; P.best = Math.max(P.best, P.streak); if ([3, 5, 10, 15, 20].includes(P.streak)) evSend(`🔥 ${P.streak} correct in a row`);
     setCoins(P.coins + r, r); sfx('good');
     $('qmFb').className = 'gt-fb ok'; $('qmFb').textContent = `Correct! +${r} coins` + (P.streak >= 3 ? ` · 🔥 ${P.streak} in a row` : '');
   } else {
@@ -703,7 +714,8 @@ $('qmNext').onclick = () => { if (!QM) return; if (QM.kind === 'earn') showQ(); 
 $('qmClose').onclick = () => closeQ(false);
 function closeQ(result) {
   if (!QM) { $('qm').hidden = true; return; }
-  const d = QM.done; QM = null; $('qm').hidden = true;
+  const d = QM.done, k = QM.kind, o = QM.o || {}; QM = null; $('qm').hidden = true;
+  if (k === 'rescue' && !P.over) evSend(result ? `🛡 ${o.title || 'Rescue question'}: answered and saved` : `💥 ${o.title || 'Rescue question'}: missed`);
   try { d(!!result); } catch (e) {}
 }
 document.addEventListener('keydown', e => {
@@ -729,7 +741,7 @@ $('gameCards').addEventListener('click', e => { const b = e.target.closest('[dat
 function startGame(g) {
   stopGame(); $('picker').hidden = true; $('stage').hidden = false;
   $('pickBtn').hidden = (P.settings.games || []).length < 2;
-  P.game = g; syncStat();
+  P.game = g; syncStat(); evSend(`🎮 started ${GAME_META[g].title}`);
   current = GAMES[g].create($('stage'), api);
 }
 $('pickBtn').onclick = showPicker;
@@ -854,6 +866,64 @@ function setLeft(left) {
   const e = Date.now() + left;
   if (P.endsAt == null || Math.abs(P.endsAt - e) > 1500) P.endsAt = e;
 }
+
+/* ================= PROJECTOR VIEW (host) =================
+   A full-screen view for the classroom projector: every student's game live, plus a feed of moments. */
+const PJ = { open: false, feed: [], prev: {} };
+function feedAdd(name, x) {
+  PJ.feed.unshift({ n: name, x, t: Date.now() }); PJ.feed = PJ.feed.slice(0, 40);
+  if (PJ.open) renderFeed();
+}
+function projOpen() {
+  if (H.phase !== 'play') return;
+  PJ.open = true; const el = $('proj'); el.hidden = false; document.body.style.overflow = 'hidden';
+  if (isClass(H.settings)) { $('projClass').appendChild($('classHost')); }
+  renderProj(); renderFeed();
+  if (el.requestFullscreen && !document.fullscreenElement) el.requestFullscreen().catch(() => {});
+}
+function projClose() {
+  if (!PJ.open) return;
+  PJ.open = false; $('proj').hidden = true; document.body.style.overflow = '';
+  const ch = $('classHost'); if (ch.parentNode !== $('scrLive')) $('scrLive').insertBefore(ch, $('scrLive').querySelector('.gt-stats'));
+  if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+}
+$('projBtn').onclick = projOpen;
+$('projExit').onclick = projClose;
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && PJ.open && !document.fullscreenElement) projClose(); });
+let rpT = null;
+function renderProj() {
+  if (!PJ.open) return;
+  const ps = ranked(), cls = isClass(H.settings), left = remaining();
+  $('projCode').textContent = H.code;
+  if (!$('projQr').innerHTML && $('qr').innerHTML) $('projQr').innerHTML = $('qr').innerHTML;
+  $('projJoin').textContent = location.host + location.pathname.replace(/index\.html$/, '');
+  $('projTime').textContent = left == null ? '' : fmtTime(left);
+  const c = ps.reduce((s, p) => s + p.correct, 0), w = ps.reduce((s, p) => s + p.wrong, 0);
+  $('projStats').innerHTML = `<span><b>${ps.filter(p => p.online).length}</b> playing</span><span><b>${c + w}</b> answers</span><span><b>${c + w ? Math.round(c / (c + w) * 100) + '%' : '–'}</b> correct</span>`;
+  $('projClass').hidden = !cls; $('projTiles').hidden = cls;
+  if (cls) {
+    $('projSide').innerHTML = '<h3>Leaderboard</h3>' + ps.slice(0, 10).map((p, i) => `<div class="pj-row"><span class="rk">${i < 3 ? ['🥇', '🥈', '🥉'][i] : i + 1}</span><span class="nm">${esc(p.name)}</span><span class="cn">🪙 ${p.coins.toLocaleString('en-IN')}</span></div>`).join('');
+    return;
+  }
+  const many = ps.length > 24;
+  $('projTiles').className = 'pj-tiles' + (many ? ' many' : '');
+  $('projTiles').innerHTML = ps.length ? ps.map((p, i) => {
+    const g = GAME_META[p.game], tot = p.correct + p.wrong, prev = PJ.prev[p.pid], up = prev != null && p.coins > prev;
+    PJ.prev[p.pid] = p.coins;
+    return `<div class="pj-tile${p.online ? '' : ' off'}${up ? ' up' : ''}">
+      <div class="pj-top"><span class="rk">${i < 3 ? ['🥇', '🥈', '🥉'][i] : '#' + (i + 1)}</span><span class="nm">${esc(p.name)}</span><span class="cn">🪙 ${p.coins.toLocaleString('en-IN')}</span></div>
+      <div class="pj-game">${g ? g.em + ' ' + g.title : '<span class="dim">choosing a game…</span>'}</div>
+      <div class="pj-st">${p.pv && p.pv.s ? esc(p.pv.s) : p.online ? '&nbsp;' : 'offline'}</div>
+      <div class="pj-bar"><i style="width:${p.pv ? p.pv.p : 0}%"></i></div>
+      <div class="pj-foot"><span>${tot ? Math.round(p.correct / tot * 100) + '% right' : 'no answers yet'}</span>${p.wins ? `<span>🏆 ${p.wins}</span>` : ''}</div>
+    </div>`;
+  }).join('') : '<p class="pj-empty">Waiting for students to join with the code above…</p>';
+}
+function renderFeed() {
+  if (isClass(H.settings)) return;
+  $('projSide').innerHTML = '<h3>Live moments</h3>' + (PJ.feed.length ? PJ.feed.slice(0, 14).map(f => `<div class="pj-ev"><b>${esc(f.n)}</b> ${esc(f.x)}</div>`).join('') : '<p class="dim">Rescues, wins and streaks appear here as students play.</p>');
+}
+setInterval(() => { if (PJ.open) { const left = remaining(); $('projTime').textContent = left == null ? '' : fmtTime(left); } }, 1000);
 
 /* ================= WHOLE-CLASS MODES: Quiz Race and Tambola =================
    The teacher's screen (projector) drives the game; phones answer. The host keeps the score. */

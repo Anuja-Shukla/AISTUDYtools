@@ -39,7 +39,8 @@ GAMES.snakes = { create(root, api) {
   function reset() { players.forEach(p => { p.pos = 0; const c0 = cell(1); p.x = c0.x; p.y = c0.y; p.tx = p.x; p.ty = p.y; }); }
   reset();
   const setT = (i, n) => { const q = cell(Math.max(1, n)); players[i].tx = q.x; players[i].ty = q.y; };
-  const msg = t => { UI.msg.innerHTML = t; };
+  const st = (t, p) => { if (api.status) api.status(t, p); };
+  const msg = t => { UI.msg.innerHTML = t; st(`Square ${players[0].pos} of 100`, players[0].pos); };
   const setBtn = () => { UI.btn.disabled = busy; };
   function drawSnake(a, b, col) {
     const p = cell(a), q = cell(b), dx = q.x - p.x, dy = q.y - p.y, len = Math.hypot(dx, dy), nx = -dy / len, ny = dx / len;
@@ -146,7 +147,8 @@ GAMES.ludo = { create(root, api) {
   const UI = shell(root);
   const { ctx, c, pt } = makeCanvas(UI.cv, N, N);
   let alive = true, raf = 0, seats = [], busy = true, pick = null, pulse = 0, games = 0;
-  const msg = t => { UI.msg.innerHTML = t; };
+  const st = (t, p) => { if (api.status) api.status(t, p); };
+  const msg = t => { UI.msg.innerHTML = t; if (seats.length) { const me = seats[0].t; st(`${me.filter(p => p === 56).length} of 4 tokens home`, me.reduce((m, p) => m + Math.max(0, p), 0) / 224 * 100); } };
   UI.btn.disabled = true;
   // opponent choice
   const choose = document.createElement('div'); choose.className = 'gt-stagebar';
@@ -292,7 +294,8 @@ GAMES.jump = { create(root, api) {
   root.innerHTML = `<div class="cv" style="position:relative"></div><div class="gt-pad"><button data-k="L" aria-label="Move left">◀</button><button data-k="R" aria-label="Move right">▶</button><button class="j" data-k="J" aria-label="Jump">⤒ Jump</button></div><div class="gt-stagebar"><button class="gt-btn gold" data-act="go">Start level 1 · 10 coins</button><div class="msg"></div></div>`;
   const cv = root.querySelector('.cv'), goBtn = root.querySelector('[data-act=go]'), msgEl = root.querySelector('.msg');
   const { ctx } = makeCanvas(cv, VW, VH);
-  const msg = t => { msgEl.innerHTML = t; };
+  const st = (t, p) => { if (api.status) api.status(t, p); };
+  const msg = t => { msgEl.innerHTML = t; st(level ? `Level ${level}${running ? ' · playing' : ' · cleared'}` : 'Starting', Math.min(100, level * 20)); };
   let alive = true, raf = 0, last = 0, level = 0, running = false, paused = false, t0 = 0;
   let grid = [], W = 0, enemies = [], pl = null, check = null, flagX = 0, camX = 0, inv = 0, sparks = [];
   const keys = { L: false, R: false, J: false }; let jumpBuf = 0, coyote = 0, jumpHeld = false;

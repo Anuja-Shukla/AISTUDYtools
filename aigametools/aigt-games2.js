@@ -143,7 +143,8 @@ GAMES.race = { create(root, api) {
     <div class="g2-track" data-r="track"></div>
     <div data-r="play"></div><div class="g2-msg" data-r="msg"></div><div class="g2-btns" data-r="btns"></div></div>`;
   const R = k => root.querySelector(`[data-r=${k}]`);
-  const msg = t => { R('msg').innerHTML = t; };
+  const st = (t, p) => { if (api.status) api.status(t, p); };
+  const msg = t => { R('msg').innerHTML = t; const rk = racers.slice().sort((a, b) => b.pts - a.pts).indexOf(racers[0]) + 1; st(`Question ${n} of ${QN} · ${['1st', '2nd', '3rd'][rk - 1]} place`, n / QN * 100); };
   function track() {
     const max = Math.max(60, ...racers.map(r => r.pts));
     R('track').innerHTML = racers.map(r => `<div class="g2-lane${r.me ? ' me' : ''}"><span>${r.me ? '★ You' : r.name}</span><div class="road"><span class="car" style="left:calc(${(r.pts / max * 88).toFixed(1)}%)">${r.me ? '🏎️' : '🚙'}</span></div><span class="pts">${r.pts}</span></div>`).join('');
@@ -204,7 +205,8 @@ GAMES.tambola = { create(root, api) {
     <div class="g2-btns"><button class="gt-btn gold" data-a="next">Next call</button><label class="gt-chk" style="margin:0"><input type="checkbox" data-a="auto" checked> Auto-call every 15 s</label></div>
     <div class="g2-bots" data-r="bots"></div></div>`;
   const R = k => root.querySelector(`[data-r=${k}]`);
-  const msg = t => { R('msg').innerHTML = t; };
+  const st = (t, p) => { if (api.status) api.status(t, p); };
+  const msg = t => { R('msg').innerHTML = t; if (me.t.length) st(`${me.m.size} of ${me.t.length} marked · ${Object.values(won).filter(w => w === 'You').length} prizes`, me.m.size / me.t.length * 100); };
   function newGame() {
     calls = shuffle(api.questions.map((_, i) => i)); called = []; callIdx = -1; over = false;
     [me, ...bots].forEach(p => { p.t = KIT.ticket(pool.length); p.m = new Set(); });
@@ -312,6 +314,7 @@ GAMES.tycoon = { create(root, api) {
       <div class="g2-msg" style="margin:0">${text || ''}</div>
       <div class="g2-btns" style="margin:0;align-items:center">${btns || ''}</div></div>`;
     B.innerHTML = h;
+    if (api.status) api.status(`Turn ${Math.min(turn + 1, TURNS)} of ${TURNS} · worth ${worth(0)}`, turn / TURNS * 100);
   }
   const rollBtn = () => `<div class="gt-die" data-r="die">🎲</div><button class="gt-btn gold" data-a="roll" ${busy ? 'disabled' : ''}>Roll dice</button>`;
   async function moveP(i, d) {
@@ -442,7 +445,8 @@ GAMES.crossword = { create(root, api) {
   let alive = true, X, solved, sel = -1, revealed;
   root.innerHTML = '<div class="g2"><div class="g2-head"><b>✏️ Crossword</b><span class="note" data-r="count"></span></div><div class="g2-xgrid" data-r="grid"></div><div class="g2-entry" data-r="entry"></div><div class="g2-clues" data-r="clues"></div><div class="g2-msg" data-r="msg"></div></div>';
   const R = k => root.querySelector(`[data-r=${k}]`);
-  const msg = t => { R('msg').innerHTML = t; };
+  const st = (t, p) => { if (api.status) api.status(t, p); };
+  const msg = t => { R('msg').innerHTML = t; if (X) st(`${solved.size} of ${X.words.length} words`, solved.size / X.words.length * 100); };
   const at = (w, k) => [w.r + (w.dir ? k : 0), w.c + (w.dir ? 0 : k)];
   function letters() { const m = {}; X.words.forEach((w, i) => { for (let k = 0; k < w.word.length; k++) { const [r, c] = at(w, k), id = r + ',' + c; if (solved.has(i) || revealed[i].has(k)) m[id] = w.word[k]; } }); return m; }
   function newPuzzle() {
@@ -504,7 +508,8 @@ GAMES.wordsearch = { create(root, api) {
   let alive = true, N, G, placed, found, a = null;
   root.innerHTML = '<div class="g2"><div class="g2-head"><b>🔎 Word Search</b><span class="note" data-r="count"></span></div><div class="g2-wgrid" data-r="grid"></div><div class="g2-btns" style="margin:0 0 10px"><button class="gt-btn ghost sm" data-a="hint">Hint · 5 coins</button></div><div data-r="clues"></div><div class="g2-msg" data-r="msg"></div></div>';
   const R = k => root.querySelector(`[data-r=${k}]`);
-  const msg = t => { R('msg').innerHTML = t; };
+  const st = (t, p) => { if (api.status) api.status(t, p); };
+  const msg = t => { R('msg').innerHTML = t; if (placed) st(`${found.size} of ${placed.length} found`, found.size / placed.length * 100); };
   function newPuzzle() {
     const pick = shuffle(all).slice(0, 8);
     N = Math.max(10, Math.min(13, Math.max(...pick.map(w => w.word.length)) + 1));

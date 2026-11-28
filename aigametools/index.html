@@ -162,6 +162,47 @@ footer a { color: #5B6472; }
 .ch-list div { background: rgba(255,255,255,.08); border-radius: 10px; padding: 8px 10px; }
 .ch-list b { color: var(--gold); margin-left: 6px; }
 .ch-list .note { color: #b9c3d8; }
+/* projector view */
+.pj { position: fixed; inset: 0; z-index: 150; background: radial-gradient(circle at 20% 0%, #23345c, #14213D 60%); color: #fff; overflow: auto; padding: 18px 22px 24px; }
+.pj[hidden] { display: none !important; }
+.pj-head { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.pj-qr { width: 74px; height: 74px; background: #fff; border-radius: 10px; padding: 5px; }
+.pj-qr:empty { display: none; }
+.pj-qr svg { width: 100%; height: 100%; display: block; }
+.pj-brand { font-family: 'Playfair Display', Georgia, serif; font-size: 28px; font-weight: 700; color: var(--gold); }
+.pj-join { font-size: 18px; color: #dfe5f1; flex: 1; }
+.pj-code { font-family: ui-monospace, Menlo, monospace; font-weight: 800; letter-spacing: .14em; font-size: 30px; color: var(--gold); margin-left: 6px; }
+.pj-time { font-size: 40px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.pj .gt-btn.ghost { background: rgba(255,255,255,.1); color: #fff; border-color: rgba(255,255,255,.3); }
+.pj-stats { display: flex; gap: 22px; margin: 10px 0 14px; color: #b9c3d8; font-size: 17px; }
+.pj-stats b { color: #fff; font-size: 24px; margin-right: 4px; }
+.pj-body { display: grid; grid-template-columns: 1fr 320px; gap: 18px; align-items: start; }
+@media (max-width: 900px) { .pj-body { grid-template-columns: 1fr; } }
+.pj-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
+.pj-tiles.many { grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)); gap: 8px; }
+.pj-tile { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14); border-radius: 16px; padding: 12px 14px; transition: background .4s, transform .4s; }
+.pj-tile.up { background: rgba(245,166,35,.22); transform: scale(1.02); }
+.pj-tile.off { opacity: .45; }
+.pj-top { display: flex; align-items: center; gap: 8px; }
+.pj-top .rk { font-weight: 800; color: #b9c3d8; min-width: 28px; font-size: 18px; }
+.pj-top .nm { font-weight: 800; font-size: 19px; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pj-top .cn { font-weight: 800; color: var(--gold); font-variant-numeric: tabular-nums; font-size: 18px; }
+.pj-game { margin-top: 6px; font-weight: 700; color: #dfe5f1; font-size: 15px; }
+.pj-st { color: #b9c3d8; font-size: 14px; margin-top: 2px; min-height: 19px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pj-bar { height: 8px; background: rgba(255,255,255,.12); border-radius: 999px; overflow: hidden; margin-top: 8px; }
+.pj-bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--teal), var(--gold)); border-radius: 999px; transition: width .6s; }
+.pj-foot { display: flex; justify-content: space-between; color: #b9c3d8; font-size: 13px; margin-top: 6px; }
+.pj-tiles.many .pj-top .nm { font-size: 16px; } .pj-tiles.many .pj-st { display: none; }
+.pj-side { background: rgba(255,255,255,.06); border-radius: 16px; padding: 14px; }
+.pj-side h3 { color: #fff; margin: 0 0 10px; font-size: 18px; }
+.pj-ev { padding: 8px 10px; border-radius: 10px; background: rgba(255,255,255,.07); margin-bottom: 6px; font-size: 15px; line-height: 1.35; animation: pjin .4s; }
+.pj-ev b { color: var(--gold); }
+@keyframes pjin { from { transform: translateX(20px); opacity: 0; } }
+.pj-row { display: grid; grid-template-columns: 34px 1fr auto; gap: 8px; padding: 8px 6px; border-bottom: 1px solid rgba(255,255,255,.1); font-size: 17px; }
+.pj-row .nm { font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .pj-row .cn { color: var(--gold); font-weight: 800; }
+.pj .dim, .pj-empty { color: #b9c3d8; }
+.pj-empty { font-size: 20px; padding: 30px 0; }
+.pj #projClass .ch-card { background: rgba(255,255,255,.06); }
 .gt-stage { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 14px; }
 .gt-stage canvas { display: block; width: 100%; height: auto; border-radius: 12px; touch-action: manipulation; }
 .gt-stagebar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 12px; }
@@ -365,7 +406,7 @@ Answer: B
 <section class="scr" id="scrLive" hidden>
   <div class="gt-livehead">
     <div><div class="note">Room <b id="liveCode"></b> · students can still join</div><div class="gt-timer" id="liveTimer">--:--</div></div>
-    <div class="row noprint" style="margin:0"><button class="gt-btn ghost sm" id="addTime">+2 min</button><button class="gt-btn sm" id="endBtn">End game</button></div>
+    <div class="row noprint" style="margin:0"><button class="gt-btn gold sm" id="projBtn">📽 Projector view</button><button class="gt-btn ghost sm" id="addTime">+2 min</button><button class="gt-btn sm" id="endBtn">End game</button></div>
   </div>
   <div id="classHost" hidden></div>
   <div class="gt-stats">
@@ -376,6 +417,21 @@ Answer: B
   </div>
   <div class="gt-board" id="liveBoard"></div>
 </section>
+
+<!-- ============ PROJECTOR VIEW (host, full screen) ============ -->
+<div class="pj" id="proj" hidden>
+  <div class="pj-head">
+    <div class="pj-qr" id="projQr"></div><div class="pj-brand">AIgametools</div>
+    <div class="pj-join">Join at <b id="projJoin"></b> · code <span class="pj-code" id="projCode"></span></div>
+    <div class="pj-time" id="projTime"></div>
+    <button class="gt-btn ghost sm" id="projExit">Exit projector view</button>
+  </div>
+  <div class="pj-stats" id="projStats"></div>
+  <div class="pj-body">
+    <div><div class="pj-tiles" id="projTiles"></div><div id="projClass" hidden></div></div>
+    <aside class="pj-side" id="projSide"></aside>
+  </div>
+</div>
 
 <!-- ============ REPORT (host) ============ -->
 <section class="scr" id="scrReport" hidden>
@@ -480,9 +536,9 @@ Answer: B
 </div>
 
 <script src="aigt-qgen.js"></script>
-<script src="aigt-games.js?v=2"></script>
-<script src="aigt-games2.js?v=2"></script>
-<script src="aigt-app.js?v=2"></script>
+<script src="aigt-games.js?v=3"></script>
+<script src="aigt-games2.js?v=3"></script>
+<script src="aigt-app.js?v=3"></script>
 </main>
 <footer><div class="ast-wrap">© 2026 AIStudyTools · A platform of Intellique Research School Pvt Ltd.<div class="ipn" style="margin-top:8px;font-size:12.5px;line-height:1.5">All tools, code and course content on AIStudyTools are protected under the Copyright Act, 1957 and the Information Technology Act, 2000. Copying, cloning or republishing any tool or content without written permission is prohibited. <a href="/copyright/">Copyright and IP Policy</a> · <a href="/profile/">My profile</a></div></div></footer>
 <script src="/static/register.js?v=1" defer></script>
